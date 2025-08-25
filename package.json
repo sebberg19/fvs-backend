@@ -2,12 +2,16 @@
   "name": "futbolero-vintage-shop",
   "version": "1.0.0",
   "description": "Boutique en ligne de maillots vintage",
-  "main": "index.html",
+  "main": "server.js",
   "scripts": {
-    "build": "echo 'No build step needed for static site'"
+    "start": "node server.js",
+    "build": "echo 'No build step needed'"
   },
   "dependencies": {
-    "stripe": "^14.25.0",
-    "nodemailer": "^6.9.7"
+    "express": "^4.18.2",
+    "nodemailer": "^6.9.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "stripe": "^14.25.0"
   }
 }
