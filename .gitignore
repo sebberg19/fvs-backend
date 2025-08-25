@@ -1,0 +1,14 @@
+# Ignore local env files
+.env
+
+# Node modules
+node_modules/
+
+# Logs
+npm-debug.log*
+logs/
+*.log
+
+# Build artefacts
+dist/
+build/

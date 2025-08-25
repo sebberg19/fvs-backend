@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Panier — Futbolero Vintage Shop</title>
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+	<style>
+		:root { --bg:#f7f8f9; --surface:#fff; --border:#e9ebf0; }
+		body{ background:var(--bg); }
+		.card{ background:var(--surface); border:1px solid var(--border); }
+		.nav-link.active, .nav-link:hover { font-weight:700; }
+		/* Remove button: even smaller and subtle */
+		.cart-remove{ width:.65rem; height:.65rem; padding:0; opacity:.5; transform:scale(.9); }
+		.cart-remove:hover{ opacity:.9; }
+
+		/* Pay method icons (match checkout.html) */
+		.pay-icons{ display:flex; justify-content:center; align-items:center; gap:.6rem; flex-wrap:wrap; }
+		.pay-icons .icon{ display:inline-flex; align-items:center; justify-content:center; height:34px; padding:.3rem .6rem; background:#fff; border:1px solid var(--border); border-radius:.6rem; }
+		.pay-icons img{ display:block; height:24px; width:auto; }
+		.pay-icons .badge-link{ font-size:.95rem; font-weight:700; color:#111; padding:.15rem .5rem; }
+
+		/* Cart thumbnails */
+		.cart-thumb{ width:48px; height:48px; object-fit:cover; border-radius:.375rem; background:#f4f6f7; border:1px solid var(--border); }
+
+		/* Keep btn colors fixed and white text */
+		.btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited { background-color: var(--accent) !important; border-color: var(--accent) !important; color: var(--accent-contrast) !important; }
+		.btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited { background-color: #000 !important; border-color: #000 !important; color: #fff !important; }
+	</style>
+</head>
+<body>
+<!-- Nav injectée via include-nav.js -->
+
+	<header id="site-header" data-active="cart"></header>
+	<main class="container py-4 py-md-5">
+		<div class="mb-3">
+			<button id="backBtn" type="button" class="btn btn-outline-secondary btn-sm">
+				<i class="bi bi-chevron-left"></i> Retour
+			</button>
+		</div>
+		<div class="row g-4">
+			<div class="col-12 col-lg-8">
+				<div class="card shadow-sm">
+					<div class="card-body p-4">
+						<h1 class="h4 mb-3">Résumé de commande</h1>
+						<div id="empty" class="text-secondary d-none">Votre panier est vide.</div>
+						<ul id="items" class="list-group list-group-flush"></ul>
+					</div>
+				</div>
+				
+				<!-- Checkout Info Display -->
+				<div id="checkoutInfo" class="card shadow-sm mt-4 d-none">
+					<div class="card-body p-4">
+						<div class="d-flex justify-content-between align-items-center mb-3">
+							<h2 class="h5 mb-0">Informations de livraison</h2>
+							<span class="badge bg-success">✓ Complétées</span>
+						</div>
+						<div id="contactInfo" class="mb-3"></div>
+						<div id="shippingInfo"></div>
+						<div class="mt-3 d-flex gap-2">
+							<!-- Modifier button removed: keep only clear action -->
+							
+							<button onclick="clearCheckoutInfo()" class="btn btn-outline-danger btn-sm">
+								<i class="bi bi-trash"></i> Effacer et recommencer
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4">
+				<div class="card shadow-sm">
+					<div class="card-body p-4">
+						<div class="d-flex justify-content-between mb-3">
+							<span>Total</span>
+							  <strong id="total">$0.00 CAD</strong>
+						</div>
+						<div id="missingInfo" class="alert alert-warning d-none mb-3">
+							<small>Veuillez remplir vos informations de livraison avant de procéder au paiement.</small>
+						</div>
+						<button id="checkout-button" class="btn btn-dark w-100 fw-semibold">Procéder au paiement sécurisé</button>
+						<div class="methods text-center mt-2">
+							<div class="pay-icons" aria-label="Moyens de paiement pris en charge">
+								<span class="icon" title="Apple Pay" aria-label="Apple Pay">
+									<img alt="Apple Pay" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/applepay.svg">
+								</span>
+								<span class="icon" title="Google Pay" aria-label="Google Pay">
+									<img alt="Google Pay" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlepay.svg">
+								</span>
+								<span class="icon" title="Visa" aria-label="Visa">
+									<img alt="Visa" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/visa.svg">
+								</span>
+								<span class="icon" title="Mastercard" aria-label="Mastercard">
+									<img alt="Mastercard" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mastercard.svg">
+								</span>
+								<span class="icon badge-link" title="Link" aria-label="Link (par Stripe)">Link</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+	<!-- Bootstrap JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+	<!-- Configuration API -->
+	<script src="./maillots-store/client/src/scripts/api-config.js"></script>
+
+	<!-- Shared nav include -->
+	<script>
+		// Indique à include-nav.js la page active (Panier)
+		window.NAV_ACTIVE = 'cart';
+	</script>
+	<script src="./maillots-store/client/src/scripts/include-nav.js" defer></script>
+
+	<script>
+	function render(){
+		let items = [];
+		try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+		const list = document.getElementById('items');
+		const empty = document.getElementById('empty');
+		const totalEl = document.getElementById('total');
+		list.innerHTML = '';
+		if(items.length===0){
+			empty.classList.remove('d-none');
+			totalEl.textContent = '$0.00 CAD';
+			return;
+		}
+		empty.classList.add('d-none');
+		let total = 0;
+		items.forEach((it, idx)=>{
+			// prefer perUnitPrice if stored (from vintage modal), else fallback
+			let unit = Number(it.perUnitPrice);
+			if (Number.isNaN(unit) || unit <= 0) {
+				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 36.70) : Number(it.price);
+				unit = base;
+			}
+			const qty = Number(it.quantity||1)||1;
+			const line = unit * qty;
+			total += line;
+			const li = document.createElement('li');
+			li.className = 'list-group-item d-flex justify-content-between align-items-center';
+			li.setAttribute('data-index', String(idx));
+			const label = it.name && String(it.name).trim().length ? it.name : 'Article';
+			const size = it.size ? String(it.size) : '';
+			const p = it.personalization;
+			const detailsParts = [];
+			if (size) detailsParts.push('Taille: ' + size);
+			if (p && (p.name || p.number)) detailsParts.push('Perso: ' + (p.name||'') + (p.number ? ' #' + p.number : '') + ' (+$5)');
+			const detailsHtml = detailsParts.length ? `<small class="text-secondary">${detailsParts.join(' — ')}</small>` : '';
+			const img = it.img || it.image || it.imageUrl || '';
+			li.innerHTML = `
+				<div class="d-flex align-items-center">
+					${img ? `<img src="${img}" alt="${label}" class="cart-thumb me-2">` : ''}
+					<div>
+						<div class="fw-semibold">${label}</div>
+						${detailsHtml}
+						<div><small class="text-secondary">Qté ${qty}</small></div>
+					</div>
+				</div>
+				<div class="d-flex align-items-center gap-0">
+					<div class="me-2">$${line.toFixed(2)} CAD</div>
+					<button type="button" class="btn-close cart-remove btn-remove" data-index="${idx}" aria-label="Retirer cet article"></button>
+				</div>`;
+			list.appendChild(li);
+		});
+		totalEl.textContent = `$${total.toFixed(2)} CAD`;
+	}
+
+	// Délégation d'événement pour supprimer des articles
+	document.getElementById('items').addEventListener('click', function(e){
+		const target = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
+		if(!target) return;
+		const idx = Number(target.getAttribute('data-index'));
+		if(Number.isNaN(idx)) return;
+		let items = [];
+		try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+		if(idx < 0 || idx >= items.length) return;
+		items.splice(idx, 1);
+		try { localStorage.setItem('cartItems', JSON.stringify(items)); } catch {}
+		// Mettre à jour le badge (somme des quantités)
+		const totalQty = items.reduce((sum, it) => sum + (Number(it.quantity||1)||1), 0);
+		if (typeof window.updateCartCount === 'function') {
+			window.updateCartCount(totalQty);
+		} else {
+			try { localStorage.setItem('cartCount', String(totalQty)); } catch {}
+		}
+		render();
+	});
+
+	render();
+	loadCheckoutInfo();
+
+	// Function to clear checkout info and restart process
+	window.clearCheckoutInfo = function() {
+		if (confirm('Êtes-vous sûr de vouloir effacer vos informations de livraison ?')) {
+			try {
+				localStorage.removeItem('checkoutInfo');
+				console.log('🗑️ Informations de checkout effacées');
+				// Reload the page to refresh the display
+				window.location.reload();
+			} catch (err) {
+				console.error('Erreur lors de l\'effacement:', err);
+			}
+		}
+	};
+
+	// Load and display checkout info
+	function loadCheckoutInfo() {
+		try {
+			const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo') || '{}');
+			const infoCard = document.getElementById('checkoutInfo');
+			const contactDiv = document.getElementById('contactInfo');
+			const shippingDiv = document.getElementById('shippingInfo');
+			const missingAlert = document.getElementById('missingInfo');
+			
+			if (checkoutInfo.contact && checkoutInfo.shipping) {
+				infoCard.classList.remove('d-none');
+				missingAlert.classList.add('d-none');
+				
+				// Display contact info
+				const { firstName, lastName, email, phone } = checkoutInfo.contact;
+				contactDiv.innerHTML = `
+					<strong>Contact :</strong><br>
+					${firstName} ${lastName}<br>
+					<a href="mailto:${email}">${email}</a>${phone ? `<br>${phone}` : ''}
+				`;
+				
+				// Display shipping info
+				const { address1, address2, postalCode, city, country } = checkoutInfo.shipping;
+				shippingDiv.innerHTML = `
+					<strong>Livraison :</strong><br>
+					${address1}${address2 ? `<br>${address2}` : ''}<br>
+					${postalCode} ${city}<br>
+					${country}
+				`;
+				
+				return checkoutInfo;
+			} else {
+				infoCard.classList.add('d-none');
+				missingAlert.classList.remove('d-none');
+				return null;
+			}
+		} catch {
+			return null;
+		}
+	}
+
+	// Checkout button: create Stripe session if all info is present
+	document.getElementById('checkout-button').addEventListener('click', async function (e) {
+		console.log('🔄 Bouton paiement cliqué');
+
+		// Save a pending order and notify backend immediately that user clicked the payment button
+		try {
+			const timestamp = new Date().toISOString();
+			const pendingOrder = { items, checkoutInfo, total, timestamp };
+			// Persist locally so payment-success can resend confirmation if needed
+			localStorage.setItem('pendingOrder', JSON.stringify(pendingOrder));
+
+			const clickPayload = JSON.stringify({ ...pendingOrder, stage: 'order' });
+			if (navigator.sendBeacon) {
+				navigator.sendBeacon('/api/payments/notify-success', new Blob([clickPayload], { type: 'application/json' }));
+			} else {
+				fetch('/api/payments/notify-success', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: clickPayload, keepalive: true });
+			}
+		} catch (err) {
+			console.warn('Erreur notify-order (pré-commande)', err);
+		}
+		e.preventDefault();
+		
+		let items = [];
+		try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+		console.log('📦 Articles dans le panier:', items.length);
+		
+		if (items.length === 0) {
+			alert('Votre panier est vide.');
+			return;
+		}
+		
+		const checkoutInfo = loadCheckoutInfo();
+		console.log('📝 Infos checkout:', checkoutInfo ? 'Présentes' : 'Manquantes');
+		
+		if (!checkoutInfo) {
+			console.log('➡️ Redirection vers checkout pour collecter les infos');
+			window.location.href = './checkout.html';
+			return;
+		}
+		
+		// Calculate total and create Stripe session
+		const total = items.reduce((acc, it) => {
+			let unit = Number(it.perUnitPrice);
+			if (Number.isNaN(unit) || unit <= 0) {
+				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 36.70) : Number(it.price);
+				unit = base;
+			}
+			const qty = Number(it.quantity||1)||1;
+			return acc + unit * qty;
+		}, 0);
+		
+		console.log('💰 Total calculé:', total);
+		console.log('🌐 URL API:', window.API ? window.API.payments.createSessionFromTotal() : 'API non disponible');
+
+		try {
+			// Prefer configured API helper; fallback to a same-origin relative path to avoid CORS issues
+			const endpoint = window.API ? window.API.payments.createSessionFromTotal() : '/api/payments/create-session-from-total';
+			console.log('📡 Envoi requête vers:', endpoint);
+			
+			const resp = await fetch(endpoint, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ 
+					total,
+					contact: { email: checkoutInfo.contact.email },
+					items,
+					checkoutInfo
+				})
+			});
+			
+			console.log('📬 Réponse reçue, status:', resp.status);
+			const data = await resp.json();
+			console.log('📋 Données de réponse:', data);
+			
+			if (resp.ok && data.url) {
+				console.log('✅ Redirection vers Stripe:', data.url);
+				window.location.href = data.url;
+			} else {
+				console.error('❌ Erreur session paiement', data);
+				alert('Erreur lors de la création du paiement: ' + (data.error || data.message || 'Erreur inconnue'));
+			}
+		} catch (err) {
+			console.error('💥 Erreur réseau:', err);
+			alert('Erreur réseau lors de la création du paiement: ' + err.message);
+		}
+	});
+
+		// Bouton retour: revenir à la page précédente si possible, sinon fallback
+		(function(){
+			var btn = document.getElementById('backBtn');
+			if(!btn) return;
+			btn.addEventListener('click', function(){
+				var ref = document.referrer || '';
+				try {
+					if (ref) {
+						var u = new URL(ref);
+						if (u.origin === location.origin) { location.href = ref; return; }
+					}
+				} catch(e) {}
+				if (history.length > 1) { history.back(); return; }
+				location.href = './tous-les-maillots.html';
+			});
+		})();
+	</script>
+    <footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <div class="d-flex align-items-center gap-3">
+          <small class="text-secondary mb-0">Palette naturelle · accents vert gazon</small>
+          <a class="link-underline" href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year')?.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

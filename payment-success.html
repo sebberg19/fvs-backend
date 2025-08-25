@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement confirmé — Futbolero Vintage Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+      <div class="container align-items-center">
+        <a class="navbar-brand fw-semibold me-2" href="./index.html">
+          Futbolero Vintage Shop
+        </a>
+
+        <div class="d-flex align-items-center ms-auto gap-2">
+          <a href="./cart.html" class="btn btn-outline-dark d-flex align-items-center gap-2 cart-btn tap-target" aria-label="Voir le panier">
+            <i class="bi bi-bag fs-5"></i>
+            <span class="visually-hidden">Articles dans le panier</span>
+            <span id="cartCount" class="badge rounded-pill cart-count d-none">0</span>
+          </a>
+          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Basculer la navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        </div>
+
+        <div class="collapse navbar-collapse mt-2 mt-lg-0" id="mainNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="./index.html">Accueil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./tous-les-maillots.html">Tous les maillots</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./maillots.html">Maillots</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./maillots-vintage.html">Maillots vintage</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <style>
+      /* Remove hover effects for inline nav on this page */
+      .navbar .navbar-brand,
+      .navbar .nav-link,
+      .navbar .cart-btn,
+      .navbar .navbar-toggler { transition: none !important; transform: none !important; }
+      .navbar .navbar-brand:hover, .navbar .nav-link:hover, .navbar .cart-btn:hover, .navbar .navbar-toggler:hover { transform: none !important; color: inherit !important; text-decoration: none !important; }
+    </style>
+    <style>
+      /* Keep btn colors fixed and white text */
+      .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited { background-color: var(--accent, #2f6f3e) !important; border-color: var(--accent, #2f6f3e) !important; color: var(--accent-contrast, #fff) !important; }
+      .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited { background-color: #000 !important; border-color: #000 !important; color: #fff !important; }
+    </style>
+
+  <main class="container py-5">
+    <div class="col-12 col-md-8 col-lg-6 mx-auto">
+      <div class="card shadow-sm">
+        <div class="card-body p-4 text-center">
+          <div class="mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h1 class="h4 mb-3">Merci pour votre commande !</h1>
+          <p class="text-secondary mb-3">Votre paiement a bien été confirmé.</p>
+          <div id="emailStatus" class="alert alert-info d-none mb-3" role="alert">
+            <div class="spinner-border spinner-border-sm me-2" role="status">
+              <span class="visually-hidden">Envoi en cours...</span>
+            </div>
+            Envoi de l'e-mail de confirmation en cours...
+          </div>
+          <div id="emailSuccess" class="alert alert-success d-none mb-3" role="alert">
+            <i class="bi bi-envelope-check me-2"></i>
+            Un e-mail de confirmation a été envoyé avec les détails de votre commande.
+          </div>
+          <div id="emailError" class="alert alert-warning d-none mb-3" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            L'e-mail de confirmation sera envoyé sous peu. Vérifiez votre boîte de réception.
+          </div>
+          <a href="./tous-les-maillots.html" class="btn btn-dark">Retourner à la boutique</a>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script>
+    (function(){
+      try {
+        // Show email sending status
+        const emailStatus = document.getElementById('emailStatus');
+        const emailSuccess = document.getElementById('emailSuccess');
+        const emailError = document.getElementById('emailError');
+        
+        emailStatus.classList.remove('d-none');
+        
+        const items = JSON.parse(localStorage.getItem('cartItems') || '[]');
+        const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo') || '{}');
+        const total = items.reduce((acc, it) => acc + ((Number(it.perUnitPrice) || Number(it.price) || 0) * (Number(it.quantity)||1)), 0);
+        
+        const payload = {
+          items,
+          checkoutInfo,
+          total,
+          timestamp: new Date().toISOString(),
+          stage: 'confirmation'
+        };
+        
+        // Send notification and email
+        const sendNotification = async () => {
+          try {
+            const response = await fetch('/api/payments/notify-success', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(payload),
+              keepalive: true
+            });
+            
+            if (response.ok) {
+              const text = await response.text();
+              const result = text ? JSON.parse(text) : {};
+              emailStatus.classList.add('d-none');
+              if (result.emailSent) {
+                emailSuccess.classList.remove('d-none');
+              } else {
+                emailError.classList.remove('d-none');
+              }
+            } else {
+              throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+          } catch (error) {
+            console.warn('notify-success failed', error);
+            emailStatus.classList.add('d-none');
+            emailError.classList.remove('d-none');
+          }
+        };
+        
+        // Clear cart after successful payment (do this immediately)
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('checkoutInfo');
+        
+        // Update cart count display if it exists
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+          cartCount.textContent = '0';
+          cartCount.classList.add('d-none');
+        }
+        
+        // Try to send notification, but don't block the page if it fails
+        sendNotification();
+        
+        // Fallback: hide loading after 5 seconds if no response
+        setTimeout(() => {
+          if (!emailStatus.classList.contains('d-none')) {
+            emailStatus.classList.add('d-none');
+            emailError.classList.remove('d-none');
+          }
+        }, 5000);
+        
+      } catch (e) {
+        console.warn('Payment success processing failed', e);
+        // Always clear the cart even if there's an error
+        localStorage.removeItem('cartItems');
+        localStorage.removeItem('checkoutInfo');
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+          cartCount.textContent = '0';
+          cartCount.classList.add('d-none');
+        }
+        document.getElementById('emailStatus').classList.add('d-none');
+        document.getElementById('emailError').classList.remove('d-none');
+      }
+    })();
+
+    async function sendConfirmationIfPending() {
+  const raw = localStorage.getItem('pendingOrder');
+  if (!raw) return;
+  const order = JSON.parse(raw);
+
+  try {
+    const resp = await fetch('/api/payments/notify-success', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...order, stage: 'confirmation' })
+    });
+    const json = await resp.json();
+    if (json && json.success) {
+      localStorage.removeItem('pendingOrder');
+      console.log('Confirmation email envoyé', json.orderId);
+    } else {
+      console.warn('Échec envoi confirmation', json);
+    }
+  } catch (err) {
+    console.error('Erreur fetch confirmation', err);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', sendConfirmationIfPending);
+  </script>
+<footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
+      </div>
+    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
+</footer>
+</body>
+</html>

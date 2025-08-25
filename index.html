@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Futbolero Vintage Shop — Boutique</title>
+
+    <!-- Google Fonts: Inter (sans serif) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+    />
+
+    <style>
+      :root {
+        --bg: #f7f8f9;
+        --surface: #ffffff;
+        --text: #121314;
+        --muted: #6b6f76;
+        --border: #e9ebf0;
+        --accent: #2f6f3e; /* vert gazon, naturel */
+        --accent-contrast: #ffffff;
+      }
+      html, body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+      }
+
+      /* Navbar claire et discrète */
+      .navbar {
+        background: var(--surface) !important;
+        border-bottom: 1px solid var(--border);
+      }
+      .navbar .navbar-brand { color: var(--text); }
+      .nav-link { color: var(--muted) !important; }
+  .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
+
+      /* Bouton accent vert (doux) */
+      .btn-accent {
+        --bs-btn-bg: var(--accent);
+        --bs-btn-border-color: var(--accent);
+        --bs-btn-hover-bg: #285a33;
+        --bs-btn-hover-border-color: #285a33;
+        --bs-btn-color: var(--accent-contrast);
+        --bs-btn-hover-color: var (--accent-contrast); /* garder le texte blanc au hover */
+        --bs-btn-focus-shadow-rgb: 47,111,62;
+      }
+
+      /* Subtle scale on hover for primary buttons (green and black) */
+      .btn-accent, .btn-dark {
+        transition: transform .12s ease;
+        transform-origin: center center;
+      }
+      .btn-accent:hover, .btn-dark:hover {
+        transform: scale(1.035);
+      }
+      /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
+      .btn-accent:hover, .btn-accent:focus, .btn-accent:active,
+      .btn-accent:visited {
+        background-color: var(--accent) !important;
+        border-color: var(--accent) !important;
+        color: var(--accent-contrast) !important;
+        text-decoration: none !important;
+      }
+      .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
+        background-color: #000 !important;
+        border-color: #000 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+      }
+
+      /* Héro léger avec touche de vert très subtile */
+      .hero {
+        background:
+          radial-gradient(900px 280px at 85% -10%, rgba(47,111,62,0.06), transparent 60%),
+          linear-gradient(180deg, #ffffff, #f9fafb);
+      }
+
+      /* Cards et tuiles claires */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+      }
+      .card .card-text { color: var(--muted); }
+
+      .category-tile {
+        position: relative;
+        overflow: hidden;
+        border-radius: .75rem;
+        background:
+          linear-gradient(180deg, rgba(0,0,0,0.00), rgba(0,0,0,0.03)),
+          radial-gradient(120% 120% at 100% 0%, rgba(47,111,62,0.08), transparent 40%),
+          var(--surface);
+        border: 1px solid var(--border);
+      }
+      .category-tile .overlay {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: end start;
+        padding: 1rem;
+      }
+      .category-tile .badge-accent {
+        background: rgba(47,111,62,0.10);
+        color: var(--text);
+        border: 1px solid rgba(47,111,62,0.30);
+      }
+
+      .footer {
+        border-top: 1px solid var(--border);
+        color: var(--muted);
+        background: var(--surface);
+      }
+
+      /* Panier */
+      .cart-btn { position: relative; }
+      .cart-count {
+        position: absolute;
+        top: -6px;
+        right: -8px;
+        font-size: .7rem;
+        background: var(--accent, #2f6f3e);
+        color: var(--accent-contrast, #ffffff);
+        border: 2px solid var(--surface, #ffffff);
+      }
+
+      /* Titre héro responsive + densité mobile plus faible */
+      .hero-title { font-size: clamp(1.5rem, 2.8vw + 1rem, 2.5rem); line-height: 1.15; }
+
+      /* Mobile: interface plus compacte et épurée */
+      @media (max-width: 575.98px) {
+        .navbar { padding-top: .25rem; padding-bottom: .25rem; }
+        .hero { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
+        .hero-row { min-height: 42vh !important; }
+        .card .card-body { padding: 1rem !important; }
+        .list-unstyled > li { margin-bottom: .75rem !important; }
+        .category-tile .overlay { padding: .75rem; }
+        .btn-lg { padding: .55rem 1rem; font-size: 1rem; }
+        .tap-target { min-width: 44px; min-height: 44px; padding: .4rem .6rem; }
+      }
+
+      /* Liens sobres (noir) avec hover vert */
+      a, a:visited { color: #1b1b1b; }
+      a:hover { color: var(--accent); }
+
+      /* Texte gris plus petit (hors <small>) */
+      .text-secondary:not(small) { font-size: .95em; }
+
+      /* Plus petit dans les cartes, listes et footer */
+      .card .text-secondary:not(small),
+      .list-unstyled .text-secondary:not(small),
+      .footer .text-secondary:not(small) { font-size: .9em; }
+
+      /* Mobile: encore un cran en dessous */
+      @media (max-width: 575.98px) {
+        .text-secondary:not(small) { font-size: .9em; }
+        .card .text-secondary:not(small),
+        .list-unstyled .text-secondary:not(small),
+        .footer .text-secondary:not(small) { font-size: .85em; }
+      }
+
+      /* Réduire un peu la largeur des boutons dans la section héro sur téléphones */
+      @media (max-width: 575.98px) {
+        .hero .d-grid {
+          gap: .35rem;               /* rapprocher légèrement */
+        }
+        .hero .d-grid .btn.w-100 {
+          width: 220px !important;   /* même largeur fixe pour les deux boutons */
+          max-width: calc(100% - 2rem);
+          display: block;
+          margin: .25rem auto;       /* moins d'espace vertical que précédemment */
+        }
+      }
+
+      .cart-container {
+  position: relative;
+  display: inline-block;
+}
+
+.cart-icon {
+  width: 40px;
+  height: 40px;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #388e3c;
+  color: white;
+  border-radius: 50%;
+  padding: 2px 7px;
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid white;
+}
+    </style>
+  </head>
+  <body>
+  <!-- Nav partagée (injection) -->
+  <header id="site-header"></header>
+
+    <!-- Hero -->
+    <section class="hero py-4 py-md-5">
+      <div class="container">
+        <div class="row align-items-center g-4 hero-row" style="min-height: 56vh;">
+          <div class="col-12 col-lg-7">
+            <h1 class="hero-title fw-bold mb-3">
+              Des maillots iconiques.<br>Un style intemporel.
+            </h1>
+            <p class="lead text-secondary mb-4">
+              Découvrez notre sélection de maillots actuels et vintage, soigneusement choisis pour les passionnés.
+            </p>
+            <div class="d-grid gap-2 d-sm-flex">
+              <a href="./tous-les-maillots.html" class="btn btn-accent btn-lg w-100 w-sm-auto">
+                Voir tous les maillots
+              </a>
+              <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
+                Explorer le vintage
+              </a>
+            </div>
+          </div>
+          <div class="col-12 col-lg-5">
+            <div class="card shadow-sm">
+              <div class="card-body p-4">
+                <h2 class="h5 mb-3">Nos classiques</h2>
+                <ul class="list-unstyled mb-0">
+                  <li class="d-flex align-items-start gap-3 mb-3">
+                    <div class="flex-shrink-0">
+                      <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                    </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex justify-content-between">
+                        <span class="fw-semibold">Maillot Domicile 24/25</span>
+                        <span class="text-secondary">$36.70 CAD</span>
+                      </div>
+    
+    <!-- Personnalisation/tailles -->
+    <script src="../scripts/product-customizer.js"></script>
+                      <small class="text-secondary">Technologie respirante, coupe moderne</small>
+                    </div>
+                  </li>
+                  <li class="d-flex align-items-start gap-3 mb-3">
+                    <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                    <div>
+                      <div class="d-flex justify-content-between">
+                        <span class="fw-semibold">Maillot Extérieur 24/25</span>
+                        <span class="text-secondary">$36.70 CAD</span>
+                      </div>
+                      <small class="text-secondary">Léger et confortable</small>
+                    </div>
+                  </li>
+                  <li class="d-none d-md-flex align-items-start gap-3">
+                    <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                    <div>
+                      <div class="d-flex justify-content-between">
+                        <span class="fw-semibold">Vintage 1998 Classique</span>
+                        <span class="text-secondary">$40.70 CAD</span>
+                      </div>
+                      <small class="text-secondary">Édition collector</small>
+                    </div>
+                  </li>
+                </ul>
+                <div class="mt-4">
+                  <a href="./tous-les-maillots.html" class="text-decoration-none">
+                    Parcourir la collection <i class="bi bi-arrow-right-short"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catégories -->
+    <section class="py-4 py-md-5">
+      <div class="container">
+        <div class="row g-3 g-md-4">
+          <div class="col-12 col-md-4">
+            <a href="./tous-les-maillots.html" class="text-decoration-none text-dark">
+              <div class="category-tile ratio ratio-4x3">
+                <div class="overlay w-100">
+                  <div>
+                    <span class="badge badge-accent mb-2">Nouvelle sélection</span>
+                    <h3 class="h6 h5-md m-0">Tous les maillots</h3>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-4">
+            <a href="./maillots.html" class="text-decoration-none text-dark">
+              <div class="category-tile ratio ratio-4x3">
+                <div class="overlay w-100">
+                  <div>
+                    <span class="badge badge-accent mb-2">Performances</span>
+                    <h3 class="h6 h5-md m-0">Maillots</h3>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+          <div class="col-12 col-md-4">
+            <a href="./maillots-vintage.html" class="text-decoration-none text-dark">
+              <div class="category-tile ratio ratio-4x3">
+                <div class="overlay w-100">
+                  <div>
+                    <span class="badge badge-accent mb-2">Classiques</span>
+                    <h3 class="h6 h5-md m-0">Maillots vintage</h3>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <div class="d-flex align-items-center gap-3">
+          <small class="text-secondary mb-0">Palette naturelle · accents vert gazon</small>
+          <a class="link-underline" href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      document.getElementById('year')?.textContent = new Date().getFullYear();
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+  <!-- Nav partagée -->
+  <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+
+    <!-- Script minimal: année + badge panier -->
+    <script>
+      // Mettre l'année dans le footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Gestion simple du badge panier
+      function renderCartCount(count) {
+        const n = Number(count) || 0;
+        document.querySelectorAll('#cartCount').forEach((badge)=>{
+          badge.textContent = n;
+          badge.classList.toggle('d-none', n <= 0);
+          badge.setAttribute('aria-label', n + ' article' + (n > 1 ? 's' : '') + ' dans le panier');
+        });
+      }
+
+      // Expose une fonction globale pour mises à jour futures
+      window.updateCartCount = function(count) {
+        try {
+          localStorage.setItem('cartCount', String(Number(count) || 0));
+        } catch (_) {}
+        renderCartCount(count);
+      };
+
+      // Initialisation depuis le storage (si présent)
+      let saved = 0;
+      try {
+        saved = Number(localStorage.getItem('cartCount')) || 0;
+      } catch (_) {}
+      renderCartCount(saved);
+    </script>
+  </body>
+</html>

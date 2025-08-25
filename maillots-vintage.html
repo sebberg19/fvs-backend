@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Maillots Vintage — Futbolero Vintage Shop</title>
+
+  <!-- Fonts + Bootstrap + Icons (mêmes libs que index) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+  <!-- Styles thème copiés de index -->
+  <style>
+    :root {
+      --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
+      --accent: #2f6f3e; --accent-contrast: #ffffff;
+    }
+    html, body { height: 100%; background: var(--bg); color: var(--text);
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+    }
+    .navbar { background: var(--surface) !important; border-bottom: 1px solid var(--border); }
+    .navbar .navbar-brand { color: var(--text); }
+    .nav-link { color: var(--muted) !important; }
+  .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight: 700; }
+    .btn-accent {
+      --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
+      --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
+      --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
+    }
+    /* Disable color changes but allow a very light scale on hover; always white text */
+    .btn-accent,
+    .btn-dark {
+      transition: transform .12s ease, box-shadow .12s ease;
+      transform-origin: center center;
+    }
+
+    .btn-accent,
+    .btn-accent:focus,
+    .btn-accent:active {
+      background-color: var(--accent) !important;
+      border-color: var(--accent) !important;
+      color: var(--accent-contrast) !important;
+      box-shadow: none !important;
+      text-decoration: none !important;
+    }
+    .btn-dark,
+    .btn-dark:focus,
+    .btn-dark:active {
+      background-color: #000 !important;
+      border-color: #000 !important;
+      color: #fff !important;
+      box-shadow: none !important;
+      text-decoration: none !important;
+    }
+
+  /* Subtle scale on hover for primary buttons (green and black) */
+  .btn-accent, .btn-dark { transition: transform .12s ease; transform-origin: center center; }
+  .btn-accent:hover, .btn-dark:hover { transform: scale(1.035); }
+    /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
+    .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited {
+      background-color: var(--accent) !important;
+      border-color: var(--accent) !important;
+      color: var(--accent-contrast) !important;
+      text-decoration: none !important;
+    }
+    .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
+      background-color: #000 !important;
+      border-color: #000 !important;
+      color: #fff !important;
+      text-decoration: none !important;
+    }
+    .card { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+    .card .card-text { color: var(--muted); }
+    .footer { border-top: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+    .cart-btn { position: relative; }
+    .cart-count {
+      position: absolute; top: -6px; right: -8px; font-size: .7rem;
+      background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
+    }
+  </style>
+</head>
+<body>
+<!-- Nav injectée via include-nav.js -->
+
+  <!-- Nav partagée -->
+  <header id="site-header"></header>
+
+  <main class="py-4 py-md-5">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
+        <div>
+          <h1 class="h3 m-0">Maillots vintage</h1>
+          <small class="text-secondary">Sélection fictive de classiques intemporels</small>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <div class="input-group">
+            <input id="productSearch" type="search" class="form-control form-control-sm" placeholder="Rechercher un maillot" aria-label="Rechercher">
+            <button id="clearSearch" class="btn btn-outline-secondary btn-sm" type="button" title="Effacer">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="grid" class="row g-3 g-md-4">
+        <!-- 8 produits fictifs -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">France 1998 Domicile</h2>
+              <p class="card-text mb-2">Édition collector</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-france1998.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Milan 1989 Extérieur</h2>
+              <p class="card-text mb-2">Série A Iconique</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-milan1989.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Argentine 1986</h2>
+              <p class="card-text mb-2">Bleu ciel classique</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-argentine1986.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Juventus 1995</h2>
+              <p class="card-text mb-2">Rayures historiques</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-juventus1995.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Barça 1992</h2>
+              <p class="card-text mb-2">Ère Cruyff</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-barca1992.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Ajax 1995</h2>
+              <p class="card-text mb-2">Jeunes dorés</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-ajax1995.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Italie 1994</h2>
+              <p class="card-text mb-2">Bleu azzurro</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-italie1994.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Real 2002</h2>
+              <p class="card-text mb-2">Galactiques</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$40.70 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-real2002.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nouveau maillot vintage à 0.50$ -->
+        <div class="col-6 col-md-4 col-lg-3">
+          <div class="card h-100">
+            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
+            <div class="card-body">
+              <h2 class="h6 mb-1">Brésil 1970</h2>
+              <p class="card-text mb-2">Pelé Era - Édition rare</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-semibold">$0.50 CAD</span>
+                <button class="btn btn-accent btn-sm add-to-cart" data-price="0.50" data-vintage="true" data-img="assets/vintage-bresil1970.jpg">Ajouter</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
+  <small class="text-secondary">Livraison offerte dès 100$ CAD d’achat.</small>
+        <a href="./tous-les-maillots.html" class="btn btn-outline-dark btn-sm">Voir tous les maillots</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modal provided by shared product-customizer.js -->
+
+  <!-- Footer identique à index -->
+  <footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
+      </div>
+    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
+</footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <!-- Nav partagée -->
+  <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+
+  <!-- Shared product customizer (modal + behavior) -->
+  <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
+
+  <!-- Page script: année + interactions -->
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Recherche fuzzy tolérante aux petites fautes (Levenshtein)
+    function normalizeText(s) {
+      return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0000-\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+    }
+    function levenshtein(a, b) {
+      if (a === b) return 0;
+      const al = a.length, bl = b.length;
+      if (al === 0) return bl;
+      if (bl === 0) return al;
+      const v0 = new Array(bl + 1), v1 = new Array(bl + 1);
+      for (let i = 0; i <= bl; i++) v0[i] = i;
+      for (let i = 0; i < al; i++) {
+        v1[0] = i + 1;
+        for (let j = 0; j < bl; j++) {
+          const cost = a[i] === b[j] ? 0 : 1;
+          v1[j + 1] = Math.min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost);
+        }
+        for (let k = 0; k <= bl; k++) v0[k] = v1[k];
+      }
+      return v1[bl];
+    }
+    function fuzzyMatch(text, query) {
+      const A = normalizeText(text);
+      const Q = normalizeText(query).trim();
+      if (!Q) return true;
+      if (A.includes(Q)) return true;
+      const maxDist = Math.floor(Math.max(A.length, Q.length) * 0.25);
+      return levenshtein(A, Q) <= maxDist;
+    }
+    function filterGridByQuery(q) {
+      const grid = document.getElementById('grid');
+      Array.from(grid.children).forEach(card => {
+        const title = card.querySelector('h2')?.textContent || '';
+        const desc = card.querySelector('.card-text')?.textContent || '';
+        const combined = title + ' ' + desc;
+        const show = fuzzyMatch(combined, q);
+        card.style.display = show ? '' : 'none';
+      });
+    }
+    // debounce
+    let _searchDeb;
+    document.getElementById('productSearch').addEventListener('input', (e) => {
+      clearTimeout(_searchDeb);
+      _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
+    });
+    document.getElementById('clearSearch').addEventListener('click', () => {
+      document.getElementById('productSearch').value = '';
+      filterGridByQuery('');
+    });
+    // init
+    filterGridByQuery('');
+
+    // Modal behavior is provided by the shared product-customizer.js include
+  </script>
+  </body>
+  </html>

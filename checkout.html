@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paiement — Futbolero Vintage Shop</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root { --bg:#f7f8f9; --surface:#fff; --text:#121314; --muted:#6b6f76; --border:#e9ebf0; --accent:#2f6f3e; --accent-contrast:#fff; }
+    body{ background:var(--bg); color:var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; }
+    .card{ background:var(--surface); border:1px solid var(--border); }
+    .btn-accent{ --bs-btn-bg:var(--accent); --bs-btn-border-color:var(--accent); --bs-btn-hover-bg:#285a33; --bs-btn-hover-border-color:#285a33; --bs-btn-color:var(--accent-contrast); }
+  .nav-link.active, .nav-link:hover { font-weight:700; }
+  /* Keep btn colors fixed and white text */
+  .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited { background-color: var(--accent) !important; border-color: var(--accent) !important; color: var(--accent-contrast) !important; }
+  .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited { background-color: #000 !important; border-color: #000 !important; color: #fff !important; }
+  .methods small{ color:var(--muted); }
+  .pay-icons{ display:flex; justify-content:center; align-items:center; gap:.6rem; flex-wrap:wrap; }
+  .pay-icons .icon{ display:inline-flex; align-items:center; justify-content:center; height:34px; padding:.3rem .6rem; background:#fff; border:1px solid var(--border); border-radius:.6rem; }
+  .pay-icons img{ display:block; height:24px; width:auto; }
+  .pay-icons .badge-link{ font-size:.95rem; font-weight:700; color:#111; padding:.15rem .5rem; }
+  .footer { border-top:1px solid var(--border); color:var(--muted); background:var(--surface); }
+  </style>
+</head>
+<body>
+<!-- Nav injectée via include-nav.js -->
+
+  <header id="site-header"></header>
+
+  <main class="container py-4 py-md-5">
+    <div class="row g-4">
+      <div class="col-12 col-lg-7">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <h1 class="h4 mb-3">Coordonnées et livraison</h1>
+            <form id="checkoutForm" class="row g-3">
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Prénom</label>
+                <input type="text" class="form-control" name="firstName" required>
+              </div>
+              <div class="col-12 col-sm-6">
+                <label class="form-label">Nom</label>
+                <input type="text" class="form-control" name="lastName" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Téléphone (optionnel)</label>
+                <input type="tel" class="form-control" name="phone">
+              </div>
+              <div class="col-12">
+                <label class="form-label">Adresse</label>
+                <input type="text" class="form-control" name="address1" placeholder="N°, rue" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Complément d'adresse (optionnel)</label>
+                <input type="text" class="form-control" name="address2" placeholder="Bâtiment, étage...">
+              </div>
+              <div class="col-6">
+                <label class="form-label">Code postal</label>
+                <input type="text" class="form-control" name="postalCode" required>
+              </div>
+              <div class="col-6">
+                <label class="form-label">Ville</label>
+                <input type="text" class="form-control" name="city" required>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Pays</label>
+                <select class="form-select" name="country" required>
+                  <option value="">Sélectionnez votre pays</option>
+                  <option value="France">France</option>
+                  <option value="Canada">Canada</option>
+                  <option value="Belgique">Belgique</option>
+                  <option value="Suisse">Suisse</option>
+                  <option value="Luxembourg">Luxembourg</option>
+                  <option value="Allemagne">Allemagne</option>
+                  <option value="Italie">Italie</option>
+                  <option value="Espagne">Espagne</option>
+                  <option value="Portugal">Portugal</option>
+                  <option value="Pays-Bas">Pays-Bas</option>
+                  <option value="Royaume-Uni">Royaume-Uni</option>
+                  <option value="États-Unis">États-Unis</option>
+                  <option value="Maroc">Maroc</option>
+                  <option value="Algérie">Algérie</option>
+                  <option value="Tunisie">Tunisie</option>
+                  <option value="Sénégal">Sénégal</option>
+                  <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                  <option value="Cameroun">Cameroun</option>
+                  <option value="Autre">Autre</option>
+                </select>
+              </div>
+
+              <div class="col-12 mt-3">
+                <button id="payBtn" type="submit" class="btn btn-accent w-100 btn-lg">
+                  Continuer → Résumé de commande
+                </button>
+                <div class="text-center mt-3">
+                  <a href="./cart.html" class="btn btn-outline-secondary">
+                    Voir le résumé directement
+                  </a>
+                </div>
+                <div class="methods text-center mt-2">
+                  <div class="pay-icons" aria-label="Moyens de paiement pris en charge">
+                    <span class="icon" title="Apple Pay" aria-label="Apple Pay">
+                      <img alt="Apple Pay" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/applepay.svg">
+                    </span>
+                    <span class="icon" title="Google Pay" aria-label="Google Pay">
+                      <img alt="Google Pay" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/googlepay.svg">
+                    </span>
+                    <span class="icon" title="Visa" aria-label="Visa">
+                      <img alt="Visa" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/visa.svg">
+                    </span>
+                    <span class="icon" title="Mastercard" aria-label="Mastercard">
+                      <img alt="Mastercard" src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/mastercard.svg">
+                    </span>
+                    <span class="icon badge-link" title="Link" aria-label="Link (par Stripe)">Link</span>
+                  </div>
+                </div>
+                <div id="formError" class="text-danger small mt-2 d-none"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-5">
+        <div class="card shadow-sm">
+          <div class="card-body p-4">
+            <h2 class="h5">Résumé de commande</h2>
+            <ul id="cartList" class="list-unstyled mb-3"></ul>
+            <div class="d-flex justify-content-between">
+              <span>Total</span>
+              <strong id="total">$0.00 CAD</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
+      </div>
+    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
+</footer>
+
+  <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+  <script src="./maillots-store/client/src/scripts/api-config.js"></script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    function loadCart(){
+      let items = [];
+      try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+      const list = document.getElementById('cartList');
+      const totalEl = document.getElementById('total');
+      list.innerHTML = '';
+      let total = 0;
+      items.forEach(it => {
+        let unit = Number(it.perUnitPrice);
+        if (Number.isNaN(unit) || unit <= 0) {
+          const price = Number(it.price);
+          unit = isNaN(price) ? (it.isVintage ? 40.70 : 36.70) : price;
+        }
+        const qty = Number(it.quantity||1) || 1; const line = unit*qty;
+        total += line;
+        const li = document.createElement('li');
+        li.className = 'd-flex justify-content-between align-items-center mb-2';
+        const label = it.name && String(it.name).trim().length ? it.name : 'Article';
+        const size = it.size ? ` — <small class="text-secondary">Taille: ${it.size}</small>` : '';
+        const p = it.personalization;
+        const pers = p && (p.name || p.number) ? ` — <small class="text-secondary">Perso: ${p.name||''}${p.number? ' #'+p.number: ''} (+$5)</small>` : '';
+        li.innerHTML = `<span>${label} × ${qty}${size}${pers}</span><span>$${line.toFixed(2)} CAD`;
+        list.appendChild(li);
+      });
+  totalEl.textContent = `$${total.toFixed(2)} CAD`;
+      return items;
+    }
+
+    const cartItems = loadCart();
+
+    function computeTotal(items){
+      let total = 0;
+      for (const it of items) {
+        let unit = Number(it.perUnitPrice);
+        if (Number.isNaN(unit) || unit <= 0) {
+          const price = Number(it.price);
+          unit = isNaN(price) ? (it.isVintage ? 40.70 : 36.70) : price;
+        }
+        const qty = Number(it.quantity||1) || 1;
+        total += unit * qty;
+      }
+      return total;
+    }
+
+    document.getElementById('checkoutForm').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const errEl = document.getElementById('formError');
+      errEl.classList.add('d-none'); errEl.textContent = '';
+      const fd = new FormData(e.currentTarget);
+      
+      // Collect form data
+      const contact = { 
+        firstName: fd.get('firstName'), 
+        lastName: fd.get('lastName'), 
+        email: fd.get('email'), 
+        phone: fd.get('phone') 
+      };
+      const shipping = { 
+        address1: fd.get('address1'), 
+        address2: fd.get('address2'), 
+        postalCode: fd.get('postalCode'), 
+        city: fd.get('city'), 
+        country: fd.get('country') 
+      };
+      
+      if(!Array.isArray(cartItems) || cartItems.length===0){ 
+        errEl.textContent='Votre panier est vide.'; 
+        errEl.classList.remove('d-none'); 
+        return; 
+      }
+      
+      // Store checkout info in localStorage
+      try {
+        localStorage.setItem('checkoutInfo', JSON.stringify({ contact, shipping }));
+        // Redirect to cart.html for order summary
+        window.location.href = './cart.html';
+      } catch(err) {
+        errEl.textContent = 'Erreur de sauvegarde. Merci de réessayer.';
+        errEl.classList.remove('d-none');
+      }
+    });
+  </script>
+</body>
+</html>
