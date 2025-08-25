@@ -145,35 +145,23 @@ export async function paymentsWebhookHandler(req: Request, res: Response) {
     return res.status(400).send('Missing Stripe-Signature header');
   }
 
+  // We must receive the raw request body (Buffer or string) here so that
+  // stripe.webhooks.constructEvent can compute the HMAC over the exact bytes
+  // Stripe sent. If the body has been parsed into an object by a middleware
+  // (e.g. express.json()), signature verification will always fail.
+  // Therefore we reject requests where the body is already a parsed object.
+  if (!Buffer.isBuffer(req.body) && typeof req.body !== 'string') {
+    console.error('[webhook] unexpected body type; expected raw Buffer or string but got', typeof req.body);
+    return res.status(400).send('Webhook Error: expected raw request body (Buffer or string). Ensure the webhook route uses a raw body parser: bodyParser.raw({ type: "application/json" })');
+  }
+
   let event: any;
   try {
     // constructEvent will throw if verification fails
     event = stripe.webhooks.constructEvent(req.body as any, sig, config.STRIPE_WEBHOOK_SECRET);
   } catch (err: any) {
-    console.error('[webhook] signature verification failed on raw body:', err && err.message ? err.message : err);
-
-    // Optional fallback: some hosting environments or proxies may parse the
-    // request body before it reaches our raw middleware. In that case the
-    // original raw Buffer is lost. As a recovery for quick testing we can
-    // re-create a Buffer from the parsed object and retry verification, BUT
-    // this is NOT secure and may still fail because JSON.stringify may not
-    // reproduce the exact original bytes used to compute the Stripe HMAC.
-    // Enable this behavior by setting ALLOW_INSECURE_WEBHOOK_FALLBACK=true in
-    // the environment (only for debugging/testing).
-    const allowFallback = (process.env.ALLOW_INSECURE_WEBHOOK_FALLBACK || 'false').toLowerCase() === 'true';
-    if (allowFallback && req.body && typeof req.body === 'object') {
-      try {
-        console.warn('[webhook] attempting insecure fallback: reconstructing Buffer from parsed body (insecure)');
-        const fakeRaw = Buffer.from(JSON.stringify(req.body));
-        event = stripe.webhooks.constructEvent(fakeRaw as any, sig, config.STRIPE_WEBHOOK_SECRET);
-        console.warn('[webhook] fallback constructEvent succeeded (WARNING: this used reconstructed body and may be insecure)');
-      } catch (err2: any) {
-        console.error('[webhook] fallback constructEvent also failed:', err2 && err2.message ? err2.message : err2);
-        return res.status(400).send(`Webhook Error: ${err2 && err2.message ? err2.message : 'invalid signature'}`);
-      }
-    } else {
-      return res.status(400).send(`Webhook Error: ${err && err.message ? err.message : 'invalid signature'}`);
-    }
+    console.error('[webhook] signature verification failed:', err && err.message ? err.message : err);
+    return res.status(400).send(`Webhook Error: ${err && err.message ? err.message : 'invalid signature'}`);
   }
 
   console.info('[webhook] event:', event.type, 'id:', event.id);
