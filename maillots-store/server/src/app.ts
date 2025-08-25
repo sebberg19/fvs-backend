@@ -13,7 +13,10 @@ const app = express();
 
 // Mount webhook route with raw body parser BEFORE the JSON parser so the
 // Stripe SDK can verify signatures against the original request body.
-app.post('/api/payments/webhook', express.raw({ type: 'application/json' }) as any, paymentsWebhookHandler as any);
+// Accept raw body for the webhook route for all content-types to ensure the
+// Stripe SDK receives the original Buffer (some proxies or charset headers can
+// cause the body to be parsed early if the type matching is too strict).
+app.post('/api/payments/webhook', express.raw({ type: '*/*' }) as any, paymentsWebhookHandler as any);
 
 // Parse JSON for other routes
 app.use(express.json());
