@@ -128,44 +128,29 @@ router.post('/notify-success', async (req: Request, res: Response) => {
 const processedEvents = new Set<string>();
 
 export async function paymentsWebhookHandler(req: any, res: Response) {
-  // Use the raw body collected by our middleware instead of req.body
+  // With global raw parsing, req.body should now always be a Buffer
   console.info('[webhook] incoming');
-  try {
-    // Debug info to determine whether we have the raw bytes available
-    console.info('[webhook-debug] rawBodyAvailable=', !!req.rawBody, 'rawBodyIsBuffer=', Buffer.isBuffer(req.rawBody));
-    console.info('[webhook-debug] bodyIsBuffer=', Buffer.isBuffer(req.body), 'type=', typeof req.body, 'len=', req.body && (req.body as any).length);
-    console.info('[webhook-debug] content-type=', req.headers['content-type']);
-  } catch (e) {
-    console.warn('[webhook-debug] failed to log body shape', e);
-  }
-
+  console.info('[webhook-debug] bodyIsBuffer=', Buffer.isBuffer(req.body), 'type=', typeof req.body, 'len=', req.body && (req.body as any).length);
+  console.info('[webhook-debug] content-type=', req.headers['content-type']);
+  
   const sig = req.headers['stripe-signature'] as string | undefined;
   if (!sig) {
     console.warn('[webhook] missing Stripe-Signature header');
     return res.status(400).send('Missing Stripe-Signature header');
   }
-
-  // Use req.rawBody (from our collector middleware) as the primary source
-  // This bypasses any platform-level body parsing that corrupts the bytes
-  let payload: string | Buffer;
-  if (req.rawBody && Buffer.isBuffer(req.rawBody)) {
-    payload = req.rawBody;
-    console.info('[webhook] using req.rawBody for verification, length:', payload.length);
-  } else if (Buffer.isBuffer(req.body)) {
-    payload = req.body;
-    console.info('[webhook] fallback to req.body (Buffer), length:', payload.length);
-  } else if (typeof req.body === 'string') {
-    payload = req.body;
-    console.info('[webhook] fallback to req.body (string), length:', payload.length);
-  } else {
-    console.error('[webhook] no valid payload - neither req.rawBody nor req.body is Buffer/string');
-    return res.status(400).send('Webhook Error: no valid raw payload available for signature verification');
+  
+  // Ensure we have a Buffer (should always be true with global raw parsing)
+  if (!Buffer.isBuffer(req.body)) {
+    console.error('[webhook] req.body is not a Buffer, type:', typeof req.body);
+    return res.status(400).send('Webhook Error: expected raw Buffer body');
   }
-
+  
+  console.info('[webhook] using req.body (Buffer) for verification, length:', req.body.length);
+  
   let event: any;
   try {
     // constructEvent will throw if verification fails
-    event = stripe.webhooks.constructEvent(payload, sig, config.STRIPE_WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(req.body, sig, config.STRIPE_WEBHOOK_SECRET);
   } catch (err: any) {
     console.error('[webhook] signature verification failed:', err && err.message ? err.message : err);
     return res.status(400).send(`Webhook Error: ${err && err.message ? err.message : 'invalid signature'}`);

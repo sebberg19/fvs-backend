@@ -7,43 +7,35 @@ dotenv.config();
 
 const app = express();
 
-// NOTE: do NOT enable CORS globally because the /api/payments/webhook route must
-// receive raw body and should not be affected by preflight/CORS middleware.
-// We'll apply CORS only to the mounted payments router below (not to the webhook route).
+// CRITICAL: Use raw body parsing globally to prevent ANY automatic JSON parsing
+// that would corrupt webhook signatures. We'll handle JSON parsing manually
+// in routes that need it.
+app.use(express.raw({ type: '*/*' }));
 
-// Add a dedicated raw-body collector for the webhook path. Some hosting
-// environments or global middleware may parse request bodies before our
-// route-level raw parser runs. Collecting raw bytes here ensures we still
-// have access to the original Buffer when the webhook handler runs.
-const collectRawBodyForWebhook = (req: any, res: any, next: any) => {
-  if (req.method === 'POST' && req.path === '/api/payments/webhook') {
-    const chunks: Buffer[] = [];
-    req.on('data', (chunk: any) => {
-      try {
-        chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
-      } catch (e) {
-        // ignore conversion errors; will be handled later
-      }
-    });
-    req.on('end', () => {
-      try {
-        req.rawBody = chunks.length ? Buffer.concat(chunks) : Buffer.from('');
-      } catch (e) {
-        req.rawBody = undefined;
-      }
-      next();
-    });
-    req.on('error', next);
-  } else {
-    next();
+// Manual JSON parser middleware for non-webhook routes
+const parseJsonForNonWebhook = (req: any, res: any, next: any) => {
+  // Skip JSON parsing for webhook route - it needs raw bytes
+  if (req.path === '/api/payments/webhook') {
+    return next();
   }
+  
+  // For other routes, parse JSON manually if content-type indicates JSON
+  const contentType = req.headers['content-type'] || '';
+  if (contentType.includes('application/json') && Buffer.isBuffer(req.body)) {
+    try {
+      const bodyStr = req.body.toString('utf8');
+      req.body = JSON.parse(bodyStr);
+    } catch (e) {
+      return res.status(400).json({ error: 'invalid_json', message: 'Failed to parse JSON body' });
+    }
+  }
+  next();
 };
 
-// Mount the collector before any JSON/body parsers so we capture the raw bytes
-app.post('/api/payments/webhook', collectRawBodyForWebhook as any, paymentsWebhookHandler as any);
+app.use(parseJsonForNonWebhook);
 
-// Parse JSON for other routes
-app.use(express.json());
+// Mount webhook route - it will receive raw Buffer directly
+app.post('/api/payments/webhook', paymentsWebhookHandler as any);
 
 // Return a clearer error when JSON parsing fails (rather than generic HTML 400)
 app.use((err: any, _req: Request, res: Response, next: Function) => {

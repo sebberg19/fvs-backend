@@ -41,44 +41,32 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const payments_1 = __importStar(require("./routes/payments"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
-// Collector middleware: accumulate raw request bytes into req.rawBody.
-// This runs before any body parser so we keep an untouched Buffer copy
-// suitable for signature verification (Stripe requires the original bytes).
-function collectRawBodyForWebhook(req, res, next) {
-    try {
-        const chunks = [];
-        req.on('data', function (chunk) {
-            chunks.push(chunk);
-        });
-        req.on('end', function () {
-            try {
-                req.rawBody = Buffer.concat(chunks);
-            }
-            catch (e) {
-                // fallback to empty buffer on error
-                req.rawBody = Buffer.from('');
-            }
-            next();
-        });
-        req.on('error', function (err) { next(err); });
+// CRITICAL: Use raw body parsing globally to prevent ANY automatic JSON parsing
+// that would corrupt webhook signatures. We'll handle JSON parsing manually
+// in routes that need it.
+app.use(express_1.default.raw({ type: '*/*' }));
+// Manual JSON parser middleware for non-webhook routes
+const parseJsonForNonWebhook = (req, res, next) => {
+    // Skip JSON parsing for webhook route - it needs raw bytes
+    if (req.path === '/api/payments/webhook') {
+        return next();
     }
-    catch (err) {
-        next(err);
+    // For other routes, parse JSON manually if content-type indicates JSON
+    const contentType = req.headers['content-type'] || '';
+    if (contentType.includes('application/json') && Buffer.isBuffer(req.body)) {
+        try {
+            const bodyStr = req.body.toString('utf8');
+            req.body = JSON.parse(bodyStr);
+        }
+        catch (e) {
+            return res.status(400).json({ error: 'invalid_json', message: 'Failed to parse JSON body' });
+        }
     }
-}
-// NOTE: do NOT enable CORS globally because the /api/payments/webhook route must
-// receive raw body and should not be affected by preflight/CORS middleware.
-// We'll apply CORS only to the mounted payments router below (not to the webhook route).
-// Mount webhook route with raw body parser BEFORE the JSON parser so the
-// Stripe SDK can verify signatures against the original request body.
-// Accept raw body for the webhook route for all content-types to ensure the
-// Stripe SDK receives the original Buffer (some proxies or charset headers can
-// cause the body to be parsed early if the type matching is too strict).
-// Mount the collector before the raw parser so we always capture the
-// original bytes into req.rawBody even if a downstream parser modifies req.body.
-app.post('/api/payments/webhook', collectRawBodyForWebhook, express_1.default.raw({ type: '*/*' }), payments_1.paymentsWebhookHandler);
-// Parse JSON for other routes
-app.use(express_1.default.json());
+    next();
+};
+app.use(parseJsonForNonWebhook);
+// Mount webhook route - it will receive raw Buffer directly
+app.post('/api/payments/webhook', payments_1.paymentsWebhookHandler);
 // Return a clearer error when JSON parsing fails (rather than generic HTML 400)
 app.use((err, _req, res, next) => {
     if (err && err.type === 'entity.parse.failed') {
