@@ -130,6 +130,14 @@ const processedEvents = new Set<string>();
 export async function paymentsWebhookHandler(req: Request, res: Response) {
   // Expect raw body (Buffer)
   console.info('[webhook] incoming');
+  try {
+    // Debug info to determine whether the body arrived as a Buffer (raw) or was
+    // already parsed into an object by some middleware/proxy. This log is
+    // temporary and helps troubleshoot signature verification failures.
+    console.info('[webhook-debug] bodyIsBuffer=', Buffer.isBuffer(req.body), 'type=', typeof req.body, 'len=', req.body && (req.body as any).length, 'content-type=', req.headers['content-type']);
+  } catch (e) {
+    console.warn('[webhook-debug] failed to log body shape', e);
+  }
 
   const sig = req.headers['stripe-signature'] as string | undefined;
   if (!sig) {
