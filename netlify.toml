@@ -1,0 +1,46 @@
+[build]
+  # Dossier de build pour le site statique
+  publish = "."
+  
+  # Dossier des fonctions Netlify
+  functions = "netlify/functions"
+
+[build.environment]
+  # Variables d'environnement pour le build (si nécessaire)
+  NODE_VERSION = "18"
+
+# Redirections pour l'API
+[[redirects]]
+  # Redirect webhook vers la Netlify Function
+  from = "/api/payments/webhook"
+  to = "/.netlify/functions/stripe-webhook"
+  status = 200
+  force = true
+
+[[redirects]]
+  # Redirect autres endpoints API vers ton backend Render (si tu veux garder le backend pour create-session)
+  from = "/api/payments/*"
+  to = "https://fvs-backend-1.onrender.com/api/payments/:splat"
+  status = 200
+  force = false
+
+[[redirects]]
+  # SPA fallback pour les pages qui n'existent pas
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, stripe-signature"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

@@ -5,12 +5,12 @@ const API_CONFIG = {
     
     // URLs du serveur backend
     development: {
-    // Use the current page origin so dev servers using 127.0.0.1 or localhost both resolve
-    baseURL: window.location.origin + '/api'
+        // Use the current page origin so dev servers using 127.0.0.1 or localhost both resolve
+        baseURL: window.location.origin + '/api'
     },
     production: {
-        // URL Render (backend déployé)
-        baseURL: 'https://fvs-backend-1.onrender.com/api'
+        // URL Netlify Functions (même domaine que le frontend)
+        baseURL: window.location.origin + '/.netlify/functions'
     }
 };
 
@@ -23,6 +23,11 @@ function getApiBaseURL() {
 
 // Helper pour construire les URLs d'API
 function buildApiURL(endpoint) {
+    if (API_CONFIG.isProduction) {
+        // Pour Netlify Functions, utiliser directement le nom de la fonction
+        const functionName = endpoint.replace('/payments/', '').replace('-', '-');
+        return `${getApiBaseURL()}/${functionName}`;
+    }
     return `${getApiBaseURL()}${endpoint}`;
 }
 
@@ -30,8 +35,8 @@ function buildApiURL(endpoint) {
 window.API = {
     baseURL: getApiBaseURL(),
     payments: {
-        createSession: () => buildApiURL('/payments/create-checkout-session'),
-        createSessionFromTotal: () => buildApiURL('/payments/create-session-from-total')
+        createSession: () => buildApiURL('/payments/create-session'),
+        createSessionFromTotal: () => buildApiURL('/payments/create-session')
     }
 };
 
