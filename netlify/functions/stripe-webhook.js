@@ -30,21 +30,50 @@ const createTransporter = () => {
   });
 };
 
-// Template email simple
-const renderEmailTemplate = (orderId, customerEmail, items, total) => {
-  const itemsHtml = (items || []).map(item => 
-    `<li><strong>${item.name}</strong> × ${item.quantity || 1} - $${(item.price || 0).toFixed(2)}</li>`
-  ).join('');
+// Template email détaillé
+const renderEmailTemplate = (session, orderId) => {
+  const customerEmail = session.customer_email || 'Non fourni';
+  const total = ((session.amount_total || 0) / 100).toFixed(2);
+  const currency = (session.currency || 'cad').toUpperCase();
+  const paymentMethod = session.payment_method_types?.join(', ') || 'Card';
+  const sessionId = session.id;
+  
+  // Extraire infos du metadata si disponibles
+  const metadata = session.metadata || {};
+  const itemCount = metadata.itemCount || '1';
   
   return `
-    <h2>Nouvelle commande reçue! 🎉</h2>
-    <p><strong>Commande:</strong> ${orderId}</p>
-    <p><strong>Email client:</strong> ${customerEmail}</p>
-    <p><strong>Total:</strong> $${total}</p>
-    <h3>Articles:</h3>
-    <ul>${itemsHtml}</ul>
-    <hr>
-    <p>Email automatique - Futbolero Vintage Shop</p>
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <h2 style="color: #2c5aa0;">🎉 Nouvelle commande reçue!</h2>
+      
+      <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="color: #333; margin-top: 0;">📋 Détails de la commande</h3>
+        <p><strong>ID Commande:</strong> ${orderId}</p>
+        <p><strong>ID Session Stripe:</strong> ${sessionId}</p>
+        <p><strong>Montant total:</strong> $${total} ${currency}</p>
+        <p><strong>Méthode de paiement:</strong> ${paymentMethod}</p>
+        <p><strong>Nombre d'articles:</strong> ${itemCount}</p>
+      </div>
+      
+      <div style="background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="color: #333; margin-top: 0;">👤 Informations client</h3>
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Statut paiement:</strong> ✅ Confirmé</p>
+      </div>
+      
+      <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="color: #333; margin-top: 0;">📦 Prochaines étapes</h3>
+        <p>✅ Paiement confirmé par Stripe</p>
+        <p>⏳ Préparer la commande</p>
+        <p>📧 Contacter le client si nécessaire</p>
+      </div>
+      
+      <hr style="margin: 30px 0;">
+      <p style="color: #666; font-size: 12px;">
+        Email automatique - Futbolero Vintage Shop<br>
+        Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
+      </p>
+    </div>
   `;
 };
 
@@ -116,19 +145,14 @@ exports.handler = async (event, context) => {
         const total = ((session.amount_total || 0) / 100).toFixed(2);
         const orderId = session.metadata?.orderId || session.id;
         
-        // Items basiques (tu peux enrichir depuis session.metadata si tu stockes plus d'infos)
-        const items = [
-          { name: 'Commande Futbolero', quantity: 1, price: parseFloat(total) }
-        ];
-
-        const emailHtml = renderEmailTemplate(orderId, customerEmail, items, total);
-        const ownerEmail = process.env.ORDER_NOTIFY_TO || process.env.SMTP_USER || 'owner@futbolero.shop';
+        const emailHtml = renderEmailTemplate(session, orderId);
+        const ownerEmail = 'futbolerovintageshop@gmail.com'; // Email fixe
 
         if (transporter) {
           await transporter.sendMail({
-            from: process.env.SMTP_USER,
+            from: process.env.SMTP_USER || 'noreply@futbolero.shop',
             to: ownerEmail,
-            subject: `Nouvelle commande ${orderId} - $${total}`,
+            subject: `🛒 Nouvelle commande ${orderId} - $${total} CAD`,
             html: emailHtml,
           });
           console.log('[webhook] Email sent to:', ownerEmail);
@@ -138,7 +162,8 @@ exports.handler = async (event, context) => {
             subject: `Nouvelle commande ${orderId} - $${total}`,
             orderId,
             customerEmail,
-            total
+            total,
+            sessionId: session.id
           });
         }
       } catch (emailErr) {
