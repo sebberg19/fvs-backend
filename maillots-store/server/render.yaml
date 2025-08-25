@@ -1,0 +1,25 @@
+# Render Blueprint: Futbolero Vintage Shop backend
+services:
+  - type: web
+    name: fvs-backend
+    env: node
+    plan: free
+    branch: main
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /api/health
+    envVars:
+      # Pin Node runtime on Render. Keep in sync with package.json engines if updated.
+      - key: NODE_VERSION
+        value: 22
+      - key: NODE_ENV
+        value: production
+      # Optional fallback for success/cancel URLs when no Origin header is present.
+      # Set this to your frontend URL (e.g., Netlify/Vercel domain).
+      - key: RETURN_BASE
+        value: https://futbolero.netlify.app
+      # Secrets should be added from the Render Dashboard after creation:
+      # - STRIPE_SECRET_KEY
+      # - STRIPE_WEBHOOK_SECRET (if using webhooks)
+      # - SMTP_* (if enabling emails)
