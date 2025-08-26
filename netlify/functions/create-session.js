@@ -64,7 +64,6 @@ exports.handler = async (event, context) => {
       mode: 'payment',
       success_url: `${base}/payment-success.html`,
       cancel_url: `${base}/cart.html`,
-      customer_email: body?.contact?.email,
       payment_method_types: ['card', 'link'],
       // Collecter les informations de livraison via Stripe
       shipping_address_collection: {
@@ -87,7 +86,6 @@ exports.handler = async (event, context) => {
       metadata: { 
         source: 'netlify_function', 
         orderId: orderId,
-        customerEmail: body?.contact?.email || '',
         itemCount: items.length,
         // Stocker les articles (attention à la limite de 500 chars)
         items: itemsJson.substring(0, 499)

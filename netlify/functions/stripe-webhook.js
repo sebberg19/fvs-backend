@@ -311,9 +311,11 @@ exports.handler = async (event, context) => {
       console.log('[webhook] Creating transporter...');
       const transporter = createTransporter();
       
-      const customerEmail = session.customer_email || 'client@example.com';
+      const customerEmail = session.customer_email;
       const total = ((session.amount_total || 0) / 100).toFixed(2);
       const orderId = session.metadata?.orderId || session.id;
+      
+      console.log('[webhook] Customer email:', customerEmail || 'Non fourni');
       
       // 1. EMAIL POUR LE PROPRIÉTAIRE (vous)
       console.log('[webhook] Generating owner email template...');
@@ -330,20 +332,24 @@ exports.handler = async (event, context) => {
       const ownerInfo = await transporter.sendMail(ownerMailOptions);
       console.log('[webhook] Owner email sent! MessageId:', ownerInfo.messageId);
       
-      // 2. EMAIL POUR LE CLIENT
-      console.log('[webhook] Generating customer email template...');
-      const customerEmailHtml = renderCustomerEmailTemplate(session, orderId);
-      
-      const customerMailOptions = {
-        from: process.env.SMTP_USER,
-        to: customerEmail,
-        subject: `✅ Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
-        html: customerEmailHtml,
-      };
-      
-      console.log('[webhook] Sending customer email to:', customerEmail);
-      const customerInfo = await transporter.sendMail(customerMailOptions);
-      console.log('[webhook] Customer email sent! MessageId:', customerInfo.messageId);
+      // 2. EMAIL POUR LE CLIENT (seulement si email valide)
+      if (customerEmail && customerEmail.includes('@') && !customerEmail.includes('example.com')) {
+        console.log('[webhook] Generating customer email template...');
+        const customerEmailHtml = renderCustomerEmailTemplate(session, orderId);
+        
+        const customerMailOptions = {
+          from: process.env.SMTP_USER,
+          to: customerEmail,
+          subject: `✅ Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
+          html: customerEmailHtml,
+        };
+        
+        console.log('[webhook] Sending customer email to:', customerEmail);
+        const customerInfo = await transporter.sendMail(customerMailOptions);
+        console.log('[webhook] Customer email sent! MessageId:', customerInfo.messageId);
+      } else {
+        console.log('[webhook] No valid customer email provided, skipping customer notification');
+      }
       
     } catch (emailErr) {
       console.error('[webhook] Email error:', emailErr.message);
