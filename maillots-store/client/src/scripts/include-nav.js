@@ -69,10 +69,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     try { saved = Number(localStorage.getItem('cartCount')) || 0; } catch {}
     renderCartCountAll(saved);
 
-    // Load checkout modal script after nav is set up
-    loadCheckoutModal();
+    // Cart button now redirects directly to cart page (no modal needed)
     
-    // Add global cart click handler with smart routing
+    // Add global cart click handler - DIRECT REDIRECT to cart page
     window.handleCartClick = function() {
       // Check if cart has items first
       let cartItems = [];
@@ -85,28 +84,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
       }
 
-      // Check if checkout info already exists
-      let hasCheckoutInfo = false;
-      try {
-        const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo') || '{}');
-        hasCheckoutInfo = checkoutInfo.contact && checkoutInfo.shipping && 
-                         checkoutInfo.contact.email && checkoutInfo.shipping.address1;
-      } catch {}
-
-      if (hasCheckoutInfo) {
-        // Infos already filled → go directly to cart summary
-        console.log('📋 Infos checkout déjà présentes, redirection vers cart.html');
-        window.location.href = './cart.html';
-      } else {
-        // No info yet → open modal or redirect to checkout
-        console.log('📝 Pas d\'infos checkout, ouverture du modal');
-        if (typeof window.openCheckoutModal === 'function') {
-          window.openCheckoutModal();
-        } else {
-          // Fallback: redirect to checkout page
-          window.location.href = './checkout.html';
-        }
-      }
+      // Always redirect directly to cart page (no modal)
+      console.log('� Redirection directe vers la page panier');
+      window.location.href = './cart.html';
     };
   }
 });
