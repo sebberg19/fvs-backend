@@ -205,9 +205,19 @@
 			list.appendChild(li);
 		});
 		
-		// Calcul du total final avec frais de livraison
-		const finalTotal = subtotal + SHIPPING_FEE;
+		// Calcul du total final avec ou sans frais de livraison selon le code promo
+		const shippingFee = isPromoActive ? 0 : SHIPPING_FEE;
+		const finalTotal = subtotal + shippingFee;
 		subtotalEl.textContent = `$${subtotal.toFixed(2)} CAD`;
+		
+		// Mise à jour de l'affichage des frais de livraison
+		const shippingEl = document.getElementById('shipping');
+		if (isPromoActive) {
+			shippingEl.innerHTML = '<span class="price-original">$7.00 CAD</span> <span class="price-discounted">Gratuit</span>';
+		} else {
+			shippingEl.textContent = '$7.00 CAD';
+		}
+		
 		totalEl.textContent = `$${finalTotal.toFixed(2)} CAD`;
 	}
 
@@ -242,7 +252,7 @@
 		
 		if (enteredCode === PROMO_CODE) {
 			isPromoActive = true;
-			promoMessage.textContent = '✅ Code promo appliqué ! Maillots à 0.50$ chacun';
+			promoMessage.textContent = 'Code promotionnel appliqué';
 			promoMessage.className = 'small mt-1 promo-success';
 			promoMessage.classList.remove('d-none');
 			promoInput.disabled = true;
@@ -311,7 +321,9 @@
 			return acc + unit * qty;
 		}, 0);
 		
-		const total = subtotal + SHIPPING_FEE; // Total avec frais de livraison
+		// Total avec ou sans frais de livraison selon le code promo
+		const shippingFee = isPromoActive ? 0 : SHIPPING_FEE;
+		const total = subtotal + shippingFee;
 		
 		console.log('💰 Total calculé:', total);
 		console.log('🌐 URL API:', window.API ? window.API.payments.createSessionFromTotal() : 'API non disponible');
