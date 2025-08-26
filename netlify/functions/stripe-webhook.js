@@ -14,15 +14,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 // Configuration email
 const createTransporter = () => {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.warn('[email] SMTP not configured, emails will be logged only');
-    return null;
-  }
-  
-  return nodemailer.createTransporter({
-    host: process.env.SMTP_HOST,
-    port: parseInt(process.env.SMTP_PORT || '587'),
-    secure: process.env.SMTP_PORT === '465',
+  // Configuration Gmail SMTP
+  return nodemailer.createTransport({
+    service: 'gmail',
     auth: {
       user: process.env.SMTP_USER,
       pass: process.env.SMTP_PASS,
