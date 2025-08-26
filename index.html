@@ -62,23 +62,23 @@
         --bs-btn-focus-shadow-rgb: 47,111,62;
       }
 
-      /* Bouton rouge */
-      .btn-red {
-        --bs-btn-bg: #dc3545;
-        --bs-btn-border-color: #dc3545;
-        --bs-btn-hover-bg: #c02a37;
-        --bs-btn-hover-border-color: #c02a37;
-        --bs-btn-color: #ffffff;
-        --bs-btn-hover-color: #ffffff;
-        --bs-btn-focus-shadow-rgb: 220,53,69;
+      /* Bouton jaune */
+      .btn-yellow {
+        --bs-btn-bg: #ffc107;
+        --bs-btn-border-color: #ffc107;
+        --bs-btn-hover-bg: #e0a800;
+        --bs-btn-hover-border-color: #e0a800;
+        --bs-btn-color: #000000;
+        --bs-btn-hover-color: #000000;
+        --bs-btn-focus-shadow-rgb: 255,193,7;
       }
 
-      /* Subtle scale on hover for primary buttons (green, red and black) */
-      .btn-accent, .btn-red, .btn-dark {
+      /* Subtle scale on hover for primary buttons (green, yellow and black) */
+      .btn-accent, .btn-yellow, .btn-dark {
         transition: transform .12s ease;
         transform-origin: center center;
       }
-      .btn-accent:hover, .btn-red:hover, .btn-dark:hover {
+      .btn-accent:hover, .btn-yellow:hover, .btn-dark:hover {
         transform: scale(1.035);
       }
       /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
@@ -89,10 +89,10 @@
         color: var(--accent-contrast) !important;
         text-decoration: none !important;
       }
-      .btn-red:hover, .btn-red:focus, .btn-red:active, .btn-red:visited {
-        background-color: #dc3545 !important;
-        border-color: #dc3545 !important;
-        color: #fff !important;
+      .btn-yellow:hover, .btn-yellow:focus, .btn-yellow:active, .btn-yellow:visited {
+        background-color: #ffc107 !important;
+        border-color: #ffc107 !important;
+        color: #000 !important;
         text-decoration: none !important;
       }
       .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
@@ -246,7 +246,7 @@
               Découvrez notre sélection de maillots actuels et vintage, soigneusement choisis pour les passionnés.
             </p>
             <div class="d-grid gap-2 d-sm-flex">
-              <a href="./tous-les-maillots.html" class="btn btn-red btn-lg w-100 w-sm-auto">
+              <a href="./tous-les-maillots.html" class="btn btn-yellow btn-lg w-100 w-sm-auto">
                 Voir tous les maillots
               </a>
               <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
