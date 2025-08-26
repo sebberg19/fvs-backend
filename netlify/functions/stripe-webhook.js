@@ -154,7 +154,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
              style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
       ` : `
         <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #2c5aa0, #4a90e2); border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
-          ⚽
+          FB
         </div>
       `}
       <div style="flex: 1;">
@@ -169,13 +169,13 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
       <!-- Header avec logo/brand -->
       <div style="background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 100%); padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
-        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300;">⚽ Futbolero</h1>
+        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300;">Futbolero</h1>
         <p style="color: #e8f4f8; margin: 10px 0 0 0; font-size: 16px;">Vintage Shop</p>
       </div>
       
       <!-- Message de remerciement -->
       <div style="background: #f8f9fa; padding: 30px 20px; text-align: center;">
-        <h2 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 24px;">🎉 Merci pour votre commande!</h2>
+        <h2 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 24px;">Merci pour votre commande</h2>
         <p style="color: #333; margin: 0; font-size: 16px; line-height: 1.6;">
           Bonjour <strong>${customerName}</strong>,<br>
           Nous avons bien reçu votre commande et votre paiement a été confirmé avec succès.
@@ -185,7 +185,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
       <!-- Détails de la commande -->
       <div style="padding: 20px;">
         <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">📋 Récapitulatif de votre commande</h3>
+          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">Récapitulatif de votre commande</h3>
           <table style="width: 100%; border-collapse: collapse;">
             <tr><td style="padding: 8px 0; color: #666;"><strong>Numéro de commande:</strong></td><td style="padding: 8px 0; text-align: right;">${orderId}</td></tr>
             <tr><td style="padding: 8px 0; color: #666;"><strong>Total payé:</strong></td><td style="padding: 8px 0; text-align: right; font-weight: bold; color: #2c5aa0; font-size: 18px;">$${total} ${currency}</td></tr>
@@ -196,30 +196,8 @@ const renderCustomerEmailTemplate = (session, orderId) => {
         
         <!-- Articles commandés -->
         <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">🛍️ Vos articles</h3>
+          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">Vos articles</h3>
           ${itemsHtml}
-        </div>
-        
-        <!-- Prochaines étapes -->
-        <div style="background: #e8f5e8; border: 2px solid #c3e6c3; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="color: #2d5a2d; margin: 0 0 15px 0; font-size: 18px;">📦 Prochaines étapes</h3>
-          <div style="color: #2d5a2d; line-height: 1.8;">
-            <p style="margin: 5px 0;">✅ <strong>Paiement confirmé</strong> - Votre commande est sécurisée</p>
-            <p style="margin: 5px 0;">📦 <strong>Préparation</strong> - Nous préparons votre commande avec soin</p>
-            <p style="margin: 5px 0;">🚚 <strong>Expédition</strong> - Vous recevrez un email de suivi</p>
-            <p style="margin: 5px 0;">🏠 <strong>Livraison</strong> - À l'adresse indiquée lors de la commande</p>
-          </div>
-        </div>
-        
-        <!-- Contact et support -->
-        <div style="background: #fff3cd; border: 2px solid #ffeaa7; border-radius: 8px; padding: 20px; text-align: center;">
-          <h3 style="color: #856404; margin: 0 0 15px 0; font-size: 18px;">💬 Une question?</h3>
-          <p style="color: #856404; margin: 0 0 15px 0; line-height: 1.6;">
-            Notre équipe est là pour vous aider! N'hésitez pas à nous contacter.
-          </p>
-          <a href="mailto:futbolerovintageshop@gmail.com" style="background: #2c5aa0; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
-            📧 Nous contacter
-          </a>
         </div>
       </div>
       
