@@ -62,6 +62,17 @@
         --bs-btn-focus-shadow-rgb: 47,111,62;
       }
 
+      /* Bouton bleu personnalisé */
+      .btn-blue {
+        --bs-btn-bg: #0d6efd;
+        --bs-btn-border-color: #0d6efd;
+        --bs-btn-hover-bg: #0b5ed7;
+        --bs-btn-hover-border-color: #0b5ed7;
+        --bs-btn-color: #ffffff;
+        --bs-btn-hover-color: #ffffff;
+        --bs-btn-focus-shadow-rgb: 13,110,253;
+      }
+
       /* Bouton jaune */
       .btn-yellow {
         --bs-btn-bg: #ffc107;
@@ -74,11 +85,11 @@
       }
 
       /* Subtle scale on hover for primary buttons (green, blue, yellow and black) */
-      .btn-accent, .btn-primary, .btn-yellow, .btn-dark {
+      .btn-accent, .btn-blue, .btn-yellow, .btn-dark {
         transition: transform .12s ease;
         transform-origin: center center;
       }
-      .btn-accent:hover, .btn-primary:hover, .btn-yellow:hover, .btn-dark:hover {
+      .btn-accent:hover, .btn-blue:hover, .btn-yellow:hover, .btn-dark:hover {
         transform: scale(1.035);
       }
       /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
@@ -98,6 +109,12 @@
       .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
         background-color: #000 !important;
         border-color: #000 !important;
+        color: #fff !important;
+        text-decoration: none !important;
+      }
+      .btn-blue:hover, .btn-blue:focus, .btn-blue:active, .btn-blue:visited {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
         color: #fff !important;
         text-decoration: none !important;
       }
@@ -252,7 +269,7 @@
               Découvrez notre sélection de maillots actuels et vintage, soigneusement choisis pour les passionnés.
             </p>
             <div class="d-grid gap-2 d-sm-flex">
-              <a href="./tous-les-maillots.html" class="btn btn-primary btn-lg w-100 w-sm-auto">
+              <a href="./tous-les-maillots.html" class="btn btn-blue btn-lg w-100 w-sm-auto">
                 Voir tous les maillots
               </a>
               <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
