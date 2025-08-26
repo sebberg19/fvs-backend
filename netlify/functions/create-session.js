@@ -44,7 +44,7 @@ exports.handler = async (event, context) => {
     
     // Determine return base (utilise l'origine de la requête)
     const origin = event.headers.origin || event.headers.referer;
-    const base = origin || process.env.RETURN_BASE || 'https://futbolero.netlify.app';
+    const base = origin || process.env.RETURN_BASE || 'https://futbolerovintageshop.com';
     
     console.log('[create-session] Creating session | amount=', amount, '| email=', body?.contact?.email);
 
