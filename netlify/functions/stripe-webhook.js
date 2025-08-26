@@ -172,39 +172,36 @@ exports.handler = async (event, context) => {
     const session = stripeEvent.data.object;
     console.log('[webhook] Processing completed session:', session.id);
 
-    // Envoyer email (async, ne pas bloquer la réponse)
-    setImmediate(async () => {
-      try {
-        const transporter = createTransporter();
-        const customerEmail = session.customer_email || 'client@example.com';
-        const total = ((session.amount_total || 0) / 100).toFixed(2);
-        const orderId = session.metadata?.orderId || session.id;
-        
-        const emailHtml = renderEmailTemplate(session, orderId);
-        const ownerEmail = 'futbolerovintageshop@gmail.com'; // Email fixe
-
-        if (transporter) {
-          await transporter.sendMail({
-            from: process.env.SMTP_USER || 'noreply@futbolero.shop',
-            to: ownerEmail,
-            subject: `🛒 Nouvelle commande ${orderId} - $${total} CAD`,
-            html: emailHtml,
-          });
-          console.log('[webhook] Email sent to:', ownerEmail);
-        } else {
-          console.log('[webhook] SMTP not configured, email logged:', {
-            to: ownerEmail,
-            subject: `Nouvelle commande ${orderId} - $${total}`,
-            orderId,
-            customerEmail,
-            total,
-            sessionId: session.id
-          });
-        }
-      } catch (emailErr) {
-        console.error('[webhook] Email error:', emailErr.message);
-      }
-    });
+    // Envoyer email directement
+    try {
+      console.log('[webhook] Creating transporter...');
+      const transporter = createTransporter();
+      
+      const customerEmail = session.customer_email || 'client@example.com';
+      const total = ((session.amount_total || 0) / 100).toFixed(2);
+      const orderId = session.metadata?.orderId || session.id;
+      
+      console.log('[webhook] Generating email template...');
+      const emailHtml = renderEmailTemplate(session, orderId);
+      
+      const mailOptions = {
+        from: process.env.SMTP_USER,
+        to: process.env.ORDER_NOTIFY_TO,
+        subject: `🛒 Nouvelle commande ${orderId} - $${total} CAD`,
+        html: emailHtml,
+      };
+      
+      console.log('[webhook] Sending email...');
+      console.log('[webhook] From:', process.env.SMTP_USER);
+      console.log('[webhook] To:', process.env.ORDER_NOTIFY_TO);
+      
+      const info = await transporter.sendMail(mailOptions);
+      console.log('[webhook] Email sent successfully! MessageId:', info.messageId);
+      
+    } catch (emailErr) {
+      console.error('[webhook] Email error:', emailErr.message);
+      console.error('[webhook] Email stack:', emailErr.stack);
+    }
   }
 
   // Réponse rapide à Stripe
