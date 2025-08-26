@@ -113,6 +113,15 @@ const renderEmailTemplate = (session, orderId) => {
 const processedEvents = new Set();
 
 exports.handler = async (event, context) => {
+  console.log('[webhook] === WEBHOOK STARTED ===');
+  console.log('[webhook] Method:', event.httpMethod);
+  console.log('[webhook] Environment check:');
+  console.log('- STRIPE_SECRET_KEY:', process.env.STRIPE_SECRET_KEY ? 'SET' : 'MISSING');
+  console.log('- STRIPE_WEBHOOK_SECRET:', process.env.STRIPE_WEBHOOK_SECRET ? 'SET' : 'MISSING');
+  console.log('- SMTP_USER:', process.env.SMTP_USER ? 'SET' : 'MISSING');
+  console.log('- SMTP_PASS:', process.env.SMTP_PASS ? 'SET' : 'MISSING');
+  console.log('- ORDER_NOTIFY_TO:', process.env.ORDER_NOTIFY_TO ? 'SET' : 'MISSING');
+  
   console.log('[webhook] Netlify function started');
   
   // Vérifier que c'est un POST
