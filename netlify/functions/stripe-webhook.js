@@ -32,6 +32,20 @@ const renderEmailTemplate = (session, orderId) => {
   const paymentMethod = session.payment_method_types?.join(', ') || 'Card';
   const sessionId = session.id;
   
+  // Extraire les informations de livraison
+  const customerDetails = session.customer_details || {};
+  const address = customerDetails.address || {};
+  const customerName = customerDetails.name || 'Non fourni';
+  const customerPhone = customerDetails.phone || 'Non fourni';
+  
+  // Formater l'adresse
+  const fullAddress = [
+    address.line1,
+    address.line2,
+    `${address.city || ''} ${address.state || ''} ${address.postal_code || ''}`.trim(),
+    address.country || ''
+  ].filter(Boolean).join('<br>') || 'Adresse non fournie';
+  
   // Extraire les articles depuis les métadonnées
   const metadata = session.metadata || {};
   let items = [];
@@ -78,8 +92,17 @@ const renderEmailTemplate = (session, orderId) => {
       
       <div style="background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="color: #333; margin-top: 0;">👤 Informations client</h3>
+        <p><strong>Nom:</strong> ${customerName}</p>
         <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Téléphone:</strong> ${customerPhone}</p>
         <p><strong>Statut paiement:</strong> ✅ Confirmé</p>
+      </div>
+      
+      <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffeaa7;">
+        <h3 style="color: #333; margin-top: 0;">🏠 Adresse de livraison</h3>
+        <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #e9ecef;">
+          <p style="margin: 0; line-height: 1.6;">${fullAddress}</p>
+        </div>
       </div>
       
       <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #e9ecef;">
@@ -92,6 +115,7 @@ const renderEmailTemplate = (session, orderId) => {
         <p>✅ Paiement confirmé par Stripe</p>
         <p>⏳ Préparer la commande</p>
         <p>📧 Contacter le client: <a href="mailto:${customerEmail}">${customerEmail}</a></p>
+        <p>📞 Téléphone client: ${customerPhone}</p>
       </div>
       
       <hr style="margin: 30px 0;">
