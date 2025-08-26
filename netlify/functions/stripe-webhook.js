@@ -127,6 +127,116 @@ const renderEmailTemplate = (session, orderId) => {
   `;
 };
 
+// Template email pour le CLIENT (confirmation de commande)
+const renderCustomerEmailTemplate = (session, orderId) => {
+  const customerEmail = session.customer_email || 'Non fourni';
+  const total = ((session.amount_total || 0) / 100).toFixed(2);
+  const currency = (session.currency || 'cad').toUpperCase();
+  const customerDetails = session.customer_details || {};
+  const customerName = customerDetails.name || 'Cher(e) client(e)';
+  
+  // Extraire les articles depuis les métadonnées
+  const metadata = session.metadata || {};
+  let items = [];
+  try {
+    if (metadata.items) {
+      items = JSON.parse(metadata.items);
+    }
+  } catch (e) {
+    items = [{ name: 'Votre commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
+  }
+  
+  // Générer le HTML des articles pour le client
+  const itemsHtml = items.map(item => `
+    <div style="border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin: 10px 0; display: flex; align-items: center; background: #ffffff;">
+      ${item.image && !item.image.includes('data:image/svg') ? `
+        <img src="${item.image}" alt="${item.name}" 
+             style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+      ` : `
+        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #2c5aa0, #4a90e2); border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+          ⚽
+        </div>
+      `}
+      <div style="flex: 1;">
+        <h4 style="margin: 0 0 5px 0; color: #333; font-size: 16px;">${item.name}</h4>
+        <p style="margin: 0; color: #666; font-size: 14px;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #2c5aa0; font-weight: bold; font-size: 16px;">$${(item.price || 0).toFixed(2)} CAD</p>
+      </div>
+    </div>
+  `).join('');
+  
+  return `
+    <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+      <!-- Header avec logo/brand -->
+      <div style="background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 100%); padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
+        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300;">⚽ Futbolero</h1>
+        <p style="color: #e8f4f8; margin: 10px 0 0 0; font-size: 16px;">Vintage Shop</p>
+      </div>
+      
+      <!-- Message de remerciement -->
+      <div style="background: #f8f9fa; padding: 30px 20px; text-align: center;">
+        <h2 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 24px;">🎉 Merci pour votre commande!</h2>
+        <p style="color: #333; margin: 0; font-size: 16px; line-height: 1.6;">
+          Bonjour <strong>${customerName}</strong>,<br>
+          Nous avons bien reçu votre commande et votre paiement a été confirmé avec succès.
+        </p>
+      </div>
+      
+      <!-- Détails de la commande -->
+      <div style="padding: 20px;">
+        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">📋 Récapitulatif de votre commande</h3>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tr><td style="padding: 8px 0; color: #666;"><strong>Numéro de commande:</strong></td><td style="padding: 8px 0; text-align: right;">${orderId}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;"><strong>Total payé:</strong></td><td style="padding: 8px 0; text-align: right; font-weight: bold; color: #2c5aa0; font-size: 18px;">$${total} ${currency}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;"><strong>Nombre d'articles:</strong></td><td style="padding: 8px 0; text-align: right;">${items.length}</td></tr>
+            <tr><td style="padding: 8px 0; color: #666;"><strong>Email de confirmation:</strong></td><td style="padding: 8px 0; text-align: right;">${customerEmail}</td></tr>
+          </table>
+        </div>
+        
+        <!-- Articles commandés -->
+        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">🛍️ Vos articles</h3>
+          ${itemsHtml}
+        </div>
+        
+        <!-- Prochaines étapes -->
+        <div style="background: #e8f5e8; border: 2px solid #c3e6c3; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+          <h3 style="color: #2d5a2d; margin: 0 0 15px 0; font-size: 18px;">📦 Prochaines étapes</h3>
+          <div style="color: #2d5a2d; line-height: 1.8;">
+            <p style="margin: 5px 0;">✅ <strong>Paiement confirmé</strong> - Votre commande est sécurisée</p>
+            <p style="margin: 5px 0;">📦 <strong>Préparation</strong> - Nous préparons votre commande avec soin</p>
+            <p style="margin: 5px 0;">🚚 <strong>Expédition</strong> - Vous recevrez un email de suivi</p>
+            <p style="margin: 5px 0;">🏠 <strong>Livraison</strong> - À l'adresse indiquée lors de la commande</p>
+          </div>
+        </div>
+        
+        <!-- Contact et support -->
+        <div style="background: #fff3cd; border: 2px solid #ffeaa7; border-radius: 8px; padding: 20px; text-align: center;">
+          <h3 style="color: #856404; margin: 0 0 15px 0; font-size: 18px;">💬 Une question?</h3>
+          <p style="color: #856404; margin: 0 0 15px 0; line-height: 1.6;">
+            Notre équipe est là pour vous aider! N'hésitez pas à nous contacter.
+          </p>
+          <a href="mailto:futbolerovintageshop@gmail.com" style="background: #2c5aa0; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold; display: inline-block;">
+            📧 Nous contacter
+          </a>
+        </div>
+      </div>
+      
+      <!-- Footer -->
+      <div style="background: #f8f9fa; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; margin-top: 20px;">
+        <p style="color: #666; margin: 0; font-size: 14px;">
+          Merci de faire confiance à <strong>Futbolero Vintage Shop</strong><br>
+          <em>Des maillots iconiques, un style intemporel</em>
+        </p>
+        <p style="color: #999; margin: 10px 0 0 0; font-size: 12px;">
+          Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
+        </p>
+      </div>
+    </div>
+  `;
+};
+
 // Idempotence simple (en production, utiliser une DB)
 const processedEvents = new Set();
 
@@ -196,7 +306,7 @@ exports.handler = async (event, context) => {
     const session = stripeEvent.data.object;
     console.log('[webhook] Processing completed session:', session.id);
 
-    // Envoyer email directement
+    // Envoyer les 2 emails (propriétaire + client)
     try {
       console.log('[webhook] Creating transporter...');
       const transporter = createTransporter();
@@ -205,22 +315,35 @@ exports.handler = async (event, context) => {
       const total = ((session.amount_total || 0) / 100).toFixed(2);
       const orderId = session.metadata?.orderId || session.id;
       
-      console.log('[webhook] Generating email template...');
-      const emailHtml = renderEmailTemplate(session, orderId);
+      // 1. EMAIL POUR LE PROPRIÉTAIRE (vous)
+      console.log('[webhook] Generating owner email template...');
+      const ownerEmailHtml = renderEmailTemplate(session, orderId);
       
-      const mailOptions = {
+      const ownerMailOptions = {
         from: process.env.SMTP_USER,
         to: process.env.ORDER_NOTIFY_TO,
         subject: `🛒 Nouvelle commande ${orderId} - $${total} CAD`,
-        html: emailHtml,
+        html: ownerEmailHtml,
       };
       
-      console.log('[webhook] Sending email...');
-      console.log('[webhook] From:', process.env.SMTP_USER);
-      console.log('[webhook] To:', process.env.ORDER_NOTIFY_TO);
+      console.log('[webhook] Sending owner email...');
+      const ownerInfo = await transporter.sendMail(ownerMailOptions);
+      console.log('[webhook] Owner email sent! MessageId:', ownerInfo.messageId);
       
-      const info = await transporter.sendMail(mailOptions);
-      console.log('[webhook] Email sent successfully! MessageId:', info.messageId);
+      // 2. EMAIL POUR LE CLIENT
+      console.log('[webhook] Generating customer email template...');
+      const customerEmailHtml = renderCustomerEmailTemplate(session, orderId);
+      
+      const customerMailOptions = {
+        from: process.env.SMTP_USER,
+        to: customerEmail,
+        subject: `✅ Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
+        html: customerEmailHtml,
+      };
+      
+      console.log('[webhook] Sending customer email to:', customerEmail);
+      const customerInfo = await transporter.sendMail(customerMailOptions);
+      console.log('[webhook] Customer email sent! MessageId:', customerInfo.messageId);
       
     } catch (emailErr) {
       console.error('[webhook] Email error:', emailErr.message);
