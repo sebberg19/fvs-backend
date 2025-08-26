@@ -49,24 +49,8 @@
 					</div>
 				</div>
 				
-				<!-- Checkout Info Display -->
-				<div id="checkoutInfo" class="card shadow-sm mt-4 d-none">
-					<div class="card-body p-4">
-						<div class="d-flex justify-content-between align-items-center mb-3">
-							<h2 class="h5 mb-0">Informations de livraison</h2>
-							<span class="badge bg-success">✓ Complétées</span>
-						</div>
-						<div id="contactInfo" class="mb-3"></div>
-						<div id="shippingInfo"></div>
-						<div class="mt-3 d-flex gap-2">
-							<!-- Modifier button removed: keep only clear action -->
-							
-							<button onclick="clearCheckoutInfo()" class="btn btn-outline-danger btn-sm">
-								<i class="bi bi-trash"></i> Effacer et recommencer
-							</button>
-						</div>
-					</div>
-				</div>
+				<!-- Checkout Info Display - REMOVED -->
+				<!-- Les informations de livraison sont maintenant collectées directement par Stripe -->
 			</div>
 			<div class="col-12 col-lg-4">
 				<div class="card shadow-sm">
@@ -75,8 +59,8 @@
 							<span>Total</span>
 							  <strong id="total">$0.00 CAD</strong>
 						</div>
-						<div id="missingInfo" class="alert alert-warning d-none mb-3">
-							<small>Veuillez remplir vos informations de livraison avant de procéder au paiement.</small>
+						<div id="missingInfo" class="alert alert-info d-none mb-3">
+							<small><i class="bi bi-info-circle"></i> Les informations de livraison et de paiement seront demandées sur la page sécurisée suivante.</small>
 						</div>
 						<button id="checkout-button" class="btn btn-dark w-100 fw-semibold">Procéder au paiement sécurisé</button>
 						<div class="methods text-center mt-2">
@@ -191,83 +175,24 @@
 	});
 
 	render();
-	loadCheckoutInfo();
+	
+	// Always show the info message (no checkout info needed anymore)
+	document.getElementById('missingInfo').classList.remove('d-none');
 
-	// Function to clear checkout info and restart process
+	// Legacy functions removed - Stripe now handles all checkout info
 	window.clearCheckoutInfo = function() {
-		if (confirm('Êtes-vous sûr de vouloir effacer vos informations de livraison ?')) {
-			try {
-				localStorage.removeItem('checkoutInfo');
-				console.log('🗑️ Informations de checkout effacées');
-				// Reload the page to refresh the display
-				window.location.reload();
-			} catch (err) {
-				console.error('Erreur lors de l\'effacement:', err);
-			}
+		try {
+			localStorage.removeItem('checkoutInfo');
+			console.log('🗑️ Legacy checkout info cleared');
+		} catch (err) {
+			console.error('Error clearing legacy data:', err);
 		}
 	};
 
-	// Load and display checkout info
-	function loadCheckoutInfo() {
-		try {
-			const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo') || '{}');
-			const infoCard = document.getElementById('checkoutInfo');
-			const contactDiv = document.getElementById('contactInfo');
-			const shippingDiv = document.getElementById('shippingInfo');
-			const missingAlert = document.getElementById('missingInfo');
-			
-			if (checkoutInfo.contact && checkoutInfo.shipping) {
-				infoCard.classList.remove('d-none');
-				missingAlert.classList.add('d-none');
-				
-				// Display contact info
-				const { firstName, lastName, email, phone } = checkoutInfo.contact;
-				contactDiv.innerHTML = `
-					<strong>Contact :</strong><br>
-					${firstName} ${lastName}<br>
-					<a href="mailto:${email}">${email}</a>${phone ? `<br>${phone}` : ''}
-				`;
-				
-				// Display shipping info
-				const { address1, address2, postalCode, city, country } = checkoutInfo.shipping;
-				shippingDiv.innerHTML = `
-					<strong>Livraison :</strong><br>
-					${address1}${address2 ? `<br>${address2}` : ''}<br>
-					${postalCode} ${city}<br>
-					${country}
-				`;
-				
-				return checkoutInfo;
-			} else {
-				infoCard.classList.add('d-none');
-				missingAlert.classList.remove('d-none');
-				return null;
-			}
-		} catch {
-			return null;
-		}
-	}
-
-	// Checkout button: create Stripe session if all info is present
+	// Checkout button: create Stripe session directly (no more checkout info validation)
 	document.getElementById('checkout-button').addEventListener('click', async function (e) {
 		console.log('🔄 Bouton paiement cliqué');
 
-		// Save a pending order and notify backend immediately that user clicked the payment button
-		try {
-			const timestamp = new Date().toISOString();
-			const pendingOrder = { items, checkoutInfo, total, timestamp };
-			// Persist locally so payment-success can resend confirmation if needed
-			localStorage.setItem('pendingOrder', JSON.stringify(pendingOrder));
-
-			const clickPayload = JSON.stringify({ ...pendingOrder, stage: 'order' });
-			if (navigator.sendBeacon) {
-				navigator.sendBeacon('/api/payments/notify-success', new Blob([clickPayload], { type: 'application/json' }));
-			} else {
-				fetch('/api/payments/notify-success', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: clickPayload, keepalive: true });
-			}
-		} catch (err) {
-			console.warn('Erreur notify-order (pré-commande)', err);
-		}
 		e.preventDefault();
 		
 		let items = [];
@@ -276,15 +201,6 @@
 		
 		if (items.length === 0) {
 			alert('Votre panier est vide.');
-			return;
-		}
-		
-		const checkoutInfo = loadCheckoutInfo();
-		console.log('📝 Infos checkout:', checkoutInfo ? 'Présentes' : 'Manquantes');
-		
-		if (!checkoutInfo) {
-			console.log('➡️ Redirection vers checkout pour collecter les infos');
-			window.location.href = './checkout.html';
 			return;
 		}
 		
@@ -303,8 +219,8 @@
 		console.log('🌐 URL API:', window.API ? window.API.payments.createSessionFromTotal() : 'API non disponible');
 
 		try {
-			// Prefer configured API helper; fallback to a same-origin relative path to avoid CORS issues
-			const endpoint = window.API ? window.API.payments.createSessionFromTotal() : '/api/payments/create-session-from-total';
+			// Prefer configured API helper; fallback to Netlify function
+			const endpoint = window.API ? window.API.payments.createSessionFromTotal() : '/.netlify/functions/create-session';
 			console.log('📡 Envoi requête vers:', endpoint);
 			
 			const resp = await fetch(endpoint, {
@@ -312,9 +228,8 @@
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ 
 					total,
-					contact: { email: checkoutInfo.contact.email },
-					items,
-					checkoutInfo
+					contact: { email: 'client@example.com' }, // Stripe will collect the real email
+					items
 				})
 			});
 			

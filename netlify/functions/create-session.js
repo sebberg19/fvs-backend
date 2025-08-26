@@ -66,6 +66,14 @@ exports.handler = async (event, context) => {
       cancel_url: `${base}/cart.html`,
       customer_email: body?.contact?.email,
       payment_method_types: ['card', 'link'],
+      // Collecter les informations de livraison via Stripe
+      shipping_address_collection: {
+        allowed_countries: ['FR', 'CA', 'BE', 'CH', 'LU', 'DE', 'IT', 'ES', 'PT', 'NL', 'GB', 'US', 'MA', 'DZ', 'TN', 'SN', 'CI', 'CM']
+      },
+      // Collecter le numéro de téléphone (obligatoire)
+      phone_number_collection: {
+        enabled: true
+      },
       line_items: [
         {
           price_data: {

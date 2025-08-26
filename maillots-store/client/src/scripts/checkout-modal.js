@@ -1,11 +1,11 @@
-// Checkout Modal - Universal checkout form that can be opened from any page
+// Checkout Modal - Simple cart display that redirects to Stripe checkout
 (function() {
   'use strict';
 
   let modalElement = null;
   let modalInstance = null;
 
-  // Create modal HTML structure
+  // Create modal HTML structure - SIMPLIFIED VERSION (NO FORM)
   function createCheckoutModal() {
     if (modalElement) return;
 
@@ -18,74 +18,34 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title h5" id="checkoutModalLabel">Informations de livraison</h1>
+            <h1 class="modal-title h5" id="checkoutModalLabel">🛒 Votre panier</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <form id="checkoutModalForm" class="row g-3">
-              <div class="col-12 col-sm-6">
-                <label class="form-label">Prénom</label>
-                <input type="text" class="form-control" name="firstName" required>
-              </div>
-              <div class="col-12 col-sm-6">
-                <label class="form-label">Nom</label>
-                <input type="text" class="form-control" name="lastName" required>
-              </div>
+            <!-- Cart items will be populated here -->
+            <div id="checkoutModalItems"></div>
+            
+            <!-- Cart total -->
+            <div class="row mt-4">
               <div class="col-12">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" name="email" required>
+                <div class="d-flex justify-content-between align-items-center p-3 bg-light rounded">
+                  <strong class="h5 mb-0">Total:</strong>
+                  <span class="h4 mb-0 text-success" id="checkoutModalTotal">$0.00 CAD</span>
+                </div>
               </div>
-              <div class="col-12">
-                <label class="form-label">Téléphone (optionnel)</label>
-                <input type="tel" class="form-control" name="phone">
-              </div>
-              <div class="col-12">
-                <label class="form-label">Adresse</label>
-                <input type="text" class="form-control" name="address1" placeholder="N°, rue" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Complément d'adresse (optionnel)</label>
-                <input type="text" class="form-control" name="address2" placeholder="Bâtiment, étage...">
-              </div>
-              <div class="col-6">
-                <label class="form-label">Code postal</label>
-                <input type="text" class="form-control" name="postalCode" required>
-              </div>
-              <div class="col-6">
-                <label class="form-label">Ville</label>
-                <input type="text" class="form-control" name="city" required>
-              </div>
-              <div class="col-12">
-                <label class="form-label">Pays</label>
-                <select class="form-select" name="country" required>
-                  <option value="">Sélectionnez votre pays</option>
-                  <option value="France">France</option>
-                  <option value="Canada">Canada</option>
-                  <option value="Belgique">Belgique</option>
-                  <option value="Suisse">Suisse</option>
-                  <option value="Luxembourg">Luxembourg</option>
-                  <option value="Allemagne">Allemagne</option>
-                  <option value="Italie">Italie</option>
-                  <option value="Espagne">Espagne</option>
-                  <option value="Portugal">Portugal</option>
-                  <option value="Pays-Bas">Pays-Bas</option>
-                  <option value="Royaume-Uni">Royaume-Uni</option>
-                  <option value="États-Unis">États-Unis</option>
-                  <option value="Maroc">Maroc</option>
-                  <option value="Algérie">Algérie</option>
-                  <option value="Tunisie">Tunisie</option>
-                  <option value="Sénégal">Sénégal</option>
-                  <option value="Côte d'Ivoire">Côte d'Ivoire</option>
-                  <option value="Cameroun">Cameroun</option>
-                  <option value="Autre">Autre</option>
-                </select>
-              </div>
-              <div id="modalFormError" class="text-danger small mt-2 d-none"></div>
-            </form>
+            </div>
+            
+            <!-- Info message -->
+            <div class="alert alert-info mt-3" role="alert">
+              <i class="bi bi-info-circle"></i>
+              Les informations de livraison et de paiement seront demandées sur la page sécurisée suivante.
+            </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-            <button type="submit" form="checkoutModalForm" class="btn btn-accent">Continuer vers le résumé</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continuer les achats</button>
+            <button type="button" class="btn btn-accent" id="checkoutModalProceed">
+              Procéder au paiement
+            </button>
           </div>
         </div>
       </div>
@@ -95,35 +55,15 @@
     document.body.insertAdjacentHTML('beforeend', modalHTML);
     modalElement = document.getElementById('checkoutModal');
 
-    // Setup form handler
-    setupModalForm();
+    // Setup proceed button handler
+    setupProceedButton();
   }
 
-  function setupModalForm() {
-    const form = document.getElementById('checkoutModalForm');
-    const errorEl = document.getElementById('modalFormError');
-
-    form.addEventListener('submit', (e) => {
+  function setupProceedButton() {
+    const proceedButton = document.getElementById('checkoutModalProceed');
+    
+    proceedButton.addEventListener('click', (e) => {
       e.preventDefault();
-      errorEl.classList.add('d-none');
-      errorEl.textContent = '';
-
-      const fd = new FormData(form);
-      
-      // Collect form data
-      const contact = { 
-        firstName: fd.get('firstName'), 
-        lastName: fd.get('lastName'), 
-        email: fd.get('email'), 
-        phone: fd.get('phone') 
-      };
-      const shipping = { 
-        address1: fd.get('address1'), 
-        address2: fd.get('address2'), 
-        postalCode: fd.get('postalCode'), 
-        city: fd.get('city'), 
-        country: fd.get('country') 
-      };
       
       // Check if cart has items
       let cartItems = [];
@@ -132,75 +72,67 @@
       } catch {}
       
       if (!Array.isArray(cartItems) || cartItems.length === 0) { 
-        errorEl.textContent = 'Votre panier est vide.'; 
-        errorEl.classList.remove('d-none'); 
+        alert('Votre panier est vide.');
         return; 
       }
       
-      // Store checkout info in localStorage
-      try {
-        localStorage.setItem('checkoutInfo', JSON.stringify({ contact, shipping }));
-        
-        // Close modal and redirect to cart.html
-        if (modalInstance) {
-          modalInstance.hide();
-        } else {
-          hideModal();
-        }
-        
-        // Small delay to let modal close, then redirect
-        setTimeout(() => {
-          window.location.href = './cart.html';
-        }, 300);
-        
-      } catch(err) {
-        errorEl.textContent = 'Erreur de sauvegarde. Merci de réessayer.';
-        errorEl.classList.remove('d-none');
+      // Close modal and redirect to checkout
+      if (modalInstance) {
+        modalInstance.hide();
+      } else {
+        hideModal();
       }
+      
+      // Small delay to let modal close, then redirect to cart.html for Stripe checkout
+      setTimeout(() => {
+        window.location.href = './cart.html';
+      }, 300);
     });
   }
 
-  // Load existing checkout info into form
-  function loadExistingInfo() {
-    try {
-      const checkoutInfo = JSON.parse(localStorage.getItem('checkoutInfo') || '{}');
-      if (checkoutInfo.contact && checkoutInfo.shipping) {
-        // Update modal title to indicate editing
-        const modalTitle = document.getElementById('checkoutModalLabel');
-        if (modalTitle) {
-          modalTitle.textContent = 'Modifier les informations de livraison';
-        }
-        
-        const form = document.getElementById('checkoutModalForm');
-        if (form) {
-          // Fill contact fields
-          const { firstName, lastName, email, phone } = checkoutInfo.contact;
-          form.querySelector('[name="firstName"]').value = firstName || '';
-          form.querySelector('[name="lastName"]').value = lastName || '';
-          form.querySelector('[name="email"]').value = email || '';
-          form.querySelector('[name="phone"]').value = phone || '';
-          
-          // Fill shipping fields
-          const { address1, address2, postalCode, city, country } = checkoutInfo.shipping;
-          form.querySelector('[name="address1"]').value = address1 || '';
-          form.querySelector('[name="address2"]').value = address2 || '';
-          form.querySelector('[name="postalCode"]').value = postalCode || '';
-          form.querySelector('[name="city"]').value = city || '';
-          
-          // Handle country select
-          const countrySelect = form.querySelector('[name="country"]');
-          if (countrySelect && country) {
-            countrySelect.value = country;
-          }
-        }
-      } else {
-        // No existing info, reset modal title
-        const modalTitle = document.getElementById('checkoutModalLabel');
-        if (modalTitle) {
-          modalTitle.textContent = 'Informations de livraison';
-        }
-      }
+  function populateCartItems() {
+    const itemsContainer = document.getElementById('checkoutModalItems');
+    const totalElement = document.getElementById('checkoutModalTotal');
+    
+    if (!itemsContainer || !totalElement) return;
+    
+    let cartItems = [];
+    try { 
+      cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; 
     } catch {}
+    
+    if (!Array.isArray(cartItems) || cartItems.length === 0) {
+      itemsContainer.innerHTML = '<p class="text-muted">Votre panier est vide.</p>';
+      totalElement.textContent = '$0.00 CAD';
+      return;
+    }
+    
+    let total = 0;
+    let itemsHTML = '';
+    
+    cartItems.forEach(item => {
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+      
+      itemsHTML += `
+        <div class="row mb-3 border-bottom pb-3">
+          <div class="col-3">
+            <img src="${item.image}" alt="${item.name}" class="img-fluid rounded">
+          </div>
+          <div class="col-6">
+            <h6 class="mb-1">${item.name}</h6>
+            <small class="text-muted">Taille: ${item.size}</small>
+          </div>
+          <div class="col-3 text-end">
+            <div class="small text-muted">Qté: ${item.quantity}</div>
+            <div class="fw-bold">$${itemTotal.toFixed(2)} CAD</div>
+          </div>
+        </div>
+      `;
+    });
+    
+    itemsContainer.innerHTML = itemsHTML;
+    totalElement.textContent = `$${total.toFixed(2)} CAD`;
   }
 
   // Public function to open checkout modal
@@ -219,8 +151,8 @@
     // Create modal if it doesn't exist
     createCheckoutModal();
     
-    // Load existing info if any
-    loadExistingInfo();
+    // Populate cart items
+    populateCartItems();
     
     // Show modal
     if (typeof bootstrap !== 'undefined') {
