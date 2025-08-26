@@ -38,8 +38,18 @@
   /* Active nav link: just a stronger weight, no underline/color change */
   .navbar .nav-link { transition: color .15s ease; }
   .navbar .nav-link.active { font-weight: 800; color: inherit !important; }
-  /* Smaller brand text globally */
-  .navbar .navbar-brand { font-size: .95rem; }
+  
+  /* Brand text sizing: smaller on mobile, larger on desktop */
+  .navbar .navbar-brand { 
+    font-size: .95rem; 
+  }
+  
+  /* Larger brand text on bigger screens */
+  @media (min-width: 992px) {
+    .navbar .navbar-brand { 
+      font-size: 1.4rem !important; 
+    }
+  }
 
   /* Cart button + badge aligned with index.html */
   .navbar .cart-btn { position: relative; }

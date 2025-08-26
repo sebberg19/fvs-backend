@@ -65,9 +65,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderCartCountAll(count);
       };
     }
-    let saved = 0;
-    try { saved = Number(localStorage.getItem('cartCount')) || 0; } catch {}
-    renderCartCountAll(saved);
+    
+    // Initialize cart count based on actual cart items, not saved count
+    let actualCartItems = [];
+    try { 
+      actualCartItems = JSON.parse(localStorage.getItem('cartItems')) || []; 
+    } catch {}
+    
+    let actualCount = 0;
+    if (Array.isArray(actualCartItems)) {
+      actualCount = actualCartItems.length;
+    }
+    
+    // Update both the display and the saved count
+    renderCartCountAll(actualCount);
+    try { localStorage.setItem('cartCount', String(actualCount)); } catch {}
 
     // Cart button now redirects directly to cart page (no modal needed)
     
@@ -80,8 +92,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       } catch {}
       
       if (!Array.isArray(cartItems) || cartItems.length === 0) {
-        alert('Votre panier est vide. Ajoutez des articles avant de procéder au checkout.');
-        return;
+        // Allow access to cart even if empty - no alert
+        // User can still see the cart page and browse products
       }
 
       // Always redirect directly to cart page (no modal)
