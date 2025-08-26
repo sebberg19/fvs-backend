@@ -30,7 +30,7 @@ const createTransporter = () => {
   });
 };
 
-// Template email détaillé
+// Template email détaillé avec articles et photos
 const renderEmailTemplate = (session, orderId) => {
   const customerEmail = session.customer_email || 'Non fourni';
   const total = ((session.amount_total || 0) / 100).toFixed(2);
@@ -38,9 +38,36 @@ const renderEmailTemplate = (session, orderId) => {
   const paymentMethod = session.payment_method_types?.join(', ') || 'Card';
   const sessionId = session.id;
   
-  // Extraire infos du metadata si disponibles
+  // Extraire les articles depuis les métadonnées
   const metadata = session.metadata || {};
-  const itemCount = metadata.itemCount || '1';
+  let items = [];
+  try {
+    if (metadata.items) {
+      items = JSON.parse(metadata.items);
+    }
+  } catch (e) {
+    console.warn('[webhook] Failed to parse items from metadata:', e.message);
+    items = [{ name: 'Commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
+  }
+  
+  // Générer le HTML des articles
+  const itemsHtml = items.map(item => `
+    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin: 10px 0; display: flex; align-items: center;">
+      ${item.image ? `
+        <img src="${item.image}" alt="${item.name}" 
+             style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+      ` : `
+        <div style="width: 80px; height: 80px; background: #f0f0f0; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: #999;">
+          📦
+        </div>
+      `}
+      <div style="flex: 1;">
+        <h4 style="margin: 0 0 5px 0; color: #333;">${item.name}</h4>
+        <p style="margin: 0; color: #666;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #2c5aa0; font-weight: bold;">$${(item.price || 0).toFixed(2)} CAD</p>
+      </div>
+    </div>
+  `).join('');
   
   return `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -52,7 +79,7 @@ const renderEmailTemplate = (session, orderId) => {
         <p><strong>ID Session Stripe:</strong> ${sessionId}</p>
         <p><strong>Montant total:</strong> $${total} ${currency}</p>
         <p><strong>Méthode de paiement:</strong> ${paymentMethod}</p>
-        <p><strong>Nombre d'articles:</strong> ${itemCount}</p>
+        <p><strong>Nombre d'articles:</strong> ${items.length}</p>
       </div>
       
       <div style="background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -61,11 +88,16 @@ const renderEmailTemplate = (session, orderId) => {
         <p><strong>Statut paiement:</strong> ✅ Confirmé</p>
       </div>
       
+      <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #e9ecef;">
+        <h3 style="color: #333; margin-top: 0;">🛍️ Articles commandés</h3>
+        ${itemsHtml}
+      </div>
+      
       <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="color: #333; margin-top: 0;">📦 Prochaines étapes</h3>
         <p>✅ Paiement confirmé par Stripe</p>
         <p>⏳ Préparer la commande</p>
-        <p>📧 Contacter le client si nécessaire</p>
+        <p>📧 Contacter le client: <a href="mailto:${customerEmail}">${customerEmail}</a></p>
       </div>
       
       <hr style="margin: 30px 0;">

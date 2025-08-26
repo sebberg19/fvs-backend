@@ -51,6 +51,15 @@ exports.handler = async (event, context) => {
     // Créer un ID de commande simple
     const orderId = `order_${Date.now()}`;
     
+    // Préparer les infos des articles pour les métadonnées (limité à 500 chars par clé)
+    const items = Array.isArray(body.items) ? body.items : [];
+    const itemsJson = JSON.stringify(items.map(item => ({
+      name: item.name || 'Article',
+      quantity: item.quantity || 1,
+      price: item.perUnitPrice || item.price || 0,
+      image: item.img || item.image || item.imageUrl || ''
+    })));
+    
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       success_url: `${base}/payment-success.html`,
@@ -70,9 +79,10 @@ exports.handler = async (event, context) => {
       metadata: { 
         source: 'netlify_function', 
         orderId: orderId,
-        // Stocker quelques infos dans metadata pour le webhook
         customerEmail: body?.contact?.email || '',
-        itemCount: Array.isArray(body.items) ? body.items.length : 0,
+        itemCount: items.length,
+        // Stocker les articles (attention à la limite de 500 chars)
+        items: itemsJson.substring(0, 499)
       },
     });
 
