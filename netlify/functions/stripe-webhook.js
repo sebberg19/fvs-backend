@@ -26,7 +26,8 @@ const createTransporter = () => {
 
 // Template email détaillé avec articles et photos
 const renderEmailTemplate = (session, orderId) => {
-  const customerEmail = session.customer_email || 'Non fourni';
+  // Utiliser la même logique de fallback pour l'email que pour le client
+  const customerEmail = session.customer_email || session.customer_details?.email || 'Email non fourni';
   const total = ((session.amount_total || 0) / 100).toFixed(2);
   const currency = (session.currency || 'cad').toUpperCase();
   const paymentMethod = session.payment_method_types?.join(', ') || 'Card';

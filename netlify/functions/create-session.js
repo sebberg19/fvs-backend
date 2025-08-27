@@ -73,6 +73,8 @@ exports.handler = async (event, context) => {
       phone_number_collection: {
         enabled: true
       },
+      // S'assurer que l'email est collecté et requis
+      customer_email: null, // Force Stripe à demander l'email
       line_items: [
         {
           price_data: {
