@@ -15,7 +15,7 @@
 
     <!-- Google Fonts: Inter pour le corps + Nunito pour les titres (plus arrondi/cartoon) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
     <link
@@ -31,6 +31,9 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
 
+    <!-- Système typographique cohérent -->
+    <link rel="stylesheet" href="./assets/typography.css">
+
     <style>
       :root {
         --bg: #f7f8f9;
@@ -45,26 +48,67 @@
         height: 100%;
         background: var(--bg);
         color: var(--text);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+        font-size: 16px;
+        line-height: 1.6;
+        font-weight: 400;
       }
 
-      /* Headers et titres avec Nunito (plus arrondi/cartoon) */
+      /* Hiérarchie typographique cohérente avec Nunito */
       h1, h2, h3, h4, h5, h6, .navbar-brand {
-        font-family: Nunito, Inter, system-ui, -apple-system, sans-serif !important;
+        font-family: Nunito, Inter, system-ui, sans-serif !important;
         font-weight: 700;
-        letter-spacing: -0.02em;
+        letter-spacing: -0.025em;
+        line-height: 1.3;
+        margin-bottom: 0.75rem;
       }
       
+      /* Tailles de titres cohérentes */
+      h1 { font-size: 2.5rem; font-weight: 800; }
+      h2 { font-size: 2rem; font-weight: 700; }
+      h3 { font-size: 1.5rem; font-weight: 700; }
+      h4 { font-size: 1.25rem; font-weight: 600; }
+      h5 { font-size: 1.125rem; font-weight: 600; }
+      h6 { font-size: 1rem; font-weight: 600; }
+      
+      /* Brand navigation */
       .navbar-brand {
         font-weight: 800 !important;
         font-size: 1.15rem;
+        letter-spacing: -0.02em;
       }
 
-      /* Taille plus grande sur desktop */
+      /* Responsive typography */
       @media (min-width: 992px) {
-        .navbar-brand {
-          font-size: 1.4rem !important;
-        }
+        .navbar-brand { font-size: 1.4rem !important; }
+        h1 { font-size: 3rem; }
+        h2 { font-size: 2.25rem; }
+        h3 { font-size: 1.75rem; }
+      }
+      
+      /* Texte corporel amélioré */
+      p, .lead { 
+        font-family: Inter, system-ui, sans-serif;
+        line-height: 1.65;
+        margin-bottom: 1rem;
+      }
+      
+      .lead {
+        font-size: 1.125rem;
+        font-weight: 400;
+        color: var(--muted);
+      }
+      
+      /* Navigation et UI */
+      .nav-link, .btn {
+        font-family: Inter, system-ui, sans-serif;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      
+      .btn {
+        font-weight: 600;
+        letter-spacing: 0;
       }
 
       /* Navbar claire et discrète */

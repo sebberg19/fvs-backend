@@ -1,0 +1,143 @@
+/* 
+ * Système typographique cohérent - Futbolero Vintage Shop
+ * Base: Inter pour le texte, Nunito pour les titres
+ */
+
+/* Variables typographiques */
+:root {
+  --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif;
+  --font-heading: Nunito, Inter, system-ui, sans-serif;
+  --font-ui: Inter, system-ui, sans-serif;
+  
+  /* Tailles de base */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  
+  /* Line heights */
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+}
+
+/* Base typographique */
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  font-weight: 400;
+}
+
+/* Hiérarchie des titres */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: var(--leading-tight);
+  margin-bottom: 0.75rem;
+  color: inherit;
+}
+
+h1 { 
+  font-size: var(--text-4xl); 
+  font-weight: 800; 
+}
+
+h2 { 
+  font-size: var(--text-3xl); 
+  font-weight: 700; 
+}
+
+h3 { 
+  font-size: var(--text-2xl); 
+  font-weight: 700; 
+}
+
+h4 { 
+  font-size: var(--text-xl); 
+  font-weight: 600; 
+}
+
+h5 { 
+  font-size: var(--text-lg); 
+  font-weight: 600; 
+}
+
+h6 { 
+  font-size: var(--text-base); 
+  font-weight: 600; 
+}
+
+/* Responsive typography */
+@media (min-width: 768px) {
+  h1 { font-size: var(--text-5xl); }
+  h2 { font-size: var(--text-4xl); }
+  h3 { font-size: var(--text-3xl); }
+}
+
+/* Texte corporel */
+p {
+  margin-bottom: 1rem;
+  line-height: var(--leading-relaxed);
+}
+
+.lead {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+}
+
+/* Éléments UI */
+.btn {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  letter-spacing: 0;
+  font-size: var(--text-sm);
+}
+
+.nav-link {
+  font-family: var(--font-ui);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Utilitaires typographiques */
+.font-heading { font-family: var(--font-heading); }
+.font-body { font-family: var(--font-body); }
+.font-ui { font-family: var(--font-ui); }
+
+.text-balance { text-wrap: balance; }
+.text-pretty { text-wrap: pretty; }
+
+/* Classes spécifiques Futbolero */
+.navbar-brand {
+  font-family: var(--font-heading) !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+.product-title {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.price {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
