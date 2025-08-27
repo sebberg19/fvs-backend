@@ -5,32 +5,6 @@
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-2">
-      <!-- Sélecteurs langue et devise (cachés sur mobile) -->
-      <div class="d-none d-lg-flex align-items-center gap-2">
-        <!-- Sélecteur de langue -->
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="langDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span id="currentLang">FR</span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="langDropdown">
-            <li><a class="dropdown-item" href="#" onclick="switchLanguage('fr')">🇫🇷 Français</a></li>
-            <li><a class="dropdown-item" href="#" onclick="switchLanguage('en')">🇺🇸 English</a></li>
-          </ul>
-        </div>
-        
-        <!-- Sélecteur de devise -->
-        <div class="dropdown">
-          <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="currencyDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-            <span id="currentCurrency">CAD</span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="currencyDropdown">
-            <li><a class="dropdown-item" href="#" onclick="switchCurrency('CAD')">🇨🇦 CAD</a></li>
-            <li><a class="dropdown-item" href="#" onclick="switchCurrency('USD')">🇺🇸 USD</a></li>
-            <li><a class="dropdown-item" href="#" onclick="switchCurrency('EUR')">🇪🇺 EUR</a></li>
-          </ul>
-        </div>
-      </div>
-      
       <button type="button" onclick="handleCartClick()" class="btn btn-outline-dark d-flex align-items-center gap-2 cart-btn tap-target" aria-label="Voir le panier">
         <i class="bi bi-bag fs-5"></i>
         <span class="visually-hidden">Articles dans le panier</span>
@@ -44,44 +18,16 @@
     <div class="collapse navbar-collapse mt-2 mt-lg-0" id="mainNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link" href="./index.html" data-i18n="nav.home">Accueil</a>
+          <a class="nav-link" href="./index.html">Accueil</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./tous-les-maillots.html" data-i18n="nav.all">Tous les maillots</a>
+          <a class="nav-link" href="./tous-les-maillots.html">Tous les maillots</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./maillots.html" data-i18n="nav.jerseys">Maillots</a>
+          <a class="nav-link" href="./maillots.html">Maillots</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="./maillots-vintage.html" data-i18n="nav.vintage">Maillots vintage</a>
-        </li>
-        
-        <!-- Sélecteurs sur mobile -->
-        <li class="nav-item d-lg-none">
-          <hr class="my-2">
-        </li>
-        <li class="nav-item d-lg-none">
-          <div class="d-flex gap-2 px-3">
-            <div class="dropdown">
-              <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                <span id="currentLangMobile">FR</span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="switchLanguage('fr')">🇫🇷 Français</a></li>
-                <li><a class="dropdown-item" href="#" onclick="switchLanguage('en')">🇺🇸 English</a></li>
-              </ul>
-            </div>
-            <div class="dropdown">
-              <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                <span id="currentCurrencyMobile">CAD</span>
-              </button>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#" onclick="switchCurrency('CAD')">🇨🇦 CAD</a></li>
-                <li><a class="dropdown-item" href="#" onclick="switchCurrency('USD')">🇺🇸 USD</a></li>
-                <li><a class="dropdown-item" href="#" onclick="switchCurrency('EUR')">🇪🇺 EUR</a></li>
-              </ul>
-            </div>
-          </div>
+          <a class="nav-link" href="./maillots-vintage.html">Maillots vintage</a>
         </li>
       </ul>
     </div>
@@ -123,35 +69,3 @@
     padding: 0.25rem 0.5rem;
   }
 </style>
-
-<!-- Script d'internationalisation et conversion de devises -->
-<script>
-// Chargement du script i18n-currency.js via les différents chemins possibles
-(function loadI18nScript() {
-  const possiblePaths = [
-    './maillots-store/client/src/scripts/i18n-currency.js',
-    '../scripts/i18n-currency.js',
-    './scripts/i18n-currency.js'
-  ];
-  
-  function tryLoadScript(paths, index = 0) {
-    if (index >= paths.length) {
-      console.warn('Script i18n-currency.js not found in any expected location');
-      return;
-    }
-    
-    const script = document.createElement('script');
-    script.src = paths[index];
-    script.async = true;
-    script.onload = () => {
-      console.log('✅ I18n and currency script loaded from:', paths[index]);
-    };
-    script.onerror = () => {
-      tryLoadScript(paths, index + 1);
-    };
-    document.head.appendChild(script);
-  }
-  
-  tryLoadScript(possiblePaths);
-})();
-</script>
