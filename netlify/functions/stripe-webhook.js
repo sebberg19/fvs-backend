@@ -147,68 +147,82 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     items = [{ name: 'Votre commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles pour le client
+  // Générer le HTML des articles pour le client avec style cohérent
   const itemsHtml = items.map(item => `
-    <div style="border: 1px solid #e9ecef; border-radius: 8px; padding: 15px; margin: 10px 0; display: flex; align-items: center; background: #ffffff;">
+    <div style="border: 1px solid #e9ecef; border-radius: 12px; padding: 20px; margin: 15px 0; display: flex; align-items: center; background: #ffffff; transition: all 0.2s ease;">
       ${item.image && !item.image.includes('data:image/svg') ? `
         <img src="${item.image}" alt="${item.name}" 
-             style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 20px; border: 2px solid #f8f9fa;">
       ` : `
-        <div style="width: 60px; height: 60px; background: linear-gradient(45deg, #2c5aa0, #4a90e2); border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); border-radius: 8px; margin-right: 20px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;">
           FB
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 5px 0; color: #333; font-size: 16px;">${item.name}</h4>
-        <p style="margin: 0; color: #666; font-size: 14px;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #2c5aa0; font-weight: bold; font-size: 16px;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 8px 0; color: #1a1a1a; font-size: 18px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">${item.name}</h4>
+        <p style="margin: 0 0 5px 0; color: #666; font-size: 15px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #007bff; font-weight: 600; font-size: 18px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
       </div>
     </div>
   `).join('');
   
   return `
-    <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
-      <!-- Header avec logo/brand -->
-      <div style="background: linear-gradient(135deg, #2c5aa0 0%, #4a90e2 100%); padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
-        <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 300;">Futbolero</h1>
-        <p style="color: #e8f4f8; margin: 10px 0 0 0; font-size: 16px;">Vintage Shop</p>
+    <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #1a1a1a;">
+      <!-- Header avec logo et style du site -->
+      <div style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); padding: 40px 20px; text-align: center; border-radius: 12px 12px 0 0; position: relative;">
+        <!-- Logo intégré -->
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
+               style="height: 50px; width: auto; margin-right: 15px; filter: brightness(0) invert(1);">
+          <div>
+            <h1 style="color: #ffffff; margin: 0; font-size: 32px; font-weight: 800; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Futbolero</h1>
+            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500; letter-spacing: 0.5px;">Vintage Shop</p>
+          </div>
+        </div>
+        <div style="height: 2px; background: rgba(255,255,255,0.3); margin: 0 auto; width: 80px; border-radius: 1px;"></div>
       </div>
       
-      <!-- Message de remerciement -->
-      <div style="background: #f8f9fa; padding: 30px 20px; text-align: center;">
-        <h2 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 24px;">Merci pour votre commande</h2>
-        <p style="color: #333; margin: 0; font-size: 16px; line-height: 1.6;">
-          Bonjour <strong>${customerName}</strong>,<br>
+      <!-- Message de remerciement avec style cohérent -->
+      <div style="background: #f8f9fa; padding: 35px 25px; text-align: center; border-bottom: 3px solid #007bff;">
+        <h2 style="color: #007bff; margin: 0 0 20px 0; font-size: 28px; font-weight: 800; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Merci pour votre commande !</h2>
+        <p style="color: #1a1a1a; margin: 0; font-size: 17px; line-height: 1.6; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-weight: 400;">
+          Bonjour <strong style="color: #007bff; font-weight: 600;">${customerName}</strong>,<br>
           Nous avons bien reçu votre commande et votre paiement a été confirmé avec succès.
         </p>
       </div>
       
-      <!-- Détails de la commande -->
-      <div style="padding: 20px;">
-        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">Récapitulatif de votre commande</h3>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #666;"><strong>Numéro de commande:</strong></td><td style="padding: 8px 0; text-align: right;">${orderId}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;"><strong>Total payé:</strong></td><td style="padding: 8px 0; text-align: right; font-weight: bold; color: #2c5aa0; font-size: 18px;">$${total} ${currency}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;"><strong>Nombre d'articles:</strong></td><td style="padding: 8px 0; text-align: right;">${items.length}</td></tr>
-            <tr><td style="padding: 8px 0; color: #666;"><strong>Email de confirmation:</strong></td><td style="padding: 8px 0; text-align: right;">${customerEmail}</td></tr>
+      <!-- Détails de la commande avec design système -->
+      <div style="padding: 25px;">
+        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+          <h3 style="color: #007bff; margin: 0 0 20px 0; font-size: 22px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Récapitulatif de votre commande</h3>
+          <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
+            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Numéro de commande:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 600; font-size: 15px;">${orderId}</td></tr>
+            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Total payé:</strong></td><td style="padding: 12px 0; text-align: right; font-weight: 700; color: #007bff; font-size: 22px;">$${total} ${currency}</td></tr>
+            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Nombre d'articles:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 600; font-size: 15px;">${items.length}</td></tr>
+            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Email de confirmation:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 500; font-size: 15px;">${customerEmail}</td></tr>
           </table>
         </div>
         
-        <!-- Articles commandés -->
-        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
-          <h3 style="color: #2c5aa0; margin: 0 0 15px 0; font-size: 18px;">Vos articles</h3>
+        <!-- Articles commandés avec style site -->
+        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
+          <h3 style="color: #007bff; margin: 0 0 20px 0; font-size: 22px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Vos articles</h3>
           ${itemsHtml}
         </div>
       </div>
       
-      <!-- Footer -->
-      <div style="background: #f8f9fa; padding: 20px; text-align: center; border-radius: 0 0 8px 8px; margin-top: 20px;">
-        <p style="color: #666; margin: 0; font-size: 14px;">
-          Merci de faire confiance à <strong>Futbolero Vintage Shop</strong><br>
-          <em>Des maillots iconiques, un style intemporel</em>
+      <!-- Footer avec style cohérent -->
+      <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px 25px; text-align: center; border-radius: 0 0 12px 12px; margin-top: 25px; border-top: 3px solid #007bff;">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
+               style="height: 28px; width: auto; margin-right: 10px; opacity: 0.7;">
+          <p style="color: #1a1a1a; margin: 0; font-size: 16px; font-weight: 600; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;">
+            Futbolero Vintage Shop
+          </p>
+        </div>
+        <p style="color: #666; margin: 0 0 10px 0; font-size: 15px; font-style: italic; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
+          Des maillots iconiques, un style intemporel
         </p>
-        <p style="color: #999; margin: 10px 0 0 0; font-size: 12px;">
+        <p style="color: #999; margin: 0; font-size: 13px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
           Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
         </p>
       </div>

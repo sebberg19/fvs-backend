@@ -139,15 +139,45 @@
   }
 
   /* Cart button + badge aligned with index.html */
-  .navbar .cart-btn { position: relative; }
+  .navbar .cart-btn { 
+    position: relative; 
+    border: 2px solid #007bff !important;
+    background: rgba(0, 123, 255, 0.05) !important;
+    color: #007bff !important;
+    font-weight: 600;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.1);
+  }
+  
+  .navbar .cart-btn:hover {
+    background: #007bff !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.2);
+  }
+  
+  .navbar .cart-btn .bi-bag {
+    font-size: 1.1rem !important;
+    font-weight: bold;
+  }
+  
   .navbar .cart-count {
     position: absolute;
     top: -6px;
     right: -8px;
     font-size: .7rem;
-  background: var(--accent, #2f6f3e);
-  color: var(--accent-contrast, #ffffff);
-  border: 2px solid var(--surface, #ffffff);
+    background: #dc3545;
+    color: white;
+    border: 2px solid white;
+    font-weight: 700;
+    min-width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
   }
   
   /* Styles pour les sélecteurs de langue et devise */
