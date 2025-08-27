@@ -1,8 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container align-items-center">
     <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
-      <span>Futbolero Vintage Shop</span>
-      <img src="./assets/logo.png" alt="Futbolero Logo" class="navbar-logo d-none d-md-inline-block">
+      <div class="brand-text-stack d-flex d-md-none flex-column align-items-start lh-1">
+        <span class="brand-line">Futbolero</span>
+        <span class="brand-line">Vintage</span>
+        <span class="brand-line">Shop</span>
+      </div>
+      <span class="d-none d-md-inline">Futbolero Vintage Shop</span>
+      <img src="./assets/logo.png" alt="Futbolero Logo" class="navbar-logo">
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-2">
@@ -46,6 +51,40 @@
     letter-spacing: -0.02em;
     font-size: 1.15rem !important;
     line-height: 1.3;
+    align-items: center !important;
+    height: 60px;
+    display: flex !important;
+  }
+  
+  /* Texte empilé sur mobile */
+  .brand-text-stack {
+    font-size: 0.95rem;
+    gap: 0;
+  }
+  
+  .brand-line {
+    display: block;
+    line-height: 0.9;
+    font-weight: 800;
+  }
+  
+  /* Navigation container centré */
+  .navbar {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+  
+  .container {
+    align-items: center !important;
+  }
+  
+  /* Logo dans la navigation - centré parfaitement */
+  .navbar-logo {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    filter: none;
+    flex-shrink: 0;
   }
   
   /* Navigation links */
@@ -62,17 +101,10 @@
     transform: translateY(-1px);
   }
   
-  /* Logo dans la navigation - préserver les proportions */
-  .navbar-logo {
-    height: 34px;
-    width: auto;
-    object-fit: contain;
-    filter: none;
-  }
-  
   @media (min-width: 992px) {
     .navbar-brand {
       font-size: 1.4rem !important;
+      height: auto;
     }
     
     .navbar-logo {
