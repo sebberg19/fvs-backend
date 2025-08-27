@@ -104,135 +104,922 @@
         </div>
       </div>
 
-      <div id="grid" class="row g-3 g-md-4">
-        <!-- 8 produits fictifs -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">France 1998 Domicile</h2>
-              <p class="card-text mb-2">Édition collector</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-france1998.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Nécessite Bootstrap 5 (CSS + JS). Ajoute ce <link> dans <head> si ce n’est pas déjà fait :
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+-->
 
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Milan 1989 Extérieur</h2>
-              <p class="card-text mb-2">Série A Iconique</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-milan1989.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
+<style>
+  /* Assure le recadrage propre des images dans la tuile carrée */
+  .object-fit-cover { object-fit: cover; }
+</style>
 
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Argentine 1986</h2>
-              <p class="card-text mb-2">Bleu ciel classique</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-argentine1986.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
+<!-- Grid fallback CSS: force product tiles to align side-by-side responsively
+     This helps when the markup contains extra nested containers or rows. It
+     preserves Bootstrap breakpoints: 2 cols (xs), 3 cols (md), 4 cols (lg+).
+-->
+<style>
+  #grid-maillots, #grid-maillots .row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+  }
+  /* base: two columns on small screens */
+  #grid-maillots > .col-6, #grid-maillots .col-6 {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding: 0 .5rem;
+  }
+  /* medium: three columns */
+  @media (min-width: 768px) {
+    #grid-maillots > .col-md-4, #grid-maillots .col-md-4 {
+      flex: 0 0 33.3333%;
+      max-width: 33.3333%;
+    }
+  }
+  /* large: four columns */
+  @media (min-width: 992px) {
+    #grid-maillots > .col-lg-3, #grid-maillots .col-lg-3 {
+      flex: 0 0 25%;
+      max-width: 25%;
+    }
+  }
+  /* ensure full-height cards inside flex columns */
+  #grid-maillots .card { height: 100%; }
+</style>
 
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Juventus 1995</h2>
-              <p class="card-text mb-2">Rayures historiques</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-juventus1995.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="container-fluid px-2 px-md-3">
+  <div class="row g-3" id="grid-maillots">
 
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Barça 1992</h2>
-              <p class="card-text mb-2">Ère Cruyff</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-barca1992.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
+  <!-- Brésil – Bloc unique (années corrigées selon ton image) -->
+<div class="container-fluid px-2 px-md-3">
+  <div class="row g-3">
 
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Ajax 1995</h2>
-              <p class="card-text mb-2">Jeunes dorés</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-ajax1995.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
+    <!-- Domicile 1994 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/ed96377d-scaled.webp" alt="Brésil Domicile 1994" class="w-100 h-100 object-fit-cover">
         </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Italie 1994</h2>
-              <p class="card-text mb-2">Bleu azzurro</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-italie1994.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Real 2002</h2>
-              <p class="card-text mb-2">Galactiques</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$40.70 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="assets/vintage-real2002.jpg">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Nouveau maillot vintage à 0.50$ -->
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="card h-100">
-            <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;"></div>
-            <div class="card-body">
-              <h2 class="h6 mb-1">Brésil 1970</h2>
-              <p class="card-text mb-2">Pelé Era - Édition rare</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <span class="fw-semibold">$0.50 CAD</span>
-                <button class="btn btn-accent btn-sm add-to-cart" data-price="0.50" data-vintage="true" data-img="assets/vintage-bresil1970.jpg">Ajouter</button>
-              </div>
-            </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 1994</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ed96377d-scaled.webp">Ajouter</button>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Domicile 1998 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/images.jpg" alt="Brésil Domicile 1998" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 1998</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/images.jpg">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extérieur 1998 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/8cbfd0_a13aabd045d14cf29ecddfd38f55f8dc~mv2.avif" alt="Brésil Extérieur 1998" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Extérieur 1998</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8cbfd0_a13aabd045d14cf29ecddfd38f55f8dc~mv2.avif">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Troisième 1998 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/82b6264a.jpg" alt="Brésil Troisième 1998" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Troisième 1998</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/82b6264a.jpg">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domicile 2000 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/resize-0-main01666460255.webp" alt="Brésil Domicile 2000" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 2000</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/resize-0-main01666460255.webp">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extérieur 2000 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/070825617216-1_fsdezy3lyxc5y2oc.webp" alt="Brésil Extérieur 2000" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Extérieur 2000</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/070825617216-1_fsdezy3lyxc5y2oc.webp">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domicile 2002 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/8cbfd0_ab7b7fa5d7d74c86834f43b5feeb19c7~mv2.avif" alt="Brésil Domicile 2002" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 2002</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8cbfd0_ab7b7fa5d7d74c86834f43b5feeb19c7~mv2.avif">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extérieur 2002 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/fb989a92.png" alt="Brésil Extérieur 2002" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Extérieur 2002</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/fb989a92.png">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domicile 2004 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/2C80FF09-FBD6-42B8-9264-641AE04D5355_1024x1024_2x_7ec3f3f1-d51d-46c2-aee4-70ab46e82756.jpg" alt="Brésil Domicile 2004" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 2004</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/2C80FF09-FBD6-42B8-9264-641AE04D5355_1024x1024_2x_7ec3f3f1-d51d-46c2-aee4-70ab46e82756.jpg">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Extérieur 2004 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/brazil-04-away_n7iao0yydrcfivtc.webp" alt="Brésil Extérieur 2004" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Extérieur 2004</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/brazil-04-away_n7iao0yydrcfivtc.webp">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+
+    <!-- Domicile 2006 -->
+    <div class="col-6 col-md-4 col-lg-3">
+      <div class="card h-100">
+        <div class="ratio ratio-1x1 bg-light border-bottom" style="background:#eef0f3;">
+          <img loading="lazy" src="images/file.jpg" alt="Brésil Domicile 2006" class="w-100 h-100 object-fit-cover">
+        </div>
+        <div class="card-body">
+          <h2 class="h6 mb-1">Brésil</h2>
+          <p class="card-text mb-2">Domicile 2006</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="fw-semibold">40,70 CAD</span>
+            <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/file.jpg">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Allemagne – Bloc unique sans container -->
+
+
+  <!-- Domicile 1990 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/27484b88.jpg" alt="Allemagne Domicile 1990" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="1990">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Domicile 1990</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/27484b88.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extérieur 2014 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/afa42c64.jpg" alt="Allemagne Extérieur 2014" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="2014">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Extérieur 2014</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/afa42c64.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extérieur 2010 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/4828f84e.jpg" alt="Allemagne Extérieur 2010" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="2010">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Extérieur 2010</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/4828f84e.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extérieur 2018 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/162bf316.jpg" alt="Allemagne Extérieur 2018" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="2018">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Extérieur 2018</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/162bf316.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gardien 2002 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/162c0037.jpg" alt="Allemagne Gardien 2002" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="2002">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Gardien 2002</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/162c0037.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domicile 2014 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/27ae794d.webp" alt="Allemagne Domicile 2014" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="2014">
+        <h2 class="h6 mb-1">Allemagne</h2>
+        <p class="card-text mb-2">Domicile 2014</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/27ae794d.webp">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Maroc – Bloc unique -->
+
+
+  <!-- Domicile 1998 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/cbde2542-b96f-4052-9cb8-d5831cd7989e.png" alt="Maroc Domicile 1998" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="1998">
+        <h2 class="h6 mb-1">Maroc</h2>
+        <p class="card-text mb-2">Domicile 1998</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/cbde2542-b96f-4052-9cb8-d5831cd7989e.png">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Domicile 1986 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/b3f02033.jpg" alt="Maroc Domicile 1986" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="1986">
+        <h2 class="h6 mb-1">Maroc</h2>
+        <p class="card-text mb-2">Domicile 1986</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/b3f02033.jpg">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Extérieur 1998 -->
+  <div class="col-6 col-md-4 col-lg-3">
+    <div class="card h-100">
+      <div class="ratio ratio-1x1 bg-light border-bottom">
+        <img loading="lazy" src="images/11402576-3e12-488b-903b-6386068cea29.png" alt="Maroc Extérieur 1998" class="w-100 h-100 object-fit-cover">
+      </div>
+      <div class="card-body" data-year="1998">
+        <h2 class="h6 mb-1">Maroc</h2>
+        <p class="card-text mb-2">Extérieur 1998</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fw-semibold">40,70 CAD</span>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/11402576-3e12-488b-903b-6386068cea29.png">Ajouter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DDR (Allemagne de l’Est) Extérieur 1986 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/bc195688.png" alt="DDR Extérieur 1986" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1986">
+      <h2 class="h6 mb-1">DDR</h2>
+      <p class="card-text mb-2">Extérieur 1986</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/bc195688.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Corée du Sud Domicile 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/7786fccf.jpg" alt="Corée du Sud Domicile 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Corée du Sud</h2>
+      <p class="card-text mb-2">Domicile 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/7786fccf.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pologne Domicile 1982 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/5d888001.png" alt="Pologne Domicile 1982" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1982">
+      <h2 class="h6 mb-1">Pologne</h2>
+      <p class="card-text mb-2">Domicile 1982</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/5d888001.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Grèce Extérieur 2004 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/399f17ff.png" alt="Grèce Extérieur 2004" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2004">
+      <h2 class="h6 mb-1">Grèce</h2>
+      <p class="card-text mb-2">Extérieur 2004</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/399f17ff.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Grèce Domicile 2004 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/708a2f96.png" alt="Grèce Domicile 2004" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2004">
+      <h2 class="h6 mb-1">Grèce</h2>
+      <p class="card-text mb-2">Domicile 2004</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/708a2f96.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Afrique du Sud Domicile 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/6571f832.jpg" alt="Afrique du Sud Domicile 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Afrique du Sud</h2>
+      <p class="card-text mb-2">Domicile 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/6571f832.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Afrique du Sud Extérieur 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/d343dcb9.jpg" alt="Afrique du Sud Extérieur 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Afrique du Sud</h2>
+      <p class="card-text mb-2">Extérieur 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/d343dcb9.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cameroun Domicile 1982 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/a3d85a70.jpg" alt="Cameroun Domicile 1982" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1982">
+      <h2 class="h6 mb-1">Cameroun</h2>
+      <p class="card-text mb-2">Domicile 1982</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/a3d85a70.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cameroun Domicile 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/81ec0e11.jpg" alt="Cameroun Domicile 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Cameroun</h2>
+      <p class="card-text mb-2">Domicile 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/81ec0e11.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cameroun Domicile 1990 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/13ec0562-eb14-442b-b95a-73161bc8c55f.png" alt="Cameroun Domicile 1990" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1990">
+      <h2 class="h6 mb-1">Cameroun</h2>
+      <p class="card-text mb-2">Domicile 1990</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/13ec0562-eb14-442b-b95a-73161bc8c55f.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Suisse Domicile 1994 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/f7e69a6c-acfc-4abe-86da-e5cf58ad0bcf.png" alt="Suisse Domicile 1994" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1994">
+      <h2 class="h6 mb-1">Suisse</h2>
+      <p class="card-text mb-2">Domicile 1994</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/f7e69a6c-acfc-4abe-86da-e5cf58ad0bcf.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Suisse Extérieur 1994 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/5a3bb59e-3fa2-4414-8859-7bc8f1f6c90f.png" alt="Suisse Extérieur 1994" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1994">
+      <h2 class="h6 mb-1">Suisse</h2>
+      <p class="card-text mb-2">Extérieur 1994</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/5a3bb59e-3fa2-4414-8859-7bc8f1f6c90f.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chine Domicile 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/4985e241.jpg" alt="Chine Domicile 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Chine</h2>
+      <p class="card-text mb-2">Domicile 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/4985e241.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chine Extérieur 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/1e242c1f.jpg" alt="Chine Extérieur 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Chine</h2>
+      <p class="card-text mb-2">Extérieur 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/1e242c1f.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chili Domicile 1982 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/8d14901c.jpg" alt="Chili Domicile 1982" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1982">
+      <h2 class="h6 mb-1">Chili</h2>
+      <p class="card-text mb-2">Domicile 1982</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8d14901c.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chili Domicile 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/aea83df5.jpg" alt="Chili Domicile 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Chili</h2>
+      <p class="card-text mb-2">Domicile 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/aea83df5.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Jamaïque Domicile 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/327c4a7f.jpg" alt="Jamaïque Domicile 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Jamaïque</h2>
+      <p class="card-text mb-2">Domicile 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/327c4a7f.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Jamaïque Extérieur 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/6a5a3fb3.jpg" alt="Jamaïque Extérieur 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Jamaïque</h2>
+      <p class="card-text mb-2">Extérieur 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/6a5a3fb3.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Norvège Domicile 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/88a95c6d.jpg" alt="Norvège Domicile 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Norvège</h2>
+      <p class="card-text mb-2">Domicile 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/88a95c6d.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Norvège Extérieur 1994 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/820fcc11-d3d9-4f9e-803c-b45edbb1f251.png" alt="Norvège Extérieur 1994" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1994">
+      <h2 class="h6 mb-1">Norvège</h2>
+      <p class="card-text mb-2">Extérieur 1994</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/820fcc11-d3d9-4f9e-803c-b45edbb1f251.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Sénégal Domicile 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/ef26ce36.png" alt="Sénégal Domicile 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Sénégal</h2>
+      <p class="card-text mb-2">Domicile 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ef26ce36.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sénégal Extérieur 2002 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/c5b83d49.png" alt="Sénégal Extérieur 2002" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2002">
+      <h2 class="h6 mb-1">Sénégal</h2>
+      <p class="card-text mb-2">Extérieur 2002</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/c5b83d49.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Yougoslavie Domicile 1988 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/7a7bf101.jpg" alt="Yougoslavie Domicile 1988" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1988">
+      <h2 class="h6 mb-1">Yougoslavie</h2>
+      <p class="card-text mb-2">Domicile 1988</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/7a7bf101.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Yougoslavie Extérieur 1988 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/8e54e97e.jpg" alt="Yougoslavie Extérieur 1988" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1988">
+      <h2 class="h6 mb-1">Yougoslavie</h2>
+      <p class="card-text mb-2">Extérieur 1988</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8e54e97e.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Belgique Domicile 1994 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/90a064f0.jpg" alt="Belgique Domicile 1994" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1994">
+      <h2 class="h6 mb-1">Belgique</h2>
+      <p class="card-text mb-2">Domicile 1994</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/90a064f0.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pays de Galles Domicile 1994 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/35500507.png" alt="Pays de Galles Domicile 1994" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1994">
+      <h2 class="h6 mb-1">Pays de Galles</h2>
+      <p class="card-text mb-2">Domicile 1994</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/35500507.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pays de Galles Domicile 1976 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/fdc6ab11.jpg" alt="Pays de Galles Domicile 1976" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1976">
+      <h2 class="h6 mb-1">Pays de Galles</h2>
+      <p class="card-text mb-2">Domicile 1976</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/fdc6ab11.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pays de Galles Extérieur 1996 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/133d1902.jpg" alt="Pays de Galles Extérieur 1996" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1996">
+      <h2 class="h6 mb-1">Pays de Galles</h2>
+      <p class="card-text mb-2">Extérieur 1996</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/133d1902.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pays de Galles Extérieur 1976 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/3ab65c8d.jpg" alt="Pays de Galles Extérieur 1976" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1976">
+      <h2 class="h6 mb-1">Pays de Galles</h2>
+      <p class="card-text mb-2">Extérieur 1976</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/3ab65c8d.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Pays de Galles Domicile 1998 -->
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/886fd6eb.jpg" alt="Pays de Galles Domicile 1998" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="1998">
+      <h2 class="h6 mb-1">Pays de Galles</h2>
+      <p class="card-text mb-2">Domicile 1998</p>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/886fd6eb.jpg">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+</div>
+
+
+  </div>
+</div>
+
+
+
 
       <hr class="my-4">
 
