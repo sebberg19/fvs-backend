@@ -49,8 +49,8 @@
 			<div class="col-12 col-lg-8">
 				<div class="card shadow-sm">
 					<div class="card-body p-4">
-						<h1 class="h4 mb-3">Résumé de commande</h1>
-						<div id="empty" class="text-secondary d-none">Votre panier est vide.</div>
+						<h1 class="h4 mb-3" data-i18n="cart.title">Résumé de commande</h1>
+						<div id="empty" class="text-secondary d-none" data-i18n="cart.empty">Votre panier est vide.</div>
 						<ul id="items" class="list-group list-group-flush"></ul>
 					</div>
 				</div>
@@ -62,25 +62,25 @@
 				<div class="card shadow-sm">
 					<div class="card-body p-4">
 						<div class="d-flex justify-content-between mb-2">
-							<span>Sous-total</span>
+							<span data-i18n="cart.subtotal">Sous-total</span>
 							<span id="subtotal">$0.00 CAD</span>
 						</div>
 						<div class="d-flex justify-content-between mb-2">
-							<span>Frais de livraison</span>
+							<span data-i18n="cart.shipping">Frais de livraison</span>
 							<span id="shipping">$7.00 CAD</span>
 						</div>
 						<hr class="my-3">
 						<div class="d-flex justify-content-between mb-3">
-							<span><strong>Total</strong></span>
+							<span><strong data-i18n="cart.total">Total</strong></span>
 							<strong id="total">$7.00 CAD</strong>
 						</div>
 						
 						<!-- Code promo -->
 						<div class="mb-3">
-							<label for="promoCode" class="form-label small">Code promo</label>
+							<label for="promoCode" class="form-label small" data-i18n="cart.promo">Code promo</label>
 							<div class="input-group">
 								<input type="text" id="promoCode" class="form-control" placeholder="Entrez votre code" maxlength="10">
-								<button type="button" id="applyPromo" class="btn btn-outline-secondary">Appliquer</button>
+								<button type="button" id="applyPromo" class="btn btn-outline-secondary" data-i18n="cart.promo.apply">Appliquer</button>
 							</div>
 							<div id="promoMessage" class="small mt-1 d-none"></div>
 						</div>
@@ -88,7 +88,7 @@
 						<div id="missingInfo" class="alert alert-info d-none mb-3">
 							<small><i class="bi bi-info-circle"></i> Les informations de livraison et de paiement seront demandées sur la page sécurisée suivante.</small>
 						</div>
-						<button id="checkout-button" class="btn btn-dark w-100 fw-semibold">Procéder au paiement sécurisé</button>
+						<button id="checkout-button" class="btn btn-dark w-100 fw-semibold" data-i18n="cart.checkout">Procéder au paiement sécurisé</button>
 						<div class="methods text-center mt-2">
 							<div class="pay-icons" aria-label="Moyens de paiement pris en charge">
 								<span class="icon" title="Apple Pay" aria-label="Apple Pay">
@@ -172,21 +172,35 @@
 			const size = it.size ? String(it.size) : '';
 			const p = it.personalization;
 			const detailsParts = [];
-			if (size) detailsParts.push('Taille: ' + size);
-			if (p && (p.name || p.number)) detailsParts.push('Perso: ' + (p.name||'') + (p.number ? ' #' + p.number : '') + ' (+$5)');
+			
+			// Support pour les traductions
+			const currentLang = window.getCurrentLanguage ? window.getCurrentLanguage() : 'fr';
+			const sizeText = currentLang === 'en' ? 'Size' : 'Taille';
+			const persoText = currentLang === 'en' ? 'Custom' : 'Perso';
+			
+			if (size) detailsParts.push(sizeText + ': ' + size);
+			if (p && (p.name || p.number)) detailsParts.push(persoText + ': ' + (p.name||'') + (p.number ? ' #' + p.number : '') + ' (+$5)');
 			const detailsHtml = detailsParts.length ? `<small class="text-secondary">${detailsParts.join(' — ')}</small>` : '';
 			const img = it.img || it.image || it.imageUrl || '';
 			
-			// Affichage du prix avec code promo
+			// Affichage du prix avec code promo et conversion de devise
+			const currency = window.getCurrentCurrency ? window.getCurrentCurrency() : 'CAD';
+			const rate = window.getCurrentExchangeRate ? window.getCurrentExchangeRate() : 1;
+			const formatPrice = window.formatPrice || ((amount) => `$${amount.toFixed(2)}`);
+			const qtyText = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') ? 'Qty' : 'Qté';
+			
 			let priceDisplay;
 			if (isPromoActive) {
 				const originalLine = originalUnit * qty;
+				const convertedOriginal = originalLine * rate;
+				const convertedDiscounted = line * rate;
 				priceDisplay = `
-					<div class="price-original">$${originalLine.toFixed(2)} CAD</div>
-					<div class="price-discounted">$${line.toFixed(2)} CAD</div>
+					<div class="price-original">${formatPrice(convertedOriginal)} ${currency}</div>
+					<div class="price-discounted">${formatPrice(convertedDiscounted)} ${currency}</div>
 				`;
 			} else {
-				priceDisplay = `$${line.toFixed(2)} CAD`;
+				const convertedLine = line * rate;
+				priceDisplay = `${formatPrice(convertedLine)} ${currency}`;
 			}
 			
 			li.innerHTML = `
@@ -195,7 +209,7 @@
 					<div>
 						<div class="fw-semibold">${label}</div>
 						${detailsHtml}
-						<div><small class="text-secondary">Qté ${qty}</small></div>
+						<div><small class="text-secondary">${qtyText} ${qty}</small></div>
 					</div>
 				</div>
 				<div class="d-flex align-items-center gap-0">
@@ -208,17 +222,30 @@
 		// Calcul du total final avec ou sans frais de livraison selon le code promo
 		const shippingFee = isPromoActive ? 0 : SHIPPING_FEE;
 		const finalTotal = subtotal + shippingFee;
-		subtotalEl.textContent = `$${subtotal.toFixed(2)} CAD`;
+		
+		// Conversion des devises si nécessaire
+		const currency = window.getCurrentCurrency ? window.getCurrentCurrency() : 'CAD';
+		const rate = window.getCurrentExchangeRate ? window.getCurrentExchangeRate() : 1;
+		
+		const convertedSubtotal = subtotal * rate;
+		const convertedShippingFee = shippingFee * rate;
+		const convertedFinalTotal = finalTotal * rate;
+		
+		// Formatage des prix selon la devise
+		const formatPrice = window.formatPrice || ((amount) => `$${amount.toFixed(2)}`);
+		
+		subtotalEl.textContent = `${formatPrice(convertedSubtotal)} ${currency}`;
 		
 		// Mise à jour de l'affichage des frais de livraison
 		const shippingEl = document.getElementById('shipping');
 		if (isPromoActive) {
-			shippingEl.innerHTML = '<span class="price-original">$7.00 CAD</span> <span class="price-discounted">Gratuit</span>';
+			const freeText = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') ? 'Free' : 'Gratuit';
+			shippingEl.innerHTML = `<span class="price-original">${formatPrice(7 * rate)} ${currency}</span> <span class="price-discounted">${freeText}</span>`;
 		} else {
-			shippingEl.textContent = '$7.00 CAD';
+			shippingEl.textContent = `${formatPrice(convertedShippingFee)} ${currency}`;
 		}
 		
-		totalEl.textContent = `$${finalTotal.toFixed(2)} CAD`;
+		totalEl.textContent = `${formatPrice(convertedFinalTotal)} ${currency}`;
 	}
 
 	// Délégation d'événement pour supprimer des articles
@@ -303,12 +330,21 @@
 		console.log('📦 Articles dans le panier:', items.length);
 		
 		if (items.length === 0) {
-			alert('Votre panier est vide.');
+			const emptyMessage = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en') 
+				? 'Your cart is empty.' 
+				: 'Votre panier est vide.';
+			alert(emptyMessage);
 			return;
 		}
 		
-		// Calculate subtotal and add shipping fee
-		const SHIPPING_FEE = 7.00; // Frais de livraison fixes
+		// Get current currency and exchange rate
+		const currentCurrency = window.getCurrentCurrency ? window.getCurrentCurrency() : 'CAD';
+		const exchangeRate = window.getCurrentExchangeRate ? window.getCurrentExchangeRate() : 1;
+		
+		console.log('💱 Devise actuelle:', currentCurrency, 'Taux:', exchangeRate);
+		
+		// Calculate subtotal and add shipping fee (always in CAD base currency)
+		const SHIPPING_FEE = 7.00; // Frais de livraison fixes en CAD
 		const subtotal = items.reduce((acc, it) => {
 			let originalUnit = Number(it.perUnitPrice);
 			if (Number.isNaN(originalUnit) || originalUnit <= 0) {
@@ -321,11 +357,12 @@
 			return acc + unit * qty;
 		}, 0);
 		
-		// Total avec ou sans frais de livraison selon le code promo
+		// Total avec ou sans frais de livraison selon le code promo (en CAD)
 		const shippingFee = isPromoActive ? 0 : SHIPPING_FEE;
 		const total = subtotal + shippingFee;
 		
-		console.log('💰 Total calculé:', total);
+		console.log('💰 Total calculé (CAD):', total);
+		console.log('💰 Total affiché (' + currentCurrency + '):', (total * exchangeRate).toFixed(2));
 		console.log('🌐 URL API:', window.API ? window.API.payments.createSessionFromTotal() : 'API non disponible');
 
 		try {
@@ -337,8 +374,10 @@
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ 
-					total,
-					items
+					total, // Toujours en CAD pour Stripe
+					items,
+					currency: currentCurrency, // Info pour l'affichage
+					displayTotal: total * exchangeRate // Total affiché à l'utilisateur
 				})
 			});
 			
@@ -351,11 +390,17 @@
 				window.location.href = data.url;
 			} else {
 				console.error('❌ Erreur session paiement', data);
-				alert('Erreur lors de la création du paiement: ' + (data.error || data.message || 'Erreur inconnue'));
+				const errorMessage = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en')
+					? 'Error creating payment session: ' + (data.error || data.message || 'Unknown error')
+					: 'Erreur lors de la création du paiement: ' + (data.error || data.message || 'Erreur inconnue');
+				alert(errorMessage);
 			}
 		} catch (err) {
 			console.error('💥 Erreur réseau:', err);
-			alert('Erreur réseau lors de la création du paiement: ' + err.message);
+			const networkError = (window.getCurrentLanguage && window.getCurrentLanguage() === 'en')
+				? 'Network error creating payment: ' + err.message
+				: 'Erreur réseau lors de la création du paiement: ' + err.message;
+			alert(networkError);
 		}
 	});
 

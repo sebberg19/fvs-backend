@@ -380,7 +380,7 @@
     <!-- Footer -->
     <footer class="footer py-4">
       <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. <span data-i18n="footer.rights">Tous droits réservés.</span></small>
         <div class="d-flex align-items-center gap-3">
           <small class="text-secondary mb-0">Palette naturelle · accents vert gazon</small>
           <a class="link-underline" href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a>
@@ -398,6 +398,24 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+
+    <!-- Internationalization & Currency System -->
+    <script>
+      // Load i18n script with fallback paths
+      (function() {
+        const script = document.createElement('script');
+        script.src = './maillots-store/client/src/scripts/i18n-currency.js';
+        script.onerror = function() {
+          // Fallback path
+          script.src = './scripts/i18n-currency.js';
+          script.onerror = function() {
+            console.warn('Could not load i18n-currency.js');
+          };
+          document.head.appendChild(script);
+        };
+        document.head.appendChild(script);
+      })();
+    </script>
 
   <!-- Nav partagée -->
   <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
