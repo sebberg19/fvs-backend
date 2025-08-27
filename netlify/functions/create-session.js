@@ -2,10 +2,34 @@
 // Location: netlify/functions/create-session.js
 
 const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = async (event, context) => {
   console.log('[create-session] Netlify function started');
+  // Quick environment validation
+  if (!process.env.STRIPE_SECRET_KEY) {
+    console.error('[create-session] MISSING STRIPE_SECRET_KEY');
+    return {
+      statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'stripe_key_missing', message: 'STRIPE_SECRET_KEY is not set in environment' })
+    };
+  }
+  // instantiate stripe here to avoid throwing at module load time
+  let stripe;
+  try {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  } catch (err) {
+    console.error('[create-session] Error initializing Stripe:', err && err.message);
+    return {
+      statusCode: 500,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ error: 'stripe_init_error', message: err && err.message })
+    };
+  }
   
   // CORS headers
   const headers = {
@@ -105,15 +129,19 @@ exports.handler = async (event, context) => {
     };
 
   } catch (e) {
-    console.error('[create-session] error:', e.message);
-    
+    console.error('[create-session] error:', e && e.message);
+    console.error(e && e.stack);
+
+    // Return a safer error message to the client but include the error code if available
+    const resp = {
+      error: 'server_error',
+      message: e && e.message
+    };
+
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ 
-        error: 'server_error', 
-        message: e.message 
-      })
+      body: JSON.stringify(resp)
     };
   }
 };
