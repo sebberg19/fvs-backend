@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Badge panier (toutes les navs): mettre à jour toutes les occurrences du badge
     function renderCartCountAll(count) {
       const n = Number(count) || 0;
-      document.querySelectorAll('#cartCount').forEach(el => {
+      document.querySelectorAll('.cart-count').forEach(el => {
         el.textContent = n;
         el.classList.toggle('d-none', n <= 0);
         el.setAttribute('aria-label', n + ' article' + (n > 1 ? 's' : '') + ' dans le panier');
