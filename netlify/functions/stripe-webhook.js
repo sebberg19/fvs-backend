@@ -293,7 +293,9 @@ exports.handler = async (event, context) => {
       const total = ((session.amount_total || 0) / 100).toFixed(2);
       const orderId = session.metadata?.orderId || session.id;
       
-      console.log('[webhook] Customer email:', customerEmail || 'Non fourni');
+      console.log('[webhook] Customer email from session:', customerEmail || 'UNDEFINED');
+      console.log('[webhook] Session customer_details:', JSON.stringify(session.customer_details, null, 2));
+      console.log('[webhook] Full session object keys:', Object.keys(session));
       
       // 1. EMAIL POUR LE PROPRIÉTAIRE (vous)
       console.log('[webhook] Generating owner email template...');
@@ -311,22 +313,36 @@ exports.handler = async (event, context) => {
       console.log('[webhook] Owner email sent! MessageId:', ownerInfo.messageId);
       
       // 2. EMAIL POUR LE CLIENT (seulement si email valide)
-      if (customerEmail && customerEmail.includes('@') && !customerEmail.includes('example.com')) {
-        console.log('[webhook] Generating customer email template...');
+      // Essayer plusieurs sources pour l'email client
+      let finalCustomerEmail = customerEmail || session.customer_details?.email || null;
+      
+      console.log('[webhook] Final customer email after fallbacks:', finalCustomerEmail || 'STILL UNDEFINED');
+      console.log('[webhook] Email validation check:');
+      console.log('  - Has email:', !!finalCustomerEmail);
+      console.log('  - Contains @:', finalCustomerEmail ? finalCustomerEmail.includes('@') : false);
+      console.log('  - Not example.com:', finalCustomerEmail ? !finalCustomerEmail.includes('example.com') : false);
+      
+      if (finalCustomerEmail && finalCustomerEmail.includes('@') && !finalCustomerEmail.includes('example.com')) {
+        console.log('[webhook] ✅ Customer email validation PASSED - sending email to:', finalCustomerEmail);
         const customerEmailHtml = renderCustomerEmailTemplate(session, orderId);
         
         const customerMailOptions = {
           from: process.env.SMTP_USER,
-          to: customerEmail,
-          subject: `✅ Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
+          to: finalCustomerEmail,
+          subject: `Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
           html: customerEmailHtml,
         };
         
-        console.log('[webhook] Sending customer email to:', customerEmail);
+        console.log('[webhook] Sending customer email to:', finalCustomerEmail);
         const customerInfo = await transporter.sendMail(customerMailOptions);
-        console.log('[webhook] Customer email sent! MessageId:', customerInfo.messageId);
+        console.log('[webhook] ✅ Customer email sent successfully! MessageId:', customerInfo.messageId);
       } else {
-        console.log('[webhook] No valid customer email provided, skipping customer notification');
+        console.log('[webhook] ❌ Customer email validation FAILED - reasons:');
+        console.log('  - Email exists:', !!finalCustomerEmail);
+        console.log('  - Email value:', finalCustomerEmail || 'NONE');
+        console.log('  - Contains @:', finalCustomerEmail ? finalCustomerEmail.includes('@') : 'NO EMAIL');
+        console.log('  - Not example.com:', finalCustomerEmail ? !finalCustomerEmail.includes('example.com') : 'NO EMAIL');
+        console.log('[webhook] Skipping customer email notification');
       }
       
     } catch (emailErr) {
