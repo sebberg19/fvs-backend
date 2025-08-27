@@ -70,7 +70,12 @@ exports.handler = async (event, context) => {
     const origin = event.headers.origin || event.headers.referer;
     const base = origin || process.env.RETURN_BASE || 'https://futbolerovintageshop.com';
     
-    console.log('[create-session] Creating session | amount=', amount, '| email=', body?.contact?.email);
+  console.log('[create-session] Creating session | amount=', amount, '| email=', body?.contact?.email);
+
+  // Validate provided email (if any) and only send it to Stripe when valid
+  const maybeEmail = (body && body.contact && body.contact.email) ? String(body.contact.email).trim() : '';
+  const isValidEmail = (em) => !!em && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em);
+  const customerEmailToSend = isValidEmail(maybeEmail) ? maybeEmail : undefined;
 
     // Créer un ID de commande simple
     const orderId = `order_${Date.now()}`;
@@ -98,7 +103,8 @@ exports.handler = async (event, context) => {
         enabled: true
       },
       // S'assurer que l'email est collecté et requis
-      customer_email: null, // Force Stripe à demander l'email
+  // If we have a valid email from the client, send it; otherwise omit to let Stripe collect it
+  ...(customerEmailToSend ? { customer_email: customerEmailToSend } : {}),
       line_items: [
         {
           price_data: {
