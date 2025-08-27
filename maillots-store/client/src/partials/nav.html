@@ -35,6 +35,16 @@
 </nav>
 
 <style>
+  /* Importer Nunito pour les headers */
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap');
+  
+  /* Brand avec Nunito (plus arrondi/cartoon) */
+  .navbar-brand {
+    font-family: Nunito, Inter, system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.02em;
+  }
+  
   /* Active nav link: just a stronger weight, no underline/color change */
   .navbar .nav-link { transition: color .15s ease; }
   .navbar .nav-link.active { font-weight: 800; color: inherit !important; }
