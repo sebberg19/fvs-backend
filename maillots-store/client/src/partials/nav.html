@@ -1,7 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container align-items-center">
-    <a class="navbar-brand fw-semibold me-2" href="./index.html">
-      Futbolero Vintage Shop
+    <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
+      <span>Futbolero Vintage Shop</span>
+      <img src="./assets/logo.png" alt="Futbolero Logo" class="navbar-logo d-none d-md-inline-block">
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-2">
@@ -43,6 +44,26 @@
     font-family: Nunito, Inter, system-ui, sans-serif !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em;
+  }
+  
+  /* Logo dans la navigation - préserver les proportions */
+  .navbar-logo {
+    height: 28px;
+    width: auto;
+    object-fit: contain;
+    filter: none;
+  }
+  
+  @media (min-width: 992px) {
+    .navbar-logo {
+      height: 32px;
+    }
+  }
+  
+  /* Hover effect subtle sur le logo */
+  .navbar-brand:hover .navbar-logo {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
   }
   
   /* Active nav link: just a stronger weight, no underline/color change */
