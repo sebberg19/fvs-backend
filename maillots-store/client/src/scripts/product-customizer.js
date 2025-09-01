@@ -103,7 +103,7 @@
       btn.addEventListener('click', (e) => {
         const card = btn.closest('.card');
         const name = (card?.querySelector('h2')?.textContent || 'Article').trim();
-        const price = Number(btn.dataset.price) || Number(btn.dataset.price) || 36.70;
+        const price = Number(btn.dataset.price) || 0;
         const img = btn.dataset.img || card?.querySelector('img')?.src || '';
         currentProduct = { name, price, img };
 
