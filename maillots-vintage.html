@@ -2107,7 +2107,7 @@
       return levenshtein(A, Q) <= maxDist;
     }
     function filterGridByQuery(q) {
-      const grid = document.getElementById('grid');
+      const grid = document.getElementById('grid-maillots');
       Array.from(grid.children).forEach(card => {
         const title = card.querySelector('h2')?.textContent || '';
         const desc = card.querySelector('.card-text')?.textContent || '';
