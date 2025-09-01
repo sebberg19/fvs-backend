@@ -81,6 +81,26 @@
             position: absolute; top: -6px; right: -8px; font-size: .7rem;
             background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
         }
+        /* Supprime complètement tous les espacements entre les produits */
+        .row.g-0 .col-6,
+        .row.g-0 .col-md-4,
+        .row.g-0 .col-lg-3 {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .row.g-0 .card {
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+        .row.g-0 .card-body {
+            margin: 0 !important;
+        }
+        .row.g-0 .ratio {
+            margin: 0 !important;
+        }
+        .row.g-0 {
+            margin: 0 !important;
+        }
     </style>
 </head>
 <body>
@@ -91,7 +111,25 @@
 
     <main class="py-4 py-md-5">
         <div class="container">
-            <div class="row g-3">           <!-- Crystal Palace 25/26 Home -->
+            <!-- Titre et barre de recherche -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="h2 mb-3">Maillots Saison 25/26</h1>
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-6">
+                            <div class="input-group">
+                                <input type="text" id="productSearch" class="form-control" placeholder="Rechercher un maillot...">
+                                <button class="btn btn-outline-secondary" type="button" id="clearSearch">
+                                    <i class="bi bi-x"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Grille de produits -->
+            <div class="row g-0" id="grid">           <!-- Crystal Palace 25/26 Home -->
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
@@ -264,14 +302,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/aston_villa_home_25-26.png" alt="Aston Villa Domicile 25/26" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/aston_villa_home_25-26.png" alt="Aston Villa Domicile 25/26" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Aston Villa</h2>
       <p class="card-text mb-2">Domicile 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/aston_villa_home_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/aston_villa_home_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -281,14 +319,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/spurs_third_25-26.png" alt="Tottenham Third 25/26" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/spurs_third_25-26.png" alt="Tottenham Third 25/26" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Tottenham</h2>
       <p class="card-text mb-2">Third 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/spurs_third_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/spurs_third_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -298,14 +336,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/arsenal_third_25-26.png" alt="Arsenal Third 25/26 (bleu)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/arsenal_third_25-26.png" alt="Arsenal Third 25/26 (bleu)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Arsenal</h2>
       <p class="card-text mb-2">Third 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/arsenal_third_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/arsenal_third_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -315,14 +353,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/man_city_away_black_25-26.png" alt="Manchester City Extérieur noir 25/26" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/man_city_away_black_25-26.png" alt="Manchester City Extérieur noir 25/26" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Manchester City</h2>
       <p class="card-text mb-2">Extérieur 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_city_away_black_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_city_away_black_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -332,14 +370,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/arsenal_home_25-26.png" alt="Arsenal Domicile 25/26 (rouge)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/arsenal_home_25-26.png" alt="Arsenal Domicile 25/26 (rouge)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Arsenal</h2>
       <p class="card-text mb-2">Domicile 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/arsenal_home_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/arsenal_home_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -349,14 +387,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/man_united_away_black_25-26.png" alt="Manchester United Extérieur 25/26 (noir/jaune)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/man_united_away_black_25-26.png" alt="Manchester United Extérieur 25/26 (noir/jaune)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Manchester United</h2>
       <p class="card-text mb-2">Extérieur 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_united_away_black_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_united_away_black_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -366,14 +404,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/chelsea_away_white_25-26.png" alt="Chelsea Extérieur 25/26 (blanc)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/chelsea_away_white_25-26.png" alt="Chelsea Extérieur 25/26 (blanc)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Chelsea</h2>
       <p class="card-text mb-2">Extérieur 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/chelsea_away_white_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/chelsea_away_white_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -383,14 +421,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/arsenal_away_yellow_25-26.png" alt="Arsenal Extérieur 25/26 (jaune)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/arsenal_away_yellow_25-26.png" alt="Arsenal Extérieur 25/26 (jaune)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Arsenal</h2>
       <p class="card-text mb-2">Extérieur 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/arsenal_away_yellow_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/arsenal_away_yellow_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -400,14 +438,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/man_united_home_25-26.png" alt="Manchester United Domicile 25/26 (rouge)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/man_united_home_25-26.png" alt="Manchester United Domicile 25/26 (rouge)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Manchester United</h2>
       <p class="card-text mb-2">Domicile 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_united_home_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_united_home_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -417,14 +455,14 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100">
     <div class="ratio ratio-1x1 bg-light border-bottom">
-      <img loading="lazy" src="Images/man_city_third_coral_25-26.png" alt="Manchester City Third 25/26 (corail)" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/man_city_third_coral_25-26.png" alt="Manchester City Third 25/26 (corail)" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="card-body" data-year="2025">
       <h2 class="h6 mb-1">Manchester City</h2>
       <p class="card-text mb-2">Third 25/26</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">36,70 CAD</span>
-        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_city_third_coral_25-26.png">Ajouter</button>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_city_third_coral_25-26.png">Ajouter</button>
       </div>
     </div>
   </div>
@@ -436,7 +474,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_utd_away_25-26_white.jpg" alt="Manchester United 2025/26 extérieur blanc/lilas" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_utd_away_25-26_white.jpg" alt="Manchester United 2025/26 extérieur blanc/lilas" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Manchester United</h2>
@@ -445,7 +483,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/man_utd_25_away_white_lilac.png">Ajouter</button>
+                  data-img="images/man_utd_away_white_25-26.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -455,7 +493,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/chelsea_away_25-26_white.jpg" alt="Chelsea 2025/26 extérieur blanc bande centrale" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/chelsea_away_25-26_white.jpg" alt="Chelsea 2025/26 extérieur blanc bande centrale" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Chelsea</h2>
@@ -464,7 +502,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/chelsea_25_away_white_stripe.png">Ajouter</button>
+                  data-img="images/chelsea_25_away_white_stripe.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -474,7 +512,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/chelsea_home_25-26_blue.jpg" alt="Chelsea 2025/26 domicile bleu" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/chelsea_home_25-26_blue.jpg" alt="Chelsea 2025/26 domicile bleu" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Chelsea</h2>
@@ -483,7 +521,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/chelsea_25_home_blue.png">Ajouter</button>
+                  data-img="images/chelsea_25_home_blue.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -493,7 +531,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/tottenham_home_25-26_white.jpg" alt="Tottenham 2025/26 domicile blanc" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/tottenham_home_25-26_white.jpg" alt="Tottenham 2025/26 domicile blanc" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Tottenham</h2>
@@ -502,7 +540,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/tottenham_25_home_white.png">Ajouter</button>
+                  data-img="images/tottenham_25_home_white.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -512,7 +550,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_city_pink_third_25-26.png" alt="Manchester City 2025/26 third blanc diagonale" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_city_pink_third_25-26.png" alt="Manchester City 2025/26 third blanc diagonale" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Manchester City</h2>
@@ -521,7 +559,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/mancity_25_third_white_diagonal.png">Ajouter</button>
+                  data-img="images/mancity_25_third_white_diagonal.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -531,7 +569,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_city_home_25-26_sky.jpg" alt="Manchester City 2025/26 domicile bleu" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_city_home_25-26_sky.jpg" alt="Manchester City 2025/26 domicile bleu" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Manchester City</h2>
@@ -540,7 +578,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/mancity_25_home_blue_diagonal.png">Ajouter</button>
+                  data-img="images/mancity_25_home_blue_diagonal.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -550,7 +588,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/arsenal_away_25-26_white.jpg" alt="Arsenal 2025/26 extérieur blanc/brun" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/arsenal_away_25-26_white.jpg" alt="Arsenal 2025/26 extérieur blanc/brun" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Arsenal</h2>
@@ -559,7 +597,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/arsenal_25_away_white_brown.png">Ajouter</button>
+                  data-img="images/arsenal_25_away_white_brown.png">Ajouter</button>
         </div>
       </div>
     </div>
@@ -569,7 +607,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/tottenham_third_25-26_black.jpg" alt="Tottenham 2025/26 third noir" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/tottenham_third_25-26_black.jpg" alt="Tottenham 2025/26 third noir" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2025">
         <h2 class="h6 mb-1">Tottenham</h2>
@@ -578,7 +616,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/tottenham_25_third_black.jpg">Ajouter</button>
+                  data-img="images/tottenham_25_third_black.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -589,7 +627,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/chelsea_third_2024-25.jpg" alt="Chelsea Third 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/chelsea_third_2024-25.jpg" alt="Chelsea Third 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Chelsea</h2>
@@ -598,7 +636,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/chelsea_third_2024-25.jpg">Ajouter</button>
+                  data-img="images/chelsea_third_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -608,7 +646,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/leicester_away_2024-25.jpg" alt="Leicester Away 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/leicester_away_2024-25.jpg" alt="Leicester Away 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Leicester</h2>
@@ -617,7 +655,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/leicester_away_2024-25.jpg">Ajouter</button>
+                  data-img="images/leicester_away_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -627,7 +665,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/leicester_home_2024-25.jpg" alt="Leicester Home 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/leicester_home_2024-25.jpg" alt="Leicester Home 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Leicester</h2>
@@ -636,7 +674,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/leicester_home_2024-25.jpg">Ajouter</button>
+                  data-img="images/leicester_home_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -646,7 +684,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/aston_villa_away_2024-25.jpg" alt="Aston Villa Away 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/aston_villa_away_2024-25.jpg" alt="Aston Villa Away 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Aston Villa</h2>
@@ -655,7 +693,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/aston_villa_away_2024-25.jpg">Ajouter</button>
+                  data-img="images/aston_villa_away_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -665,7 +703,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/aston_villa_home_2024-25.jpg" alt="Aston Villa Home 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/aston_villa_home_2024-25.jpg" alt="Aston Villa Home 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Aston Villa</h2>
@@ -674,7 +712,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/aston_villa_home_2024-25.jpg">Ajouter</button>
+                  data-img="images/aston_villa_home_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -684,7 +722,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/newcastle_away_2024-25.jpg" alt="Newcastle Away 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/newcastle_away_2024-25.jpg" alt="Newcastle Away 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Newcastle</h2>
@@ -693,7 +731,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/newcastle_away_2024-25.jpg">Ajouter</button>
+                  data-img="images/newcastle_away_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -703,7 +741,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/brighton_home_2024-25.jpg" alt="Brighton Home 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/brighton_home_2024-25.jpg" alt="Brighton Home 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Brighton</h2>
@@ -712,7 +750,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/brighton_home_2024-25.jpg">Ajouter</button>
+                  data-img="images/brighton_home_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -722,7 +760,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/nottingham_forest_away_2024-25.jpg" alt="Nottingham Forest Away 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/nottingham_forest_away_2024-25.jpg" alt="Nottingham Forest Away 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Nottingham Forest</h2>
@@ -731,7 +769,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/nottingham_forest_away_2024-25.jpg">Ajouter</button>
+                  data-img="images/nottingham_forest_away_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -741,7 +779,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/nottingham_forest_home_2024-25.jpg" alt="Nottingham Forest Home 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/nottingham_forest_home_2024-25.jpg" alt="Nottingham Forest Home 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Nottingham Forest</h2>
@@ -750,7 +788,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/nottingham_forest_home_2024-25.jpg">Ajouter</button>
+                  data-img="images/nottingham_forest_home_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -760,7 +798,7 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_united_third_2024-25.jpg" alt="Manchester United Third 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_united_third_2024-25.jpg" alt="Manchester United Third 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Manchester United</h2>
@@ -769,7 +807,7 @@
           <span class="fw-semibold">36,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart"
                   data-price="36.70" data-vintage="false"
-                  data-img="Images/man_united_third_2024-25.jpg">Ajouter</button>
+                  data-img="images/man_united_third_2024-25.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -782,14 +820,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_city_2024_25_third_pastel.jpg" alt="Manchester City Third 2024/25 pastel" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_city_2024_25_third_pastel.jpg" alt="Manchester City Third 2024/25 pastel" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Manchester City</h2>
         <p class="card-text mb-2">Third 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_city_2024_25_third_pastel.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_city_2024_25_third_pastel.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -799,14 +837,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_city_2024_25_away_bordeaux.jpg" alt="Manchester City Extérieur 2024/25 bordeaux" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_city_2024_25_away_bordeaux.jpg" alt="Manchester City Extérieur 2024/25 bordeaux" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Manchester City</h2>
         <p class="card-text mb-2">Extérieur 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_city_2024_25_away_bordeaux.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_city_2024_25_away_bordeaux.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -816,14 +854,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/fulham_2024_25_home.jpg" alt="Fulham Domicile 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/fulham_2024_25_home.jpg" alt="Fulham Domicile 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Fulham</h2>
         <p class="card-text mb-2">Domicile 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/fulham_2024_25_home.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/fulham_2024_25_home.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -833,14 +871,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/everton_2024_25_home.jpg" alt="Everton Domicile 2024/25" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/everton_2024_25_home.jpg" alt="Everton Domicile 2024/25" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Everton</h2>
         <p class="card-text mb-2">Domicile 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/everton_2024_25_home.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/everton_2024_25_home.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -850,14 +888,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/chelsea_2024_25_home_swirl.jpg" alt="Chelsea Domicile 2024/25 motif swirl" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/chelsea_2024_25_home_swirl.jpg" alt="Chelsea Domicile 2024/25 motif swirl" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Chelsea</h2>
         <p class="card-text mb-2">Domicile 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/chelsea_2024_25_home_swirl.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/chelsea_2024_25_home_swirl.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -867,14 +905,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/crystal_palace_2024_25_home_lion.jpg" alt="Crystal Palace Domicile 2024/25 motif lion" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/crystal_palace_2024_25_home_lion.jpg" alt="Crystal Palace Domicile 2024/25 motif lion" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Crystal Palace</h2>
         <p class="card-text mb-2">Domicile 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/crystal_palace_2024_25_home_lion.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/crystal_palace_2024_25_home_lion.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -884,14 +922,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/arsenal_2024_25_third_aqua.jpg" alt="Arsenal Third 2024/25 aqua" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/arsenal_2024_25_third_aqua.jpg" alt="Arsenal Third 2024/25 aqua" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Arsenal</h2>
         <p class="card-text mb-2">Third 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/arsenal_2024_25_third_aqua.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/arsenal_2024_25_third_aqua.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -901,14 +939,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/tottenham_2024_25_third_green.jpg" alt="Tottenham Third 2024/25 vert" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/tottenham_2024_25_third_green.jpg" alt="Tottenham Third 2024/25 vert" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Tottenham</h2>
         <p class="card-text mb-2">Third 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/tottenham_2024_25_third_green.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/tottenham_2024_25_third_green.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -918,14 +956,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/man_city_2024_25_away_stripes.jpg" alt="Manchester City Extérieur 2024/25 rayé fluo" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/man_city_2024_25_away_stripes.jpg" alt="Manchester City Extérieur 2024/25 rayé fluo" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Manchester City</h2>
         <p class="card-text mb-2">Extérieur 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/man_city_2024_25_away_stripes.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/man_city_2024_25_away_stripes.jpg">Ajouter</button>
         </div>
       </div>
     </div>
@@ -935,14 +973,14 @@
   <div class="col-6 col-md-4 col-lg-3">
     <div class="card h-100">
       <div class="ratio ratio-1x1 bg-light border-bottom">
-        <img loading="lazy" src="Images/chelsea_2024_25_away_white.jpg" alt="Chelsea Extérieur 2024/25 blanc" class="w-100 h-100 object-fit-cover">
+        <img loading="lazy" src="images/chelsea_2024_25_away_white.jpg" alt="Chelsea Extérieur 2024/25 blanc" class="w-100 h-100 object-fit-cover">
       </div>
       <div class="card-body" data-year="2024">
         <h2 class="h6 mb-1">Chelsea</h2>
         <p class="card-text mb-2">Extérieur 2024/25</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">36,70 CAD</span>
-          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="Images/chelsea_2024_25_away_white.jpg">Ajouter</button>
+          <button class="btn btn-accent btn-sm add-to-cart" data-price="36.70" data-vintage="false" data-img="images/chelsea_2024_25_away_white.jpg">Ajouter</button>
         </div>
       </div>
     </div>

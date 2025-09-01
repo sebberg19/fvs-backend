@@ -145,10 +145,31 @@
   }
   /* ensure full-height cards inside flex columns */
   #grid-maillots .card { height: 100%; }
+  
+  /* Supprime complètement tous les espacements entre les produits */
+  .row.g-0 .col-6,
+  .row.g-0 .col-md-4,
+  .row.g-0 .col-lg-3 {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .row.g-0 .card {
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+  .row.g-0 .card-body {
+    margin: 0 !important;
+  }
+  .row.g-0 .ratio {
+    margin: 0 !important;
+  }
+  .row.g-0 {
+    margin: 0 !important;
+  }
 </style>
 
 <div class="container-fluid px-2 px-md-3">
-  <div class="row g-3" id="grid-maillots">
+  <div class="row g-0" id="grid-maillots">
 
   <!-- Brésil – Bloc unique (années corrigées selon ton image) -->
 <div class="container-fluid px-2 px-md-3">
