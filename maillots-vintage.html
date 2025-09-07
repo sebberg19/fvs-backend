@@ -2182,26 +2182,37 @@
 
     function filterGridByQuery(q) {
       const grid = document.getElementById('grid-maillots');
+      if (!grid) {
+        console.error('Grid element not found');
+        return;
+      }
+      
       const cards = Array.from(grid.children);
       const clearBtn = document.getElementById('clearSearch');
       const resultsDiv = document.getElementById('searchResults');
       
-      // Debug: log number of cards found
-      console.log(`Found ${cards.length} cards in grid`);
-      
       // Si pas de requête, afficher tous les produits dans l'ordre original
       if (!q.trim()) {
         cards.forEach(card => card.style.display = '');
-        clearBtn.style.display = 'none';
-        resultsDiv.style.display = 'none';
+        if (clearBtn) clearBtn.style.display = 'none';
+        if (resultsDiv) resultsDiv.style.display = 'none';
         return;
       }
       
       // Calculer les scores et trier
       const cardsWithScores = cards.map(card => {
-        const titleElement = card.querySelector('.product-title') || card.querySelector('h3') || card.querySelector('.card-body h3');
-        const title = titleElement?.textContent?.trim() || '';
-        console.log(`Card title: "${title}" for query: "${q}"`);
+        // Chercher le titre dans différents emplacements possibles
+        let title = '';
+        const titleSelectors = ['.product-title', 'h3', '.card-body h3', '.product-info h3'];
+        
+        for (const selector of titleSelectors) {
+          const element = card.querySelector(selector);
+          if (element && element.textContent.trim()) {
+            title = element.textContent.trim();
+            break;
+          }
+        }
+        
         const scoreData = getMatchScore(title, q);
         return {
           element: card,
@@ -2228,35 +2239,50 @@
       
       // Mettre à jour l'interface
       const visibleCount = matches.length;
-      clearBtn.style.display = 'block';
-      resultsDiv.style.display = 'block';
-      
-      if (visibleCount === 0) {
-        resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
-        resultsDiv.className = 'mt-2 text-center text-danger small';
-      } else if (visibleCount === 1) {
-        resultsDiv.textContent = `1 maillot trouvé`;
-        resultsDiv.className = 'mt-2 text-center text-success small';
-      } else {
-        resultsDiv.textContent = `${visibleCount} maillots trouvés (triés par pertinence)`;
-        resultsDiv.className = 'mt-2 text-center text-success small';
+      if (clearBtn) clearBtn.style.display = 'block';
+      if (resultsDiv) {
+        resultsDiv.style.display = 'block';
+        
+        if (visibleCount === 0) {
+          resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
+          resultsDiv.className = 'mt-2 text-center text-danger small';
+        } else if (visibleCount === 1) {
+          resultsDiv.textContent = `1 maillot trouvé`;
+          resultsDiv.className = 'mt-2 text-center text-success small';
+        } else {
+          resultsDiv.textContent = `${visibleCount} maillots trouvés (triés par pertinence)`;
+          resultsDiv.className = 'mt-2 text-center text-success small';
+        }
       }
     }
     
-    // debounce
-    let _searchDeb;
-    document.getElementById('productSearch').addEventListener('input', (e) => {
-      clearTimeout(_searchDeb);
-      _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
-    });
-    
-    document.getElementById('clearSearch').addEventListener('click', () => {
-      document.getElementById('productSearch').value = '';
+    // Initialiser la recherche quand le DOM est prêt
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('productSearch');
+      const clearBtn = document.getElementById('clearSearch');
+      
+      if (searchInput) {
+        // debounce
+        let _searchDeb;
+        searchInput.addEventListener('input', (e) => {
+          clearTimeout(_searchDeb);
+          _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
+        });
+      }
+      
+      if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+          if (searchInput) {
+            searchInput.value = '';
+            filterGridByQuery('');
+            searchInput.focus();
+          }
+        });
+      }
+      
+      // Init - afficher tous les produits
       filterGridByQuery('');
-      document.getElementById('productSearch').focus();
     });
-    // init
-    filterGridByQuery('');
 
     // Modal behavior is provided by the shared product-customizer.js include
   </script>
