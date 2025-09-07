@@ -81,6 +81,155 @@
       position: absolute; top: -6px; right: -8px; font-size: .7rem;
       background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
     }
+    
+    /* Professional Product Layout */
+    .product-grid {
+      gap: 1.5rem;
+    }
+    
+    .product-card {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      overflow: hidden;
+      transition: all 0.3s ease;
+      background: var(--surface);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    
+    .product-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      border-color: var(--accent);
+    }
+    
+    .product-image {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    }
+    
+    .product-image img {
+      transition: transform 0.3s ease;
+    }
+    
+    .product-card:hover .product-image img {
+      transform: scale(1.05);
+    }
+    
+    .product-info {
+      padding: 1.25rem;
+    }
+    
+    .product-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 0.75rem;
+    }
+    
+    .product-price {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+    
+    .product-btn {
+      border-radius: 8px;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+    
+    .vintage-badge {
+      position: absolute;
+      top: 0.75rem;
+      left: 0.75rem;
+      background: linear-gradient(135deg, #8b4513 0%, #a0522d 100%);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    
+    .page-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.5rem;
+    }
+    
+    .page-subtitle {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    .search-container {
+      max-width: 400px;
+      margin: 2rem auto;
+    }
+    
+    .search-container .input-group {
+      border-radius: 25px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      border: 2px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    
+    .search-container .input-group:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 4px 12px rgba(47, 111, 62, 0.15);
+    }
+    
+    .search-input {
+      border: none !important;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      background: transparent;
+    }
+    
+    .search-input:focus {
+      box-shadow: none !important;
+      background: transparent;
+    }
+    
+    .search-btn {
+      border: none;
+      background: var(--accent);
+      color: white;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      margin-right: 4px;
+      border-radius: 50%;
+    }
+    
+    .search-btn:hover {
+      background: #285a33;
+      color: white;
+      transform: scale(1.1);
+    }
+    
+    .input-group-text {
+      border: none !important;
+      padding: 0.75rem 1rem;
+    }
   </style>
 </head>
 <body>
@@ -89,19 +238,29 @@
   <!-- Nav partagée -->
   <header id="site-header"></header>
 
-  <main class="py-4 py-md-5">
+  <main class="py-5">
     <div class="container">
-      <div class="d-flex justify-content-between align-items-end flex-wrap gap-2 mb-3">
-        <div>
-          <h1 class="h3 m-0">Maillots vintage</h1>
-          <small class="text-secondary">Sélection fictive de classiques intemporels</small>
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-title">Collection Vintage</h1>
+        <p class="page-subtitle">
+          Découvrez nos maillots iconiques qui ont marqué l'histoire du football. 
+          Chaque pièce raconte une histoire unique et authentique.
+        </p>
+      </div>
+      
+      <!-- Search Section -->
+      <div class="search-container">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-search text-muted"></i>
+          </span>
+          <input id="productSearch" type="search" class="form-control search-input border-start-0" placeholder="Rechercher une équipe (Brésil, France, Argentine...)" aria-label="Rechercher">
+          <button id="clearSearch" class="btn search-btn" type="button" title="Effacer la recherche" style="display: none;">
+            <i class="bi bi-x"></i>
+          </button>
         </div>
-        <div class="d-flex gap-2 align-items-center">
-          <div class="input-group">
-            <input id="productSearch" type="search" class="form-control form-control-sm" placeholder="Rechercher un maillot" aria-label="Rechercher">
-            <button id="clearSearch" class="btn btn-outline-secondary btn-sm" type="button" title="Effacer">✕</button>
-          </div>
-        </div>
+        <div id="searchResults" class="mt-2 text-center text-muted small" style="display: none;"></div>
       </div>
 
       <!-- Nécessite Bootstrap 5 (CSS + JS). Ajoute ce <link> dans <head> si ce n’est pas déjà fait :
@@ -183,7 +342,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 1994</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ed96377d-scaled.webp">Ajouter</button>
@@ -200,7 +358,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 1998</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/images.jpg">Ajouter</button>
@@ -217,7 +374,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Extérieur 1998</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8cbfd0_a13aabd045d14cf29ecddfd38f55f8dc~mv2.avif">Ajouter</button>
@@ -234,7 +390,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Troisième 1998</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/82b6264a.jpg">Ajouter</button>
@@ -251,7 +406,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 2000</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/resize-0-main01666460255.webp">Ajouter</button>
@@ -268,7 +422,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Extérieur 2000</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/070825617216-1_fsdezy3lyxc5y2oc.webp">Ajouter</button>
@@ -285,7 +438,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 2002</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8cbfd0_ab7b7fa5d7d74c86834f43b5feeb19c7~mv2.avif">Ajouter</button>
@@ -302,7 +454,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Extérieur 2002</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/fb989a92.png">Ajouter</button>
@@ -319,7 +470,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 2004</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/2C80FF09-FBD6-42B8-9264-641AE04D5355_1024x1024_2x_7ec3f3f1-d51d-46c2-aee4-70ab46e82756.jpg">Ajouter</button>
@@ -336,7 +486,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Extérieur 2004</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/brazil-04-away_n7iao0yydrcfivtc.webp">Ajouter</button>
@@ -354,7 +503,6 @@
         </div>
         <div class="card-body">
           <h2 class="h6 mb-1">Brésil</h2>
-          <p class="card-text mb-2">Domicile 2006</p>
           <div class="d-flex justify-content-between align-items-center">
             <span class="fw-semibold">40,70 CAD</span>
             <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/file.jpg">Ajouter</button>
@@ -374,7 +522,6 @@
       </div>
       <div class="card-body" data-year="1990">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Domicile 1990</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/27484b88.jpg">Ajouter</button>
@@ -391,7 +538,6 @@
       </div>
       <div class="card-body" data-year="2014">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Extérieur 2014</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/afa42c64.jpg">Ajouter</button>
@@ -408,7 +554,6 @@
       </div>
       <div class="card-body" data-year="2010">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Extérieur 2010</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/4828f84e.jpg">Ajouter</button>
@@ -425,7 +570,6 @@
       </div>
       <div class="card-body" data-year="2018">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Extérieur 2018</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/162bf316.jpg">Ajouter</button>
@@ -442,7 +586,6 @@
       </div>
       <div class="card-body" data-year="2002">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Gardien 2002</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/162c0037.jpg">Ajouter</button>
@@ -459,7 +602,6 @@
       </div>
       <div class="card-body" data-year="2014">
         <h2 class="h6 mb-1">Allemagne</h2>
-        <p class="card-text mb-2">Domicile 2014</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/27ae794d.webp">Ajouter</button>
@@ -479,7 +621,6 @@
       </div>
       <div class="card-body" data-year="1998">
         <h2 class="h6 mb-1">Maroc</h2>
-        <p class="card-text mb-2">Domicile 1998</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/cbde2542-b96f-4052-9cb8-d5831cd7989e.png">Ajouter</button>
@@ -496,7 +637,6 @@
       </div>
       <div class="card-body" data-year="1986">
         <h2 class="h6 mb-1">Maroc</h2>
-        <p class="card-text mb-2">Domicile 1986</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/b3f02033.jpg">Ajouter</button>
@@ -513,7 +653,6 @@
       </div>
       <div class="card-body" data-year="1998">
         <h2 class="h6 mb-1">Maroc</h2>
-        <p class="card-text mb-2">Extérieur 1998</p>
         <div class="d-flex justify-content-between align-items-center">
           <span class="fw-semibold">40,70 CAD</span>
           <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/11402576-3e12-488b-903b-6386068cea29.png">Ajouter</button>
@@ -530,7 +669,6 @@
     </div>
     <div class="card-body" data-year="1986">
       <h2 class="h6 mb-1">DDR</h2>
-      <p class="card-text mb-2">Extérieur 1986</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/bc195688.png">Ajouter</button>
@@ -547,7 +685,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Corée du Sud</h2>
-      <p class="card-text mb-2">Domicile 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/7786fccf.jpg">Ajouter</button>
@@ -564,7 +701,6 @@
     </div>
     <div class="card-body" data-year="1982">
       <h2 class="h6 mb-1">Pologne</h2>
-      <p class="card-text mb-2">Domicile 1982</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/5d888001.png">Ajouter</button>
@@ -581,7 +717,6 @@
     </div>
     <div class="card-body" data-year="2004">
       <h2 class="h6 mb-1">Grèce</h2>
-      <p class="card-text mb-2">Extérieur 2004</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/399f17ff.png">Ajouter</button>
@@ -598,7 +733,6 @@
     </div>
     <div class="card-body" data-year="2004">
       <h2 class="h6 mb-1">Grèce</h2>
-      <p class="card-text mb-2">Domicile 2004</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/708a2f96.png">Ajouter</button>
@@ -615,7 +749,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Afrique du Sud</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/6571f832.jpg">Ajouter</button>
@@ -632,7 +765,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Afrique du Sud</h2>
-      <p class="card-text mb-2">Extérieur 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/d343dcb9.jpg">Ajouter</button>
@@ -649,7 +781,6 @@
     </div>
     <div class="card-body" data-year="1982">
       <h2 class="h6 mb-1">Cameroun</h2>
-      <p class="card-text mb-2">Domicile 1982</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/a3d85a70.jpg">Ajouter</button>
@@ -666,7 +797,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Cameroun</h2>
-      <p class="card-text mb-2">Domicile 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/81ec0e11.jpg">Ajouter</button>
@@ -683,7 +813,6 @@
     </div>
     <div class="card-body" data-year="1990">
       <h2 class="h6 mb-1">Cameroun</h2>
-      <p class="card-text mb-2">Domicile 1990</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/13ec0562-eb14-442b-b95a-73161bc8c55f.png">Ajouter</button>
@@ -699,7 +828,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Suisse</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/f7e69a6c-acfc-4abe-86da-e5cf58ad0bcf.png">Ajouter</button>
@@ -716,7 +844,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Suisse</h2>
-      <p class="card-text mb-2">Extérieur 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/5a3bb59e-3fa2-4414-8859-7bc8f1f6c90f.png">Ajouter</button>
@@ -733,7 +860,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Chine</h2>
-      <p class="card-text mb-2">Domicile 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/4985e241.jpg">Ajouter</button>
@@ -750,7 +876,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Chine</h2>
-      <p class="card-text mb-2">Extérieur 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/1e242c1f.jpg">Ajouter</button>
@@ -767,7 +892,6 @@
     </div>
     <div class="card-body" data-year="1982">
       <h2 class="h6 mb-1">Chili</h2>
-      <p class="card-text mb-2">Domicile 1982</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8d14901c.jpg">Ajouter</button>
@@ -784,7 +908,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Chili</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/aea83df5.jpg">Ajouter</button>
@@ -801,7 +924,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Jamaïque</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/327c4a7f.jpg">Ajouter</button>
@@ -818,7 +940,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Jamaïque</h2>
-      <p class="card-text mb-2">Extérieur 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/6a5a3fb3.jpg">Ajouter</button>
@@ -835,7 +956,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Norvège</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/88a95c6d.jpg">Ajouter</button>
@@ -852,7 +972,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Norvège</h2>
-      <p class="card-text mb-2">Extérieur 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/820fcc11-d3d9-4f9e-803c-b45edbb1f251.png">Ajouter</button>
@@ -868,7 +987,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Sénégal</h2>
-      <p class="card-text mb-2">Domicile 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ef26ce36.png">Ajouter</button>
@@ -885,7 +1003,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Sénégal</h2>
-      <p class="card-text mb-2">Extérieur 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/c5b83d49.png">Ajouter</button>
@@ -902,7 +1019,6 @@
     </div>
     <div class="card-body" data-year="1988">
       <h2 class="h6 mb-1">Yougoslavie</h2>
-      <p class="card-text mb-2">Domicile 1988</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/7a7bf101.jpg">Ajouter</button>
@@ -919,7 +1035,6 @@
     </div>
     <div class="card-body" data-year="1988">
       <h2 class="h6 mb-1">Yougoslavie</h2>
-      <p class="card-text mb-2">Extérieur 1988</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/8e54e97e.jpg">Ajouter</button>
@@ -936,7 +1051,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Belgique</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/90a064f0.jpg">Ajouter</button>
@@ -953,7 +1067,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/35500507.png">Ajouter</button>
@@ -970,7 +1083,6 @@
     </div>
     <div class="card-body" data-year="1976">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Domicile 1976</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/fdc6ab11.jpg">Ajouter</button>
@@ -987,7 +1099,6 @@
     </div>
     <div class="card-body" data-year="1996">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Extérieur 1996</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/133d1902.jpg">Ajouter</button>
@@ -1004,7 +1115,6 @@
     </div>
     <div class="card-body" data-year="1976">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Extérieur 1976</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/3ab65c8d.jpg">Ajouter</button>
@@ -1021,7 +1131,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/886fd6eb.jpg">Ajouter</button>
@@ -1037,7 +1146,6 @@
     </div>
     <div class="card-body" data-year="1980">
       <h2 class="h6 mb-1">Nigéria</h2>
-      <p class="card-text mb-2">Domicile 2024</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/wales_1980_home.png">Ajouter</button>
@@ -1053,7 +1161,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Nigeria</h2>
-      <p class="card-text mb-2">Extérieur 2024</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nigeria_1994_away_white.png">Ajouter</button>
@@ -1072,7 +1179,6 @@
     </div>
     <div class="card-body" data-year="1976">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Extérieur 1976</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/wales_1976_away.jpg">Ajouter</button>
@@ -1089,7 +1195,6 @@
     </div>
     <div class="card-body" data-year="2010">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Domicile 2010</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/wales_2010_home.jpg">Ajouter</button>
@@ -1106,7 +1211,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Nigeria</h2>
-      <p class="card-text mb-2">Domicile 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nigeria_2002_home.jpg">Ajouter</button>
@@ -1123,7 +1227,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Pays de Galles</h2>
-      <p class="card-text mb-2">Extérieur 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nigeria_2002_away.jpg">Ajouter</button>
@@ -1140,7 +1243,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Nigeria</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nigeria_1994_home.jpg">Ajouter</button>
@@ -1157,7 +1259,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Nigeria</h2>
-      <p class="card-text mb-2">Extérieur 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">$40.70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nigeria_1994_away.jpg">Ajouter</button>
@@ -1175,7 +1276,6 @@
     </div>
     <div class="card-body" data-year="1980">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1980</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1980_home_adidas_blackcrest.jpg">Ajouter</button>
@@ -1192,7 +1292,6 @@
     </div>
     <div class="card-body" data-year="1988">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1988</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1988_home_adidas_geometric.jpg">Ajouter</button>
@@ -1209,7 +1308,6 @@
     </div>
     <div class="card-body" data-year="1988">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Extérieur 1988</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1988_away_adidas_bluepattern.jpg">Ajouter</button>
@@ -1226,7 +1324,6 @@
     </div>
     <div class="card-body" data-year="1989">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1989</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1989_home_adidas_knvb100.jpg">Ajouter</button>
@@ -1243,7 +1340,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1994_home_lotto_pattern.jpg">Ajouter</button>
@@ -1260,7 +1356,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1994 (Variante)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1994_home_lotto_alt.jpg">Ajouter</button>
@@ -1277,7 +1372,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Extérieur 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1994_away_lotto_blue.jpg">Ajouter</button>
@@ -1294,7 +1388,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1998_home_nike_whitecollar.jpg">Ajouter</button>
@@ -1311,7 +1404,6 @@
     </div>
     <div class="card-body" data-year="2000">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 2000</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_2000_home_nike_blacktrim.jpg">Ajouter</button>
@@ -1328,7 +1420,6 @@
     </div>
     <div class="card-body" data-year="2006">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 2006</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_2006_home_nike_blackpanels.jpg">Ajouter</button>
@@ -1345,7 +1436,6 @@
     </div>
     <div class="card-body" data-year="2008">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 2008</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_2008_home_nike_tricolorV.jpg">Ajouter</button>
@@ -1362,7 +1452,6 @@
     </div>
     <div class="card-body" data-year="2010">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 2010</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_2010_home_nike.jpg">Ajouter</button>
@@ -1379,7 +1468,6 @@
     </div>
     <div class="card-body" data-year="2012">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Extérieur 2012</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_2012_away_nike_white_chevrons.jpg">Ajouter</button>
@@ -1396,7 +1484,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Pays-Bas</h2>
-      <p class="card-text mb-2">Domicile 1998 (Variante)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/nld_1998_home_nike_whitecollar.jpg">Ajouter</button>
@@ -1412,7 +1499,6 @@
     </div>
     <div class="card-body" data-year="1984">
       <h2 class="h6 mb-1">France</h2>
-      <p class="card-text mb-2">Domicile 1984</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/france_home_1984.jpg">Ajouter</button>
@@ -1429,7 +1515,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">France</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/france_home_1998.jpg">Ajouter</button>
@@ -1446,7 +1531,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">France</h2>
-      <p class="card-text mb-2">Extérieur 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/france_away_1998.jpg">Ajouter</button>
@@ -1463,7 +1547,6 @@
     </div>
     <div class="card-body" data-year="2006">
       <h2 class="h6 mb-1">France</h2>
-      <p class="card-text mb-2">Domicile 2006</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/france_home_2006.jpg">Ajouter</button>
@@ -1480,7 +1563,6 @@
     </div>
     <div class="card-body" data-year="2006">
       <h2 class="h6 mb-1">France</h2>
-      <p class="card-text mb-2">Extérieur 2006</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/france_away_2006.jpg">Ajouter</button>
@@ -1498,7 +1580,6 @@
     </div>
     <div class="card-body" data-year="1990">
       <h2 class="h6 mb-1">Colombie</h2>
-      <p class="card-text mb-2">Domicile 1990</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/colombia_home_1990.webp">Ajouter</button>
@@ -1515,7 +1596,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Colombie</h2>
-      <p class="card-text mb-2">Gardien 1994 (ML)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/colombia_gk_1994.jpg">Ajouter</button>
@@ -1532,7 +1612,6 @@
     </div>
     <div class="card-body" data-year="1990">
       <h2 class="h6 mb-1">Colombie</h2>
-      <p class="card-text mb-2">Extérieur 1990</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/colombia_away_1990.webp">Ajouter</button>
@@ -1549,7 +1628,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Extérieur 1994 (MC)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_away_1994.png">Ajouter</button>
@@ -1566,7 +1644,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Extérieur 1994 (ML)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_away_1994_ls.webp">Ajouter</button>
@@ -1583,7 +1660,6 @@
     </div>
     <div class="card-body" data-year="1986">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Domicile 1986</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_home_1986.jpg">Ajouter</button>
@@ -1600,7 +1676,6 @@
     </div>
     <div class="card-body" data-year="1990">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Domicile 1990</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_home_1990.webp">Ajouter</button>
@@ -1617,7 +1692,6 @@
     </div>
     <div class="card-body" data-year="2006">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Domicile 2006</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_home_2006_v1.webp">Ajouter</button>
@@ -1636,7 +1710,6 @@
     </div>
     <div class="card-body" data-year="2002">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Extérieur 2002</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_away_2002.png">Ajouter</button>
@@ -1653,7 +1726,6 @@
     </div>
     <div class="card-body" data-year="2014">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Extérieur 2014 (ML)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_away_2014_ls.jpg">Ajouter</button>
@@ -1670,7 +1742,6 @@
     </div>
     <div class="card-body" data-year="2014">
       <h2 class="h6 mb-1">Argentine</h2>
-      <p class="card-text mb-2">Extérieur 2014 (MC)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/argentina_away_2014_ss.webp">Ajouter</button>
@@ -1685,7 +1756,6 @@
     </div>
     <div class="card-body" data-year="2010">
       <h2 class="h6 mb-1">Mexique</h2>
-      <p class="card-text mb-2">Extérieur 2010 (noir)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/mexico_2010_away_black_red.jpg">Ajouter</button>
@@ -1702,7 +1772,6 @@
     </div>
     <div class="card-body" data-year="2011">
       <h2 class="h6 mb-1">Mexique</h2>
-      <p class="card-text mb-2">Extérieur 2011 Gold Cup</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/mexico_2011_away_black_gold.jpg">Ajouter</button>
@@ -1719,7 +1788,6 @@
     </div>
     <div class="card-body" data-year="2010">
       <h2 class="h6 mb-1">Mexique</h2>
-      <p class="card-text mb-2">Extérieur 2010 (manches longues)</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/mexico_2010_away_black_red_LS.jpg">Ajouter</button>
@@ -1736,7 +1804,6 @@
     </div>
     <div class="card-body" data-year="1986">
       <h2 class="h6 mb-1">Mexique</h2>
-      <p class="card-text mb-2">Domicile 1986</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/mexico_1986_home_green.jpg">Ajouter</button>
@@ -1753,7 +1820,6 @@
     </div>
     <div class="card-body" data-year="2010">
       <h2 class="h6 mb-1">Mexique</h2>
-      <p class="card-text mb-2">Domicile 2010</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/mexico_2010_home_green.jpg">Ajouter</button>
@@ -1770,7 +1836,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Croatie</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/croatia_1998_home_white_checks.jpg">Ajouter</button>
@@ -1787,7 +1852,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Croatie</h2>
-      <p class="card-text mb-2">Extérieur 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/croatia_1998_away_blue_checks.jpg">Ajouter</button>
@@ -1804,7 +1868,6 @@
     </div>
     <div class="card-body" data-year="1995">
       <h2 class="h6 mb-1">Irlande</h2>
-      <p class="card-text mb-2">Extérieur 1995</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ireland_1995_away_white_opel.jpg">Ajouter</button>
@@ -1821,7 +1884,6 @@
     </div>
     <div class="card-body" data-year="1997">
       <h2 class="h6 mb-1">Irlande</h2>
-      <p class="card-text mb-2">Extérieur 1997</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ireland_1997_away_orange_opel.jpg">Ajouter</button>
@@ -1838,7 +1900,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Irlande</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 $</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/ireland_1994_home_green_opel.jpg">Ajouter</button>
@@ -1855,7 +1916,6 @@
     </div>
     <div class="card-body" data-year="1996">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Domicile 1996</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_home_1996_nike_centenario.jpg">Ajouter</button>
@@ -1872,7 +1932,6 @@
     </div>
     <div class="card-body">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Extérieur Vintage</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_away_vintage_puma_white.jpg">Ajouter</button>
@@ -1889,7 +1948,6 @@
     </div>
     <div class="card-body" data-year="1996">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Domicile 1996</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_home_1996_nike_blue.webp">Ajouter</button>
@@ -1906,7 +1964,6 @@
     </div>
     <div class="card-body" data-year="2000">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Domicile 2000</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_home_2000_puma_blue.webp">Ajouter</button>
@@ -1923,7 +1980,6 @@
     </div>
     <div class="card-body" data-year="1996">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Extérieur 1996</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_away_1996_nike_white.jpg">Ajouter</button>
@@ -1940,7 +1996,6 @@
     </div>
     <div class="card-body" data-year="1997">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Domicile 1997</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_home_1997_nike_blue_yellow.jpg">Ajouter</button>
@@ -1957,7 +2012,6 @@
     </div>
     <div class="card-body" data-year="2006">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Third 2006</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_third_2006_puma_gold.webp">Ajouter</button>
@@ -1974,7 +2028,6 @@
     </div>
     <div class="card-body" data-year="1994">
       <h2 class="h6 mb-1">Italie</h2>
-      <p class="card-text mb-2">Domicile 1994</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/italie_home_1994_diadora_blue.webp">Ajouter</button>
@@ -1991,7 +2044,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Japon</h2>
-      <p class="card-text mb-2">Domicile 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/japon_home_1998_asics_blue.webp">Ajouter</button>
@@ -2008,7 +2060,6 @@
     </div>
     <div class="card-body" data-year="1998">
       <h2 class="h6 mb-1">Japon</h2>
-      <p class="card-text mb-2">Extérieur 1998</p>
       <div class="d-flex justify-content-between align-items-center">
         <span class="fw-semibold">40,70 CAD</span>
         <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="true" data-img="images/japon_away_1998_asics_white.jpg">Ajouter</button>
@@ -2016,7 +2067,20 @@
     </div>
   </div>
 </div>
-
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="card h-100">
+    <div class="ratio ratio-1x1 bg-light border-bottom">
+      <img loading="lazy" src="images/valencia_away_2021.png" alt="Valence Extérieur 2021 manches courtes" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="card-body" data-year="2021">
+      <h2 class="h6 mb-1">Valence</h2>
+      <div class="d-flex justify-content-between align-items-center">
+        <span class="fw-semibold">40,70 CAD</span>
+        <button class="btn btn-accent btn-sm add-to-cart" data-price="40.70" data-vintage="false" data-img="images/valencia_away_2021.png">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </div>
 
@@ -2093,23 +2157,56 @@
     }
     function filterGridByQuery(q) {
       const grid = document.getElementById('grid-maillots');
-      Array.from(grid.children).forEach(card => {
-        const title = card.querySelector('h2')?.textContent || '';
-        const desc = card.querySelector('.card-text')?.textContent || '';
-        const combined = title + ' ' + desc;
+      const cards = Array.from(grid.children);
+      const clearBtn = document.getElementById('clearSearch');
+      const resultsDiv = document.getElementById('searchResults');
+      
+      let visibleCount = 0;
+      
+      cards.forEach(card => {
+        const title = card.querySelector('.product-title')?.textContent || card.querySelector('h3')?.textContent || '';
+        const combined = title;
         const show = fuzzyMatch(combined, q);
-        card.style.display = show ? '' : 'none';
+        
+        if (show) {
+          card.style.display = '';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
       });
+      
+      // Afficher/cacher le bouton clear et les résultats
+      if (q.trim()) {
+        clearBtn.style.display = 'block';
+        resultsDiv.style.display = 'block';
+        if (visibleCount === 0) {
+          resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
+          resultsDiv.className = 'mt-2 text-center text-danger small';
+        } else if (visibleCount === 1) {
+          resultsDiv.textContent = `1 maillot trouvé`;
+          resultsDiv.className = 'mt-2 text-center text-success small';
+        } else {
+          resultsDiv.textContent = `${visibleCount} maillots trouvés`;
+          resultsDiv.className = 'mt-2 text-center text-success small';
+        }
+      } else {
+        clearBtn.style.display = 'none';
+        resultsDiv.style.display = 'none';
+      }
     }
+    
     // debounce
     let _searchDeb;
     document.getElementById('productSearch').addEventListener('input', (e) => {
       clearTimeout(_searchDeb);
       _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
     });
+    
     document.getElementById('clearSearch').addEventListener('click', () => {
       document.getElementById('productSearch').value = '';
       filterGridByQuery('');
+      document.getElementById('productSearch').focus();
     });
     // init
     filterGridByQuery('');
