@@ -266,9 +266,6 @@
             <i class="bi bi-search text-muted"></i>
           </span>
           <input id="productSearch" type="search" class="form-control search-input border-start-0" placeholder="Rechercher une équipe (Brésil, France, Argentine...)" aria-label="Rechercher">
-          <button id="clearSearch" class="btn search-btn" type="button" title="Effacer la recherche" style="display: none;">
-            <i class="bi bi-x"></i>
-          </button>
         </div>
         <div id="searchResults" class="mt-2 text-center text-muted small" style="display: none;"></div>
       </div>
@@ -2188,13 +2185,11 @@
       }
       
       const cards = Array.from(grid.children);
-      const clearBtn = document.getElementById('clearSearch');
       const resultsDiv = document.getElementById('searchResults');
       
       // Si pas de requête, afficher tous les produits dans l'ordre original
       if (!q.trim()) {
         cards.forEach(card => card.style.display = '');
-        if (clearBtn) clearBtn.style.display = 'none';
         if (resultsDiv) resultsDiv.style.display = 'none';
         return;
       }
@@ -2239,7 +2234,6 @@
       
       // Mettre à jour l'interface
       const visibleCount = matches.length;
-      if (clearBtn) clearBtn.style.display = 'block';
       if (resultsDiv) {
         resultsDiv.style.display = 'block';
         
@@ -2259,7 +2253,6 @@
     // Initialiser la recherche quand le DOM est prêt
     document.addEventListener('DOMContentLoaded', function() {
       const searchInput = document.getElementById('productSearch');
-      const clearBtn = document.getElementById('clearSearch');
       
       if (searchInput) {
         // debounce
@@ -2267,16 +2260,6 @@
         searchInput.addEventListener('input', (e) => {
           clearTimeout(_searchDeb);
           _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
-        });
-      }
-      
-      if (clearBtn) {
-        clearBtn.addEventListener('click', () => {
-          if (searchInput) {
-            searchInput.value = '';
-            filterGridByQuery('');
-            searchInput.focus();
-          }
         });
       }
       
