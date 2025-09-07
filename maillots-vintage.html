@@ -85,6 +85,8 @@
     /* Professional Product Layout */
     .product-grid {
       gap: 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
     }
     
     .product-card {
@@ -2147,52 +2149,86 @@
       }
       return v1[bl];
     }
-    function fuzzyMatch(text, query) {
+    function getMatchScore(text, query) {
       const A = normalizeText(text);
       const Q = normalizeText(query).trim();
-      if (!Q) return true;
-      if (A.includes(Q)) return true;
+      
+      if (!Q) return { match: true, score: 0 };
+      
+      // Correspondance exacte = score max
+      if (A === Q) return { match: true, score: 1000 };
+      
+      // Commence par la requête = score élevé
+      if (A.startsWith(Q)) return { match: true, score: 500 };
+      
+      // Contient la requête = score moyen
+      if (A.includes(Q)) return { match: true, score: 100 };
+      
+      // Correspondance fuzzy = score faible
       const maxDist = Math.floor(Math.max(A.length, Q.length) * 0.25);
-      return levenshtein(A, Q) <= maxDist;
+      const distance = levenshtein(A, Q);
+      if (distance <= maxDist) {
+        return { match: true, score: Math.max(1, 50 - distance * 5) };
+      }
+      
+      return { match: false, score: 0 };
     }
+
     function filterGridByQuery(q) {
       const grid = document.getElementById('grid-maillots');
       const cards = Array.from(grid.children);
       const clearBtn = document.getElementById('clearSearch');
       const resultsDiv = document.getElementById('searchResults');
       
-      let visibleCount = 0;
-      
-      cards.forEach(card => {
-        const title = card.querySelector('.product-title')?.textContent || card.querySelector('h3')?.textContent || '';
-        const combined = title;
-        const show = fuzzyMatch(combined, q);
-        
-        if (show) {
-          card.style.display = '';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-      
-      // Afficher/cacher le bouton clear et les résultats
-      if (q.trim()) {
-        clearBtn.style.display = 'block';
-        resultsDiv.style.display = 'block';
-        if (visibleCount === 0) {
-          resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
-          resultsDiv.className = 'mt-2 text-center text-danger small';
-        } else if (visibleCount === 1) {
-          resultsDiv.textContent = `1 maillot trouvé`;
-          resultsDiv.className = 'mt-2 text-center text-success small';
-        } else {
-          resultsDiv.textContent = `${visibleCount} maillots trouvés`;
-          resultsDiv.className = 'mt-2 text-center text-success small';
-        }
-      } else {
+      // Si pas de requête, afficher tous les produits dans l'ordre original
+      if (!q.trim()) {
+        cards.forEach(card => card.style.display = '');
         clearBtn.style.display = 'none';
         resultsDiv.style.display = 'none';
+        return;
+      }
+      
+      // Calculer les scores et trier
+      const cardsWithScores = cards.map(card => {
+        const title = card.querySelector('.product-title')?.textContent || card.querySelector('h3')?.textContent || '';
+        const scoreData = getMatchScore(title, q);
+        return {
+          element: card,
+          title: title,
+          ...scoreData
+        };
+      });
+      
+      // Séparer les correspondances des non-correspondances
+      const matches = cardsWithScores.filter(item => item.match);
+      const nonMatches = cardsWithScores.filter(item => !item.match);
+      
+      // Trier les correspondances par score (desc)
+      matches.sort((a, b) => b.score - a.score);
+      
+      // Masquer tous les éléments non correspondants
+      nonMatches.forEach(item => item.element.style.display = 'none');
+      
+      // Réorganiser les éléments correspondants par ordre de pertinence
+      matches.forEach((item, index) => {
+        item.element.style.display = '';
+        item.element.style.order = index;
+      });
+      
+      // Mettre à jour l'interface
+      const visibleCount = matches.length;
+      clearBtn.style.display = 'block';
+      resultsDiv.style.display = 'block';
+      
+      if (visibleCount === 0) {
+        resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
+        resultsDiv.className = 'mt-2 text-center text-danger small';
+      } else if (visibleCount === 1) {
+        resultsDiv.textContent = `1 maillot trouvé`;
+        resultsDiv.className = 'mt-2 text-center text-success small';
+      } else {
+        resultsDiv.textContent = `${visibleCount} maillots trouvés (triés par pertinence)`;
+        resultsDiv.className = 'mt-2 text-center text-success small';
       }
     }
     
