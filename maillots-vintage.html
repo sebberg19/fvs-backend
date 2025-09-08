@@ -2157,6 +2157,12 @@
       const Q = normalizeText(query).trim();
       
       if (!Q) return { match: true, score: 0 };
+      if (!text || !text.trim()) return { match: false, score: 0 };
+      
+      // Debug pour les recherches Italie
+      if (Q.includes('italie') || A.includes('italie')) {
+        console.log(`Matching "${text}" (normalized: "${A}") against "${query}" (normalized: "${Q}")`);
+      }
       
       // Correspondance exacte = score max
       if (A === Q) return { match: true, score: 1000 };
@@ -2206,6 +2212,11 @@
             title = element.textContent.trim();
             break;
           }
+        }
+        
+        // Debug pour voir tous les titres trouvés
+        if (q.toLowerCase().includes('italie')) {
+          console.log(`Card found: "${title}" - HTML:`, card.innerHTML.substring(0, 200));
         }
         
         const scoreData = getMatchScore(title, q);
