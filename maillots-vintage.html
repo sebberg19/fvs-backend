@@ -186,60 +186,7 @@
       line-height: 1.6;
     }
     
-    .search-container {
-      max-width: 400px;
-      margin: 2rem auto;
-    }
-    
-    .search-container .input-group {
-      border-radius: 25px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-      border: 2px solid var(--border);
-      transition: all 0.3s ease;
-    }
-    
-    .search-container .input-group:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 4px 12px rgba(47, 111, 62, 0.15);
-    }
-    
-    .search-input {
-      border: none !important;
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      background: transparent;
-    }
-    
-    .search-input:focus {
-      box-shadow: none !important;
-      background: transparent;
-    }
-    
-    .search-btn {
-      border: none;
-      background: var(--accent);
-      color: white;
-      width: 40px;
-      height: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      margin-right: 4px;
-      border-radius: 50%;
-    }
-    
-    .search-btn:hover {
-      background: #285a33;
-      color: white;
-      transform: scale(1.1);
-    }
-    
-    .input-group-text {
-      border: none !important;
-      padding: 0.75rem 1rem;
-    }
+
   </style>
 </head>
 <body>
@@ -259,16 +206,7 @@
         </p>
       </div>
       
-      <!-- Search Section -->
-      <div class="search-container">
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-search text-muted"></i>
-          </span>
-          <input id="productSearch" type="search" class="form-control search-input border-start-0" placeholder="Rechercher une équipe (Brésil, France, Argentine...)" aria-label="Rechercher">
-        </div>
-        <div id="searchResults" class="mt-2 text-center text-muted small" style="display: none;"></div>
-      </div>
+
 
       <!-- Nécessite Bootstrap 5 (CSS + JS). Ajoute ce <link> dans <head> si ce n’est pas déjà fait :
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -2131,158 +2069,9 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    // Recherche fuzzy tolérante aux petites fautes (Levenshtein)
-    function normalizeText(s) {
-      return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0000-\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
-    }
-    function levenshtein(a, b) {
-      if (a === b) return 0;
-      const al = a.length, bl = b.length;
-      if (al === 0) return bl;
-      if (bl === 0) return al;
-      const v0 = new Array(bl + 1), v1 = new Array(bl + 1);
-      for (let i = 0; i <= bl; i++) v0[i] = i;
-      for (let i = 0; i < al; i++) {
-        v1[0] = i + 1;
-        for (let j = 0; j < bl; j++) {
-          const cost = a[i] === b[j] ? 0 : 1;
-          v1[j + 1] = Math.min(v1[j] + 1, v0[j + 1] + 1, v0[j] + cost);
-        }
-        for (let k = 0; k <= bl; k++) v0[k] = v1[k];
-      }
-      return v1[bl];
-    }
-    function getMatchScore(text, query) {
-      const A = normalizeText(text);
-      const Q = normalizeText(query).trim();
-      
-      if (!Q) return { match: true, score: 0 };
-      if (!text || !text.trim()) return { match: false, score: 0 };
-      
-      // Correspondance exacte insensible à la casse = score maximum
-      if (A === Q) return { match: true, score: 1000 };
-      
-      // Correspondance exacte avec la casse originale = score très élevé
-      if (text.toLowerCase().trim() === query.toLowerCase().trim()) {
-        return { match: true, score: 950 };
-      }
-      
-      // Commence par la requête = score élevé
-      if (A.startsWith(Q)) return { match: true, score: 500 };
-      
-      // Contient la requête = score moyen
-      if (A.includes(Q)) return { match: true, score: 100 };
-      
-      // Correspondance fuzzy = score faible
-      const maxDist = Math.floor(Math.max(A.length, Q.length) * 0.25);
-      const distance = levenshtein(A, Q);
-      if (distance <= maxDist) {
-        return { match: true, score: Math.max(1, 50 - distance * 5) };
-      }
-      
-      return { match: false, score: 0 };
-    }
 
-    function filterGridByQuery(q) {
-      const grid = document.getElementById('grid-maillots');
-      if (!grid) {
-        console.error('Grid element not found');
-        return;
-      }
-      
-      const cards = Array.from(grid.children);
-      const resultsDiv = document.getElementById('searchResults');
-      
-      // Si pas de requête, afficher tous les produits dans l'ordre original
-      if (!q.trim()) {
-        cards.forEach(card => card.style.display = '');
-        if (resultsDiv) resultsDiv.style.display = 'none';
-        return;
-      }
-      
-      // Calculer les scores et trier
-      const cardsWithScores = cards.map(card => {
-        // Chercher le titre dans différents emplacements possibles
-        let title = '';
-        const titleSelectors = ['.product-title', '.product-info h3', 'h3'];
-        
-        for (const selector of titleSelectors) {
-          const element = card.querySelector(selector);
-          if (element && element.textContent.trim()) {
-            title = element.textContent.trim();
-            break;
-          }
-        }
-        
-        const scoreData = getMatchScore(title, q);
-        
-        // Debug temporaire pour voir les scores
-        if (scoreData.match && q.toLowerCase().includes('france')) {
-          console.log(`"${title}" -> score: ${scoreData.score}`);
-        }
-        
-        return {
-          element: card,
-          title: title,
-          ...scoreData
-        };
-      });
-      
-      // Séparer les correspondances des non-correspondances
-      const matches = cardsWithScores.filter(item => item.match);
-      const nonMatches = cardsWithScores.filter(item => !item.match);
-      
-      // Trier les correspondances par score (desc)
-      matches.sort((a, b) => b.score - a.score);
-      
-      // Masquer tous les éléments non correspondants
-      nonMatches.forEach(item => item.element.style.display = 'none');
-      
-      // Réorganiser les éléments correspondants par ordre de pertinence
-      matches.forEach((item, index) => {
-        item.element.style.display = '';
-        item.element.style.order = index;
-      });
-      
-      // Réorganiser physiquement les éléments dans le DOM pour un meilleur tri visuel
-      matches.forEach(item => {
-        grid.appendChild(item.element);
-      });
-      
-      // Mettre à jour l'interface
-      const visibleCount = matches.length;
-      if (resultsDiv) {
-        resultsDiv.style.display = 'block';
-        
-        if (visibleCount === 0) {
-          resultsDiv.textContent = `Aucun maillot trouvé pour "${q}"`;
-          resultsDiv.className = 'mt-2 text-center text-danger small';
-        } else if (visibleCount === 1) {
-          resultsDiv.textContent = `1 maillot trouvé`;
-          resultsDiv.className = 'mt-2 text-center text-success small';
-        } else {
-          resultsDiv.textContent = `${visibleCount} maillots trouvés (triés par pertinence)`;
-          resultsDiv.className = 'mt-2 text-center text-success small';
-        }
-      }
-    }
-    
-    // Initialiser la recherche quand le DOM est prêt
-    document.addEventListener('DOMContentLoaded', function() {
-      const searchInput = document.getElementById('productSearch');
-      
-      if (searchInput) {
-        // debounce
-        let _searchDeb;
-        searchInput.addEventListener('input', (e) => {
-          clearTimeout(_searchDeb);
-          _searchDeb = setTimeout(() => filterGridByQuery(e.target.value), 220);
-        });
-      }
-      
-      // Init - afficher tous les produits
-      filterGridByQuery('');
-    });
+
+
 
     // Modal behavior is provided by the shared product-customizer.js include
   </script>
