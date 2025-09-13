@@ -116,6 +116,41 @@
         background: var(--surface) !important;
         border-bottom: 1px solid var(--border);
       }
+      
+      /* Navigation fixe globale */
+      #site-header {
+          position: fixed !important;
+          top: 0 !important;
+          left: 0 !important;
+          right: 0 !important;
+          z-index: 1050 !important;
+          width: 100% !important;
+          background: var(--surface) !important;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+      }
+      
+      #site-header .navbar {
+          position: relative !important;
+          background: transparent !important;
+          box-shadow: none !important;
+          margin: 0 !important;
+      }
+      
+      #site-header .sticky-top {
+          position: static !important;
+      }
+      
+      /* Compenser la hauteur de la navbar fixe */
+      body {
+          padding-top: 76px !important;
+      }
+      
+      @media (max-width: 991.98px) {
+          body {
+              padding-top: 72px !important;
+          }
+      }
+      
       .navbar .navbar-brand { color: var(--text); }
       .nav-link { color: var(--muted) !important; }
   .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
