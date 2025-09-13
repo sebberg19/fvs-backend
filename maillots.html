@@ -30,6 +30,21 @@
             z-index: 1020 !important;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+        
+        /* Styles pour le header qui contient la navigation */
+        #site-header {
+            position: sticky !important;
+            top: 0 !important;
+            z-index: 1030 !important;
+            background: var(--surface) !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+        }
+        
+        #site-header .navbar {
+            position: relative !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
         .navbar .navbar-brand { color: var(--text); }
         .nav-link { color: var(--muted) !important; }
     .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
