@@ -22,7 +22,14 @@
         html, body { height: 100%; background: var(--bg); color: var(--text);
             font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
         }
-        .navbar { background: var(--surface) !important; border-bottom: 1px solid var(--border); }
+        .navbar { 
+            background: var(--surface) !important; 
+            border-bottom: 1px solid var(--border); 
+            position: sticky !important; 
+            top: 0 !important; 
+            z-index: 1020 !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .navbar .navbar-brand { color: var(--text); }
         .nav-link { color: var(--muted) !important; }
     .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
@@ -187,6 +194,17 @@
           padding: 0.25rem 0.5rem;
           border-radius: 12px;
           font-weight: 500;
+        }
+        
+        /* Ajustement pour la navbar sticky */
+        main {
+          padding-top: 1rem !important;
+        }
+        
+        @media (max-width: 768px) {
+          main {
+            padding-top: 0.5rem !important;
+          }
         }
     </style>
 </head>
