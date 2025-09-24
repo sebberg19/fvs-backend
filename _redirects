@@ -1,2 +1,3 @@
 /api/payments/create-session /.netlify/functions/create-session 200
 /api/payments/webhook /.netlify/functions/stripe-webhook 200
+/maillots-nations /maillots-nations.html 200
