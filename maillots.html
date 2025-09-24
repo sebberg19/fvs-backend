@@ -248,11 +248,12 @@
           }
         }
         
-        /* Styles pour la barre de recherche */
-        #search-input {
-            border-left: none;
-            border-right: none;
-        }
+    /* Styles pour la barre de recherche */
+    #search-input {
+      border-left: none;
+      border-right: none;
+      border-radius: .375rem 0 0 .375rem; /* arrondir côté gauche */
+    }
         
         .input-group-text {
             border-right: none;
@@ -261,6 +262,18 @@
         #clear-search {
             border-left: none;
         }
+
+    /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
+    .search-icon-btn {
+      background: var(--accent);
+      color: white;
+      border: 1px solid var(--accent);
+      transition: all 0.2s ease;
+      border-radius: 0 .375rem .375rem 0; /* arrondir côté droit */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
         
         .input-group-text,
         #search-input,
@@ -325,23 +338,24 @@
                         </a>
                     </div>
                     
-                    <!-- Barre de recherche -->
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="input-group">
-                                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot (ex: Milan, Roma, Barcelona...)" aria-label="Rechercher un maillot">
-                                <button class="btn search-icon-btn" type="button" id="search-button" title="Rechercher">
-                                    <i class="fas fa-search"></i>
-                                </button>
-                                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="text-center mt-2">
-                                <small class="text-muted" id="search-results-count"></small>
-                            </div>
-                        </div>
-                    </div>
+          <!-- Barre de recherche -->
+          <div class="row justify-content-center mb-4">
+            <div class="col-md-6 col-lg-4">
+              <label for="search-input" class="visually-hidden">Rechercher un maillot</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot (ex: Milan, Roma, Barcelona...)" aria-label="Rechercher un maillot" autocomplete="off">
+                <button class="btn search-icon-btn" type="button" id="search-button" title="Rechercher" aria-label="Lancer la recherche">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="text-center mt-2">
+                <small class="text-muted" id="search-results-count" aria-live="polite"></small>
+              </div>
+            </div>
+          </div>
                 </div>
             </div>
             
@@ -635,13 +649,26 @@
 
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_127.png">
-      <img loading="lazy" src="images/Arsenal_FC_127.png" alt="Arsenal" class="w-100 h-100 object-fit-cover">
+    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_004.png">
+      <img loading="lazy" src="images/Arsenal_FC_004.png" alt="Arsenal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Arsenal</h3>
       <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_127.png">Ajouter</button>
+      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_004.png">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="product-card h-100">
+    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_005.png">
+      <img loading="lazy" src="images/Arsenal_FC_005.png" alt="Arsenal" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="product-info">
+      <h3 class="product-title">Arsenal</h3>
+      <div class="product-price">36,70 CAD</div>
+      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Arsenal_FC_005.png">Ajouter</button>
     </div>
   </div>
 </div>
@@ -2870,368 +2897,58 @@
   </div>
 </div>
 
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_000.png">
-      <img loading="lazy" src="images/leverkussen_000.png" alt="Leverkussen" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Leverkussen</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_000.png">Ajouter</button>
-    </div>
-  </div>
-</div>
+<!-- Fallback script: override normalizeText and bind search handlers if needed -->
+<script>
+(function(){
+    function normalizeTextCompat(t){
+        if(!t) return '';
+        return String(t)
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g,'')
+            .replace(/[^a-z0-9\s]/g,'')
+            .replace(/\s+/g,' ')
+            .trim();
+    }
 
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_02.png">
-      <img loading="lazy" src="images/leverkussen_02.png" alt="Leverkussen" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Leverkussen</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_02.png">Ajouter</button>
-    </div>
-  </div>
-</div>
+    try{ window.normalizeText = normalizeTextCompat; }catch(e){}
 
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_111.png">
-      <img loading="lazy" src="images/leverkussen_111.png" alt="Leverkussen" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Leverkussen</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/leverkussen_111.png">Ajouter</button>
-    </div>
-  </div>
-</div>
+    function bindSearchFallback(){
+        var input = document.getElementById('search-input');
+        var btn = document.getElementById('search-button');
+        var clr = document.getElementById('clear-search');
+        var results = document.getElementById('search-results-count');
+        var cards = document.querySelectorAll('.product-card');
+        if(!input || !clr || !results) return;
 
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/man_utd.png">
-      <img loading="lazy" src="images/man_utd.png" alt="Manchester United" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Manchester United</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/man_utd.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/napoli_04.png">
-      <img loading="lazy" src="images/napoli_04.png" alt="SSC Napoli" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">SSC Napoli</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/napoli_04.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/newcastle_03.png">
-      <img loading="lazy" src="images/newcastle_03.png" alt="Newcastle United" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Newcastle United</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/newcastle_03.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_01.png">
-      <img loading="lazy" src="images/stuttgart_01.png" alt="VfB Stuttgart" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">VfB Stuttgart</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_01.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_03.png">
-      <img loading="lazy" src="images/stuttgart_03.png" alt="VfB Stuttgart" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">VfB Stuttgart</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_03.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_04.png">
-      <img loading="lazy" src="images/stuttgart_04.png" alt="VfB Stuttgart" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">VfB Stuttgart</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/stuttgart_04.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/venezia_01.png">
-      <img loading="lazy" src="images/venezia_01.png" alt="Venezia" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Venezia</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/venezia_01.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/werder_bremen.png">
-      <img loading="lazy" src="images/werder_bremen.png" alt="Werder BrÃªme" class="w-100 h-100 object-fit-cover">
-    </div>
-    <div class="product-info">
-      <h3 class="product-title">Werder BrÃªme</h3>
-      <div class="product-price">36,70 CAD</div>
-      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/werder_bremen.png">Ajouter</button>
-    </div>
-  </div>
-</div>
-
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="rati
-
-
-</div>
-<!-- ====== /FIN BLOC ====== -->
-
-            </div> <!-- /row g-0 -->
-
-</div>
-
-
-
-            </div>
-
-            <hr class="my-4">
-
-            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
-                <small class="text-secondary">Livraison offerte dÃ¨s 100$ CAD dâ€™achat.</small>
-                <a href="./tous-les-maillots.html" class="btn btn-outline-dark btn-sm">Voir tous les maillots</a>
-            </div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer py-4">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <small>Â© <span id="year"></span> Futbolero Vintage Shop. Tous droits rÃ©servÃ©s.</small>
-        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
-      </div>
-    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
-</footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
-    <!-- Nav partagÃ©e -->
-    <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
-
-    <!-- Personnalisation/tailles -->
-    <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
-
-    <!-- Page script: annÃ©e + interactions -->
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-
-        function normalizeText(s) {
-            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+        var t;
+        function perform(q){
+            var nq = normalizeTextCompat((q||'').trim());
+            var visible = 0;
+            cards.forEach(function(card){
+                var titleEl = card.querySelector('.product-title');
+                if(!titleEl) return;
+                var parent = card.parentElement;
+                var title = normalizeTextCompat(titleEl.textContent);
+                var show = nq === '' || title.indexOf(nq) !== -1;
+                parent.style.display = show ? '' : 'none';
+                if(show) visible++;
+            });
+            if(nq === '') { results.textContent = ''; }
+            else if(visible === 0) { results.textContent = 'Aucun maillot trouvé'; results.style.color='#dc3545'; }
+            else if(visible === 1) { results.textContent = '1 maillot trouvé'; results.style.color='#198754'; }
+            else { results.textContent = visible + ' maillots trouvés'; results.style.color='#198754'; }
         }
 
+        input.addEventListener('input', function(e){ clearTimeout(t); t = setTimeout(function(){ perform(e.target.value); }, 120); });
+        input.addEventListener('keydown', function(e){ if(e.key === 'Enter') perform(input.value); if(e.key === 'Escape'){ input.value=''; perform(''); } });
+        if(btn) btn.addEventListener('click', function(){ perform(input.value); });
+        clr.addEventListener('click', function(){ input.value=''; perform(''); input.focus(); });
+    }
 
-
-
-                // modal is now provided by the shared product-customizer.js include
-                
-        // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image
-
-        // Fonctionnalité de recherche
-        function initSearchFunctionality() {
-            console.log('=== DÉBUT INIT RECHERCHE ===');
-            const searchInput = document.getElementById('search-input');
-            const searchButton = document.getElementById('search-button');
-            const clearButton = document.getElementById('clear-search');
-            const resultsCount = document.getElementById('search-results-count');
-            const productCards = document.querySelectorAll('.product-card');
-            let noResultsMessage = null;
-
-            console.log(`Éléments trouvés:`);
-            console.log(`- searchInput: ${searchInput ? 'OK' : 'MANQUANT'}`);
-            console.log(`- searchButton: ${searchButton ? 'OK' : 'MANQUANT'}`);
-            console.log(`- clearButton: ${clearButton ? 'OK' : 'MANQUANT'}`);
-            console.log(`- resultsCount: ${resultsCount ? 'OK' : 'MANQUANT'}`);
-            console.log(`- productCards: ${productCards.length} trouvées`);
-
-            if (!searchInput || !clearButton || !resultsCount) {
-                console.error('ERREUR: Éléments de recherche manquants');
-                console.error('searchInput:', searchInput);
-                console.error('clearButton:', clearButton);
-                console.error('resultsCount:', resultsCount);
-                return;
-            }
-
-            function performSearch(query) {
-                console.log(`=== RECHERCHE: "${query}" ===`);
-                const normalizedQuery = normalizeText(query.trim());
-                console.log(`Query normalisée: "${normalizedQuery}"`);
-                let visibleCount = 0;
-
-                productCards.forEach((card, index) => {
-                    const titleElement = card.querySelector('.product-title');
-                    if (titleElement) {
-                        const title = normalizeText(titleElement.textContent);
-                        const isVisible = normalizedQuery === '' || title.includes(normalizedQuery);
-                        
-                        const parentCol = card.parentElement; // div col-6 col-md-4 col-lg-3
-                        
-                        if (isVisible) {
-                            parentCol.style.display = '';
-                            visibleCount++;
-                        } else {
-                            parentCol.style.display = 'none';
-                        }
-                        
-                        if (index < 3) { // Log des 3 premiers pour debug
-                            console.log(`Carte ${index}: "${titleElement.textContent}" -> "${title}" -> ${isVisible ? 'VISIBLE' : 'CACHÉ'}`);
-                        }
-                    }
-                });
-
-                console.log(`Résultat: ${visibleCount}/${productCards.length} produits visibles`);
-
-                // Mise à jour du compteur de résultats
-                if (normalizedQuery === '') {
-                    resultsCount.textContent = '';
-                    removeNoResultsMessage();
-                } else if (visibleCount === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
-                    resultsCount.style.color = '#dc3545';
-                    showNoResultsMessage();
-                } else if (visibleCount === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
-                    resultsCount.style.color = '#198754';
-                    removeNoResultsMessage();
-                } else {
-                    resultsCount.textContent = `${visibleCount} maillots trouvés`;
-                    resultsCount.style.color = '#198754';
-                    removeNoResultsMessage();
-                }
-                
-                console.log(`Compteur mis à jour: "${resultsCount.textContent}"`);
-            }
-
-            function showNoResultsMessage() {
-                if (!noResultsMessage) {
-                    noResultsMessage = document.createElement('div');
-                    noResultsMessage.className = 'col-12 no-results';
-                    noResultsMessage.innerHTML = `
-                        <div class="text-center">
-                            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                            <h4 class="text-muted">Aucun maillot trouvé</h4>
-                            <p class="text-muted">Essayez avec un autre terme de recherche</p>
-                        </div>
-                    `;
-                    document.querySelector('.row.g-0').appendChild(noResultsMessage);
-                }
-            }
-
-            function removeNoResultsMessage() {
-                if (noResultsMessage && noResultsMessage.parentNode) {
-                    noResultsMessage.parentNode.removeChild(noResultsMessage);
-                    noResultsMessage = null;
-                }
-            }
-
-            // Événements de recherche avec debounce
-            let searchTimeout;
-            searchInput.addEventListener('input', (e) => {
-                console.log(`Événement input détecté: "${e.target.value}"`);
-                clearTimeout(searchTimeout);
-                searchTimeout = setTimeout(() => {
-                    performSearch(e.target.value);
-                }, 150);
-            });
-
-            // Bouton de recherche
-            if (searchButton) {
-                searchButton.addEventListener('click', () => {
-                    console.log(`Clic sur bouton recherche, valeur: "${searchInput.value}"`);
-                    performSearch(searchInput.value);
-                });
-            }
-
-            // Bouton effacer
-            clearButton.addEventListener('click', () => {
-                console.log('Clic sur bouton effacer');
-                searchInput.value = '';
-                performSearch('');
-                searchInput.focus();
-            });
-
-            // Recherche au clavier
-            searchInput.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter') {
-                    console.log(`Touche Entrée pressée, valeur: "${searchInput.value}"`);
-                    performSearch(searchInput.value);
-                } else if (e.key === 'Escape') {
-                    console.log('Touche Échap pressée');
-                    searchInput.value = '';
-                    performSearch('');
-                }
-            });
-
-            console.log('=== RECHERCHE INITIALISÉE AVEC SUCCÈS ===');
-        }
-
-        // Initialiser la recherche quand la page est chargée
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM chargé - Début initialisation');
-            
-            // Debug: vérifier si les éléments de recherche existent
-            const searchInput = document.getElementById('search-input');
-            const searchButton = document.getElementById('search-button');
-            const clearButton = document.getElementById('clear-search');
-            
-            console.log('Éléments de recherche trouvés:');
-            console.log('- searchInput:', searchInput);
-            console.log('- searchButton:', searchButton);
-            console.log('- clearButton:', clearButton);
-            
-            // Initialiser les fonctionnalités
-            initSearchFunctionality();
-            makeProductImagesClickable();
-            
-            console.log('Initialisation terminée');
-        });
-    </script>
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindSearchFallback);
+    else bindSearchFallback();
+})();
+</script>
 </body>
 </html>
-
-
