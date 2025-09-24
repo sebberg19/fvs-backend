@@ -1,19 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="co-scheme" content="light" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Maillots — Futbolero Vintage Shop</title>
+    <title>Maillots � Futbolero Vintage Shop</title>
 
-    <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->
+    <!-- Fonts + Bootstrap + Icons (align? avec la page vintage) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-    <!-- Styles thème -->
+    <!-- Styles th�me -->
     <style>
         :root {
             --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
@@ -118,7 +119,7 @@
             position: absolute; top: -6px; right: -8px; font-size: .7rem;
             background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
         }
-        /* Supprime complètement tous les espacements entre les produits */
+        /* Supprime compl�tement tous les espacements entre les produits */
         .row.g-0 .col-6,
         .row.g-0 .col-md-4,
         .row.g-0 .col-lg-3 {
@@ -247,30 +248,88 @@
           }
         }
         
-        /* Styles pour la barre de recherche */
-        #search-input {
-            border-left: none;
-            border-right: none;
-        }
-        
-        .input-group-text {
-            border-right: none;
-        }
-        
-        #clear-search {
-            border-left: none;
-        }
-        
-        .input-group-text,
-        #search-input,
-        #clear-search {
-            border-color: var(--border);
-        }
-        
-        #search-input:focus {
-            box-shadow: 0 0 0 0.25rem rgba(47, 111, 62, 0.15);
-            border-color: var(--accent);
-        }
+  /* Styles pour la barre de recherche */
+  #search-input {
+    border-left: none;
+    border-right: none;
+    border-radius: .375rem 0 0 .375rem; /* arrondir c?t? gauche */
+  }
+
+  .input-group-text {
+    border-right: none;
+  }
+
+  #clear-search {
+    border-left: none;
+  }
+
+  /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
+  .search-icon-btn {
+    background: #000000; /* black */
+    color: #ffffff;
+    border: 1px solid #000000; /* black border */
+    transition: all 0.12s ease;
+    border-radius: 0 .375rem .375rem 0; /* arrondir c?t? droit */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none; /* remove subtle contour */
+  }
+
+  .input-group-text,
+  #search-input,
+  #clear-search {
+    border-color: #000000; /* make borders black */
+  }
+
+  /* Remove focus glow/contour on the search input */
+  #search-input:focus {
+    box-shadow: none !important;
+    border-color: #000000 !important;
+    outline: none !important;
+  }
+
+  /* Ensure no focus styles on input group elements */
+  .input-group .form-control:focus {
+    box-shadow: none !important;
+    border-color: #000000 !important;
+  }
+
+  /* Remove any Bootstrap focus ring */
+  #search-input:focus,
+  #search-input:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: #000000 !important;
+  }
+
+  /* Additional specificity to override any Bootstrap defaults */
+  .input-group #search-input:focus,
+  .input-group #search-input:active,
+  .input-group #search-input:focus-within,
+  .input-group #search-input:focus-visible {
+    box-shadow: none !important;
+    outline: none !important;
+    border-color: #000000 !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+  }
+
+  /* Remove any possible ring or glow effects */
+  #search-input,
+  #search-input * {
+    --bs-focus-ring-color: transparent !important;
+    --bs-focus-ring-width: 0 !important;
+    --bs-focus-ring-opacity: 0 !important;
+  }
+
+  .search-icon-btn:hover {
+    background: #111111; /* slightly lighter black on hover */
+    border-color: #111111;
+    color: #ffffff;
+    transform: scale(1.03);
+  }
         
         .product-card.hidden {
             display: none !important;
@@ -288,9 +347,9 @@
     </style>
 </head>
 <body>
-<!-- Nav injectée via include-nav.js -->
+<!-- Nav inject?e via include-nav.js -->
 
-    <!-- Nav partagée -->
+    <!-- Nav partag?e -->
     <header id="site-header"></header>
 
     <main class="py-4 py-md-5">
@@ -310,23 +369,24 @@
                         </button>
                     </div>
                     
-                    <!-- Barre de recherche -->
-                    <div class="row justify-content-center mb-4">
-                        <div class="col-md-6 col-lg-4">
-                            <div class="input-group">
-                                <span class="input-group-text bg-white">
-                                    <i class="fas fa-search text-muted"></i>
-                                </span>
-                                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot">
-                                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                            <div class="text-center mt-2">
-                                <small class="text-muted" id="search-results-count"></small>
-                            </div>
-                        </div>
-                    </div>
+          <!-- Barre de recherche -->
+          <div class="row justify-content-center mb-4">
+            <div class="col-md-6 col-lg-4">
+              <label for="search-input" class="visually-hidden">Rechercher un maillot</label>
+              <div class="input-group">
+                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot (ex: Milan, Roma, Barcelona...)" aria-label="Rechercher un maillot" autocomplete="off">
+                <button class="btn search-icon-btn" type="button" id="search-button" title="Rechercher" aria-label="Lancer la recherche">
+                  <i class="fas fa-search" aria-hidden="true"></i>
+                </button>
+                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                  <i class="fas fa-times" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="text-center mt-2">
+                <small class="text-muted" id="search-results-count" aria-live="polite"></small>
+              </div>
+            </div>
+          </div>
                 </div>
             </div>
             
@@ -347,26 +407,161 @@
 
 
 
-<div class="col-6 col-md-4 col-lg-3">
-  <div class="product-card h-100">
-    <div class="rati
-
-
-</div>
-<!-- ====== /FIN BLOC ====== -->
-
             </div> <!-- /row g-0 -->
+        </div>
+    </main>
 
-</div>
+<!-- Fallback script: override normalizeText and bind search handlers if needed -->
+<script>
+(function(){
+    function normalizeTextCompat(t){
+        if(!t) return '';
+        return String(t)
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g,'')
+            .replace(/[^a-z0-9\s]/g,'')
+            .replace(/\s+/g,' ')
+            .trim();
+    }
 
+    try{ window.normalizeText = normalizeTextCompat; }catch(e){}
 
+  // Sort product cards alphabetically by their .product-title text.
+  function sortProductCardsAlphabetically() {
+    try {
+      // find the container that holds the product columns
+      // we assume columns use classes like .col-6.col-md-4.col-lg-3
+      var firstCard = document.querySelector('.product-card');
+      if(!firstCard) return;
+      var container = firstCard.closest('.row') || firstCard.parentElement.parentElement || firstCard.parentElement;
+      if(!container) return;
 
-            </div>
+      // gather the column elements (direct children that contain .product-card)
+      var cols = Array.prototype.slice.call(container.querySelectorAll(':scope > .col-6, :scope > [class*="col-"]'));
+      if(cols.length === 0) {
+        // fallback: search for any elements that contain .product-card
+        cols = Array.prototype.slice.call(container.children);
+      }
+
+      // map to {col, title}
+      var list = cols.map(function(col){
+        var titleEl = col.querySelector('.product-title');
+        var title = titleEl ? normalizeTextCompat(titleEl.textContent || titleEl.innerText) : '';
+        return { col: col, title: title };
+      });
+
+      // sort by title (locale-independent since we normalized)
+      list.sort(function(a,b){
+        if(a.title < b.title) return -1;
+        if(a.title > b.title) return 1;
+        return 0;
+      });
+
+      // re-append in sorted order
+      list.forEach(function(item){ container.appendChild(item.col); });
+    } catch (e) {
+      // don't break the rest of the page
+      console && console.warn && console.warn('Sorting products failed:', e);
+    }
+  }
+
+  // Run sorting as early as possible
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sortProductCardsAlphabetically);
+  else sortProductCardsAlphabetically();
+
+  function bindSearchFallback(){
+        var input = document.getElementById('search-input');
+        var btn = document.getElementById('search-button');
+        var clr = document.getElementById('clear-search');
+        var results = document.getElementById('search-results-count');
+        var cards = document.querySelectorAll('.product-card');
+        if(!input || !clr || !results) return;
+
+    var t;
+    // Levenshtein distance (iterative, memory efficient)
+    function levenshtein(a, b) {
+      if (a === b) return 0;
+      a = a || '';
+      b = b || '';
+      var alen = a.length, blen = b.length;
+      if (alen === 0) return blen;
+      if (blen === 0) return alen;
+      var v0 = new Array(blen + 1), v1 = new Array(blen + 1);
+      for (var j = 0; j <= blen; j++) v0[j] = j;
+      for (var i = 0; i < alen; i++) {
+        v1[0] = i + 1;
+        var ai = a.charAt(i);
+        for (var j = 0; j < blen; j++) {
+          var cost = ai === b.charAt(j) ? 0 : 1;
+          var deletion = v0[j + 1] + 1;
+          var insertion = v1[j] + 1;
+          var substitution = v0[j] + cost;
+          v1[j + 1] = Math.min(deletion, insertion, substitution);
+        }
+        // copy v1 to v0 for next iteration
+        for (var k = 0; k <= blen; k++) v0[k] = v1[k];
+      }
+      return v1[blen];
+    }
+
+    function perform(q){
+      var nq = normalizeTextCompat((q||'').trim());
+      var visible = 0;
+      // determine dynamic threshold: larger queries allow larger absolute distance
+      var threshold = 1;
+      if (nq.length >= 6) threshold = Math.max(1, Math.floor(nq.length * 0.35));
+      else if (nq.length >= 4) threshold = 1;
+      else threshold = 0; // very short queries must match closely
+
+      cards.forEach(function(card){
+        var titleEl = card.querySelector('.product-title');
+        if(!titleEl) return;
+        var parent = card.parentElement;
+        var title = normalizeTextCompat(titleEl.textContent);
+
+        var show = false;
+        if (nq === '') {
+          show = true;
+        } else if (title.indexOf(nq) !== -1) {
+          // direct substring match (fast and preferred)
+          show = true;
+        } else {
+          // fuzzy match: compare query to full title and to individual title words
+          var minDist = levenshtein(nq, title);
+          var parts = title.split(/\s+/);
+          for (var p = 0; p < parts.length; p++) {
+            var d = levenshtein(nq, parts[p]);
+            if (d < minDist) minDist = d;
+          }
+          if (minDist <= threshold) show = true;
+        }
+
+        parent.style.display = show ? '' : 'none';
+        if(show) visible++;
+      });
+
+      if(nq === '') { results.textContent = ''; }
+      else if(visible === 0) { results.textContent = 'Aucun maillot trouv?'; results.style.color='#dc3545'; }
+      else if(visible === 1) { results.textContent = '1 maillot trouv?'; results.style.color='#198754'; }
+      else { results.textContent = visible + ' maillots trouv?s'; results.style.color='#198754'; }
+    }
+
+        input.addEventListener('input', function(e){ clearTimeout(t); t = setTimeout(function(){ perform(e.target.value); }, 120); });
+        input.addEventListener('keydown', function(e){ if(e.key === 'Enter') perform(input.value); if(e.key === 'Escape'){ input.value=''; perform(''); } });
+        if(btn) btn.addEventListener('click', function(){ perform(input.value); });
+        clr.addEventListener('click', function(){ input.value=''; perform(''); input.focus(); });
+    }
+
+    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindSearchFallback);
+    else bindSearchFallback();
+})();
+</script>
 
             <hr class="my-4">
 
             <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
-                <small class="text-secondary">Livraison offerte dès 100$ CAD d’achat.</small>
+                <small class="text-secondary">Livraison offerte d?s 100$ CAD d'achat.</small>
                 <a href="./tous-les-maillots.html" class="btn btn-outline-dark btn-sm">Voir tous les maillots</a>
             </div>
         </div>
@@ -375,7 +570,7 @@
     <!-- Footer -->
     <footer class="footer py-4">
       <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small>? <span id="year"></span> Futbolero Vintage Shop. Tous droits r?serv?s.</small>
         <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
       </div>
     <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
@@ -384,13 +579,13 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
-    <!-- Nav partagée -->
+    <!-- Nav partag?e -->
     <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
 
     <!-- Personnalisation/tailles -->
     <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
 
-    <!-- Page script: année + interactions -->
+    <!-- Page script: ann?e + interactions -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -399,7 +594,7 @@
             return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
         }
 
-        // Les images sont maintenant directement cliquables gr�ce aux classes add-to-cart sur les divs product-image
+        // Les images sont maintenant directement cliquables gr?ce aux classes add-to-cart sur les divs product-image
 
         // Configuration du panier (localStorage)
         let cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -429,7 +624,7 @@
                 // Animation sur le bouton s'il existe
                 const btn = element.classList.contains('product-btn') ? element : element.closest('.product-card').querySelector('.product-btn');
                 if (btn) {
-                    btn.textContent = '✓ Ajouté';
+                    btn.textContent = '? Ajout?';
                     btn.classList.remove('btn-dark');
                     btn.classList.add('btn-success');
                     setTimeout(() => {
@@ -456,7 +651,7 @@
             initSearchFunctionality();
         });
 
-        // Fonctionnalité de recherche
+        // Fonctionnalit? de recherche
         function initSearchFunctionality() {
             const searchInput = document.getElementById('search-input');
             const clearButton = document.getElementById('clear-search');
@@ -483,18 +678,18 @@
                     }
                 });
 
-                // Mise à jour du compteur de résultats
+                // Mise ? jour du compteur de r?sultats
                 if (normalizedQuery === '') {
                     resultsCount.textContent = '';
                     removeNoResultsMessage();
                 } else if (visibleCount === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
+                    resultsCount.textContent = 'Aucun maillot trouv?';
                     showNoResultsMessage();
                 } else if (visibleCount === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
+                    resultsCount.textContent = '1 maillot trouv?';
                     removeNoResultsMessage();
                 } else {
-                    resultsCount.textContent = `${visibleCount} maillots trouvés`;
+                    resultsCount.textContent = `${visibleCount} maillots trouv?s`;
                     removeNoResultsMessage();
                 }
             }
@@ -506,7 +701,7 @@
                     noResultsMessage.innerHTML = `
                         <div class="text-center">
                             <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                            <h4 class="text-muted">Aucun maillot trouvé</h4>
+                            <h4 class="text-muted">Aucun maillot trouv?</h4>
                             <p class="text-muted">Essayez avec un autre terme de recherche</p>
                         </div>
                     `;
@@ -521,7 +716,7 @@
                 }
             }
 
-            // Événements de recherche
+            // ?v?nements de recherche
             searchInput.addEventListener('input', (e) => {
                 performSearch(e.target.value);
             });
@@ -533,7 +728,7 @@
                 searchInput.focus();
             });
 
-            // Recherche au clavier (Entrée)
+            // Recherche au clavier (Entr?e)
             searchInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     searchInput.value = '';
@@ -544,4 +739,5 @@
     </script>
 </body>
 </html>
+
 
