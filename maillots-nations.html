@@ -246,6 +246,45 @@
             padding-top: 1rem !important;
           }
         }
+        
+        /* Styles pour la barre de recherche */
+        #search-input {
+            border-left: none;
+            border-right: none;
+        }
+        
+        .input-group-text {
+            border-right: none;
+        }
+        
+        #clear-search {
+            border-left: none;
+        }
+        
+        .input-group-text,
+        #search-input,
+        #clear-search {
+            border-color: var(--border);
+        }
+        
+        #search-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(47, 111, 62, 0.15);
+            border-color: var(--accent);
+        }
+        
+        .product-card.hidden {
+            display: none !important;
+        }
+        
+        .col-6.hidden, .col-md-4.hidden, .col-lg-3.hidden {
+            display: none !important;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
     </style>
 </head>
 <body>
@@ -269,6 +308,24 @@
                         <button class="btn btn-dark active" id="nations-btn">
                             <i class="fas fa-flag me-1"></i> Nations
                         </button>
+                    </div>
+                    
+                    <!-- Barre de recherche -->
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white">
+                                    <i class="fas fa-search text-muted"></i>
+                                </span>
+                                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot">
+                                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="text-center mt-2">
+                                <small class="text-muted" id="search-results-count"></small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -393,27 +450,97 @@
             }
         }
 
-        // Initialiser au chargement avec délais pour s'assurer que tout est prêt
+        // Initialiser au chargement
         document.addEventListener('DOMContentLoaded', function() {
-            makeProductImagesClickable();
             updateCartBadge();
-            
-            // Essayer à nouveau après 500ms au cas où certains éléments tardent à se charger
-            setTimeout(() => {
-                makeProductImagesClickable();
-            }, 500);
-            
-            // Et une fois de plus après 1000ms pour être sûr
-            setTimeout(() => {
-                makeProductImagesClickable();
-            }, 1000);
+            initSearchFunctionality();
         });
-        
-        // Aussi s'assurer que cela fonctionne même si DOMContentLoaded a déjà été déclenché
-        window.addEventListener('load', function() {
-            makeProductImagesClickable();
-            updateCartBadge();
-        });
+
+        // Fonctionnalité de recherche
+        function initSearchFunctionality() {
+            const searchInput = document.getElementById('search-input');
+            const clearButton = document.getElementById('clear-search');
+            const resultsCount = document.getElementById('search-results-count');
+            const productCards = document.querySelectorAll('.product-card');
+            let noResultsMessage = null;
+
+            function performSearch(query) {
+                const normalizedQuery = normalizeText(query.trim());
+                let visibleCount = 0;
+
+                productCards.forEach(card => {
+                    const titleElement = card.querySelector('.product-title');
+                    if (titleElement) {
+                        const title = normalizeText(titleElement.textContent);
+                        const isVisible = normalizedQuery === '' || title.includes(normalizedQuery);
+                        
+                        if (isVisible) {
+                            card.parentElement.classList.remove('hidden');
+                            visibleCount++;
+                        } else {
+                            card.parentElement.classList.add('hidden');
+                        }
+                    }
+                });
+
+                // Mise à jour du compteur de résultats
+                if (normalizedQuery === '') {
+                    resultsCount.textContent = '';
+                    removeNoResultsMessage();
+                } else if (visibleCount === 0) {
+                    resultsCount.textContent = 'Aucun maillot trouvé';
+                    showNoResultsMessage();
+                } else if (visibleCount === 1) {
+                    resultsCount.textContent = '1 maillot trouvé';
+                    removeNoResultsMessage();
+                } else {
+                    resultsCount.textContent = `${visibleCount} maillots trouvés`;
+                    removeNoResultsMessage();
+                }
+            }
+
+            function showNoResultsMessage() {
+                if (!noResultsMessage) {
+                    noResultsMessage = document.createElement('div');
+                    noResultsMessage.className = 'col-12 no-results';
+                    noResultsMessage.innerHTML = `
+                        <div class="text-center">
+                            <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                            <h4 class="text-muted">Aucun maillot trouvé</h4>
+                            <p class="text-muted">Essayez avec un autre terme de recherche</p>
+                        </div>
+                    `;
+                    document.querySelector('.row.g-0').appendChild(noResultsMessage);
+                }
+            }
+
+            function removeNoResultsMessage() {
+                if (noResultsMessage) {
+                    noResultsMessage.remove();
+                    noResultsMessage = null;
+                }
+            }
+
+            // Événements de recherche
+            searchInput.addEventListener('input', (e) => {
+                performSearch(e.target.value);
+            });
+
+            // Bouton effacer
+            clearButton.addEventListener('click', () => {
+                searchInput.value = '';
+                performSearch('');
+                searchInput.focus();
+            });
+
+            // Recherche au clavier (Entrée)
+            searchInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    searchInput.value = '';
+                    performSearch('');
+                }
+            });
+        }
     </script>
 </body>
 </html>
