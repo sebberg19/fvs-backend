@@ -345,29 +345,43 @@
         // Rendre toutes les images de produits cliquables pour ouvrir la modal
         function makeProductImagesClickable() {
             const productCards = document.querySelectorAll('.product-card');
+            console.log(`Trouvé ${productCards.length} cartes de produits`);
             
-            productCards.forEach(card => {
+            productCards.forEach((card, index) => {
                 const productImage = card.querySelector('.product-image');
                 const addToCartBtn = card.querySelector('.add-to-cart');
+                const productTitle = card.querySelector('.product-title');
                 
-                if (productImage && addToCartBtn) {
+                if (productImage && addToCartBtn && productTitle) {
+                    // Éviter de dupliquer les événements
+                    if (productImage.classList.contains('clickable-processed')) {
+                        return;
+                    }
+                    
+                    console.log(`Configuration du produit ${index + 1}: ${productTitle.textContent}`);
+                    
                     // Copier les attributs du bouton vers l'image
                     productImage.setAttribute('data-price', addToCartBtn.getAttribute('data-price'));
                     productImage.setAttribute('data-vintage', addToCartBtn.getAttribute('data-vintage'));
                     productImage.setAttribute('data-img', addToCartBtn.getAttribute('data-img'));
                     
                     // Ajouter les classes nécessaires pour ouvrir la modal
-                    productImage.classList.add('clickable');
+                    productImage.classList.add('clickable', 'clickable-processed');
                     
                     // Ajouter le curseur pointer
                     productImage.style.cursor = 'pointer';
                     
                     // Ajouter l'événement click pour ouvrir la modal
-                    productImage.addEventListener('click', function() {
+                    productImage.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
                         const productTitle = card.querySelector('.product-title').textContent;
                         const price = this.getAttribute('data-price');
                         const vintage = this.getAttribute('data-vintage') === 'true';
                         const imgSrc = this.getAttribute('data-img');
+                        
+                        console.log(`Clic sur image: ${productTitle}, Prix: ${price}`);
                         
                         // Ouvrir la modal de personnalisation
                         if (window.openCustomizationModal) {
@@ -377,8 +391,12 @@
                                 vintage: vintage,
                                 img: imgSrc
                             });
+                        } else {
+                            console.error('openCustomizationModal non trouvé');
                         }
                     });
+                } else {
+                    console.log(`Produit ${index + 1} manque des éléments requis`);
                 }
             });
         }
@@ -432,8 +450,24 @@
             }
         }
 
-        // Initialiser au chargement
+        // Initialiser au chargement avec délais pour s'assurer que tout est prêt
         document.addEventListener('DOMContentLoaded', function() {
+            makeProductImagesClickable();
+            updateCartBadge();
+            
+            // Essayer à nouveau après 500ms au cas où certains éléments tardent à se charger
+            setTimeout(() => {
+                makeProductImagesClickable();
+            }, 500);
+            
+            // Et une fois de plus après 1000ms pour être sûr
+            setTimeout(() => {
+                makeProductImagesClickable();
+            }, 1000);
+        });
+        
+        // Aussi s'assurer que cela fonctionne même si DOMContentLoaded a déjà été déclenché
+        window.addEventListener('load', function() {
             makeProductImagesClickable();
             updateCartBadge();
         });
