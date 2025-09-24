@@ -1833,7 +1833,7 @@
       <img loading="lazy" src="images/Manchester_United_130.png" alt="Manchester United" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Manchester United</h3>
+      <h3 class="product-title">AS Roma</h3>
       <div class="product-price">36,70 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/Manchester_United_130.png">Ajouter</button>
     </div>
@@ -2909,7 +2909,50 @@
 
     try{ window.normalizeText = normalizeTextCompat; }catch(e){}
 
-    function bindSearchFallback(){
+  // Sort product cards alphabetically by their .product-title text.
+  function sortProductCardsAlphabetically() {
+    try {
+      // find the container that holds the product columns
+      // we assume columns use classes like .col-6.col-md-4.col-lg-3
+      var firstCard = document.querySelector('.product-card');
+      if(!firstCard) return;
+      var container = firstCard.closest('.row') || firstCard.parentElement.parentElement || firstCard.parentElement;
+      if(!container) return;
+
+      // gather the column elements (direct children that contain .product-card)
+      var cols = Array.prototype.slice.call(container.querySelectorAll(':scope > .col-6, :scope > [class*="col-"]'));
+      if(cols.length === 0) {
+        // fallback: search for any elements that contain .product-card
+        cols = Array.prototype.slice.call(container.children);
+      }
+
+      // map to {col, title}
+      var list = cols.map(function(col){
+        var titleEl = col.querySelector('.product-title');
+        var title = titleEl ? normalizeTextCompat(titleEl.textContent || titleEl.innerText) : '';
+        return { col: col, title: title };
+      });
+
+      // sort by title (locale-independent since we normalized)
+      list.sort(function(a,b){
+        if(a.title < b.title) return -1;
+        if(a.title > b.title) return 1;
+        return 0;
+      });
+
+      // re-append in sorted order
+      list.forEach(function(item){ container.appendChild(item.col); });
+    } catch (e) {
+      // don't break the rest of the page
+      console && console.warn && console.warn('Sorting products failed:', e);
+    }
+  }
+
+  // Run sorting as early as possible
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', sortProductCardsAlphabetically);
+  else sortProductCardsAlphabetically();
+
+  function bindSearchFallback(){
         var input = document.getElementById('search-input');
         var btn = document.getElementById('search-button');
         var clr = document.getElementById('clear-search');
