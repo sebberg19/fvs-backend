@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="co-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Maillots — Futbolero Vintage Shop</title>
+
+    <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <!-- Styles thème -->
+    <style>
+        :root {
+            --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
+            --accent: #2f6f3e; --accent-contrast: #ffffff;
+        }
+        html, body { height: 100%; background: var(--bg); color: var(--text);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        .navbar { 
+            background: var(--surface) !important; 
+            border-bottom: 1px solid var(--border); 
+        }
+        
+        /* Navigation sticky globale - fonctionne sur toutes les pages */
+        #site-header {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            z-index: 1050 !important;
+            width: 100% !important;
+            background: var(--surface) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+        
+        #site-header .navbar {
+            position: relative !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+        }
+        
+        #site-header .sticky-top {
+            position: static !important;
+        }
+        
+        /* Compenser la hauteur de la navbar fixe */
+        body {
+            padding-top: 76px !important;
+        }
+        
+        @media (max-width: 991.98px) {
+            body {
+                padding-top: 72px !important;
+            }
+        }
+        .navbar .navbar-brand { color: var(--text); }
+        .nav-link { color: var(--muted) !important; }
+    .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
+        .btn-accent {
+            --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
+            --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
+            --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
+        }
+        /* Disable color changes but allow a very light scale on hover; always white text */
+        .btn-accent,
+        .btn-dark {
+            transition: transform .12s ease, box-shadow .12s ease;
+            transform-origin: center center;
+        }
+
+        .btn-accent,
+        .btn-accent:focus,
+        .btn-accent:active {
+            background-color: var(--accent) !important;
+            border-color: var(--accent) !important;
+            color: var(--accent-contrast) !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+        }
+        .btn-dark,
+        .btn-dark:focus,
+        .btn-dark:active {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+        }
+
+    /* Subtle scale on hover for primary buttons (green and black) */
+    .btn-accent, .btn-dark { transition: transform .12s ease; transform-origin: center center; }
+    .btn-accent:hover, .btn-dark:hover { transform: scale(1.035); }
+        /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
+        .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited {
+            background-color: var(--accent) !important;
+            border-color: var(--accent) !important;
+            color: var(--accent-contrast) !important;
+            text-decoration: none !important;
+        }
+        .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+        .card { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+        .card .card-text { color: var(--muted); }
+        .footer { border-top: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+        .cart-btn { position: relative; }
+        .cart-count {
+            position: absolute; top: -6px; right: -8px; font-size: .7rem;
+            background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
+        }
+        /* Supprime complètement tous les espacements entre les produits */
+        .row.g-0 .col-6,
+        .row.g-0 .col-md-4,
+        .row.g-0 .col-lg-3 {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .row.g-0 .card {
+            margin: 0 !important;
+            border-radius: 0 !important;
+        }
+        .row.g-0 .card-body {
+            margin: 0 !important;
+        }
+        .row.g-0 .ratio {
+            margin: 0 !important;
+        }
+        .row.g-0 {
+            margin: 0 !important;
+        }
+        
+        /* Professional Product Layout - same as maillots-vintage */
+        .product-grid {
+          margin: 0;
+        }
+        
+        .product-card {
+          border: 1px solid var(--border);
+          background: var(--surface);
+          transition: all 0.3s ease;
+          cursor: pointer;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        
+        .product-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+          border-color: var(--accent);
+        }
+        
+        .product-image {
+          position: relative;
+          overflow: hidden;
+          background: #f8f9fa;
+        }
+        
+        .product-image img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.3s ease;
+          cursor: pointer;
+        }
+        
+        .product-card:hover .product-image img {
+          transform: scale(1.05);
+        }
+        
+        /* Style pour les images cliquables */
+        .product-image.clickable {
+          cursor: pointer;
+        }
+        
+        .product-image.clickable:hover {
+          opacity: 0.9;
+        }
+        
+        .product-info {
+          padding: 1rem;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          gap: 0.5rem;
+        }
+        
+        .product-title {
+          font-size: 0.9rem;
+          font-weight: 600;
+          color: var(--text);
+          margin: 0;
+          line-height: 1.3;
+        }
+        
+        .product-price {
+          font-size: 0.85rem;
+          color: #000;
+          font-weight: 600;
+          margin: 0.25rem 0;
+        }
+        
+        .product-btn {
+          background: #000 !important;
+          color: #fff !important;
+          border: none;
+          padding: 0.4rem 0.8rem;
+          font-size: 0.8rem;
+          font-weight: 500;
+          border-radius: 4px;
+          transition: transform 0.2s ease;
+          width: 100%;
+          margin-top: auto;
+        }
+        
+        .vintage-badge {
+          position: absolute;
+          top: 0.5rem;
+          right: 0.5rem;
+          background: var(--accent);
+          color: white;
+          font-size: 0.7rem;
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-weight: 500;
+        }
+        
+        /* Ajustement pour la navbar fixe */
+        main {
+            padding-top: 1.5rem !important;
+        }
+        
+        @media (max-width: 768px) {
+          main {
+            padding-top: 1rem !important;
+          }
+        }
+    </style>
+</head>
+<body>
+<!-- Nav injectée via include-nav.js -->
+
+    <!-- Nav partagée -->
+    <header id="site-header"></header>
+
+    <main class="py-4 py-md-5">
+        <div class="container">
+            <!-- Titre -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="h2 mb-3">Maillots des nations Saison 25/26</h1>
+                    
+                    <!-- Navigation entre Clubs et Nations -->
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <a href="maillots.html" class="btn btn-outline-dark">
+                            <i class="fas fa-trophy me-1"></i> Clubs
+                        </a>
+                        <button class="btn btn-dark active" id="nations-btn">
+                            <i class="fas fa-flag me-1"></i> Nations
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Grille de produits -->
+            <div class="row g-0">
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="product-card h-100">
+    <div class="product-image ratio ratio-1x1">
+      <img loading="lazy" src="images/AC_Milan_120.png" alt="AC Milan" class="w-100 h-100 object-fit-cover">
+    </div>
+    <div class="product-info">
+      <h3 class="product-title">AC Milan</h3>
+      <div class="product-price">36,70 CAD</div>
+      <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/AC_Milan_120.png">Ajouter</button>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="col-6 col-md-4 col-lg-3">
+  <div class="product-card h-100">
+    <div class="rati
+
+
+</div>
+<!-- ====== /FIN BLOC ====== -->
+
+            </div> <!-- /row g-0 -->
+
+</div>
+
+
+
+            </div>
+
+            <hr class="my-4">
+
+            <div class="d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-2">
+                <small class="text-secondary">Livraison offerte dès 100$ CAD d’achat.</small>
+                <a href="./tous-les-maillots.html" class="btn btn-outline-dark btn-sm">Voir tous les maillots</a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer py-4">
+      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
+      </div>
+    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
+</footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <!-- Nav partagée -->
+    <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+
+    <!-- Personnalisation/tailles -->
+    <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
+
+    <!-- Page script: année + interactions -->
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+
+        function normalizeText(s) {
+            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+        }
+
+        // Rendre toutes les images de produits cliquables pour ouvrir la modal
+        function makeProductImagesClickable() {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productImage = card.querySelector('.product-image');
+                const addToCartBtn = card.querySelector('.add-to-cart');
+                
+                if (productImage && addToCartBtn) {
+                    // Copier les attributs du bouton vers l'image
+                    productImage.setAttribute('data-price', addToCartBtn.getAttribute('data-price'));
+                    productImage.setAttribute('data-vintage', addToCartBtn.getAttribute('data-vintage'));
+                    productImage.setAttribute('data-img', addToCartBtn.getAttribute('data-img'));
+                    
+                    // Ajouter les classes nécessaires pour ouvrir la modal
+                    productImage.classList.add('clickable');
+                    
+                    // Ajouter le curseur pointer
+                    productImage.style.cursor = 'pointer';
+                    
+                    // Ajouter l'événement click pour ouvrir la modal
+                    productImage.addEventListener('click', function() {
+                        const productTitle = card.querySelector('.product-title').textContent;
+                        const price = this.getAttribute('data-price');
+                        const vintage = this.getAttribute('data-vintage') === 'true';
+                        const imgSrc = this.getAttribute('data-img');
+                        
+                        // Ouvrir la modal de personnalisation
+                        if (window.openCustomizationModal) {
+                            window.openCustomizationModal({
+                                name: productTitle,
+                                price: parseFloat(price),
+                                vintage: vintage,
+                                img: imgSrc
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        // Configuration du panier (localStorage)
+        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+
+        // Ajouter au panier
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
+                const element = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
+                const price = parseFloat(element.dataset.price);
+                const vintage = element.dataset.vintage === 'true';
+                const imgSrc = element.dataset.img;
+                const productTitle = element.closest('.product-card').querySelector('.product-title').textContent;
+
+                const item = {
+                    id: Date.now(),
+                    name: productTitle,
+                    price: price,
+                    vintage: vintage,
+                    img: imgSrc,
+                    quantity: 1
+                };
+
+                cart.push(item);
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartBadge();
+
+                // Animation sur le bouton s'il existe
+                const btn = element.classList.contains('product-btn') ? element : element.closest('.product-card').querySelector('.product-btn');
+                if (btn) {
+                    btn.textContent = '✓ Ajouté';
+                    btn.classList.remove('btn-dark');
+                    btn.classList.add('btn-success');
+                    setTimeout(() => {
+                        btn.textContent = 'Ajouter';
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-dark');
+                    }, 1500);
+                }
+            }
+        });
+
+        function updateCartBadge() {
+            const badge = document.querySelector('.cart-badge');
+            if (badge) {
+                const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+                badge.textContent = count;
+                badge.style.display = count > 0 ? 'inline' : 'none';
+            }
+        }
+
+        // Initialiser au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            makeProductImagesClickable();
+            updateCartBadge();
+        });
+    </script>
+</body>
+</html>

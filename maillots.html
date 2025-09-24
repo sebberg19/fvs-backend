@@ -171,10 +171,20 @@
           height: 100%;
           object-fit: cover;
           transition: transform 0.3s ease;
+          cursor: pointer;
         }
         
         .product-card:hover .product-image img {
           transform: scale(1.05);
+        }
+        
+        /* Style pour les images cliquables */
+        .product-image.clickable {
+          cursor: pointer;
+        }
+        
+        .product-image.clickable:hover {
+          opacity: 0.9;
         }
         
         .product-info {
@@ -249,7 +259,17 @@
             <!-- Titre -->
             <div class="row mb-4">
                 <div class="col-12">
-                    <h1 class="h2 mb-3">Maillots Saison 25/26</h1>
+                    <h1 class="h2 mb-3">Maillots des clubs Saison 25/26</h1>
+                    
+                    <!-- Navigation entre Clubs et Nations -->
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <button class="btn btn-dark active" id="clubs-btn">
+                            <i class="fas fa-trophy me-1"></i> Clubs
+                        </button>
+                        <a href="maillots-nations.html" class="btn btn-outline-dark">
+                            <i class="fas fa-flag me-1"></i> Nations
+                        </a>
+                    </div>
                 </div>
             </div>
             
@@ -257,7 +277,7 @@
             <div class="row g-0">
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
-    <div class="product-image ratio ratio-1x1">
+    <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/AC_Milan_120.png">
       <img loading="lazy" src="images/AC_Milan_120.png" alt="AC Milan" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
@@ -2977,6 +2997,52 @@
 
 
                 // modal is now provided by the shared product-customizer.js include
+                
+        // Rendre toutes les images de produits cliquables pour ouvrir la modal
+        function makeProductImagesClickable() {
+            const productCards = document.querySelectorAll('.product-card');
+            
+            productCards.forEach(card => {
+                const productImage = card.querySelector('.product-image');
+                const addToCartBtn = card.querySelector('.add-to-cart');
+                
+                if (productImage && addToCartBtn) {
+                    // Copier les attributs du bouton vers l'image
+                    productImage.setAttribute('data-price', addToCartBtn.getAttribute('data-price'));
+                    productImage.setAttribute('data-vintage', addToCartBtn.getAttribute('data-vintage'));
+                    productImage.setAttribute('data-img', addToCartBtn.getAttribute('data-img'));
+                    
+                    // Ajouter les classes nécessaires pour ouvrir la modal
+                    productImage.classList.add('clickable');
+                    
+                    // Ajouter le curseur pointer
+                    productImage.style.cursor = 'pointer';
+                    
+                    // Ajouter l'événement click pour ouvrir la modal
+                    productImage.addEventListener('click', function() {
+                        const productTitle = card.querySelector('.product-title').textContent;
+                        const price = this.getAttribute('data-price');
+                        const vintage = this.getAttribute('data-vintage') === 'true';
+                        const imgSrc = this.getAttribute('data-img');
+                        
+                        // Ouvrir la modal de personnalisation
+                        if (window.openCustomizationModal) {
+                            window.openCustomizationModal({
+                                name: productTitle,
+                                price: parseFloat(price),
+                                vintage: vintage,
+                                img: imgSrc
+                            });
+                        }
+                    });
+                }
+            });
+        }
+
+        // Initialiser les images cliquables au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            makeProductImagesClickable();
+        });
     </script>
 </body>
 </html>
