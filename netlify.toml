@@ -25,6 +25,12 @@
   force = false
 
 [[redirects]]
+  # Redirection spécifique pour maillots-nations
+  from = "/maillots-nations"
+  to = "/maillots-nations.html"
+  status = 200
+
+[[redirects]]
   # SPA fallback pour les pages qui n'existent pas
   from = "/*"
   to = "/index.html"
