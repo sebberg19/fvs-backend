@@ -2921,24 +2921,74 @@
         var cards = document.querySelectorAll('.product-card');
         if(!input || !clr || !results) return;
 
-        var t;
-        function perform(q){
-            var nq = normalizeTextCompat((q||'').trim());
-            var visible = 0;
-            cards.forEach(function(card){
-                var titleEl = card.querySelector('.product-title');
-                if(!titleEl) return;
-                var parent = card.parentElement;
-                var title = normalizeTextCompat(titleEl.textContent);
-                var show = nq === '' || title.indexOf(nq) !== -1;
-                parent.style.display = show ? '' : 'none';
-                if(show) visible++;
-            });
-            if(nq === '') { results.textContent = ''; }
-            else if(visible === 0) { results.textContent = 'Aucun maillot trouvé'; results.style.color='#dc3545'; }
-            else if(visible === 1) { results.textContent = '1 maillot trouvé'; results.style.color='#198754'; }
-            else { results.textContent = visible + ' maillots trouvés'; results.style.color='#198754'; }
+    var t;
+    // Levenshtein distance (iterative, memory efficient)
+    function levenshtein(a, b) {
+      if (a === b) return 0;
+      a = a || '';
+      b = b || '';
+      var alen = a.length, blen = b.length;
+      if (alen === 0) return blen;
+      if (blen === 0) return alen;
+      var v0 = new Array(blen + 1), v1 = new Array(blen + 1);
+      for (var j = 0; j <= blen; j++) v0[j] = j;
+      for (var i = 0; i < alen; i++) {
+        v1[0] = i + 1;
+        var ai = a.charAt(i);
+        for (var j = 0; j < blen; j++) {
+          var cost = ai === b.charAt(j) ? 0 : 1;
+          var deletion = v0[j + 1] + 1;
+          var insertion = v1[j] + 1;
+          var substitution = v0[j] + cost;
+          v1[j + 1] = Math.min(deletion, insertion, substitution);
         }
+        // copy v1 to v0 for next iteration
+        for (var k = 0; k <= blen; k++) v0[k] = v1[k];
+      }
+      return v1[blen];
+    }
+
+    function perform(q){
+      var nq = normalizeTextCompat((q||'').trim());
+      var visible = 0;
+      // determine dynamic threshold: larger queries allow larger absolute distance
+      var threshold = 1;
+      if (nq.length >= 6) threshold = Math.max(1, Math.floor(nq.length * 0.35));
+      else if (nq.length >= 4) threshold = 1;
+      else threshold = 0; // very short queries must match closely
+
+      cards.forEach(function(card){
+        var titleEl = card.querySelector('.product-title');
+        if(!titleEl) return;
+        var parent = card.parentElement;
+        var title = normalizeTextCompat(titleEl.textContent);
+
+        var show = false;
+        if (nq === '') {
+          show = true;
+        } else if (title.indexOf(nq) !== -1) {
+          // direct substring match (fast and preferred)
+          show = true;
+        } else {
+          // fuzzy match: compare query to full title and to individual title words
+          var minDist = levenshtein(nq, title);
+          var parts = title.split(/\s+/);
+          for (var p = 0; p < parts.length; p++) {
+            var d = levenshtein(nq, parts[p]);
+            if (d < minDist) minDist = d;
+          }
+          if (minDist <= threshold) show = true;
+        }
+
+        parent.style.display = show ? '' : 'none';
+        if(show) visible++;
+      });
+
+      if(nq === '') { results.textContent = ''; }
+      else if(visible === 0) { results.textContent = 'Aucun maillot trouvé'; results.style.color='#dc3545'; }
+      else if(visible === 1) { results.textContent = '1 maillot trouvé'; results.style.color='#198754'; }
+      else { results.textContent = visible + ' maillots trouvés'; results.style.color='#198754'; }
+    }
 
         input.addEventListener('input', function(e){ clearTimeout(t); t = setTimeout(function(){ perform(e.target.value); }, 120); });
         input.addEventListener('keydown', function(e){ if(e.key === 'Enter') perform(input.value); if(e.key === 'Escape'){ input.value=''; perform(''); } });
