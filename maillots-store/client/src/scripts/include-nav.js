@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     function setActive(container){
       const links = container.querySelectorAll('a.nav-link[href]');
       links.forEach(a => a.classList.remove('active'));
-      if (current === 'maillots.html') {
+      if (current === 'maillots.html' || current === 'maillots-nations.html') {
         const target = container.querySelector('a.nav-link[href="./maillots.html"]');
         if (target) target.classList.add('active');
         return;
