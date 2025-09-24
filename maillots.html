@@ -248,57 +248,53 @@
           }
         }
         
-    /* Styles pour la barre de recherche */
-    #search-input {
-      border-left: none;
-      border-right: none;
-      border-radius: .375rem 0 0 .375rem; /* arrondir côté gauche */
-    }
-        
-        .input-group-text {
-            border-right: none;
-        }
-        
-        #clear-search {
-            border-left: none;
-        }
+  /* Styles pour la barre de recherche */
+  #search-input {
+    border-left: none;
+    border-right: none;
+    border-radius: .375rem 0 0 .375rem; /* arrondir côté gauche */
+  }
 
-    /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
-    .search-icon-btn {
-      background: var(--accent);
-      color: white;
-      border: 1px solid var(--accent);
-      transition: all 0.2s ease;
-      border-radius: 0 .375rem .375rem 0; /* arrondir côté droit */
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-        
-        .input-group-text,
-        #search-input,
-        #clear-search {
-            border-color: var(--border);
-        }
-        
-        #search-input:focus {
-            box-shadow: 0 0 0 0.25rem rgba(47, 111, 62, 0.15);
-            border-color: var(--accent);
-        }
-        
-        .search-icon-btn {
-            background: var(--accent);
-            color: white;
-            border: 1px solid var(--accent);
-            transition: all 0.2s ease;
-        }
-        
-        .search-icon-btn:hover {
-            background: #285a33;
-            border-color: #285a33;
-            color: white;
-            transform: scale(1.05);
-        }
+  .input-group-text {
+    border-right: none;
+  }
+
+  #clear-search {
+    border-left: none;
+  }
+
+  /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
+  .search-icon-btn {
+    background: #000000; /* black */
+    color: #ffffff;
+    border: 1px solid #000000; /* black border */
+    transition: all 0.12s ease;
+    border-radius: 0 .375rem .375rem 0; /* arrondir côté droit */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none; /* remove subtle contour */
+  }
+
+  .input-group-text,
+  #search-input,
+  #clear-search {
+    border-color: #000000; /* make borders black */
+  }
+
+  /* Remove focus glow/contour on the search input */
+  #search-input:focus {
+    box-shadow: none !important;
+    border-color: #000000 !important;
+    outline: none !important;
+  }
+
+  .search-icon-btn:hover {
+    background: #111111; /* slightly lighter black on hover */
+    border-color: #111111;
+    color: #ffffff;
+    transform: scale(1.03);
+  }
         
         .product-card.hidden {
             display: none !important;
