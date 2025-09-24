@@ -27,7 +27,13 @@
 [[redirects]]
   # Redirection spécifique pour maillots-nations
   from = "/maillots-nations"
-  to = "/maillots-nations.html"
+  to = "/nations.html"
+  status = 200
+
+[[redirects]]
+  # Test direct nations
+  from = "/nations"
+  to = "/nations.html"
   status = 200
 
 [[redirects]]
