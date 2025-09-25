@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Nations - Futbolero</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-header {
+            background: #2f6f3e;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .product-img {
+            width: 100%;
+            max-width: 200px;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-header">
+        <h1>🏆 ÉQUIPES NATIONALES - TEST DÉPLOIEMENT 🏆</h1>
+        <p>Si vous voyez cette page, le déploiement fonctionne !</p>
+    </div>
+
+    <div class="product-grid">
+        <div class="product-card">
+            <img src="images/Argentina_111.png" alt="Argentine" class="product-img">
+            <h3>ARGENTINE</h3>
+            <p>Maillot équipe nationale</p>
+            <p><strong>36.70 CAD</strong></p>
+        </div>
+
+        <div class="product-card">
+            <img src="images/Brazil_retro.png" alt="Brésil" class="product-img">
+            <h3>BRÉSIL</h3>
+            <p>Maillot équipe nationale</p>
+            <p><strong>36.70 CAD</strong></p>
+        </div>
+
+        <div class="product-card">
+            <img src="images/France_home.png" alt="France" class="product-img">
+            <h3>FRANCE</h3>
+            <p>Maillot équipe nationale</p>
+            <p><strong>36.70 CAD</strong></p>
+        </div>
+
+        <div class="product-card">
+            <img src="images/Germany_home.png" alt="Allemagne" class="product-img">
+            <h3>ALLEMAGNE</h3>
+            <p>Maillot équipe nationale</p>
+            <p><strong>36.70 CAD</strong></p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px; color: #666;">
+        <p>Version de test - Timestamp: <?php echo date('Y-m-d H:i:s'); ?></p>
+    </div>
+</body>
+</html>
