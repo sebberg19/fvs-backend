@@ -25,15 +25,15 @@
   force = false
 
 [[redirects]]
-  # Redirection finale vers nations-simple.html
+  # Redirection finale vers maillots-pays.html
   from = "/maillots-nations"
-  to = "/nations-simple.html"
+  to = "/maillots-pays.html"
   status = 200
 
 [[redirects]]
   # Redirection nations aussi
   from = "/nations"
-  to = "/nations-simple.html"
+  to = "/maillots-pays.html"
   status = 200
 
 [[redirects]]
