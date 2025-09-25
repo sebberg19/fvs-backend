@@ -9,7 +9,7 @@
   # Variables d'environnement pour le build (si nécessaire)
   NODE_VERSION = "18"
 
-# Redirections pour l'API
+# Redirections pour l'API seulement
 [[redirects]]
   # Redirect webhook vers la Netlify Function
   from = "/api/payments/webhook"
@@ -23,24 +23,6 @@
   to = "https://fvs-backend-1.onrender.com/api/payments/:splat"
   status = 200
   force = false
-
-[[redirects]]
-  # Redirection finale vers maillots-pays.html
-  from = "/maillots-nations"
-  to = "/maillots-pays.html"
-  status = 200
-
-[[redirects]]
-  # Redirection nations aussi
-  from = "/nations"
-  to = "/maillots-pays.html"
-  status = 200
-
-[[redirects]]
-  # SPA fallback pour les pages qui n'existent pas
-  from = "/*"
-  to = "/index.html"
-  status = 200
 
 # Headers de sécurité
 [[headers]]
