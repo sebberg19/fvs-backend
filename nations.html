@@ -1,98 +1,192 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <meta name="co-scheme" content="light" />
-    <meta name="theme-color" content="#ffffff" />
-    <title>Maillots � Futbolero Vintage Shop</title>
+<!DOCTYPE html><!DOCTYPE html>
 
-    <!-- Fonts + Bootstrap + Icons (align? avec la page vintage) -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<html lang="fr"><html lang="fr">
 
-    <!-- Styles th�me -->
-    <style>
-        :root {
-            --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
-            --accent: #2f6f3e; --accent-contrast: #ffffff;
+<head><head>
+
+    <meta charset="UTF-8" />    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <meta name="co-scheme" content="light" />    <meta name="co-scheme" content="light" />
+
+    <meta name="theme-color" content="#ffffff" />    <meta name="theme-color" content="#ffffff" />
+
+    <title>Maillots Nations - Futbolero Vintage Shop - Fresh Deploy</title>    <title>Maillots Nations - Futbolero Vintage Shop - Fresh Deploy</title>
+
+
+
+    <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->    <!-- Fonts + Bootstrap + Icons (align? avec la page vintage) -->
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+
+
+    <!-- Test minimal pour équipes nationales uniquement -->    <!-- Styles th�me -->
+
+</head>    <style>
+
+<body>        :root {
+
+    <!-- Nav partagée -->            --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
+
+    <header id="site-header"></header>            --accent: #2f6f3e; --accent-contrast: #ffffff;
+
         }
-        html, body { height: 100%; background: var(--bg); color: var(--text);
-            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+    <main class="py-4 py-md-5">        html, body { height: 100%; background: var(--bg); color: var(--text);
+
+        <div class="container">            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+            <h1 class="text-center mb-4">Maillots des Nations Saison 25/26</h1>        }
+
+                    .navbar { 
+
+            <!-- Contenu simplifié pour test -->            background: var(--surface) !important; 
+
+            <div class="row g-3">            border-bottom: 1px solid var(--border); 
+
+                <div class="col-6 col-md-4 col-lg-3">        }
+
+                    <div class="card h-100">        
+
+                        <div class="ratio ratio-1x1">        /* Navigation sticky globale - fonctionne sur toutes les pages */
+
+                            <img src="images/Argentina_111.png" alt="Argentine" class="w-100 h-100 object-fit-cover">        #site-header {
+
+                        </div>            position: fixed !important;
+
+                        <div class="card-body text-center">            top: 0 !important;
+
+                            <h5 class="card-title">Argentine</h5>            left: 0 !important;
+
+                            <p class="card-text">36.70 CAD</p>            right: 0 !important;
+
+                            <button class="btn btn-dark">Ajouter</button>            z-index: 1050 !important;
+
+                        </div>            width: 100% !important;
+
+                    </div>            background: var(--surface) !important;
+
+                </div>            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+
         }
-        .navbar { 
-            background: var(--surface) !important; 
-            border-bottom: 1px solid var(--border); 
-        }
-        
-        /* Navigation sticky globale - fonctionne sur toutes les pages */
-        #site-header {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            z-index: 1050 !important;
-            width: 100% !important;
-            background: var(--surface) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-        }
-        
-        #site-header .navbar {
-            position: relative !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            margin: 0 !important;
-        }
-        
-        #site-header .sticky-top {
-            position: static !important;
-        }
-        
+
+                <div class="col-6 col-md-4 col-lg-3">        
+
+                    <div class="card h-100">        #site-header .navbar {
+
+                        <div class="ratio ratio-1x1">            position: relative !important;
+
+                            <img src="images/Brazil_retro.png" alt="Brésil" class="w-100 h-100 object-fit-cover">            background: transparent !important;
+
+                        </div>            box-shadow: none !important;
+
+                        <div class="card-body text-center">            margin: 0 !important;
+
+                            <h5 class="card-title">Brésil</h5>        }
+
+                            <p class="card-text">36.70 CAD</p>        
+
+                            <button class="btn btn-dark">Ajouter</button>        #site-header .sticky-top {
+
+                        </div>            position: static !important;
+
+                    </div>        }
+
+                </div>        
+
         /* Compenser la hauteur de la navbar fixe */
-        body {
-            padding-top: 76px !important;
-        }
-        
-        @media (max-width: 991.98px) {
-            body {
-                padding-top: 72px !important;
-            }
-        }
-        .navbar .navbar-brand { color: var(--text); }
-        .nav-link { color: var(--muted) !important; }
-    .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
-        .btn-accent {
-            --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
-            --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
-            --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
-        }
-        /* Disable color changes but allow a very light scale on hover; always white text */
-        .btn-accent,
-        .btn-dark {
-            transition: transform .12s ease, box-shadow .12s ease;
-            transform-origin: center center;
-        }
 
-        .btn-accent,
-        .btn-accent:focus,
-        .btn-accent:active {
-            background-color: var(--accent) !important;
+                <div class="col-6 col-md-4 col-lg-3">        body {
+
+                    <div class="card h-100">            padding-top: 76px !important;
+
+                        <div class="ratio ratio-1x1">        }
+
+                            <img src="images/France_home.png" alt="France" class="w-100 h-100 object-fit-cover">        
+
+                        </div>        @media (max-width: 991.98px) {
+
+                        <div class="card-body text-center">            body {
+
+                            <h5 class="card-title">France</h5>                padding-top: 72px !important;
+
+                            <p class="card-text">36.70 CAD</p>            }
+
+                            <button class="btn btn-dark">Ajouter</button>        }
+
+                        </div>        .navbar .navbar-brand { color: var(--text); }
+
+                    </div>        .nav-link { color: var(--muted) !important; }
+
+                </div>    .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
+
+        .btn-accent {
+
+                <div class="col-6 col-md-4 col-lg-3">            --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
+
+                    <div class="card h-100">            --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
+
+                        <div class="ratio ratio-1x1">            --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
+
+                            <img src="images/Germany_home.png" alt="Allemagne" class="w-100 h-100 object-fit-cover">        }
+
+                        </div>        /* Disable color changes but allow a very light scale on hover; always white text */
+
+                        <div class="card-body text-center">        .btn-accent,
+
+                            <h5 class="card-title">Allemagne</h5>        .btn-dark {
+
+                            <p class="card-text">36.70 CAD</p>            transition: transform .12s ease, box-shadow .12s ease;
+
+                            <button class="btn btn-dark">Ajouter</button>            transform-origin: center center;
+
+                        </div>        }
+
+                    </div>
+
+                </div>        .btn-accent,
+
+            </div>        .btn-accent:focus,
+
+        </div>        .btn-accent:active {
+
+    </main>            background-color: var(--accent) !important;
+
             border-color: var(--accent) !important;
-            color: var(--accent-contrast) !important;
-            box-shadow: none !important;
-            text-decoration: none !important;
-        }
+
+    <!-- Footer -->            color: var(--accent-contrast) !important;
+
+    <footer class="footer py-4 text-center">            box-shadow: none !important;
+
+        <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>            text-decoration: none !important;
+
+    </footer>        }
+
         .btn-dark,
-        .btn-dark:focus,
-        .btn-dark:active {
+
+    <!-- Bootstrap JS -->        .btn-dark:focus,
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>        .btn-dark:active {
+
             background-color: #000 !important;
-            border-color: #000 !important;
-            color: #fff !important;
-            box-shadow: none !important;
-            text-decoration: none !important;
+
+    <!-- Nav partagée -->            border-color: #000 !important;
+
+    <script src="./maillots-store/client/src/scripts/include-nav.js"></script>            color: #fff !important;
+
+</body>            box-shadow: none !important;
+
+</html>            text-decoration: none !important;
         }
 
     /* Subtle scale on hover for primary buttons (green and black) */
