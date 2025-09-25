@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="co-scheme" content="light" />
+    <meta name="theme-color" content="#ffffff" />
+    <title>Maillots Nations - Futbolero Vintage Shop</title>
+
+    <!-- Fonts + Bootstrap + Icons -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Styles -->
+    <style>
+        :root {
+            --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
+            --accent: #2f6f3e; --accent-contrast: #ffffff;
+        }
+        html, body { 
+            height: 100%; 
+            background: var(--bg); 
+            color: var(--text);
+            font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+        }
+        
+        .btn-accent {
+            --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
+            --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
+            --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
+        }
+        
+        .btn-dark {
+            background-color: #000 !important;
+            border-color: #000 !important;
+            color: #fff !important;
+        }
+        
+        .btn-accent, .btn-dark { 
+            transition: transform .12s ease; 
+            transform-origin: center center; 
+        }
+        .btn-accent:hover, .btn-dark:hover { 
+            transform: scale(1.035); 
+        }
+        
+        .product-card {
+            border: 1px solid var(--border);
+            background: var(--surface);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            border-color: var(--accent);
+        }
+        
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-info {
+            padding: 1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+        
+        .product-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+            line-height: 1.3;
+        }
+        
+        .product-price {
+            font-size: 0.85rem;
+            color: #000;
+            font-weight: 600;
+            margin: 0.25rem 0;
+        }
+        
+        .product-btn {
+            background: #000 !important;
+            color: #fff !important;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border-radius: 4px;
+            transition: transform 0.2s ease;
+            width: 100%;
+            margin-top: auto;
+        }
+        
+        .search-icon-btn {
+            background: #000000;
+            color: #ffffff;
+            border: 1px solid #000000;
+            transition: all 0.12s ease;
+            border-radius: 0 .375rem .375rem 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #search-input {
+            border-radius: .375rem 0 0 .375rem;
+        }
+        
+        #search-input:focus {
+            box-shadow: none !important;
+            border-color: #000000 !important;
+            outline: none !important;
+        }
+        
+        .input-group-text, #search-input, #clear-search {
+            border-color: #000000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation simple -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html">Futbolero Vintage Shop</a>
+        </div>
+    </nav>
+
+    <main class="py-4 py-md-5">
+        <div class="container">
+            <!-- Titre -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h1 class="h2 mb-3">Maillots des nations</h1>
+                    
+                    <!-- Navigation entre Clubs et Nations -->
+                    <div class="d-flex justify-content-center gap-2 mb-4">
+                        <a href="maillots.html" class="btn btn-outline-dark">
+                            Clubs
+                        </a>
+                        <button class="btn btn-dark active">
+                            Nations
+                        </button>
+                    </div>
+                    
+                    <!-- Barre de recherche -->
+                    <div class="row justify-content-center mb-4">
+                        <div class="col-md-6 col-lg-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot...">
+                                <button class="btn search-icon-btn" type="button">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                                <button class="btn btn-outline-secondary" type="button" id="clear-search">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Grille de produits -->
+            <div class="row g-3">
+                <!-- Algérie -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Algeria1.png" alt="Algérie" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Algérie</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Argentine -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Argentina_111.png" alt="Argentine" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Argentine</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brésil -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Brazil_retro.png" alt="Brésil" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Brésil</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- France -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/France_home.png" alt="France" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">France</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Allemagne -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Germany_home.png" alt="Allemagne" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Allemagne</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Espagne -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Spain_home.png" alt="Espagne" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Espagne</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Italie -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Italy_home.png" alt="Italie" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Italie</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portugal -->
+                <div class="col-6 col-md-4 col-lg-3">
+                    <div class="product-card h-100">
+                        <div class="product-image ratio ratio-1x1">
+                            <img loading="lazy" src="images/Portugal_home.png" alt="Portugal" class="w-100 h-100 object-fit-cover">
+                        </div>
+                        <div class="product-info">
+                            <h3 class="product-title">Portugal</h3>
+                            <div class="product-price">36,70 CAD</div>
+                            <button class="product-btn btn btn-dark">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-light border-top py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
