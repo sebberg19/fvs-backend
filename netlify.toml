@@ -25,15 +25,15 @@
   force = false
 
 [[redirects]]
-  # Test redirection pour diagnostique
+  # Redirection finale vers maillots-nations.html
   from = "/maillots-nations"
-  to = "/test-nations.html"
+  to = "/maillots-nations.html"
   status = 200
 
 [[redirects]]
-  # Test direct nations
+  # Redirection nations aussi
   from = "/nations"
-  to = "/test-nations.html"
+  to = "/maillots-nations.html"
   status = 200
 
 [[redirects]]
