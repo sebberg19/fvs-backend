@@ -80,14 +80,28 @@ exports.handler = async (event, context) => {
     // Créer un ID de commande simple
     const orderId = `order_${Date.now()}`;
     
-    // Préparer les infos des articles pour les métadonnées (limité à 500 chars par clé)
+    // Préparer les infos des articles pour les métadonnées
     const items = Array.isArray(body.items) ? body.items : [];
-    const itemsJson = JSON.stringify(items.map(item => ({
-      name: item.name || 'Article',
-      quantity: item.quantity || 1,
-      price: item.perUnitPrice || item.price || 0,
-      image: item.img || item.image || item.imageUrl || ''
-    })));
+    
+    // Créer un objet metadata optimisé pour éviter la troncature
+    const metadata = { 
+      source: 'netlify_function', 
+      orderId: orderId,
+      itemCount: items.length.toString()
+    };
+    
+    // Ajouter chaque article comme clé séparée pour éviter la troncature
+    items.forEach((item, index) => {
+      if (index < 10) { // Limite à 10 articles pour éviter d'atteindre la limite de métadonnées
+        const itemData = {
+          name: item.name || 'Article',
+          quantity: item.quantity || 1,
+          price: item.perUnitPrice || item.price || 0,
+          image: item.img || item.image || item.imageUrl || ''
+        };
+        metadata[`item_${index}`] = JSON.stringify(itemData);
+      }
+    });
     
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
@@ -115,13 +129,7 @@ exports.handler = async (event, context) => {
           quantity: 1,
         },
       ],
-      metadata: { 
-        source: 'netlify_function', 
-        orderId: orderId,
-        itemCount: items.length,
-        // Stocker les articles (attention à la limite de 500 chars)
-        items: itemsJson.substring(0, 499)
-      },
+      metadata: metadata,
     });
 
     return {

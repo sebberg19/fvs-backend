@@ -24,7 +24,7 @@ const createTransporter = () => {
   });
 };
 
-// Template email détaillé avec articles et photos
+// Template email détaillé avec articles et photos - Style du site
 const renderEmailTemplate = (session, orderId) => {
   // Utiliser la même logique de fallback pour l'email que pour le client
   const customerEmail = session.customer_email || session.customer_details?.email || 'Email non fourni';
@@ -47,11 +47,21 @@ const renderEmailTemplate = (session, orderId) => {
     address.country || ''
   ].filter(Boolean).join('<br>') || 'Adresse non fournie';
   
-  // Extraire les articles depuis les métadonnées
+  // Extraire les articles depuis les métadonnées (nouveau format avec clés séparées)
   const metadata = session.metadata || {};
   let items = [];
   try {
-    if (metadata.items) {
+    const itemCount = parseInt(metadata.itemCount) || 0;
+    for (let i = 0; i < itemCount && i < 10; i++) {
+      const itemKey = `item_${i}`;
+      if (metadata[itemKey]) {
+        const item = JSON.parse(metadata[itemKey]);
+        items.push(item);
+      }
+    }
+    
+    // Fallback vers l'ancien format si pas d'articles trouvés
+    if (items.length === 0 && metadata.items) {
       items = JSON.parse(metadata.items);
     }
   } catch (e) {
@@ -59,76 +69,136 @@ const renderEmailTemplate = (session, orderId) => {
     items = [{ name: 'Commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles
-  const itemsHtml = items.map(item => `
-    <div style="border: 1px solid #ddd; border-radius: 8px; padding: 15px; margin: 10px 0; display: flex; align-items: center;">
-      ${item.image ? `
-        <img src="${item.image}" alt="${item.name}" 
-             style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; margin-right: 15px;">
+  // Générer le HTML des articles avec le style du site
+  const itemsHtml = items.map(item => {
+    // Convertir les chemins relatifs en URLs absolues
+    const imageUrl = item.image && item.image.startsWith('images/') 
+      ? `https://futbolerovintageshop.com/${item.image}`
+      : item.image;
+    
+    return `
+    <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+      ${imageUrl ? `
+        <img src="${imageUrl}" alt="${item.name}" 
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #e9ebf0;">
       ` : `
-        <div style="width: 80px; height: 80px; background: #f0f0f0; border-radius: 4px; margin-right: 15px; display: flex; align-items: center; justify-content: center; color: #999;">
-          📦
+        <div style="width: 70px; height: 70px; background: #f7f8f9; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #6b6f76; border: 1px solid #e9ebf0;">
+          ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 5px 0; color: #333;">${item.name}</h4>
-        <p style="margin: 0; color: #666;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #2c5aa0; font-weight: bold;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 6px 0; color: #121314; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        <p style="margin: 0 0 4px 0; color: #6b6f76; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #2f6f3e; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
   
   return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #2c5aa0;">🎉 Nouvelle commande reçue!</h2>
-      
-      <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #333; margin-top: 0;">📋 Détails de la commande</h3>
-        <p><strong>ID Commande:</strong> ${orderId}</p>
-        <p><strong>ID Session Stripe:</strong> ${sessionId}</p>
-        <p><strong>Montant total:</strong> $${total} ${currency}</p>
-        <p><strong>Méthode de paiement:</strong> ${paymentMethod}</p>
-        <p><strong>Nombre d'articles:</strong> ${items.length}</p>
-      </div>
-      
-      <div style="background: #e8f4f8; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #333; margin-top: 0;">👤 Informations client</h3>
-        <p><strong>Nom:</strong> ${customerName}</p>
-        <p><strong>Email:</strong> ${customerEmail}</p>
-        <p><strong>Téléphone:</strong> ${customerPhone}</p>
-        <p><strong>Statut paiement:</strong> ✅ Confirmé</p>
-      </div>
-      
-      <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #ffeaa7;">
-        <h3 style="color: #333; margin-top: 0;">🏠 Adresse de livraison</h3>
-        <div style="background: #ffffff; padding: 15px; border-radius: 4px; border: 1px solid #e9ecef;">
-          <p style="margin: 0; line-height: 1.6;">${fullAddress}</p>
+    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #f7f8f9; color: #121314;">
+      <!-- Header avec style du site -->
+      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 1px solid #e9ebf0;">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
+               style="height: 40px; width: auto; margin-right: 12px;">
+          <div>
+            <h1 style="color: #121314; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #6b6f76; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
+          </div>
         </div>
       </div>
       
-      <div style="background: #fff; padding: 20px; border-radius: 8px; margin: 20px 0; border: 2px solid #e9ecef;">
-        <h3 style="color: #333; margin-top: 0;">🛍️ Articles commandés</h3>
-        ${itemsHtml}
+      <!-- Message principal -->
+      <div style="background: #2f6f3e; padding: 32px 24px; text-align: center; color: #ffffff;">
+        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">🎉 Nouvelle commande reçue !</h2>
+        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px;">Une nouvelle commande vient d'être confirmée sur votre boutique.</p>
       </div>
       
-      <div style="background: #f0f8f0; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="color: #333; margin-top: 0;">📦 Prochaines étapes</h3>
-        <p>✅ Paiement confirmé par Stripe</p>
-        <p>⏳ Préparer la commande</p>
-        <p>📧 Contacter le client: <a href="mailto:${customerEmail}">${customerEmail}</a></p>
-        <p>📞 Téléphone client: ${customerPhone}</p>
+      <!-- Corps de l'email -->
+      <div style="padding: 24px;">
+        <!-- Détails de la commande -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Détails de la commande</h3>
+          <div style="display: grid; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">ID Commande:</span>
+              <span style="color: #121314; font-weight: 600;">${orderId}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Montant total:</span>
+              <span style="color: #2f6f3e; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Articles:</span>
+              <span style="color: #121314; font-weight: 600;">${items.length}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+              <span style="color: #6b6f76; font-weight: 500;">ID Session:</span>
+              <span style="color: #121314; font-size: 12px; font-family: monospace;">${sessionId}</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Informations client -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">👤 Informations client</h3>
+          <div style="display: grid; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Nom:</span>
+              <span style="color: #121314; font-weight: 600;">${customerName}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Email:</span>
+              <span style="color: #121314;"><a href="mailto:${customerEmail}" style="color: #2f6f3e; text-decoration: none;">${customerEmail}</a></span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Téléphone:</span>
+              <span style="color: #121314; font-weight: 600;">${customerPhone}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+              <span style="color: #6b6f76; font-weight: 500;">Paiement:</span>
+              <span style="color: #2f6f3e; font-weight: 600;">✅ Confirmé</span>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Adresse de livraison -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🏠 Adresse de livraison</h3>
+          <div style="background: #f7f8f9; padding: 16px; border-radius: 8px; border: 1px solid #e9ebf0;">
+            <p style="margin: 0; line-height: 1.5; color: #121314;">${fullAddress}</p>
+          </div>
+        </div>
+        
+        <!-- Articles commandés -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Articles commandés</h3>
+          ${itemsHtml}
+        </div>
+        
+        <!-- Actions à faire -->
+        <div style="background: #f0f9f2; border: 1px solid #c3e9c7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+          <div style="display: grid; gap: 8px;">
+            <p style="margin: 0; color: #2f6f3e; font-weight: 600;">✅ Paiement confirmé par Stripe</p>
+            <p style="margin: 0; color: #121314;">⏳ Préparer la commande</p>
+            <p style="margin: 0; color: #121314;">📧 Contacter le client: <a href="mailto:${customerEmail}" style="color: #2f6f3e; text-decoration: none; font-weight: 600;">${customerEmail}</a></p>
+            <p style="margin: 0; color: #121314;">📞 Téléphone: <strong>${customerPhone}</strong></p>
+          </div>
+        </div>
       </div>
       
-      <hr style="margin: 30px 0;">
-      <p style="color: #666; font-size: 12px;">
-        Email automatique - Futbolero Vintage Shop<br>
-        Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
-      </p>
+      <!-- Footer -->
+      <div style="background: #121314; padding: 24px; text-align: center; color: #6b6f76;">
+        <p style="margin: 0 0 8px 0; font-size: 14px;">Email automatique - Futbolero Vintage Shop</p>
+        <p style="margin: 0; font-size: 12px;">Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
+      </div>
     </div>
   `;
 };
 
-// Template email pour le CLIENT (confirmation de commande)
+// Template email pour le CLIENT (confirmation de commande) - Style du site
 const renderCustomerEmailTemplate = (session, orderId) => {
   const customerEmail = session.customer_email || 'Non fourni';
   const total = ((session.amount_total || 0) / 100).toFixed(2);
@@ -136,95 +206,130 @@ const renderCustomerEmailTemplate = (session, orderId) => {
   const customerDetails = session.customer_details || {};
   const customerName = customerDetails.name || 'Cher(e) client(e)';
   
-  // Extraire les articles depuis les métadonnées
+  // Extraire les articles depuis les métadonnées (nouveau format avec clés séparées)
   const metadata = session.metadata || {};
   let items = [];
   try {
-    if (metadata.items) {
+    const itemCount = parseInt(metadata.itemCount) || 0;
+    for (let i = 0; i < itemCount && i < 10; i++) {
+      const itemKey = `item_${i}`;
+      if (metadata[itemKey]) {
+        const item = JSON.parse(metadata[itemKey]);
+        items.push(item);
+      }
+    }
+    
+    // Fallback vers l'ancien format si pas d'articles trouvés
+    if (items.length === 0 && metadata.items) {
       items = JSON.parse(metadata.items);
     }
   } catch (e) {
     items = [{ name: 'Votre commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles pour le client avec style cohérent
-  const itemsHtml = items.map(item => `
-    <div style="border: 1px solid #e9ecef; border-radius: 12px; padding: 20px; margin: 15px 0; display: flex; align-items: center; background: #ffffff; transition: all 0.2s ease;">
-      ${item.image && !item.image.includes('data:image/svg') ? `
-        <img src="${item.image}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 20px; border: 2px solid #f8f9fa;">
+  // Générer le HTML des articles pour le client avec style du site
+  const itemsHtml = items.map(item => {
+    // Convertir les chemins relatifs en URLs absolues
+    const imageUrl = item.image && item.image.startsWith('images/') 
+      ? `https://futbolerovintageshop.com/${item.image}`
+      : item.image;
+    
+    return `
+    <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+      ${imageUrl && !imageUrl.includes('data:image/svg') ? `
+        <img src="${imageUrl}" alt="${item.name}" 
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #e9ebf0;">
       ` : `
-        <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); border-radius: 8px; margin-right: 20px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;">
-          FB
+        <div style="width: 70px; height: 70px; background: #f7f8f9; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #6b6f76; border: 1px solid #e9ebf0; font-size: 20px;">
+          ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 8px 0; color: #1a1a1a; font-size: 18px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">${item.name}</h4>
-        <p style="margin: 0 0 5px 0; color: #666; font-size: 15px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #007bff; font-weight: 600; font-size: 18px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 6px 0; color: #121314; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        <p style="margin: 0 0 4px 0; color: #6b6f76; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #2f6f3e; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
       </div>
     </div>
-  `).join('');
+  `;
+  }).join('');
   
   return `
-    <div style="font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #1a1a1a;">
+    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #f7f8f9; color: #121314;">
       <!-- Header avec logo et style du site -->
-      <div style="background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); padding: 40px 20px; text-align: center; border-radius: 12px 12px 0 0; position: relative;">
-        <!-- Logo intégré -->
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 1px solid #e9ebf0;">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 50px; width: auto; margin-right: 15px; filter: brightness(0) invert(1);">
+               style="height: 40px; width: auto; margin-right: 12px;">
           <div>
-            <h1 style="color: #ffffff; margin: 0; font-size: 32px; font-weight: 800; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Futbolero</h1>
-            <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; font-weight: 500; letter-spacing: 0.5px;">Vintage Shop</p>
+            <h1 style="color: #121314; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #6b6f76; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
           </div>
         </div>
-        <div style="height: 2px; background: rgba(255,255,255,0.3); margin: 0 auto; width: 80px; border-radius: 1px;"></div>
       </div>
       
-      <!-- Message de remerciement avec style cohérent -->
-      <div style="background: #f8f9fa; padding: 35px 25px; text-align: center; border-bottom: 3px solid #007bff;">
-        <h2 style="color: #007bff; margin: 0 0 20px 0; font-size: 28px; font-weight: 800; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Merci pour votre commande !</h2>
-        <p style="color: #1a1a1a; margin: 0; font-size: 17px; line-height: 1.6; font-family: 'Inter', 'Segoe UI', Arial, sans-serif; font-weight: 400;">
-          Bonjour <strong style="color: #007bff; font-weight: 600;">${customerName}</strong>,<br>
-          Nous avons bien reçu votre commande et votre paiement a été confirmé avec succès.
+      <!-- Message de remerciement -->
+      <div style="background: #2f6f3e; padding: 32px 24px; text-align: center; color: #ffffff;">
+        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">⚽ Merci pour votre commande !</h2>
+        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; line-height: 1.5;">
+          Bonjour <strong style="color: #ffffff;">${customerName}</strong>,<br>
+          Votre commande a été confirmée avec succès. Nous préparons vos articles avec soin !
         </p>
       </div>
       
-      <!-- Détails de la commande avec design système -->
-      <div style="padding: 25px;">
-        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-          <h3 style="color: #007bff; margin: 0 0 20px 0; font-size: 22px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Récapitulatif de votre commande</h3>
-          <table style="width: 100%; border-collapse: collapse; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
-            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Numéro de commande:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 600; font-size: 15px;">${orderId}</td></tr>
-            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Total payé:</strong></td><td style="padding: 12px 0; text-align: right; font-weight: 700; color: #007bff; font-size: 22px;">$${total} ${currency}</td></tr>
-            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Nombre d'articles:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 600; font-size: 15px;">${items.length}</td></tr>
-            <tr><td style="padding: 12px 0; color: #666; font-weight: 500; font-size: 15px;"><strong>Email de confirmation:</strong></td><td style="padding: 12px 0; text-align: right; color: #1a1a1a; font-weight: 500; font-size: 15px;">${customerEmail}</td></tr>
-          </table>
+      <!-- Corps de l'email -->
+      <div style="padding: 24px;">
+        <!-- Récapitulatif de commande -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Récapitulatif de votre commande</h3>
+          <div style="display: grid; gap: 8px;">
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Numéro de commande:</span>
+              <span style="color: #121314; font-weight: 600;">${orderId}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Total payé:</span>
+              <span style="color: #2f6f3e; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
+              <span style="color: #6b6f76; font-weight: 500;">Nombre d'articles:</span>
+              <span style="color: #121314; font-weight: 600;">${items.length}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+              <span style="color: #6b6f76; font-weight: 500;">Email de confirmation:</span>
+              <span style="color: #121314; font-size: 14px;">${customerEmail}</span>
+            </div>
+          </div>
         </div>
         
-        <!-- Articles commandés avec style site -->
-        <div style="background: #ffffff; border: 2px solid #e9ecef; border-radius: 12px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-          <h3 style="color: #007bff; margin: 0 0 20px 0; font-size: 22px; font-weight: 700; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif; letter-spacing: -0.02em;">Vos articles</h3>
+        <!-- Articles commandés -->
+        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Vos articles</h3>
           ${itemsHtml}
+        </div>
+        
+        <!-- Informations importantes -->
+        <div style="background: #f0f9f2; border: 1px solid #c3e9c7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+          <div style="display: grid; gap: 8px;">
+            <p style="margin: 0; color: #2f6f3e; font-weight: 600;">✅ Votre paiement a été confirmé</p>
+            <p style="margin: 0; color: #121314;">📦 Nous préparons votre commande</p>
+            <p style="margin: 0; color: #121314;">🚚 Vous recevrez un email avec les détails d'expédition</p>
+            <p style="margin: 0; color: #121314;">📧 Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #2f6f3e; text-decoration: none; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
+          </div>
         </div>
       </div>
       
-      <!-- Footer avec style cohérent -->
-      <div style="background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); padding: 30px 25px; text-align: center; border-radius: 0 0 12px 12px; margin-top: 25px; border-top: 3px solid #007bff;">
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+      <!-- Footer -->
+      <div style="background: #121314; padding: 24px; text-align: center; color: #6b6f76;">
+        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 28px; width: auto; margin-right: 10px; opacity: 0.7;">
-          <p style="color: #1a1a1a; margin: 0; font-size: 16px; font-weight: 600; font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;">
+               style="height: 24px; width: auto; margin-right: 8px; filter: invert(0.5);">
+          <p style="color: #ffffff; margin: 0; font-size: 16px; font-weight: 600;">
             Futbolero Vintage Shop
           </p>
         </div>
-        <p style="color: #666; margin: 0 0 10px 0; font-size: 15px; font-style: italic; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
-          Des maillots iconiques, un style intemporel
-        </p>
-        <p style="color: #999; margin: 0; font-size: 13px; font-family: 'Inter', 'Segoe UI', Arial, sans-serif;">
-          Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
-        </p>
+        <p style="color: #6b6f76; margin: 0 0 8px 0; font-size: 14px; font-style: italic;">Des maillots iconiques, un style intemporel</p>
+        <p style="color: #6b6f76; margin: 0; font-size: 12px;">Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
       </div>
     </div>
   `;
