@@ -69,7 +69,7 @@ const renderEmailTemplate = (session, orderId) => {
     items = [{ name: 'Commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles avec le style du site
+  // Générer le HTML des articles avec le style noir et blanc
   const itemsHtml = items.map(item => {
     // Convertir les chemins relatifs en URLs absolues
     const imageUrl = item.image && item.image.startsWith('images/') 
@@ -77,122 +77,122 @@ const renderEmailTemplate = (session, orderId) => {
       : item.image;
     
     return `
-    <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       ${imageUrl ? `
         <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #e9ebf0;">
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
       ` : `
-        <div style="width: 70px; height: 70px; background: #f7f8f9; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #6b6f76; border: 1px solid #e9ebf0;">
+        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd;">
           ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 6px 0; color: #121314; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        <p style="margin: 0 0 4px 0; color: #6b6f76; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #2f6f3e; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 6px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        <p style="margin: 0 0 4px 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
       </div>
     </div>
   `;
   }).join('');
   
   return `
-    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #f7f8f9; color: #121314;">
-      <!-- Header avec style du site -->
-      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 1px solid #e9ebf0;">
+    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
+      <!-- Header avec style noir et blanc -->
+      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
                style="height: 40px; width: auto; margin-right: 12px;">
           <div>
-            <h1 style="color: #121314; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #6b6f76; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
+            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
           </div>
         </div>
       </div>
       
       <!-- Message principal -->
-      <div style="background: #2f6f3e; padding: 32px 24px; text-align: center; color: #ffffff;">
+      <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
         <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">🎉 Nouvelle commande reçue !</h2>
-        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px;">Une nouvelle commande vient d'être confirmée sur votre boutique.</p>
+        <p style="color: #ffffff; margin: 0; font-size: 16px;">Une nouvelle commande vient d'être confirmée sur votre boutique.</p>
       </div>
       
       <!-- Corps de l'email -->
-      <div style="padding: 24px;">
+      <div style="padding: 24px; background: #f9f9f9;">
         <!-- Détails de la commande -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Détails de la commande</h3>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Détails de la commande</h3>
           <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">ID Commande:</span>
-              <span style="color: #121314; font-weight: 600;">${orderId}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">ID Commande:</span>
+              <span style="color: #000; font-weight: 600;">${orderId}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Montant total:</span>
-              <span style="color: #2f6f3e; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Montant total:</span>
+              <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Articles:</span>
-              <span style="color: #121314; font-weight: 600;">${items.length}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Articles:</span>
+              <span style="color: #000; font-weight: 600;">${items.length}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #6b6f76; font-weight: 500;">ID Session:</span>
-              <span style="color: #121314; font-size: 12px; font-family: monospace;">${sessionId}</span>
+              <span style="color: #666; font-weight: 500;">ID Session:</span>
+              <span style="color: #000; font-size: 12px; font-family: monospace;">${sessionId}</span>
             </div>
           </div>
         </div>
         
         <!-- Informations client -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">👤 Informations client</h3>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">👤 Informations client</h3>
           <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Nom:</span>
-              <span style="color: #121314; font-weight: 600;">${customerName}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Nom:</span>
+              <span style="color: #000; font-weight: 600;">${customerName}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Email:</span>
-              <span style="color: #121314;"><a href="mailto:${customerEmail}" style="color: #2f6f3e; text-decoration: none;">${customerEmail}</a></span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Email:</span>
+              <span style="color: #000;"><a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline;">${customerEmail}</a></span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Téléphone:</span>
-              <span style="color: #121314; font-weight: 600;">${customerPhone}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Téléphone:</span>
+              <span style="color: #000; font-weight: 600;">${customerPhone}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #6b6f76; font-weight: 500;">Paiement:</span>
-              <span style="color: #2f6f3e; font-weight: 600;">✅ Confirmé</span>
+              <span style="color: #666; font-weight: 500;">Paiement:</span>
+              <span style="color: #000; font-weight: 600;">✅ Confirmé</span>
             </div>
           </div>
         </div>
         
         <!-- Adresse de livraison -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🏠 Adresse de livraison</h3>
-          <div style="background: #f7f8f9; padding: 16px; border-radius: 8px; border: 1px solid #e9ebf0;">
-            <p style="margin: 0; line-height: 1.5; color: #121314;">${fullAddress}</p>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🏠 Adresse de livraison</h3>
+          <div style="background: #f9f9f9; padding: 16px; border-radius: 4px; border: 1px solid #ddd;">
+            <p style="margin: 0; line-height: 1.5; color: #000;">${fullAddress}</p>
           </div>
         </div>
         
         <!-- Articles commandés -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Articles commandés</h3>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Articles commandés</h3>
           ${itemsHtml}
         </div>
         
         <!-- Actions à faire -->
-        <div style="background: #f0f9f2; border: 1px solid #c3e9c7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+        <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
           <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #2f6f3e; font-weight: 600;">✅ Paiement confirmé par Stripe</p>
-            <p style="margin: 0; color: #121314;">⏳ Préparer la commande</p>
-            <p style="margin: 0; color: #121314;">📧 Contacter le client: <a href="mailto:${customerEmail}" style="color: #2f6f3e; text-decoration: none; font-weight: 600;">${customerEmail}</a></p>
-            <p style="margin: 0; color: #121314;">📞 Téléphone: <strong>${customerPhone}</strong></p>
+            <p style="margin: 0; color: #000; font-weight: 600;">✅ Paiement confirmé par Stripe</p>
+            <p style="margin: 0; color: #000;">⏳ Préparer la commande</p>
+            <p style="margin: 0; color: #000;">📧 Contacter le client: <a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline; font-weight: 600;">${customerEmail}</a></p>
+            <p style="margin: 0; color: #000;">📞 Téléphone: <strong>${customerPhone}</strong></p>
           </div>
         </div>
       </div>
       
       <!-- Footer -->
-      <div style="background: #121314; padding: 24px; text-align: center; color: #6b6f76;">
+      <div style="background: #000; padding: 24px; text-align: center; color: #ffffff;">
         <p style="margin: 0 0 8px 0; font-size: 14px;">Email automatique - Futbolero Vintage Shop</p>
-        <p style="margin: 0; font-size: 12px;">Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
+        <p style="margin: 0; font-size: 12px; color: #ccc;">Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
       </div>
     </div>
   `;
@@ -227,7 +227,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     items = [{ name: 'Votre commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles pour le client avec style du site
+  // Générer le HTML des articles pour le client avec style noir et blanc
   const itemsHtml = items.map(item => {
     // Convertir les chemins relatifs en URLs absolues
     const imageUrl = item.image && item.image.startsWith('images/') 
@@ -235,101 +235,101 @@ const renderCustomerEmailTemplate = (session, orderId) => {
       : item.image;
     
     return `
-    <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
+    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       ${imageUrl && !imageUrl.includes('data:image/svg') ? `
         <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #e9ebf0;">
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
       ` : `
-        <div style="width: 70px; height: 70px; background: #f7f8f9; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #6b6f76; border: 1px solid #e9ebf0; font-size: 20px;">
+        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; font-size: 20px;">
           ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 6px 0; color: #121314; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        <p style="margin: 0 0 4px 0; color: #6b6f76; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #2f6f3e; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 6px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        <p style="margin: 0 0 4px 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
       </div>
     </div>
   `;
   }).join('');
   
   return `
-    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #f7f8f9; color: #121314;">
-      <!-- Header avec logo et style du site -->
-      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 1px solid #e9ebf0;">
+    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
+      <!-- Header avec logo noir et blanc -->
+      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
                style="height: 40px; width: auto; margin-right: 12px;">
           <div>
-            <h1 style="color: #121314; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #6b6f76; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
+            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
           </div>
         </div>
       </div>
       
       <!-- Message de remerciement -->
-      <div style="background: #2f6f3e; padding: 32px 24px; text-align: center; color: #ffffff;">
+      <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
         <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">⚽ Merci pour votre commande !</h2>
-        <p style="color: rgba(255,255,255,0.9); margin: 0; font-size: 16px; line-height: 1.5;">
+        <p style="color: #ffffff; margin: 0; font-size: 16px; line-height: 1.5;">
           Bonjour <strong style="color: #ffffff;">${customerName}</strong>,<br>
           Votre commande a été confirmée avec succès. Nous préparons vos articles avec soin !
         </p>
       </div>
       
       <!-- Corps de l'email -->
-      <div style="padding: 24px;">
+      <div style="padding: 24px; background: #f9f9f9;">
         <!-- Récapitulatif de commande -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Récapitulatif de votre commande</h3>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Récapitulatif de votre commande</h3>
           <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Numéro de commande:</span>
-              <span style="color: #121314; font-weight: 600;">${orderId}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Numéro de commande:</span>
+              <span style="color: #000; font-weight: 600;">${orderId}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Total payé:</span>
-              <span style="color: #2f6f3e; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Total payé:</span>
+              <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f7f8f9;">
-              <span style="color: #6b6f76; font-weight: 500;">Nombre d'articles:</span>
-              <span style="color: #121314; font-weight: 600;">${items.length}</span>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+              <span style="color: #666; font-weight: 500;">Nombre d'articles:</span>
+              <span style="color: #000; font-weight: 600;">${items.length}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #6b6f76; font-weight: 500;">Email de confirmation:</span>
-              <span style="color: #121314; font-size: 14px;">${customerEmail}</span>
+              <span style="color: #666; font-weight: 500;">Email de confirmation:</span>
+              <span style="color: #000; font-size: 14px;">${customerEmail}</span>
             </div>
           </div>
         </div>
         
         <!-- Articles commandés -->
-        <div style="background: #ffffff; border: 1px solid #e9ebf0; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(18,19,20,0.1);">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Vos articles</h3>
+        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Vos articles</h3>
           ${itemsHtml}
         </div>
         
         <!-- Informations importantes -->
-        <div style="background: #f0f9f2; border: 1px solid #c3e9c7; border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #2f6f3e; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+        <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
           <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #2f6f3e; font-weight: 600;">✅ Votre paiement a été confirmé</p>
-            <p style="margin: 0; color: #121314;">📦 Nous préparons votre commande</p>
-            <p style="margin: 0; color: #121314;">🚚 Vous recevrez un email avec les détails d'expédition</p>
-            <p style="margin: 0; color: #121314;">📧 Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #2f6f3e; text-decoration: none; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
+            <p style="margin: 0; color: #000; font-weight: 600;">✅ Votre paiement a été confirmé</p>
+            <p style="margin: 0; color: #000;">📦 Nous préparons votre commande</p>
+            <p style="margin: 0; color: #000;">🚚 Vous recevrez un email avec les détails d'expédition</p>
+            <p style="margin: 0; color: #000;">📧 Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #000; text-decoration: underline; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
           </div>
         </div>
       </div>
       
       <!-- Footer -->
-      <div style="background: #121314; padding: 24px; text-align: center; color: #6b6f76;">
+      <div style="background: #000; padding: 24px; text-align: center; color: #ffffff;">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 24px; width: auto; margin-right: 8px; filter: invert(0.5);">
+               style="height: 24px; width: auto; margin-right: 8px; filter: invert(1);">
           <p style="color: #ffffff; margin: 0; font-size: 16px; font-weight: 600;">
             Futbolero Vintage Shop
           </p>
         </div>
-        <p style="color: #6b6f76; margin: 0 0 8px 0; font-size: 14px; font-style: italic;">Des maillots iconiques, un style intemporel</p>
-        <p style="color: #6b6f76; margin: 0; font-size: 12px;">Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
+        <p style="color: #ccc; margin: 0 0 8px 0; font-size: 14px; font-style: italic;">Des maillots iconiques, un style intemporel</p>
+        <p style="color: #ccc; margin: 0; font-size: 12px;">Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
       </div>
     </div>
   `;
