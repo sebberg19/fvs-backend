@@ -51,11 +51,15 @@ const renderEmailTemplate = (session, orderId) => {
   const metadata = session.metadata || {};
   let items = [];
   try {
+    console.log('[webhook] Metadata received:', JSON.stringify(metadata, null, 2));
     const itemCount = parseInt(metadata.itemCount) || 0;
+    console.log('[webhook] Item count:', itemCount);
+    
     for (let i = 0; i < itemCount && i < 10; i++) {
       const itemKey = `item_${i}`;
       if (metadata[itemKey]) {
         const item = JSON.parse(metadata[itemKey]);
+        console.log(`[webhook] Item ${i}:`, item);
         items.push(item);
       }
     }
@@ -63,11 +67,14 @@ const renderEmailTemplate = (session, orderId) => {
     // Fallback vers l'ancien format si pas d'articles trouvés
     if (items.length === 0 && metadata.items) {
       items = JSON.parse(metadata.items);
+      console.log('[webhook] Using fallback items:', items);
     }
   } catch (e) {
     console.warn('[webhook] Failed to parse items from metadata:', e.message);
     items = [{ name: 'Commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
+  
+  console.log('[webhook] Final items for email:', items);
   
   // Générer le HTML des articles avec le style noir et blanc
   const itemsHtml = items.map(item => {
@@ -75,6 +82,8 @@ const renderEmailTemplate = (session, orderId) => {
     const imageUrl = item.image && item.image.startsWith('images/') 
       ? `https://futbolerovintageshop.com/${item.image}`
       : item.image;
+    
+    console.log(`[webhook] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
     return `
     <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
@@ -233,6 +242,8 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     const imageUrl = item.image && item.image.startsWith('images/') 
       ? `https://futbolerovintageshop.com/${item.image}`
       : item.image;
+    
+    console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
     return `
     <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
