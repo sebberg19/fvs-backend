@@ -78,16 +78,25 @@ const renderEmailTemplate = (session, orderId) => {
   
   // Générer le HTML des articles avec le style noir et blanc
   const itemsHtml = items.map(item => {
-    // Convertir les chemins relatifs en URLs absolues
-    const imageUrl = item.image && item.image.startsWith('images/') 
-      ? `https://futbolerovintageshop.com/${item.image}`
-      : item.image;
+    // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
+    let imageUrl = '';
+    if (item.image) {
+      if (item.image.startsWith('http')) {
+        imageUrl = item.image; // URL absolue déjà
+      } else if (item.image.startsWith('images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${item.image}`;
+      } else if (item.image.startsWith('/')) {
+        imageUrl = `https://futbolerovintageshop.com${item.image}`;
+      } else {
+        imageUrl = `https://futbolerovintageshop.com/images/${item.image}`;
+      }
+    }
     
     console.log(`[webhook] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
     return `
     <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      ${imageUrl ? `
+      ${imageUrl && imageUrl.length > 10 ? `
         <img src="${imageUrl}" alt="${item.name}" 
              style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
       ` : `
@@ -238,16 +247,25 @@ const renderCustomerEmailTemplate = (session, orderId) => {
   
   // Générer le HTML des articles pour le client avec style noir et blanc
   const itemsHtml = items.map(item => {
-    // Convertir les chemins relatifs en URLs absolues
-    const imageUrl = item.image && item.image.startsWith('images/') 
-      ? `https://futbolerovintageshop.com/${item.image}`
-      : item.image;
+    // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
+    let imageUrl = '';
+    if (item.image) {
+      if (item.image.startsWith('http')) {
+        imageUrl = item.image; // URL absolue déjà
+      } else if (item.image.startsWith('images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${item.image}`;
+      } else if (item.image.startsWith('/')) {
+        imageUrl = `https://futbolerovintageshop.com${item.image}`;
+      } else {
+        imageUrl = `https://futbolerovintageshop.com/images/${item.image}`;
+      }
+    }
     
     console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
     return `
     <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      ${imageUrl && !imageUrl.includes('data:image/svg') ? `
+      ${imageUrl && imageUrl.length > 10 && !imageUrl.includes('data:image/svg') ? `
         <img src="${imageUrl}" alt="${item.name}" 
              style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
       ` : `
