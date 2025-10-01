@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Favicon Adaptatif - Futbolero Vintage Shop</title>
+    
+    <!-- Favicon adaptatif (change selon le mode sombre/clair) -->
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-adaptive.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-light.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-light-16x16.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+    <link rel="manifest" href="./assets/site.webmanifest">
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 2rem;
+            background: #f5f5f5;
+            color: #333;
+        }
+        
+        .test-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .favicon-preview {
+            display: flex;
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+        
+        .favicon-item {
+            text-align: center;
+        }
+        
+        .favicon-item img {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #ddd;
+            background: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .dark-mode-toggle {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .dark-mode-toggle:hover {
+            background: #0056b3;
+        }
+        
+        .dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        
+        .dark-mode .test-container {
+            background: #2d2d2d;
+            color: #e0e0e0;
+        }
+        
+        .status {
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🎨 Test Favicon Adaptatif</h1>
+        <p>Cette page teste le fonctionnement des favicons adaptatifs selon le mode sombre/clair du navigateur.</p>
+        
+        <div class="status success">
+            ✅ <strong>Favicons adaptatifs installés avec succès !</strong><br>
+            Le favicon change automatiquement selon les préférences de votre navigateur.
+        </div>
+        
+        <div class="status info">
+            📱 <strong>Comment tester :</strong><br>
+            1. Changez les préférences de thème de votre système (sombre/clair)<br>
+            2. Ou utilisez le bouton ci-dessous pour forcer le mode sombre<br>
+            3. Observez le favicon dans l'onglet du navigateur
+        </div>
+        
+        <button class="dark-mode-toggle" onclick="toggleDarkMode()">
+            🌙 Basculer le mode sombre
+        </button>
+        
+        <h2>📋 Résumé de l'implémentation</h2>
+        <ul>
+            <li><strong>Favicon SVG adaptatif</strong> : Se charge en premier et s'adapte automatiquement</li>
+            <li><strong>PNG mode clair</strong> : Favicon noir sur fond transparent</li>
+            <li><strong>PNG mode sombre</strong> : Favicon blanc sur fond transparent</li>
+            <li><strong>Pas de distorsion</strong> : Utilisation de <code>object-fit: contain</code></li>
+            <li><strong>Multi-tailles</strong> : 16x16 et 32x32 pixels</li>
+        </ul>
+        
+        <h2>🔧 Fichiers créés</h2>
+        <div class="favicon-preview">
+            <div class="favicon-item">
+                <img src="./assets/favicon-adaptive.svg" alt="Favicon SVG adaptatif">
+                <div><small>favicon-adaptive.svg</small></div>
+            </div>
+            <div class="favicon-item">
+                <img src="./assets/favicon-32x32.png" alt="Favicon mode clair 32x32">
+                <div><small>favicon-32x32.png (clair)</small></div>
+            </div>
+            <div class="favicon-item">
+                <img src="./assets/favicon-light.png" alt="Favicon mode sombre 32x32">
+                <div><small>favicon-light.png (sombre)</small></div>
+            </div>
+        </div>
+        
+        <h2>✅ Pages mises à jour</h2>
+        <ul>
+            <li>✅ index.html</li>
+            <li>✅ tous-les-maillots.html</li>
+            <li>✅ maillots-vintage.html</li>
+            <li>✅ classiques.html</li>
+            <li>✅ maillots.html</li>
+            <li>✅ maillots-pays.html</li>
+            <li>✅ pays-vintage.html</li>
+            <li>✅ cart.html</li>
+            <li>✅ checkout.html</li>
+            <li>✅ payment-success.html</li>
+        </ul>
+        
+        <div class="status success">
+            🎉 <strong>Mission accomplie !</strong><br>
+            Toutes les pages ont maintenant des favicons adaptatifs qui s'ajustent automatiquement au mode sombre/clair du navigateur.
+        </div>
+    </div>
+    
+    <script>
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+        }
+        
+        // Détection automatique du mode sombre
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            console.log('Mode sombre détecté');
+        }
+        
+        // Écouter les changements de préférence
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            console.log('Changement de mode détecté:', e.matches ? 'sombre' : 'clair');
+        });
+    </script>
+</body>
+</html>

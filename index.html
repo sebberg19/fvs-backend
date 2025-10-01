@@ -7,9 +7,12 @@
     <meta name="theme-color" content="#ffffff" />
     <title>Futbolero Vintage Shop — Boutique de maillots</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png">
+    <!-- Favicon adaptatif (change selon le mode sombre/clair) -->
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-adaptive.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-light.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-light-16x16.png" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
     <link rel="manifest" href="./assets/site.webmanifest">
 
@@ -147,7 +150,7 @@
       
       @media (max-width: 991.98px) {
           body {
-              padding-top: 72px !important;
+              padding-top: 85px !important;
           }
       }
       
@@ -271,9 +274,23 @@
       }
 
       .footer {
-        border-top: 1px solid var(--border);
-        color: var(--muted);
-        background: var(--surface);
+        background: #000000 !important;
+        color: #ffffff;
+        border-top: none;
+      }
+      
+      .footer a {
+        color: #ffffff;
+        text-decoration: none;
+      }
+      
+      .footer a:hover {
+        color: #cccccc;
+        text-decoration: underline;
+      }
+      
+      .footer .text-secondary {
+        color: #cccccc !important;
       }
 
       /* Panier */
@@ -506,22 +523,22 @@
   <header id="site-header"></header>
 
     <!-- Hero -->
-    <section class="hero py-4 py-md-4" style="padding-bottom: 1rem !important;">
+    <section class="hero py-md-5 py-md-4" style="padding-bottom: 1rem !important;">
       <div class="container">
         <div class="row align-items-center g-4 hero-row" style="min-height: 56vh;">
           <div class="col-12 col-lg-7">
             <h1 class="hero-title fw-bold mb-3">
-              Des maillots iconiques.<br>Un style intemporel.
+              Des maillots iconiques.<br>Juste pour vous.
             </h1>
             <p class="lead text-secondary mb-4">
-              Découvrez notre collection exclusive de maillots de football actuels et vintage. Qualité premium, livraison rapide et personnalisation disponible.
+              Découvrez notre collection exclusive de maillots de football actuels et vintage à porter sur le terrain comme en dehors.
             </p>
             <div class="d-grid gap-2 d-sm-flex">
-              <a href="./tous-les-maillots.html" class="btn btn-blue btn-lg w-100 w-sm-auto">
-                <i class="bi bi-collection me-2"></i>Voir tous les maillots
+              <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
+                <i class=" me-2"></i>Voir tous les maillots
               </a>
               <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
-                <i class="bi bi-star me-2"></i>Explorer le vintage
+                <i class=" me-2"></i>Explorer le vintage
               </a>
             </div>
           </div>
@@ -599,57 +616,33 @@
       </div>
     </section>
 
-    <!-- Catégories -->
-    <section class="py-4 py-md-5">
-      <div class="container">
-        <div class="row g-3 g-md-4">
-          <div class="col-12 col-md-4">
-            <a href="./tous-les-maillots.html" class="text-decoration-none text-dark">
-              <div class="category-tile ratio ratio-4x3">
-                <div class="overlay w-100">
-                  <div>
-                    <span class="badge badge-accent mb-2">Nouvelle sélection</span>
-                    <h3 class="h6 h5-md m-0">Tous les maillots</h3>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-12 col-md-4">
-            <a href="./maillots.html" class="text-decoration-none text-dark">
-              <div class="category-tile ratio ratio-4x3">
-                <div class="overlay w-100">
-                  <div>
-                    <span class="badge badge-accent mb-2">Performances</span>
-                    <h3 class="h6 h5-md m-0">Maillots</h3>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-          <div class="col-12 col-md-4">
-            <a href="./maillots-vintage.html" class="text-decoration-none text-dark">
-              <div class="category-tile ratio ratio-4x3">
-                <div class="overlay w-100">
-                  <div>
-                    <span class="badge badge-accent mb-2">Classiques</span>
-                    <h3 class="h6 h5-md m-0">Maillots vintage</h3>
-                  </div>
-                </div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
+   
 
     <!-- Footer -->
-    <footer class="footer py-4">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
-        <div class="d-flex align-items-center gap-3">
-          <small class="text-secondary mb-0">Palette naturelle · accents vert gazon</small>
-          <a class="link-underline" href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a>
+    <footer class="footer py-5">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-12 col-md-8">
+            <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+              <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+              <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
+            </div>
+            <p class="text-secondary mb-4">
+              Votre destination pour les maillots de football vintage. <br>
+              Qualité premium, prix compétitifs.
+            </p>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+              <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
+              <a href="./maillots-vintage.html" class="text-white">Vintage</a>
+              <a href="./maillots.html" class="text-white">Maillots récents</a>
+              <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
+            </div>
+            <hr style="border-color: #333333; margin: 2rem 0;">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+              <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+              <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
+            </div>
+          </div>
         </div>
       </div>
     </footer>
@@ -707,7 +700,6 @@
         const allJerseys = [
           { img: './images/Real_Madrid_1.png', name: 'Real Madrid', price: '$36.70' },
           { img: './images/FC_Barcelona_12.png', name: 'FC Barcelona', price: '$36.70' },
-          { img: './images/Arsenal_FC_20.png', name: 'Arsenal FC', price: '$36.70' },
           { img: './images/Chelsea_FC_54.png', name: 'Chelsea FC', price: '$36.70' },
           { img: './images/Bayern_Munich_9.png', name: 'Bayern Munich', price: '$36.70' },
           { img: './images/Juventus_10.png', name: 'Juventus', price: '$36.70' },
@@ -729,7 +721,6 @@
           { img: './images/Brazil_24.png', name: 'Brésil', price: '$36.70' },
           { img: './images/Argentina_40.png', name: 'Argentine', price: '$36.70' },
           { img: './images/France_62.png', name: 'France', price: '$36.70' },
-          { img: './images/England_52.png', name: 'Angleterre', price: '$36.70' },
           { img: './images/Germany_4.png', name: 'Allemagne', price: '$36.70' },
           { img: './images/Italy_74.png', name: 'Italie', price: '$36.70' },
           { img: './images/Netherlands_83.png', name: 'Pays-Bas', price: '$36.70' },

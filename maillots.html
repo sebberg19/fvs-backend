@@ -7,6 +7,15 @@
     <meta name="theme-color" content="#ffffff" />
     <title>Maillots Clubs - Futbolero Vintage Shop</title>
 
+    <!-- Favicon adaptatif (change selon le mode sombre/clair) -->
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-adaptive.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-32x32.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon-light.png" media="(prefers-color-scheme: dark)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-16x16.png" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon-light-16x16.png" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png">
+    <link rel="manifest" href="./assets/site.webmanifest">
+
     <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -113,7 +122,25 @@
         }
         .card { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
         .card .card-text { color: var(--muted); }
-        .footer { border-top: 1px solid var(--border); color: var(--muted); background: var(--surface); }
+        .footer {
+          background: #000000 !important;
+          color: #ffffff;
+          border-top: none;
+        }
+        
+        .footer a {
+          color: #ffffff;
+          text-decoration: none;
+        }
+        
+        .footer a:hover {
+          color: #cccccc;
+          text-decoration: underline;
+        }
+        
+        .footer .text-secondary {
+          color: #cccccc !important;
+        }
         .cart-btn { position: relative; }
         .cart-count {
             position: absolute; top: -6px; right: -8px; font-size: .7rem;
@@ -4493,13 +4520,33 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer py-4">
-      <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-        <small>© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
-        <small class="text-secondary">Palette naturelle, accents vert gazon.</small>
+    <footer class="footer py-5">
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-12 col-md-8">
+            <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
+              <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+              <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
+            </div>
+            <p class="text-secondary mb-4">
+              Votre destination pour les maillots de football vintage. <br>
+              Qualité premium, prix compétitifs.
+            </p>
+            <div class="d-flex justify-content-center gap-4 mb-4">
+              <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
+              <a href="./maillots-vintage.html" class="text-white">Vintage</a>
+              <a href="./maillots.html" class="text-white">Maillots récents</a>
+              <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
+            </div>
+            <hr style="border-color: #333333; margin: 2rem 0;">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+              <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+              <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
+            </div>
+          </div>
+        </div>
       </div>
-    <p>Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com">futbolerovintageshop@gmail.com</a></p>
-</footer>
+    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
