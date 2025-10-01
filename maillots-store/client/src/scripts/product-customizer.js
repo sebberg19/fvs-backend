@@ -98,33 +98,42 @@
       modalPriceEl().textContent = formatPrice(total);
     }
 
-    // attach click -> open modal
-    document.querySelectorAll('.add-to-cart').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const card = btn.closest('.product-card') || btn.closest('.card');
-        const name = (card?.querySelector('.product-title')?.textContent || card?.querySelector('h3')?.textContent || card?.querySelector('h2')?.textContent || 'Article').trim();
-        const price = Number(btn.dataset.price) || 0;
-        const img = btn.dataset.img || card?.querySelector('img')?.src || '';
-        currentProduct = { name, price, img };
+    function attachEvents() {
+      // attach click -> open modal
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        // Éviter les doubles événements
+        if (btn.hasAttribute('data-customizer-attached')) return;
+        btn.setAttribute('data-customizer-attached', 'true');
+        
+        btn.addEventListener('click', (e) => {
+          const card = btn.closest('.product-card') || btn.closest('.card');
+          const name = (card?.querySelector('.product-title')?.textContent || card?.querySelector('h3')?.textContent || card?.querySelector('h2')?.textContent || 'Article').trim();
+          const price = Number(btn.dataset.price) || 0;
+          const img = btn.dataset.img || card?.querySelector('img')?.src || '';
+          currentProduct = { name, price, img };
 
-        // populate modal
-        customizeModalEl.querySelector('.modal-title').textContent = 'Personnaliser';
-        modalTitleEl().textContent = name;
-        modalImgEl().src = img;
-        modalImgEl().alt = name;
-        modalSizeEl().value = 'M';
-        modalQtyEl().value = 1;
-        modalPersonalizeEl().checked = false;
-        personalizeFieldsEl().style.display = 'none';
-        modalNameEl().value = '';
-        modalNumberEl().value = '';
-        modalNameEl().classList.remove('is-invalid');
-        modalNumberEl().classList.remove('is-invalid');
+          // populate modal
+          customizeModalEl.querySelector('.modal-title').textContent = 'Personnaliser';
+          modalTitleEl().textContent = name;
+          modalImgEl().src = img;
+          modalImgEl().alt = name;
+          modalSizeEl().value = 'M';
+          modalQtyEl().value = 1;
+          modalPersonalizeEl().checked = false;
+          personalizeFieldsEl().style.display = 'none';
+          modalNameEl().value = '';
+          modalNumberEl().value = '';
+          modalNameEl().classList.remove('is-invalid');
+          modalNumberEl().classList.remove('is-invalid');
 
-        updateModalPriceDisplay();
-        bsCustomizeModal.show();
+          updateModalPriceDisplay();
+          bsCustomizeModal.show();
+        });
       });
-    });
+    }
+
+    // Attacher les événements initiaux
+    attachEvents();
 
     // modal interactions
     modalPersonalizeEl().addEventListener('change', (e) => {
@@ -178,6 +187,9 @@
       try { localStorage.setItem('cartCount', String(next)); } catch {}
       bsCustomizeModal.hide();
     });
+
+    // Exposer la fonction de réattachement pour les éléments dynamiques
+    window.productCustomizerInit = attachEvents;
   }
 
   if (document.readyState === 'loading') {

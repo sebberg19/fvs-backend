@@ -358,6 +358,107 @@
   font-weight: bold;
   border: 2px solid white;
 }
+
+/* Carrousel de maillots automatique */
+.jersey-carousel-container {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.jersey-carousel {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 30s linear infinite;
+  gap: 2rem;
+  padding: 0 1.5rem;
+}
+
+.jersey-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.jersey-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+}
+
+.jersey-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+}
+
+.jersey-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 0.4rem;
+  line-height: 1.2;
+}
+
+.jersey-price {
+  font-size: 0.9rem;
+  color: #000000;
+  font-weight: 700;
+}
+
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Pause l'animation au hover */
+.jersey-carousel-container:hover .jersey-carousel {
+  animation-play-state: paused;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .jersey-carousel {
+    gap: 1.5rem;
+    animation-duration: 25s;
+    padding: 0 1rem;
+  }
+  
+  .jersey-item {
+    min-width: 120px;
+    padding: 0.75rem;
+  }
+  
+  .jersey-img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .jersey-name {
+    font-size: 0.85rem;
+  }
+  
+  .jersey-price {
+    font-size: 0.8rem;
+  }
+}
     </style>
   </head>
   <body>
@@ -365,7 +466,7 @@
   <header id="site-header"></header>
 
     <!-- Hero -->
-    <section class="hero py-4 py-md-5">
+    <section class="hero py-4 py-md-4" style="padding-bottom: 1rem !important;">
       <div class="container">
         <div class="row align-items-center g-4 hero-row" style="min-height: 56vh;">
           <div class="col-12 col-lg-7">
@@ -373,63 +474,84 @@
               Des maillots iconiques.<br>Un style intemporel.
             </h1>
             <p class="lead text-secondary mb-4">
-              Découvrez notre sélection de maillots actuels et vintage, soigneusement choisis pour les passionnés.
+              Découvrez notre collection exclusive de maillots de football actuels et vintage. Qualité premium, livraison rapide et personnalisation disponible.
             </p>
             <div class="d-grid gap-2 d-sm-flex">
               <a href="./tous-les-maillots.html" class="btn btn-blue btn-lg w-100 w-sm-auto">
-                Voir tous les maillots
+                <i class="bi bi-collection me-2"></i>Voir tous les maillots
               </a>
               <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
-                Explorer le vintage
+                <i class="bi bi-star me-2"></i>Explorer le vintage
               </a>
             </div>
           </div>
           <div class="col-12 col-lg-5">
             <div class="card shadow-sm">
               <div class="card-body p-4">
-                <h2 class="h5 mb-3">Nos classiques</h2>
+                <h2 class="h5 mb-3"><i class=" text-warning me-2"></i>Nos classiques</h2>
                 <ul class="list-unstyled mb-0">
                   <li class="d-flex align-items-start gap-3 mb-3">
                     <div class="flex-shrink-0">
-                      <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                      <img src="./images/Manchester_United_59.png" alt="Manchester United" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
                     </div>
                     <div class="flex-grow-1">
                       <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">Maillot Domicile 24/25</span>
-                        <span class="text-secondary">$36.70 CAD</span>
+                        <span class="fw-semibold">Manchester United</span>
+                       
                       </div>
-    
-    <!-- Personnalisation/tailles -->
-    <script src="../scripts/product-customizer.js"></script>
-                      <small class="text-secondary">Technologie respirante, coupe moderne</small>
+                      <small class="text-secondary">L'équipe la plus titrée d'Angleterre</small>
                     </div>
                   </li>
                   <li class="d-flex align-items-start gap-3 mb-3">
-                    <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                    <div class="flex-shrink-0">
+                      <img src="./images/Argentina_40.png" alt="Argentine" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
+                    </div>
                     <div>
                       <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">Maillot Extérieur 24/25</span>
-                        <span class="text-secondary">$36.70 CAD</span>
+                        <span class="fw-semibold">Argentine</span>
+                      
                       </div>
-                      <small class="text-secondary">Léger et confortable</small>
+                      <small class="text-secondary">Champions du monde 2022</small>
                     </div>
                   </li>
                   <li class="d-none d-md-flex align-items-start gap-3">
-                    <div class="rounded" style="width:64px;height:64px;background:#eef0f3;border:1px solid var(--border);"></div>
+                    <div class="flex-shrink-0">
+                      <img src="./images/France_62.png" alt="France" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
+                    </div>
                     <div>
                       <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">Vintage 1998 Classique</span>
-                        <span class="text-secondary">$40.70 CAD</span>
+                        <span class="fw-semibold">France</span>
+                      
                       </div>
-                      <small class="text-secondary">Édition collector</small>
+                      <small class="text-secondary">Les Bleus champions du monde</small>
                     </div>
                   </li>
                 </ul>
                 <div class="mt-4">
                   <a href="./tous-les-maillots.html" class="text-decoration-none">
-                    Parcourir la collection <i class="bi bi-arrow-right-short"></i>
+                    Voir les classiques<i class="bi bi-arrow-right-short"></i>
                   </a>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Carrousel de maillots automatique -->
+    <section class="py-1 py-md-2" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-top: 0.5rem !important;">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="text-center mb-2 mb-md-3">
+              <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg">
+                <i class="e-2"></i>Voir tous nos maillots
+              </a>
+            </div>
+            <div class="jersey-carousel-container">
+              <div class="jersey-carousel" id="jerseyCarousel">
+                <!-- Le contenu sera généré dynamiquement par JavaScript -->
               </div>
             </div>
           </div>
@@ -506,6 +628,9 @@
   <!-- Nav partagée -->
   <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
 
+  <!-- Personnalisation/tailles -->
+  <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
+
     <!-- Script minimal: année + badge panier -->
     <script>
       // Mettre l'année dans le footer
@@ -535,6 +660,153 @@
         saved = Number(localStorage.getItem('cartCount')) || 0;
       } catch (_) {}
       renderCartCount(saved);
+
+      // Gestion du carrousel de maillots
+      function initJerseyCarousel() {
+        // Liste complète des maillots disponibles
+        const allJerseys = [
+          { img: './images/Real_Madrid_1.png', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/FC_Barcelona_12.png', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Arsenal_FC_20.png', name: 'Arsenal FC', price: '$36.70' },
+          { img: './images/Chelsea_FC_54.png', name: 'Chelsea FC', price: '$36.70' },
+          { img: './images/Bayern_Munich_9.png', name: 'Bayern Munich', price: '$36.70' },
+          { img: './images/Juventus_10.png', name: 'Juventus', price: '$36.70' },
+          { img: './images/AC_Milan_14.png', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Inter_Milan_4.png', name: 'Inter Milan', price: '$36.70' },
+          { img: './images/Paris_Saint_Germain_10.png', name: 'Paris Saint-Germain', price: '$36.70' },
+          { img: './images/Atletico_Madrid_13.png', name: 'Atlético Madrid', price: '$36.70' },
+          { img: './images/Borussia_Dortmund_3.png', name: 'Borussia Dortmund', price: '$36.70' },
+          { img: './images/Manchester_City_4.png', name: 'Manchester City', price: '$36.70' },
+          { img: './images/Tottenham_1.png', name: 'Tottenham', price: '$36.70' },
+          { img: './images/AS_Roma_19.png', name: 'AS Roma', price: '$36.70' },
+          { img: './images/Napoli_22.png', name: 'Napoli', price: '$36.70' },
+          { img: './images/Newcastle_United_28.png', name: 'Newcastle United', price: '$36.70' },
+          { img: './images/Olympique_Marseille_26.png', name: 'Olympique Marseille', price: '$36.70' },
+          { img: './images/Boca_Juniors_15.png', name: 'Boca Juniors', price: '$36.70' },
+          { img: './images/River_Plate_100.png', name: 'River Plate', price: '$36.70' },
+          { img: './images/Santos_FC_13.png', name: 'Santos FC', price: '$36.70' },
+          { img: './images/Palmeiras_104.png', name: 'Palmeiras', price: '$36.70' },
+          { img: './images/Brazil_24.png', name: 'Brésil', price: '$36.70' },
+          { img: './images/Argentina_40.png', name: 'Argentine', price: '$36.70' },
+          { img: './images/France_62.png', name: 'France', price: '$36.70' },
+          { img: './images/England_52.png', name: 'Angleterre', price: '$36.70' },
+          { img: './images/Germany_4.png', name: 'Allemagne', price: '$36.70' },
+          { img: './images/Italy_74.png', name: 'Italie', price: '$36.70' },
+          { img: './images/Netherlands_83.png', name: 'Pays-Bas', price: '$36.70' },
+          { img: './images/Spain_128.png', name: 'Espagne', price: '$36.70' },
+          { img: './images/Portugal_100.png', name: 'Portugal', price: '$36.70' },
+          { img: './images/Croatia_72.png', name: 'Croatie', price: '$36.70' },
+          { img: './images/Uruguay_37.png', name: 'Uruguay', price: '$36.70' },
+          { img: './images/Leicester_City_001.png', name: 'Leicester City', price: '$36.70' },
+          { img: './images/West_Ham_United_001.png', name: 'West Ham United', price: '$36.70' },
+          { img: './images/Everton_FC_001.png', name: 'Everton FC', price: '$36.70' },
+          { img: './images/Valencia_CF_001.png', name: 'Valencia CF', price: '$36.70' },
+          { img: './images/FC_Barcelona_001.png', name: 'FC Barcelone', price: '$36.70' },
+          { img: './images/Real_Madrid_88.png', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/AC_Milan_70.png', name: 'AC Milan', price: '$36.70' },
+        ];
+
+        // Mélanger aléatoirement la liste
+        function shuffleArray(array) {
+          const shuffled = [...array];
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+          return shuffled;
+        }
+
+        // Générer le carrousel avec des maillots aléatoires
+        function generateCarousel() {
+          const carousel = document.getElementById('jerseyCarousel');
+          if (!carousel) return;
+
+          const shuffledJerseys = shuffleArray(allJerseys);
+          const selectedJerseys = shuffledJerseys.slice(0, 15); // Prendre 15 maillots aléatoires
+          
+          // Dupliquer pour l'effet infini
+          const allDisplayJerseys = [...selectedJerseys, ...selectedJerseys];
+
+          carousel.innerHTML = allDisplayJerseys.map((jersey, index) => `
+            <div class="jersey-item product-card" data-jersey-name="${jersey.name}" data-jersey-img="${jersey.img}" data-jersey-price="36.70" data-jersey-id="carousel-${index}">
+              <img src="${jersey.img}" alt="${jersey.name}" class="jersey-img" onerror="this.src='./images/placeholder.png'">
+              <h3 class="jersey-name product-title">${jersey.name}</h3>
+              <span class="jersey-price">${jersey.price}</span>
+              <button class="add-to-cart" data-price="36.70" data-img="${jersey.img}" style="display: none;">Ajouter</button>
+            </div>
+          `).join('');
+        }
+
+        // Générer le carrousel
+        generateCarousel();
+
+        // Attendre un peu avant d'ajouter les événements
+        setTimeout(() => {
+          const jerseyItems = document.querySelectorAll('.jersey-item');
+          
+          // Rendre les maillots cliquables avec menu de personnalisation
+          jerseyItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              
+              // Déclencher le clic sur le bouton add-to-cart caché pour utiliser le système existant
+              const addToCartBtn = item.querySelector('.add-to-cart');
+              if (addToCartBtn) {
+                addToCartBtn.click();
+              }
+            });
+          });
+
+          // Ajouter un effet de survol plus visible
+          jerseyItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+              item.style.transform = 'translateY(-4px) scale(1.02)';
+            });
+            
+            item.addEventListener('mouseleave', () => {
+              item.style.transform = 'translateY(0) scale(1)';
+            });
+          });
+
+          // Réinitialiser les événements du product-customizer pour les nouveaux éléments
+          if (window.productCustomizerInit) {
+            window.productCustomizerInit();
+          }
+        }, 100);
+
+        // Régénérer le carrousel toutes les 2 minutes pour plus de variété
+        setInterval(() => {
+          generateCarousel();
+          setTimeout(() => {
+            const jerseyItems = document.querySelectorAll('.jersey-item');
+            jerseyItems.forEach(item => {
+              item.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const addToCartBtn = item.querySelector('.add-to-cart');
+                if (addToCartBtn) {
+                  addToCartBtn.click();
+                }
+              });
+              item.addEventListener('mouseenter', () => {
+                item.style.transform = 'translateY(-4px) scale(1.02)';
+              });
+              item.addEventListener('mouseleave', () => {
+                item.style.transform = 'translateY(0) scale(1)';
+              });
+            });
+            
+            // Réinitialiser les événements du product-customizer pour les nouveaux éléments
+            if (window.productCustomizerInit) {
+              window.productCustomizerInit();
+            }
+          }, 100);
+        }, 120000); // 2 minutes
+      }
+
+      // Initialiser le carrousel quand le DOM est prêt
+      document.addEventListener('DOMContentLoaded', initJerseyCarousel);
     </script>
   </body>
 </html>
