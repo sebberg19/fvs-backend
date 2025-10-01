@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (target) target.classList.add('active');
         return;
       }
+      if (current === 'maillots-vintage.html' || current === 'pays-vintage.html') {
+        const target = container.querySelector('a.nav-link[href="./maillots-vintage.html"]');
+        if (target) target.classList.add('active');
+        return;
+      }
       if (current === 'index.html' || current === '') {
         const target = container.querySelector('a.nav-link[href="./index.html"]');
         if (target) target.classList.add('active');
