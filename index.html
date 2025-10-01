@@ -376,6 +376,10 @@
   animation: scroll-left 30s linear infinite;
   gap: 2rem;
   padding: 0 1.5rem;
+  will-change: transform;
+  -webkit-animation: scroll-left 30s linear infinite;
+  -moz-animation: scroll-left 30s linear infinite;
+  -o-animation: scroll-left 30s linear infinite;
 }
 
 .jersey-item {
@@ -389,6 +393,7 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .jersey-item:hover {
@@ -428,9 +433,41 @@
   }
 }
 
-/* Pause l'animation au hover */
-.jersey-carousel-container:hover .jersey-carousel {
-  animation-play-state: paused;
+@-webkit-keyframes scroll-left {
+  0% {
+    -webkit-transform: translateX(0);
+  }
+  100% {
+    -webkit-transform: translateX(-50%);
+  }
+}
+
+@-moz-keyframes scroll-left {
+  0% {
+    -moz-transform: translateX(0);
+  }
+  100% {
+    -moz-transform: translateX(-50%);
+  }
+}
+
+@-o-keyframes scroll-left {
+  0% {
+    -o-transform: translateX(0);
+  }
+  100% {
+    -o-transform: translateX(-50%);
+  }
+}
+
+/* Pause l'animation au hover - desktop seulement */
+@media (min-width: 769px) {
+  .jersey-carousel-container:hover .jersey-carousel {
+    animation-play-state: paused;
+    -webkit-animation-play-state: paused;
+    -moz-animation-play-state: paused;
+    -o-animation-play-state: paused;
+  }
 }
 
 /* Responsive pour mobile */
@@ -438,6 +475,9 @@
   .jersey-carousel {
     gap: 1.5rem;
     animation-duration: 25s;
+    -webkit-animation-duration: 25s;
+    -moz-animation-duration: 25s;
+    -o-animation-duration: 25s;
     padding: 0 1rem;
   }
   
@@ -528,7 +568,7 @@
                   </li>
                 </ul>
                 <div class="mt-4">
-                  <a href="./tous-les-maillots.html" class="text-decoration-none">
+                  <a href="./classiques.html" class="text-decoration-none">
                     Voir les classiques<i class="bi bi-arrow-right-short"></i>
                   </a>
                 </div>
