@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔧 Diagnostic Favicon - Mode Sombre</title>
+    
+    <!-- Favicon dynamique géré par JavaScript -->
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=7" id="favicon">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: black;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #1a1a1a;
+                color: white;
+            }
+        }
+        
+        .status-box {
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .status-light {
+            border-color: #000;
+            background: #f9f9f9;
+            color: #000;
+        }
+        
+        .status-dark {
+            border-color: #fff;
+            background: #333;
+            color: #fff;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .status-light { display: none; }
+        }
+        
+        @media (prefers-color-scheme: light) {
+            .status-dark { display: none; }
+        }
+        
+        .favicon-test {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .favicon-test img {
+            width: 48px;
+            height: 48px;
+            border: 2px solid currentColor;
+            border-radius: 4px;
+        }
+        
+        .manual-buttons {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .manual-buttons button {
+            padding: 0.5rem 1rem;
+            border: 2px solid;
+            border-radius: 4px;
+            background: transparent;
+            color: currentColor;
+            cursor: pointer;
+        }
+        
+        .manual-buttons button:hover {
+            background: currentColor;
+            color: white;
+        }
+        
+        @media (prefers-color-scheme: dark) {
+            .manual-buttons button:hover {
+                color: black;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>🔧 Diagnostic du Favicon Mode Sombre</h1>
+    
+    <div class="status-box status-light">
+        <h2>☀️ Mode Clair Détecté</h2>
+        <p><strong>Le favicon devrait être NOIR</strong></p>
+    </div>
+    
+    <div class="status-box status-dark">
+        <h2>🌙 Mode Sombre Détecté</h2>
+        <p><strong>Le favicon devrait être BLANC</strong></p>
+    </div>
+    
+    <div class="status-box">
+        <h2>📊 État Actuel</h2>
+        <p id="current-mode">Détection en cours...</p>
+        <p id="favicon-status">Favicon : En cours de vérification...</p>
+        
+        <div class="favicon-test">
+            <img src="./assets/favicon-dark.svg" alt="Logo noir">
+            <span>Logo NOIR (pour mode clair)</span>
+        </div>
+        
+        <div class="favicon-test">
+            <img src="./assets/favicon-light.svg" alt="Logo blanc">
+            <span>Logo BLANC (pour mode sombre)</span>
+        </div>
+    </div>
+    
+    <div class="status-box">
+        <h2>🛠️ Test Manuel</h2>
+        <p>Si l'automatique ne fonctionne pas, testez manuellement :</p>
+        
+        <div class="manual-buttons">
+            <button onclick="setFaviconDark()">🌞 Forcer Logo NOIR</button>
+            <button onclick="setFaviconLight()">🌙 Forcer Logo BLANC</button>
+        </div>
+        
+        <p><strong>Instructions :</strong></p>
+        <ol>
+            <li>Changez le thème de votre navigateur/système</li>
+            <li>Rechargez cette page (F5)</li>
+            <li>Vérifiez que le favicon change automatiquement</li>
+            <li>Si non, utilisez les boutons manuels ci-dessus</li>
+        </ol>
+    </div>
+    
+    <script>
+        // Fonction pour mettre à jour le favicon
+        function updateFavicon() {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const favicon = document.querySelector('#favicon');
+            
+            if (favicon) {
+                if (isDarkMode) {
+                    favicon.href = './assets/favicon-light.svg?v=7'; // Logo blanc pour mode sombre
+                    document.getElementById('favicon-status').textContent = 'Favicon : Logo BLANC activé (mode sombre)';
+                } else {
+                    favicon.href = './assets/favicon-dark.svg?v=7';  // Logo noir pour mode clair
+                    document.getElementById('favicon-status').textContent = 'Favicon : Logo NOIR activé (mode clair)';
+                }
+            }
+            
+            // Mise à jour du statut
+            const mode = isDarkMode ? 'Mode SOMBRE' : 'Mode CLAIR';
+            document.getElementById('current-mode').textContent = 'Thème détecté : ' + mode;
+        }
+        
+        // Fonctions manuelles
+        function setFaviconDark() {
+            const favicon = document.querySelector('#favicon');
+            favicon.href = './assets/favicon-dark.svg?v=7';
+            document.getElementById('favicon-status').textContent = 'Favicon : Logo NOIR forcé manuellement';
+        }
+        
+        function setFaviconLight() {
+            const favicon = document.querySelector('#favicon');
+            favicon.href = './assets/favicon-light.svg?v=7';
+            document.getElementById('favicon-status').textContent = 'Favicon : Logo BLANC forcé manuellement';
+        }
+        
+        // Exécuter au chargement
+        document.addEventListener('DOMContentLoaded', updateFavicon);
+        
+        // Écouter les changements de thème
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
+        
+        // Debug : afficher les détections
+        console.log('Mode sombre détecté :', window.matchMedia('(prefers-color-scheme: dark)').matches);
+    </script>
+    
+    <p><a href="index.html">← Retour à l'accueil</a></p>
+</body>
+</html>
