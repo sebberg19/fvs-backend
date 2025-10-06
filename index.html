@@ -13,13 +13,7 @@
     <link rel="manifest" href="./assets/site.webmanifest">
 
     <!-- Google Fonts: Inter pour le corps + Nunito pour les titres (plus arrondi/cartoon) -->
-    <link rel="preconne          { img: './images/Leicester_01.webp', name: 'Leicester City', price: '$36.70' },
-          { img: './images/west_ham_home_25-26.webp', name: 'West Ham United', price: '$36.70' },
-          { img: './images/everton_away_25-26.webp', name: 'Everton FC', price: '$36.70' },
-          { img: './images/Valencia_CF_001.webp', name: 'Valencia CF', price: '$36.70' },
-          { img: './images/FC_Barcelona_002.webp', name: 'FC Barcelone', price: '$36.70' },
-          { img: './images/Real_Madrid_002.webp', name: 'Real Madrid', price: '$36.70' },
-          { img: './images/ac_milan_107.webp', name: 'AC Milan', price: '$36.70' },f="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap CSS -->
@@ -35,6 +29,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
     />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Système typographique cohérent -->
     <link rel="stylesheet" href="./assets/typography.css">
@@ -147,12 +144,12 @@
       
       /* Compenser la hauteur de la navbar fixe */
       body {
-          padding-top: 76px !important;
+          padding-top: 100px !important;
       }
       
       @media (max-width: 991.98px) {
           body {
-              padding-top: 85px !important;
+              padding-top: 110px !important;
           }
       }
       
@@ -384,32 +381,101 @@
   position: relative;
   width: 100%;
   background: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  padding: 1.5rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-radius: 16px;
+  padding: 2.5rem 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+/* Styles pour la barre de recherche du carousel */
+#carousel-search-input {
+  border: 1px solid var(--border);
+  border-radius: 0.375rem 0 0 0.375rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
+
+.carousel-search-icon-btn {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  transition: all 0.12s ease;
+}
+
+.carousel-search-icon-btn:hover {
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
+  transform: scale(1.03);
+}
+
+#carousel-clear-search {
+  border-radius: 0 0.375rem 0.375rem 0;
+}
+
+.input-group-text,
+#carousel-search-input,
+#carousel-clear-search {
+  border-radius: 0;
+}
+
+#carousel-search-input:focus {
+  box-shadow: none;
+  border-color: var(--accent);
+  outline: none;
+}
+
+.input-group .form-control:focus {
+  z-index: 5;
+}
+
+#carousel-search-input:focus,
+#carousel-search-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--accent);
+}
+
+.input-group #carousel-search-input:focus,
+.input-group #carousel-search-input:focus-visible {
+  box-shadow: none !important;
+}
+
+/* Message de no-results pour le carousel */
+.jersey-item.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+  color: var(--muted);
+  font-style: italic;
 }
 
 .jersey-carousel {
   display: flex;
   width: max-content;
-  animation: scroll-left 30s linear infinite;
-  gap: 2rem;
-  padding: 0 1.5rem;
+  animation: scroll-left 120s linear infinite;
+  gap: 2.5rem;
+  padding: 0 2rem;
   will-change: transform;
-  -webkit-animation: scroll-left 30s linear infinite;
-  -moz-animation: scroll-left 30s linear infinite;
-  -o-animation: scroll-left 30s linear infinite;
+  -webkit-animation: scroll-left 120s linear infinite;
+  -moz-animation: scroll-left 120s linear infinite;
+  -o-animation: scroll-left 120s linear infinite;
 }
 
 .jersey-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 150px;
-  padding: 1rem;
+  min-width: 200px;
+  padding: 1.5rem;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transition: transform 0.2s ease;
   cursor: pointer;
   flex-shrink: 0;
@@ -421,24 +487,24 @@
 }
 
 .jersey-img {
-  width: 100px;
-  height: 100px;
+  width: 140px;
+  height: 140px;
   object-fit: cover;
-  border-radius: 6px;
-  margin-bottom: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
 }
 
 .jersey-name {
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text);
   text-align: center;
-  margin-bottom: 0.4rem;
+  margin-bottom: 0.5rem;
   line-height: 1.2;
 }
 
 .jersey-price {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: #000000;
   font-weight: 700;
 }
@@ -492,30 +558,136 @@
 /* Responsive pour mobile */
 @media (max-width: 768px) {
   .jersey-carousel {
-    gap: 1.5rem;
-    animation-duration: 25s;
-    -webkit-animation-duration: 25s;
-    -moz-animation-duration: 25s;
-    -o-animation-duration: 25s;
-    padding: 0 1rem;
+    gap: 2rem;
+    animation-duration: 100s;
+    -webkit-animation-duration: 100s;
+    -moz-animation-duration: 100s;
+    -o-animation-duration: 100s;
+    padding: 0 1.5rem;
   }
   
   .jersey-item {
-    min-width: 120px;
-    padding: 0.75rem;
+    min-width: 160px;
+    padding: 1.25rem;
   }
   
   .jersey-img {
-    width: 80px;
-    height: 80px;
+    width: 110px;
+    height: 110px;
   }
   
   .jersey-name {
-    font-size: 0.85rem;
+    font-size: 1rem;
   }
   
   .jersey-price {
+    font-size: 0.95rem;
+  }
+  
+  .jersey-carousel-container {
+    padding: 2rem 0;
+  }
+}
+
+/* Styles pour la section de résultats de recherche */
+#search-results-section {
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+}
+
+.search-result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-result-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.search-result-image {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+  background: #f8f9fa;
+}
+
+.search-result-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.search-result-card:hover .search-result-image img {
+  transform: scale(1.05);
+}
+
+.search-result-info {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.search-result-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.search-result-price {
+  font-size: 0.85rem;
+  color: #000;
+  font-weight: 600;
+  margin: 0.25rem 0;
+}
+
+.search-result-btn {
+  background: #000 !important;
+  color: #fff !important;
+  border: none;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition: transform 0.2s ease;
+  width: 100%;
+  margin-top: auto;
+}
+
+.search-result-btn:hover {
+  transform: scale(1.02);
+  background: #111 !important;
+}
+
+/* Responsive pour les résultats de recherche */
+@media (max-width: 768px) {
+  .search-result-info {
+    padding: 0.75rem;
+  }
+  
+  .search-result-title {
+    font-size: 0.85rem;
+  }
+  
+  .search-result-price {
     font-size: 0.8rem;
+  }
+  
+  .search-result-btn {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.7rem;
   }
 }
     </style>
@@ -544,6 +716,56 @@
   <body>
   <!-- Nav partagée (injection) -->
   <header id="site-header"></header>
+
+    <!-- Carrousel de maillots automatique en haut -->
+    <section class="py-2 py-md-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 1px solid var(--border); padding-top: 1rem !important;">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <!-- Barre de recherche pour le carousel -->
+            <div class="row justify-content-center mb-3">
+              <div class="col-md-6 col-lg-4">
+                <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot (ex: Barca, Millan, Reall...)" aria-label="Rechercher un maillot" autocomplete="off">
+                  <button class="btn carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="text-center mt-2">
+                  <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
+                </div>
+              </div>
+            </div>
+            <div class="jersey-carousel-container">
+              <div class="jersey-carousel" id="jerseyCarousel">
+                <!-- Le contenu sera généré dynamiquement par JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section des résultats de recherche en grille -->
+    <section id="search-results-section" class="py-4" style="display: none;">
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 class="h4 mb-0" id="search-results-title">Résultats de recherche</h2>
+              <small class="text-muted" id="search-results-info"></small>
+            </div>
+            <div class="row g-3" id="search-results-grid">
+              <!-- Les résultats seront générés ici dynamiquement -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- Hero -->
     <section class="hero py-md-5 py-md-4" style="padding-bottom: 1rem !important;">
@@ -612,26 +834,6 @@
                     Voir les classiques<i class="bi bi-arrow-right-short"></i>
                   </a>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Carrousel de maillots automatique -->
-    <section class="py-1 py-md-2" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding-top: 0.5rem !important;">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="text-center mb-2 mb-md-3">
-              <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg">
-                <i class="e-2"></i>Voir tous nos maillots
-              </a>
-            </div>
-            <div class="jersey-carousel-container">
-              <div class="jersey-carousel" id="jerseyCarousel">
-                <!-- Le contenu sera généré dynamiquement par JavaScript -->
               </div>
             </div>
           </div>
@@ -717,33 +919,126 @@
       } catch (_) {}
       renderCartCount(saved);
 
-      // Gestion du carrousel de maillots
+      // Gestion du carrousel de maillots avec recherche
       function initJerseyCarousel() {
-        // Liste complète des maillots disponibles
+        // Liste complète et exhaustive de TOUS les maillots disponibles sur le site
         const allJerseys = [
-          { img: './images/Real_Madrid_001.webp', name: 'Real Madrid', price: '$36.70' },
+          // FC Barcelona - Collection complète
           { img: './images/FC_Barcelona_001.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_002.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_003.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_004.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_005.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_006.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_007.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_009.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_010.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_011.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_012.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_013.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_25.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_27.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_32.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_56.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_57.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_60.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_73.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_78.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_79.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_82.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_85.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_87.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_89.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_97.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_98.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_107.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_133.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_138.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_144.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_148.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_152.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_153.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_155.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_166.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_172.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_174.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_189.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_193.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_207.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_208.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_217.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_229.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_232.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/FC_Barcelona_242.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Barcelona_112.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Barcelona_235.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Barcelona_46.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Barcelona_96.webp', name: 'FC Barcelona', price: '$36.70' },
+          { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$36.70' },
+
+          // Real Madrid - Collection étendue
+          { img: './images/Real_Madrid_001.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_002.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_004.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_005.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_006.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_007.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_008.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/Real_Madrid_009.webp', name: 'Real Madrid', price: '$36.70' },
+          { img: './images/real_madrid.webp', name: 'Real Madrid', price: '$36.70' },
+
+          // AC Milan - Collection étendue
+          { img: './images/AC_Milan_20.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/ac_milan_107.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/ac_milan_0.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan_02.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan_04.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan_05.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan_06.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/ac_milan_08.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/ac-milan_109.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/ac-milan_21.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Ac_milan_-7.webp', name: 'AC Milan', price: '$36.70' },
+
+          // Inter Milan
+          { img: './images/Inter_milan_38.webp', name: 'Inter Milan', price: '$36.70' },
+
+          // Autres grandes équipes
           { img: './images/Chelsea_FC_149.webp', name: 'Chelsea FC', price: '$36.70' },
           { img: './images/Bayern_Munich_9.webp', name: 'Bayern Munich', price: '$36.70' },
           { img: './images/Juventus_34.webp', name: 'Juventus', price: '$36.70' },
-          { img: './images/AC_Milan_20.webp', name: 'AC Milan', price: '$36.70' },
-          { img: './images/Inter_milan_38.webp', name: 'Inter Milan', price: '$36.70' },
           { img: './images/Paris_Saint_Germain_159.webp', name: 'Paris Saint-Germain', price: '$36.70' },
           { img: './images/Atletico_Madrid_13.webp', name: 'Atlético Madrid', price: '$36.70' },
+          { img: './images/Atletico_de_madrid.webp', name: 'Atlético Madrid', price: '$36.70' },
           { img: './images/Borussia_Dortmund_136.webp', name: 'Borussia Dortmund', price: '$36.70' },
           { img: './images/Manchester_City_4.webp', name: 'Manchester City', price: '$36.70' },
+          { img: './images/Manchester_United_59.webp', name: 'Manchester United', price: '$36.70' },
           { img: './images/Tottenham_73.webp', name: 'Tottenham', price: '$36.70' },
           { img: './images/AS_Roma_146.webp', name: 'AS Roma', price: '$36.70' },
           { img: './images/Napoli_001.webp', name: 'Napoli', price: '$36.70' },
           { img: './images/Newcastle_United_001.webp', name: 'Newcastle United', price: '$36.70' },
+          { img: './images/West_Ham_United_001.webp', name: 'West Ham United', price: '$36.70' },
+          { img: './images/Everton_FC_001.webp', name: 'Everton FC', price: '$36.70' },
+          { img: './images/everton_home_25-26.webp', name: 'Everton FC', price: '$36.70' },
+          { img: './images/Valencia_CF_001.webp', name: 'Valencia CF', price: '$36.70' },
           { img: './images/Olympique_de_Marseille_155.webp', name: 'Olympique Marseille', price: '$36.70' },
+          { img: './images/Arsenal_104.webp', name: 'Arsenal', price: '$36.70' },
+          { img: './images/Liverpool_FC_001.webp', name: 'Liverpool FC', price: '$36.70' },
+
+          // Équipes sud-américaines
           { img: './images/Boca_Juniors_102.webp', name: 'Boca Juniors', price: '$36.70' },
           { img: './images/River_Plate_100.webp', name: 'River Plate', price: '$36.70' },
           { img: './images/Santos_FC_13.webp', name: 'Santos FC', price: '$36.70' },
           { img: './images/Palmeiras_104.webp', name: 'Palmeiras', price: '$36.70' },
+          { img: './images/Flamengo_89.webp', name: 'Flamengo', price: '$36.70' },
+          { img: './images/Corinthians_33.webp', name: 'Corinthians', price: '$36.70' },
+
+          // Équipes nationales
           { img: './images/Brazil_13.webp', name: 'Brésil', price: '$36.70' },
           { img: './images/Argentina_40.webp', name: 'Argentine', price: '$36.70' },
-          { img: './images/france_63.webp', name: 'France', price: '$36.70' },
+          { img: './images/France_62.webp', name: 'France', price: '$36.70' },
           { img: './images/Germany_4.webp', name: 'Allemagne', price: '$36.70' },
           { img: './images/Italy_74.webp', name: 'Italie', price: '$36.70' },
           { img: './images/Netherlands_99.webp', name: 'Pays-Bas', price: '$36.70' },
@@ -751,14 +1046,156 @@
           { img: './images/portugal-1.webp', name: 'Portugal', price: '$36.70' },
           { img: './images/Croatia_72.webp', name: 'Croatie', price: '$36.70' },
           { img: './images/Uruguay_37.webp', name: 'Uruguay', price: '$36.70' },
+          { img: './images/Mexico_102.webp', name: 'Mexique', price: '$36.70' },
+          { img: './images/Colombia_11.webp', name: 'Colombie', price: '$36.70' },
+          { img: './images/Chile_38.webp', name: 'Chili', price: '$36.70' },
+          { img: './images/Peru.webp', name: 'Pérou', price: '$36.70' },
+          { img: './images/Nigeria_10.webp', name: 'Nigeria', price: '$36.70' },
+          { img: './images/Morocco_124.webp', name: 'Maroc', price: '$36.70' },
+          { img: './images/Ghana_135.webp', name: 'Ghana', price: '$36.70' },
+          { img: './images/Japan_129.webp', name: 'Japon', price: '$36.70' },
+          { img: './images/South_Korea_26.webp', name: 'Corée du Sud', price: '$36.70' },
+          { img: './images/Australia_001.webp', name: 'Australie', price: '$36.70' },
+          { img: './images/USA_104.webp', name: 'États-Unis', price: '$36.70' },
+          { img: './images/Canada_49.webp', name: 'Canada', price: '$36.70' },
+
+          // Autres équipes européennes
           { img: './images/Leicester_01.webp', name: 'Leicester City', price: '$36.70' },
-          { img: './images/West_Ham_United_001.webp', name: 'West Ham United', price: '$36.70' },
-          { img: './images/everton_home_25-26.webp', name: 'Everton FC', price: '$36.70' },
-          { img: './images/Valencia_CF_001.webp', name: 'Valencia CF', price: '$36.70' },
-          { img: './images/FC_Barcelona_002.webp', name: 'FC Barcelone', price: '$36.70' },
-          { img: './images/Real_Madrid_002.webp', name: 'Real Madrid', price: '$36.70' },
-          { img: './images/ac_milan_107.webp', name: 'AC Milan', price: '$36.70' },
+          { img: './images/Benfica_107.webp', name: 'Benfica', price: '$36.70' },
+          { img: './images/FC_Porto_104.webp', name: 'FC Porto', price: '$36.70' },
+          { img: './images/Ajax_103.webp', name: 'Ajax', price: '$36.70' },
+          { img: './images/Celtic_FC_001.webp', name: 'Celtic FC', price: '$36.70' }
         ];
+
+        let currentFilteredJerseys = [...allJerseys];
+        let searchTimeout;
+
+        // Fonction pour normaliser le texte pour la recherche
+        function normalizeText(s) {
+          if (!s) return '';
+          return s.toString()
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
+            .replace(/[^a-z0-9]/g, '') // Garder seulement lettres et chiffres
+            .trim();
+        }
+
+        // Calculer la distance de Levenshtein pour la tolérance aux fautes
+        function levenshteinDistance(str1, str2) {
+          const matrix = [];
+          const len1 = str1.length;
+          const len2 = str2.length;
+
+          if (len1 === 0) return len2;
+          if (len2 === 0) return len1;
+
+          // Initialiser la matrice
+          for (let i = 0; i <= len2; i++) {
+            matrix[i] = [i];
+          }
+          for (let j = 0; j <= len1; j++) {
+            matrix[0][j] = j;
+          }
+
+          // Remplir la matrice
+          for (let i = 1; i <= len2; i++) {
+            for (let j = 1; j <= len1; j++) {
+              if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+              } else {
+                matrix[i][j] = Math.min(
+                  matrix[i - 1][j - 1] + 1, // substitution
+                  matrix[i][j - 1] + 1,     // insertion
+                  matrix[i - 1][j] + 1      // suppression
+                );
+              }
+            }
+          }
+
+          return matrix[len2][len1];
+        }
+
+        // Fonction de similarité pour la recherche tolérante aux fautes
+        function calculateSimilarity(query, target) {
+          const normalizedQuery = normalizeText(query);
+          const normalizedTarget = normalizeText(target);
+          
+          // Correspondance exacte = score parfait
+          if (normalizedTarget.includes(normalizedQuery)) {
+            return 1.0;
+          }
+
+          // Correspondances phonétiques communes pour le football
+          const phoneticMap = {
+            'barcelone': 'barcelona',
+            'barcelonne': 'barcelona', 
+            'barca': 'barcelona',
+            'barça': 'barcelona',
+            'real': 'realmadrid',
+            'madrid': 'realmadrid',
+            'milan': 'milan',
+            'millan': 'milan',
+            'juventus': 'juventus',
+            'juve': 'juventus',
+            'psg': 'parissaintgermain',
+            'paris': 'parissaintgermain',
+            'manchester': 'manchester',
+            'manU': 'manchesterunited',
+            'city': 'manchestercity',
+            'arsenal': 'arsenal',
+            'chelsea': 'chelsea',
+            'liverpool': 'liverpool',
+            'tottenham': 'tottenham',
+            'spurs': 'tottenham',
+            'bayern': 'bayernmunich',
+            'munich': 'bayernmunich',
+            'dortmund': 'borussia',
+            'inter': 'intermilan',
+            'roma': 'asroma',
+            'napoli': 'napoli',
+            'atletico': 'atleticomadrid',
+            'valencia': 'valencia',
+            'sevilla': 'sevilla',
+            'france': 'france',
+            'allemagne': 'germany',
+            'espagne': 'spain',
+            'italie': 'italy',
+            'angleterre': 'england',
+            'bresil': 'brazil',
+            'argentine': 'argentina',
+            'portugal': 'portugal',
+            'mexique': 'mexico',
+            'japon': 'japan',
+            'coree': 'korea',
+            'maroc': 'morocco',
+            'nigeria': 'nigeria'
+          };
+
+          // Vérifier les correspondances phonétiques
+          const phoneticQuery = phoneticMap[normalizedQuery] || normalizedQuery;
+          const phoneticTarget = phoneticMap[normalizedTarget] || normalizedTarget;
+          
+          if (phoneticTarget.includes(phoneticQuery) || phoneticQuery.includes(phoneticTarget)) {
+            return 0.9;
+          }
+
+          // Calculer la distance de Levenshtein
+          const distance = levenshteinDistance(normalizedQuery, normalizedTarget);
+          const maxLength = Math.max(normalizedQuery.length, normalizedTarget.length);
+          
+          if (maxLength === 0) return 0;
+          
+          const similarity = 1 - (distance / maxLength);
+          
+          // Tolérance pour les mots courts (plus stricte)
+          if (normalizedQuery.length <= 3) {
+            return similarity >= 0.7 ? similarity : 0;
+          }
+          
+          // Tolérance pour les mots longs (plus flexible)
+          return similarity >= 0.6 ? similarity : 0;
+        }
 
         // Mélanger aléatoirement la liste
         function shuffleArray(array) {
@@ -770,50 +1207,146 @@
           return shuffled;
         }
 
-        // Générer le carrousel avec des maillots aléatoires
-        function generateCarousel() {
+        // Générer le carrousel avec les maillots filtrés
+        function generateCarousel(jerseys = currentFilteredJerseys) {
           const carousel = document.getElementById('jerseyCarousel');
-          if (!carousel) return;
+          if (!carousel) {
+            console.error('❌ Carousel container introuvable!');
+            return;
+          }
 
-          const shuffledJerseys = shuffleArray(allJerseys);
-          const selectedJerseys = shuffledJerseys.slice(0, 15); // Prendre 15 maillots aléatoires
-          
-          // Dupliquer pour l'effet infini
-          const allDisplayJerseys = [...selectedJerseys, ...selectedJerseys];
+          console.log('🎨 Génération carousel avec', jerseys.length, 'maillots');
 
-          carousel.innerHTML = allDisplayJerseys.map((jersey, index) => `
-            <div class="jersey-item product-card" data-jersey-name="${jersey.name}" data-jersey-img="${jersey.img}" data-jersey-price="36.70" data-jersey-id="carousel-${index}">
-              <img loading="lazy" src="${jersey.img}" alt="${jersey.name}" class="jersey-img" onerror="this.src='./images/placeholder.webp'">
+          if (jerseys.length === 0) {
+            carousel.innerHTML = `
+              <div class="jersey-item no-results">
+                <div style="text-align: center; padding: 2rem;">
+                  <i class="fas fa-search" style="font-size: 2rem; color: #6c757d; margin-bottom: 1rem;"></i>
+                  <p style="margin: 0; color: #6c757d; font-style: italic;">Aucun maillot ne correspond à votre recherche</p>
+                  <small style="color: #adb5bd;">Essayez avec d'autres mots-clés</small>
+                </div>
+              </div>
+            `;
+            // Maintenir l'animation même sans résultats
+            carousel.style.animationDuration = '120s';
+            carousel.style.webkitAnimationDuration = '120s';
+            carousel.style.mozAnimationDuration = '120s';
+            carousel.style.oAnimationDuration = '120s';
+            return;
+          }
+
+          // Toujours dupliquer exactement 2 fois pour l'animation infinie
+          const displayJerseys = [...jerseys, ...jerseys];
+          console.log('📦 Total maillots affichés (avec duplication):', displayJerseys.length);
+
+          carousel.innerHTML = displayJerseys.map((jersey, index) => `
+            <div class="jersey-item product-card" 
+                 data-jersey-name="${jersey.name}" 
+                 data-jersey-img="${jersey.img}" 
+                 data-jersey-price="36.70" 
+                 data-jersey-id="carousel-${index}"
+                 title="Cliquez pour ajouter ${jersey.name} au panier">
+              <img loading="lazy" 
+                   src="${jersey.img}" 
+                   alt="${jersey.name}" 
+                   class="jersey-img" 
+                   onerror="this.src='./images/placeholder.webp'">
               <h3 class="jersey-name product-title">${jersey.name}</h3>
               <span class="jersey-price">${jersey.price}</span>
-              <button class="add-to-cart" data-price="36.70" data-img="${jersey.img}" style="display: none;">Ajouter</button>
+              <button class="add-to-cart" 
+                      data-price="36.70" 
+                      data-img="${jersey.img}" 
+                      style="display: none;">Ajouter au panier</button>
             </div>
           `).join('');
+
+          // Vitesse FIXE à 120 secondes - JAMAIS de changement
+          carousel.style.animationDuration = '120s';
+          carousel.style.webkitAnimationDuration = '120s';
+          carousel.style.mozAnimationDuration = '120s';
+          carousel.style.oAnimationDuration = '120s';
+
+          // Réattacher les événements
+          attachCarouselEvents();
+          
+          console.log('✅ Carousel généré avec succès');
         }
 
-        // Générer le carrousel
-        generateCarousel();
+        // Fonction de recherche améliorée avec tolérance aux fautes
+        function performSearch(query) {
+          const resultsCount = document.getElementById('carousel-search-results-count');
+          const searchResultsSection = document.getElementById('search-results-section');
+          
+          console.log('🔍 Recherche tolérante pour:', query);
+          
+          if (query.trim() === '') {
+            // Aucune recherche : afficher tous les maillots mélangés dans le carrousel
+            currentFilteredJerseys = shuffleArray([...allJerseys]);
+            resultsCount.textContent = '';
+            resultsCount.style.color = '';
+            // Masquer la section de résultats
+            searchResultsSection.style.display = 'none';
+          } else {
+            // Recherche avec tolérance aux fautes
+            const jerseyMatches = allJerseys.map(jersey => {
+              const similarity = calculateSimilarity(query, jersey.name);
+              return { jersey, similarity };
+            }).filter(match => match.similarity > 0)
+              .sort((a, b) => b.similarity - a.similarity); // Trier par pertinence
+            
+            currentFilteredJerseys = jerseyMatches.map(match => match.jersey);
+            
+            console.log('📊 Résultats trouvés:', currentFilteredJerseys.length);
+            console.log('🎯 Correspondances:', jerseyMatches.slice(0, 5).map(m => 
+              `${m.jersey.name} (${Math.round(m.similarity * 100)}%)`
+            ));
+            
+            // Affichage du nombre de résultats avec indication de tolérance
+            if (currentFilteredJerseys.length === 0) {
+              resultsCount.textContent = '❌ Aucun maillot trouvé';
+              resultsCount.style.color = '#dc3545';
+              searchResultsSection.style.display = 'none';
+            } else {
+              // Afficher la section de résultats
+              searchResultsSection.style.display = 'block';
+              
+              if (currentFilteredJerseys.length === 1) {
+                const match = jerseyMatches[0];
+                const confidence = Math.round(match.similarity * 100);
+                resultsCount.textContent = `✅ 1 maillot trouvé (${confidence}% de correspondance)`;
+                resultsCount.style.color = confidence >= 90 ? '#198754' : '#fd7e14';
+              } else {
+                const avgConfidence = Math.round(
+                  jerseyMatches.slice(0, 5).reduce((sum, m) => sum + m.similarity, 0) / 
+                  Math.min(5, jerseyMatches.length) * 100
+                );
+                resultsCount.textContent = `✅ ${currentFilteredJerseys.length} maillots trouvés (${avgConfidence}% de correspondance)`;
+                resultsCount.style.color = avgConfidence >= 90 ? '#198754' : '#fd7e14';
+              }
+              
+              // Générer la grille de résultats
+              generateSearchResultsGrid(currentFilteredJerseys, query);
+            }
+          }
+          
+          generateCarousel(currentFilteredJerseys);
+        }
 
-        // Attendre un peu avant d'ajouter les événements
-        setTimeout(() => {
+        // Attacher les événements aux éléments du carousel
+        function attachCarouselEvents() {
           const jerseyItems = document.querySelectorAll('.jersey-item');
           
-          // Rendre les maillots cliquables avec menu de personnalisation
           jerseyItems.forEach(item => {
             item.addEventListener('click', (e) => {
               e.preventDefault();
               e.stopPropagation();
               
-              // Déclencher le clic sur le bouton add-to-cart caché pour utiliser le système existant
               const addToCartBtn = item.querySelector('.add-to-cart');
               if (addToCartBtn) {
                 addToCartBtn.click();
               }
             });
-          });
 
-          // Ajouter un effet de survol plus visible
-          jerseyItems.forEach(item => {
             item.addEventListener('mouseenter', () => {
               item.style.transform = 'translateY(-4px) scale(1.02)';
             });
@@ -823,40 +1356,168 @@
             });
           });
 
-          // Réinitialiser les événements du product-customizer pour les nouveaux éléments
           if (window.productCustomizerInit) {
             window.productCustomizerInit();
           }
-        }, 100);
+        }
 
-        // Régénérer le carrousel toutes les 2 minutes pour plus de variété
-        setInterval(() => {
-          generateCarousel();
-          setTimeout(() => {
-            const jerseyItems = document.querySelectorAll('.jersey-item');
-            jerseyItems.forEach(item => {
-              item.addEventListener('click', (e) => {
+        // Initialisation de la recherche améliorée
+        function initCarouselSearch() {
+          const searchInput = document.getElementById('carousel-search-input');
+          const clearButton = document.getElementById('carousel-clear-search');
+          const searchButton = document.getElementById('carousel-search-button');
+
+          console.log('🎯 Initialisation recherche carousel...');
+
+          if (!searchInput || !clearButton) {
+            console.error('❌ Éléments de recherche introuvables!');
+            return;
+          }
+
+          console.log('✅ Éléments trouvés, configuration des événements...');
+
+          // Recherche en temps réel sur input
+          searchInput.addEventListener('input', (e) => {
+            const query = e.target.value;
+            console.log('📝 Input:', query);
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+              performSearch(query);
+            }, 150); // Petit délai pour éviter trop d'appels
+          });
+
+          // Recherche immédiate sur paste
+          searchInput.addEventListener('paste', (e) => {
+            setTimeout(() => {
+              console.log('📋 Paste détecté:', e.target.value);
+              performSearch(e.target.value);
+            }, 10);
+          });
+
+          // Bouton de recherche
+          if (searchButton) {
+            searchButton.addEventListener('click', () => {
+              console.log('🔍 Bouton recherche cliqué');
+              performSearch(searchInput.value);
+            });
+          }
+
+          // Bouton effacer
+          clearButton.addEventListener('click', () => {
+            console.log('🗑️ Clear button');
+            searchInput.value = '';
+            performSearch('');
+            searchInput.focus();
+          });
+
+          // Raccourcis clavier
+          searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              console.log('⏎ Enter - recherche immédiate');
+              performSearch(searchInput.value);
+            } else if (e.key === 'Escape') {
+              console.log('⎋ Escape - effacement');
+              searchInput.value = '';
+              performSearch('');
+            }
+          });
+
+          // Focus automatique pour une meilleure UX
+          searchInput.addEventListener('focus', () => {
+            console.log('🎯 Focus sur la recherche');
+          });
+
+          console.log('✅ Système de recherche configuré!');
+        }
+
+        // Générer la grille de résultats de recherche
+        function generateSearchResultsGrid(jerseys, query) {
+          const searchResultsGrid = document.getElementById('search-results-grid');
+          const searchResultsTitle = document.getElementById('search-results-title');
+          const searchResultsInfo = document.getElementById('search-results-info');
+          
+          if (!searchResultsGrid) return;
+          
+          // Mettre à jour le titre et les infos
+          searchResultsTitle.textContent = `Résultats pour "${query}"`;
+          searchResultsInfo.textContent = `${jerseys.length} maillot${jerseys.length > 1 ? 's' : ''} trouvé${jerseys.length > 1 ? 's' : ''}`;
+          
+          // Générer les cartes de résultats
+          searchResultsGrid.innerHTML = jerseys.map((jersey, index) => `
+            <div class="col-6 col-md-4 col-lg-3">
+              <div class="search-result-card product-card" 
+                   data-jersey-name="${jersey.name}" 
+                   data-jersey-img="${jersey.img}" 
+                   data-jersey-price="36.70" 
+                   data-jersey-id="search-${index}">
+                <div class="search-result-image">
+                  <img loading="lazy" 
+                       src="${jersey.img}" 
+                       alt="${jersey.name}" 
+                       onerror="this.src='./images/placeholder.webp'">
+                </div>
+                <div class="search-result-info">
+                  <h3 class="search-result-title product-title">${jersey.name}</h3>
+                  <p class="search-result-price">${jersey.price}</p>
+                  <button class="search-result-btn add-to-cart" 
+                          data-price="36.70" 
+                          data-img="${jersey.img}"
+                          data-name="${jersey.name}">
+                    Ajouter au panier
+                  </button>
+                </div>
+              </div>
+            </div>
+          `).join('');
+          
+          // Réattacher les événements pour les nouveaux éléments
+          attachSearchResultsEvents();
+          
+          console.log('✅ Grille de résultats générée avec', jerseys.length, 'maillots');
+        }
+
+        // Attacher les événements aux cartes de résultats
+        function attachSearchResultsEvents() {
+          const searchResultCards = document.querySelectorAll('.search-result-card');
+          
+          searchResultCards.forEach(card => {
+            card.addEventListener('click', (e) => {
+              // Si le clic n'est pas sur le bouton, déclencher l'ajout au panier
+              if (!e.target.classList.contains('add-to-cart')) {
                 e.preventDefault();
                 e.stopPropagation();
-                const addToCartBtn = item.querySelector('.add-to-cart');
+                
+                const addToCartBtn = card.querySelector('.add-to-cart');
                 if (addToCartBtn) {
                   addToCartBtn.click();
                 }
-              });
-              item.addEventListener('mouseenter', () => {
-                item.style.transform = 'translateY(-4px) scale(1.02)';
-              });
-              item.addEventListener('mouseleave', () => {
-                item.style.transform = 'translateY(0) scale(1)';
-              });
+              }
             });
-            
-            // Réinitialiser les événements du product-customizer pour les nouveaux éléments
-            if (window.productCustomizerInit) {
-              window.productCustomizerInit();
-            }
-          }, 100);
-        }, 120000); // 2 minutes
+          });
+
+          // Réactiver le customizer si disponible
+          if (window.productCustomizerInit) {
+            window.productCustomizerInit();
+          }
+        }
+
+        // Initialiser le carrousel au démarrage
+        console.log('🚀 Initialisation du carrousel...');
+        currentFilteredJerseys = shuffleArray([...allJerseys]);
+        generateCarousel();
+        
+        // Initialiser la recherche
+        initCarouselSearch();
+
+        // Régénérer le carrousel toutes les 2 minutes si aucune recherche active
+        setInterval(() => {
+          const searchInput = document.getElementById('carousel-search-input');
+          if (!searchInput || !searchInput.value.trim()) {
+            currentFilteredJerseys = [...allJerseys];
+            generateCarousel();
+          }
+        }, 120000);
       }
 
       // Initialiser le carrousel quand le DOM est prêt

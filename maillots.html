@@ -271,88 +271,62 @@
           }
         }
         
-  /* Styles pour la barre de recherche */
-  #search-input {
-    border-left: none;
-    border-right: none;
-    border-radius: .375rem 0 0 .375rem; /* arrondir c�t� gauche */
-  }
+/* Styles pour la barre de recherche du carousel */
+#carousel-search-input {
+  border: 1px solid var(--border);
+  border-radius: 0.375rem 0 0 0.375rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+}
 
-  .input-group-text {
-    border-right: none;
-  }
+.carousel-search-icon-btn {
+  background: #000000;
+  border: 1px solid #000000;
+  color: #ffffff;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  transition: all 0.12s ease;
+}
 
-  #clear-search {
-    border-left: none;
-  }
+.carousel-search-icon-btn:hover {
+  background: #111111;
+  border-color: #111111;
+  color: #ffffff;
+  transform: scale(1.03);
+}
 
-  /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
-  .search-icon-btn {
-    background: #000000; /* black */
-    color: #ffffff;
-    border: 1px solid #000000; /* black border */
-    transition: all 0.12s ease;
-    border-radius: 0 .375rem .375rem 0; /* arrondir c�t� droit */
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: none; /* remove subtle contour */
-  }
+#carousel-clear-search {
+  border-radius: 0 0.375rem 0.375rem 0;
+}
 
-  .input-group-text,
-  #search-input,
-  #clear-search {
-    border-color: #000000; /* make borders black */
-  }
+.input-group-text,
+#carousel-search-input,
+#carousel-clear-search {
+  border-radius: 0;
+}
 
-  /* Remove focus glow/contour on the search input */
-  #search-input:focus {
-    box-shadow: none !important;
-    border-color: #000000 !important;
-    outline: none !important;
-  }
+#carousel-search-input:focus {
+  box-shadow: none;
+  border-color: var(--accent);
+  outline: none;
+}
 
-  /* Ensure no focus styles on input group elements */
-  .input-group .form-control:focus {
-    box-shadow: none !important;
-    border-color: #000000 !important;
-  }
+.input-group .form-control:focus {
+  z-index: 5;
+}
 
-  /* Remove any Bootstrap focus ring */
-  #search-input:focus,
-  #search-input:focus-visible {
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: #000000 !important;
-  }
+#carousel-search-input:focus,
+#carousel-search-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+  border-color: var(--accent);
+}
 
-  /* Additional specificity to override any Bootstrap defaults */
-  .input-group #search-input:focus,
-  .input-group #search-input:active,
-  .input-group #search-input:focus-within,
-  .input-group #search-input:focus-visible {
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: #000000 !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-  }
-
-  /* Remove any possible ring or glow effects */
-  #search-input,
-  #search-input * {
-    --bs-focus-ring-color: transparent !important;
-    --bs-focus-ring-width: 0 !important;
-    --bs-focus-ring-opacity: 0 !important;
-  }
-
-  .search-icon-btn:hover {
-    background: #111111; /* slightly lighter black on hover */
-    border-color: #111111;
-    color: #ffffff;
-    transform: scale(1.03);
-  }
+.input-group #carousel-search-input:focus,
+.input-group #carousel-search-input:focus-visible {
+  box-shadow: none !important;
+}
+        
         
         .product-card.hidden {
             display: none !important;
@@ -413,21 +387,24 @@
                         </a>
                     </div>
                     
-          <!-- Barre de recherche -->
-          <div class="row justify-content-center mb-4">
-            <div class="col-md-6 col-lg-4">
-              <label for="search-input" class="visually-hidden">Rechercher un maillot</label>
-              <div class="input-group">
-                <input type="text" class="form-control" id="search-input" placeholder="Rechercher un maillot (ex: Milan, Roma, Barcelona...)" aria-label="Rechercher un maillot" autocomplete="off">
-                <button class="btn search-icon-btn" type="button" id="search-button" title="Rechercher" aria-label="Lancer la recherche">
-                  <i class="fas fa-search" aria-hidden="true"></i>
-                </button>
-                <button class="btn btn-outline-secondary" type="button" id="clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
-                  <i class="fas fa-times" aria-hidden="true"></i>
-                </button>
+            <!-- Barre de recherche pour le carousel -->
+            <div class="row justify-content-center mb-3">
+              <div class="col-md-6 col-lg-4">
+                <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
+                <div class="input-group">
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot (ex: Barca, Millan, Reall...)" aria-label="Rechercher un maillot" autocomplete="off">
+                  <button class="btn carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+                    <i class="fas fa-search" aria-hidden="true"></i>
+                  </button>
+                  <button class="btn btn-outline-secondary" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="text-center mt-2">
+                  <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
+                </div>
               </div>
-              <div class="text-center mt-2">
-                <small class="text-muted" id="search-results-count" aria-live="polite"></small>
+            </div>
               </div>
             </div>
           </div>
@@ -4440,7 +4417,7 @@
   else sortProductCardsAlphabetically();
 
   function bindSearchFallback(){
-        var input = document.getElementById('search-input');
+        var input = document.getElementById('carousel-search-input');
         var btn = document.getElementById('search-button');
         var clr = document.getElementById('clear-search');
         var results = document.getElementById('search-results-count');
@@ -4642,9 +4619,9 @@
 
         // Fonctionnalit� de recherche
         function initSearchFunctionality() {
-            const searchInput = document.getElementById('search-input');
-            const clearButton = document.getElementById('clear-search');
-            const resultsCount = document.getElementById('search-results-count');
+            const searchInput = document.getElementById('carousel-search-input');
+            const clearButton = document.getElementById('carousel-clear-search');
+            const resultsCount = document.getElementById('carousel-search-results-count');
             const productCards = document.querySelectorAll('.product-card');
             let noResultsMessage = null;
 
