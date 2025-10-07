@@ -458,13 +458,13 @@
 .jersey-carousel {
   display: flex;
   width: max-content;
-  animation: scroll-left 120s linear infinite;
+  animation: scroll-left 900s linear infinite;
   gap: 2.5rem;
   padding: 0 2rem;
   will-change: transform;
-  -webkit-animation: scroll-left 120s linear infinite;
-  -moz-animation: scroll-left 120s linear infinite;
-  -o-animation: scroll-left 120s linear infinite;
+  -webkit-animation: scroll-left 900s linear infinite;
+  -moz-animation: scroll-left 900s linear infinite;
+  -o-animation: scroll-left 900s linear infinite;
 }
 
 .jersey-item {
@@ -559,10 +559,10 @@
 @media (max-width: 768px) {
   .jersey-carousel {
     gap: 2rem;
-    animation-duration: 100s;
-    -webkit-animation-duration: 100s;
-    -moz-animation-duration: 100s;
-    -o-animation-duration: 100s;
+    animation-duration: 720s;
+    -webkit-animation-duration: 720s;
+    -moz-animation-duration: 720s;
+    -o-animation-duration: 720s;
     padding: 0 1.5rem;
   }
   
@@ -1510,14 +1510,14 @@
         // Initialiser la recherche
         initCarouselSearch();
 
-        // Régénérer le carrousel toutes les 2 minutes si aucune recherche active
+        // Régénérer le carrousel toutes les 15 minutes si aucune recherche active
         setInterval(() => {
           const searchInput = document.getElementById('carousel-search-input');
           if (!searchInput || !searchInput.value.trim()) {
             currentFilteredJerseys = [...allJerseys];
             generateCarousel();
           }
-        }, 120000);
+        }, 900000);
       }
 
       // Initialiser le carrousel quand le DOM est prêt
