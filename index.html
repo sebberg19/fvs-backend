@@ -458,13 +458,13 @@
 .jersey-carousel {
   display: flex;
   width: max-content;
-  animation: scroll-left 900s linear infinite;
+  animation: scroll-left 600s linear infinite;
   gap: 2.5rem;
   padding: 0 2rem;
   will-change: transform;
-  -webkit-animation: scroll-left 900s linear infinite;
-  -moz-animation: scroll-left 900s linear infinite;
-  -o-animation: scroll-left 900s linear infinite;
+  -webkit-animation: scroll-left 600s linear infinite;
+  -moz-animation: scroll-left 600s linear infinite;
+  -o-animation: scroll-left 600s linear infinite;
 }
 
 .jersey-item {
@@ -559,10 +559,10 @@
 @media (max-width: 768px) {
   .jersey-carousel {
     gap: 2rem;
-    animation-duration: 720s;
-    -webkit-animation-duration: 720s;
-    -moz-animation-duration: 720s;
-    -o-animation-duration: 720s;
+    animation-duration: 480s;
+    -webkit-animation-duration: 480s;
+    -moz-animation-duration: 480s;
+    -o-animation-duration: 480s;
     padding: 0 1.5rem;
   }
   
@@ -1227,11 +1227,8 @@
                 </div>
               </div>
             `;
-            // Maintenir l'animation même sans résultats
-            carousel.style.animationDuration = '120s';
-            carousel.style.webkitAnimationDuration = '120s';
-            carousel.style.mozAnimationDuration = '120s';
-            carousel.style.oAnimationDuration = '120s';
+            // Laisser la vitesse CSS définie dans le media query mobile (720s)
+            // Ne pas forcer 120s ici
             return;
           }
 
@@ -1260,11 +1257,8 @@
             </div>
           `).join('');
 
-          // Vitesse FIXE à 120 secondes - JAMAIS de changement
-          carousel.style.animationDuration = '120s';
-          carousel.style.webkitAnimationDuration = '120s';
-          carousel.style.mozAnimationDuration = '120s';
-          carousel.style.oAnimationDuration = '120s';
+          // Laisser les vitesses CSS définies dans le style (900s desktop, 720s mobile)
+          // Ne pas forcer de vitesse spécifique ici - utiliser celle définie dans le CSS
 
           // Réattacher les événements
           attachCarouselEvents();
@@ -1510,14 +1504,14 @@
         // Initialiser la recherche
         initCarouselSearch();
 
-        // Régénérer le carrousel toutes les 15 minutes si aucune recherche active
+        // Régénérer le carrousel toutes les 10 minutes si aucune recherche active
         setInterval(() => {
           const searchInput = document.getElementById('carousel-search-input');
           if (!searchInput || !searchInput.value.trim()) {
             currentFilteredJerseys = [...allJerseys];
             generateCarousel();
           }
-        }, 900000);
+        }, 600000);
       }
 
       // Initialiser le carrousel quand le DOM est prêt
