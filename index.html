@@ -43,7 +43,7 @@
         --text: #121314;
         --muted: #6b6f76;
         --border: #e9ebf0;
-        --accent: #2f6f3e; /* vert gazon, naturel */
+        --accent: #121314; /* noir au lieu du vert */
         --accent-contrast: #ffffff;
       }
       html, body {
@@ -157,29 +157,29 @@
       .nav-link { color: var(--muted) !important; }
   .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
 
-      /* Bouton accent vert (doux) */
+      /* Bouton accent noir */
       .btn-accent {
         --bs-btn-bg: var(--accent);
         --bs-btn-border-color: var(--accent);
-        --bs-btn-hover-bg: #285a33;
-        --bs-btn-hover-border-color: #285a33;
+        --bs-btn-hover-bg: #000000;
+        --bs-btn-hover-border-color: #000000;
         --bs-btn-color: var(--accent-contrast);
-        --bs-btn-hover-color: var (--accent-contrast); /* garder le texte blanc au hover */
-        --bs-btn-focus-shadow-rgb: 47,111,62;
+        --bs-btn-hover-color: var(--accent-contrast); /* garder le texte blanc au hover */
+        --bs-btn-focus-shadow-rgb: 0,0,0;
       }
 
-      /* Bouton bleu personnalisé - FORCE */
+      /* Bouton bleu personnalisé - maintenant noir */
       .btn-blue {
-        background-color: #0d6efd !important;
-        border-color: #0d6efd !important;
+        background-color: var(--text) !important;
+        border-color: var(--text) !important;
         color: #ffffff !important;
-        --bs-btn-bg: #0d6efd !important;
-        --bs-btn-border-color: #0d6efd !important;
-        --bs-btn-hover-bg: #0b5ed7 !important;
-        --bs-btn-hover-border-color: #0b5ed7 !important;
+        --bs-btn-bg: var(--text) !important;
+        --bs-btn-border-color: var(--text) !important;
+        --bs-btn-hover-bg: #000000 !important;
+        --bs-btn-hover-border-color: #000000 !important;
         --bs-btn-color: #ffffff !important;
         --bs-btn-hover-color: #ffffff !important;
-        --bs-btn-focus-shadow-rgb: 13,110,253;
+        --bs-btn-focus-shadow-rgb: 0,0,0;
       }
 
       /* Bouton jaune */
@@ -276,11 +276,13 @@
         background: #000000 !important;
         color: #ffffff;
         border-top: none;
+        font-size: 0.875rem;
       }
       
       .footer a {
         color: #ffffff;
         text-decoration: none;
+        font-size: 0.875rem;
       }
       
       .footer a:hover {
@@ -290,6 +292,15 @@
       
       .footer .text-secondary {
         color: #cccccc !important;
+        font-size: 0.8rem;
+      }
+
+      .footer h5 {
+        font-size: 1rem;
+      }
+
+      .footer small {
+        font-size: 0.75rem;
       }
 
       /* Panier */
@@ -304,19 +315,156 @@
         border: 2px solid var(--surface, #ffffff);
       }
 
-      /* Titre héro responsive + densité mobile plus faible */
-      .hero-title { font-size: clamp(1.5rem, 2.8vw + 1rem, 2.5rem); line-height: 1.15; }
+      /* Styles hero améliorés */
+      .hero {
+        background: var(--bg);
+        min-height: 100vh;
+        position: relative;
+      }
 
-      /* Mobile: interface plus compacte et épurée */
+      .hero-bg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+          radial-gradient(circle at 90% 50%, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 50%),
+          radial-gradient(circle at 10% 10%, rgba(0,0,0,0.03) 0%, rgba(0,0,0,0) 50%);
+        z-index: 0;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 1;
+      }
+
+      .hero-badge {
+        background: rgba(0,0,0,0.08);
+        color: var(--text);
+        padding: 0.5rem 1rem;
+        border-radius: 100px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+
+      .hero-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        line-height: 1.1;
+        margin-bottom: 1.5rem;
+      }
+
+      .gradient-text {
+        background: linear-gradient(135deg, var(--text) 0%, #404040 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        display: inline-block;
+      }
+
+      .hero-description {
+        font-size: clamp(1.1rem, 2vw, 1.25rem);
+        max-width: 540px;
+        color: var(--muted);
+        margin-bottom: 2rem;
+      }
+
+.btn-hero {
+  padding: 1rem 2rem;
+  font-weight: 600;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.btn-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.btn-hero:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  color: #fff;
+}
+
+.btn-hero:hover::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-outline-dark.btn-hero {
+  border-width: 2px;
+}
+
+.btn-outline-dark.btn-hero:hover {
+  border-color: #000;
+  background-color: transparent;
+}      .hero-stats {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        padding-top: 2rem;
+      }
+
+      .stat-number {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--accent);
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 0.9rem;
+        color: var(--muted);
+        margin-top: 0.25rem;
+      }
+
+      /* Mobile Optimizations */
+      @media (max-width: 991.98px) {
+        .hero-content {
+          text-align: center;
+          padding: 4rem 1rem;
+        }
+
+        .hero-description {
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .hero-buttons {
+          justify-content: center;
+        }
+      }
+
       @media (max-width: 575.98px) {
-        .navbar { padding-top: .25rem; padding-bottom: .25rem; }
-        .hero { padding-top: 1.5rem !important; padding-bottom: 1.5rem !important; }
-        .hero-row { min-height: 42vh !important; }
-        .card .card-body { padding: 1rem !important; }
-        .list-unstyled > li { margin-bottom: .75rem !important; }
-        .category-tile .overlay { padding: .75rem; }
-        .btn-lg { padding: .55rem 1rem; font-size: 1rem; }
-        .tap-target { min-width: 44px; min-height: 44px; padding: .4rem .6rem; }
+        .hero-content {
+          padding: 3rem 1rem;
+        }
+
+        .hero-title {
+          font-size: clamp(2rem, 4vw, 3rem);
+        }
+
+        .hero-description {
+          font-size: 1rem;
+        }
+
+        .btn-hero {
+          width: 100%;
+          padding: 0.875rem 1.5rem;
+        }
       }
 
       /* Liens sobres (noir) avec hover vert */
@@ -376,54 +524,100 @@
 }
 
 /* Carrousel de maillots automatique */
+@keyframes scroll-left {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
 .jersey-carousel-container {
   overflow: hidden;
   position: relative;
   width: 100%;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 16px;
-  padding: 2.5rem 0;
+  padding: 1.75rem 0;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 /* Styles pour la barre de recherche du carousel */
+.input-group {
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  border-radius: 100px;
+  background: var(--surface);
+}
+
 #carousel-search-input {
-  border: 1px solid var(--border);
-  border-radius: 0.375rem 0 0 0.375rem;
-  padding: 0.75rem 1rem;
+  border: 2px solid transparent;
+  border-radius: 100px;
+  padding: 1rem 1.25rem;
   font-size: 0.95rem;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+#carousel-search-input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
 }
 
 .carousel-search-icon-btn {
-  background: #000000;
-  border: 1px solid #000000;
-  color: #ffffff;
-  border-radius: 0;
-  padding: 0.75rem 1rem;
-  transition: all 0.12s ease;
+  position: absolute;
+  right: 56px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 3;
 }
 
 .carousel-search-icon-btn:hover {
-  background: #111111;
-  border-color: #111111;
-  color: #ffffff;
-  transform: scale(1.03);
+  background: rgba(0,0,0,0.05);
+  color: var(--text);
+  transform: translateY(-50%) scale(1.1);
 }
 
 #carousel-clear-search {
-  border-radius: 0 0.375rem 0.375rem 0;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 0.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 3;
 }
 
-.input-group-text,
-#carousel-search-input,
-#carousel-clear-search {
-  border-radius: 0;
+#carousel-clear-search:hover {
+  background: rgba(0,0,0,0.05);
+  color: var(--text);
+  transform: translateY(-50%) scale(1.1);
 }
 
 #carousel-search-input:focus {
   box-shadow: none;
-  border-color: var(--accent);
+  border-color: var(--text);
   outline: none;
+  background: var(--bg);
+}
+
+.input-group:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.12);
 }
 
 .input-group .form-control:focus {
@@ -458,13 +652,21 @@
 .jersey-carousel {
   display: flex;
   width: max-content;
-  animation: scroll-left 600s linear infinite;
   gap: 2.5rem;
   padding: 0 2rem;
   will-change: transform;
-  -webkit-animation: scroll-left 600s linear infinite;
-  -moz-animation: scroll-left 600s linear infinite;
-  -o-animation: scroll-left 600s linear infinite;
+  animation: scroll-left 420s linear infinite;
+  -webkit-animation: scroll-left 420s linear infinite;
+}
+
+.jersey-carousel:hover {
+  animation-play-state: paused;
+  -webkit-animation-play-state: paused;
+}
+
+.jersey-carousel.paused {
+  animation-play-state: paused !important;
+  -webkit-animation-play-state: paused !important;
 }
 
 .jersey-item {
@@ -559,10 +761,10 @@
 @media (max-width: 768px) {
   .jersey-carousel {
     gap: 2rem;
-    animation-duration: 480s;
-    -webkit-animation-duration: 480s;
-    -moz-animation-duration: 480s;
-    -o-animation-duration: 480s;
+    animation-duration: 840s;
+    -webkit-animation-duration: 840s;
+    -moz-animation-duration: 840s;
+    -o-animation-duration: 840s;
     padding: 0 1.5rem;
   }
   
@@ -718,20 +920,20 @@
   <header id="site-header"></header>
 
     <!-- Carrousel de maillots automatique en haut -->
-    <section class="py-2 py-md-3" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 1px solid var(--border); padding-top: 1rem !important;">
+    <section class="pb-2" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 1px solid var(--border);">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <!-- Barre de recherche pour le carousel -->
             <div class="row justify-content-center mb-3">
-              <div class="col-md-6 col-lg-4">
+              <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                 <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot (ex: Barca, Millan, Reall...)" aria-label="Rechercher un maillot" autocomplete="off">
-                  <button class="btn carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off">
+                  <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
                     <i class="fas fa-search" aria-hidden="true"></i>
                   </button>
-                  <button class="btn btn-outline-secondary" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
                     <i class="fas fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
@@ -768,71 +970,43 @@
     </section>
 
     <!-- Hero -->
-    <section class="hero py-md-5 py-md-4" style="padding-bottom: 1rem !important;">
-      <div class="container">
-        <div class="row align-items-center g-4 hero-row" style="min-height: 56vh;">
-          <div class="col-12 col-lg-7">
-            <h1 class="hero-title fw-bold mb-3">
-              Des maillots iconiques.<br>Juste pour vous.
-            </h1>
-            <p class="lead text-secondary mb-4">
-              Découvrez notre collection exclusive de maillots de football actuels et vintage à porter sur le terrain comme en dehors.
-            </p>
-            <div class="d-grid gap-2 d-sm-flex">
-              <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
-                <i class=" me-2"></i>Voir tous les maillots
-              </a>
-              <a href="./maillots-vintage.html" class="btn btn-dark btn-lg w-100 w-sm-auto">
-                <i class=" me-2"></i>Explorer le vintage
-              </a>
-            </div>
-          </div>
-          <div class="col-12 col-lg-5">
-            <div class="card shadow-sm">
-              <div class="card-body p-4">
-                <h2 class="h5 mb-3"><i class=" text-warning me-2"></i>Nos classiques</h2>
-                <ul class="list-unstyled mb-0">
-                  <li class="d-flex align-items-start gap-3 mb-3">
-                    <div class="flex-shrink-0">
-                      <img loading="lazy" src="./images/Manchester_United_59.webp" alt="Manchester United" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
-                    </div>
-                    <div class="flex-grow-1">
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">Manchester United</span>
-                       
-                      </div>
-                      <small class="text-secondary">L'équipe la plus titrée d'Angleterre</small>
-                    </div>
-                  </li>
-                  <li class="d-flex align-items-start gap-3 mb-3">
-                    <div class="flex-shrink-0">
-                      <img loading="lazy" src="./images/Argentina_40.webp" alt="Argentine" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
-                    </div>
-                    <div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">Argentine</span>
-                      
-                      </div>
-                      <small class="text-secondary">Champions du monde 2022</small>
-                    </div>
-                  </li>
-                  <li class="d-none d-md-flex align-items-start gap-3">
-                    <div class="flex-shrink-0">
-                      <img loading="lazy" src="./images/France_62.webp" alt="France" style="width:64px;height:64px;object-fit:cover;border-radius:8px;">
-                    </div>
-                    <div>
-                      <div class="d-flex justify-content-between">
-                        <span class="fw-semibold">France</span>
-                      
-                      </div>
-                      <small class="text-secondary">Les Bleus champions du monde</small>
-                    </div>
-                  </li>
-                </ul>
-                <div class="mt-4">
-                  <a href="./classiques.html" class="text-decoration-none">
-                    Voir les classiques<i class="bi bi-arrow-right-short"></i>
-                  </a>
+    <section class="hero position-relative overflow-hidden" style="margin-top: -1rem;">
+      <div class="hero-bg"></div>
+      <div class="container position-relative">
+        <div class="row min-vh-80 align-items-center py-5">
+          <div class="col-12 col-lg-7 col-xl-6 hero-content">
+            <div class="hero-text-wrapper">
+              <h1 class="hero-title display-3 fw-bold mb-3">
+                Des maillots<br>
+                <span class="gradient-text">iconiques</span><br>
+                Juste pour vous.
+              </h1>
+              <p class="lead hero-description mb-4">
+                Découvrez notre collection exclusive de maillots de football 
+                actuels et vintage à porter sur le terrain comme en dehors.
+              </p>
+              <div class="hero-buttons d-flex flex-column flex-sm-row gap-3">
+                <a href="./tous-les-maillots.html" class="btn btn-dark btn-hero">
+                  <span>Voir tous les maillots</span>
+                  <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+                <a href="./maillots-vintage.html" class="btn btn-outline-dark btn-hero">
+                  <span>Explorer le vintage</span>
+                  <i class="bi bi-arrow-right ms-2"></i>
+                </a>
+              </div>
+              <div class="hero-stats d-none d-lg-flex align-items-center gap-5 mt-5">
+                <div class="stat-item">
+                  <div class="stat-number">500+</div>
+                  <div class="stat-label">Maillots</div>
+                </div>
+                <div class="stat-item">
+                  <div class="stat-number">50+</div>
+                  <div class="stat-label">Équipes</div>
+                </div>
+                                <div class="stat-item">
+                  <div class="stat-number">50+</div>
+                  <div class="stat-label">Pays</div>
                 </div>
               </div>
             </div>
@@ -844,27 +1018,27 @@
    
 
     <!-- Footer -->
-    <footer class="footer py-5">
+    <footer class="footer py-4">
       <div class="container">
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-8">
-            <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-              <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+              <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
               <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
             </div>
-            <p class="text-secondary mb-4">
+            <p class="text-secondary mb-3">
               Votre destination pour les maillots de football vintage. <br>
               Qualité premium, prix compétitifs.
             </p>
-            <div class="d-flex justify-content-center gap-4 mb-4">
+            <div class="d-flex justify-content-center gap-3 mb-3">
               <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
               <a href="./maillots-vintage.html" class="text-white">Vintage</a>
               <a href="./maillots.html" class="text-white">Maillots récents</a>
               <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
             </div>
-            <hr style="border-color: #333333; margin: 2rem 0;">
+            <hr style="border-color: #333333; margin: 1.5rem 0;">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-              <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
+              <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
               <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
             </div>
           </div>
@@ -921,6 +1095,20 @@
 
       // Gestion du carrousel de maillots avec recherche
       function initJerseyCarousel() {
+        const searchInput = document.getElementById('carousel-search-input');
+        const carousel = document.querySelector('.jersey-carousel');
+        
+        if (searchInput && carousel) {
+          searchInput.addEventListener('input', function() {
+            // Arrêter l'animation si une recherche est en cours
+            if (this.value.trim() !== '') {
+              carousel.classList.add('searching');
+            } else {
+              carousel.classList.remove('searching');
+            }
+          });
+        }
+        
         // Liste complète et exhaustive de TOUS les maillots disponibles sur le site
         const allJerseys = [
           // FC Barcelona - Collection complète
@@ -1286,65 +1474,53 @@
           const normalizedQuery = normalizeText(query);
           const normalizedTarget = normalizeText(target);
           
-          // Correspondance exacte = score parfait
-          if (normalizedTarget.includes(normalizedQuery)) {
-            return 1.0;
-          }
-
-          // Correspondances phonétiques communes pour le football
-          const phoneticMap = {
-            'barcelone': 'barcelona',
-            'barcelonne': 'barcelona', 
-            'barca': 'barcelona',
-            'barça': 'barcelona',
-            'real': 'realmadrid',
-            'madrid': 'realmadrid',
-            'milan': 'milan',
-            'millan': 'milan',
-            'juventus': 'juventus',
-            'juve': 'juventus',
-            'psg': 'parissaintgermain',
-            'paris': 'parissaintgermain',
-            'manchester': 'manchester',
-            'manU': 'manchesterunited',
-            'city': 'manchestercity',
-            'arsenal': 'arsenal',
-            'chelsea': 'chelsea',
-            'liverpool': 'liverpool',
-            'tottenham': 'tottenham',
-            'spurs': 'tottenham',
-            'bayern': 'bayernmunich',
-            'munich': 'bayernmunich',
-            'dortmund': 'borussia',
-            'inter': 'intermilan',
-            'roma': 'asroma',
-            'napoli': 'napoli',
-            'atletico': 'atleticomadrid',
-            'valencia': 'valencia',
-            'sevilla': 'sevilla',
-            'france': 'france',
-            'allemagne': 'germany',
-            'espagne': 'spain',
-            'italie': 'italy',
-            'angleterre': 'england',
-            'bresil': 'brazil',
-            'argentine': 'argentina',
-            'portugal': 'portugal',
-            'mexique': 'mexico',
-            'japon': 'japan',
-            'coree': 'korea',
-            'maroc': 'morocco',
-            'nigeria': 'nigeria'
+          // Map des équipes et leurs variations pour une recherche plus précise
+          const teamVariations = {
+            'portugal': ['portugal'],
+            'barcelone': ['barcelona', 'fc barcelona', 'barca', 'barça'],
+            'real': ['real madrid', 'madrid'],
+            'milan': ['ac milan', 'milan'],
+            'juventus': ['juventus', 'juve'],
+            'psg': ['paris', 'paris saint germain', 'paris saint-germain'],
+            'manchester': ['manchester united', 'manchester city', 'man united', 'man city'],
+            'arsenal': ['arsenal'],
+            'chelsea': ['chelsea'],
+            'liverpool': ['liverpool'],
+            'tottenham': ['tottenham', 'spurs'],
+            'bayern': ['bayern munich', 'bayern', 'munich'],
+            'dortmund': ['borussia dortmund', 'dortmund'],
+            'inter': ['inter milan', 'inter'],
+            'roma': ['as roma', 'roma'],
+            'napoli': ['napoli'],
+            'atletico': ['atletico madrid', 'atletico'],
+            'valencia': ['valencia'],
+            'sevilla': ['sevilla'],
+            'france': ['france', 'équipe de france'],
+            'allemagne': ['germany', 'allemagne'],
+            'espagne': ['spain', 'espagne'],
+            'italie': ['italy', 'italie'],
+            'angleterre': ['england', 'angleterre'],
+            'bresil': ['brazil', 'brésil', 'bresil'],
+            'argentine': ['argentina', 'argentine'],
+            'mexique': ['mexico', 'mexique'],
+            'japon': ['japan', 'japon'],
+            'coree': ['korea', 'corée'],
+            'maroc': ['morocco', 'maroc'],
+            'nigeria': ['nigeria']
           };
 
-          // Vérifier les correspondances phonétiques
-          const phoneticQuery = phoneticMap[normalizedQuery] || normalizedQuery;
-          const phoneticTarget = phoneticMap[normalizedTarget] || normalizedTarget;
-          
-          if (phoneticTarget.includes(phoneticQuery) || phoneticQuery.includes(phoneticTarget)) {
-            return 0.9;
+          // Vérifier si la recherche correspond à une des variations d'équipe
+          for (const [key, variations] of Object.entries(teamVariations)) {
+            if (variations.some(v => normalizeText(v).includes(normalizedQuery)) ||
+                variations.some(v => normalizedQuery.includes(normalizeText(v)))) {
+              // Si le nom cible contient une des variations, c'est un match
+              if (variations.some(v => normalizeText(target).includes(normalizeText(v)))) {
+                return 1.0;
+              }
+            }
           }
 
+          // Si aucune correspondance exacte n'est trouvée, on continue avec la logique existante
           // Calculer la distance de Levenshtein
           const distance = levenshteinDistance(normalizedQuery, normalizedTarget);
           const maxLength = Math.max(normalizedQuery.length, normalizedTarget.length);
@@ -1358,8 +1534,8 @@
             return similarity >= 0.7 ? similarity : 0;
           }
           
-          // Tolérance pour les mots longs (plus flexible)
-          return similarity >= 0.6 ? similarity : 0;
+          // Tolérance plus flexible pour les mots longs
+          return similarity >= 0.5 ? similarity : 0;
         }
 
         // Mélanger aléatoirement la liste
@@ -1443,15 +1619,19 @@
             currentFilteredJerseys = shuffleArray([...allJerseys]);
             resultsCount.textContent = '';
             resultsCount.style.color = '';
-            // Masquer la section de résultats
+            // Masquer la section de résultats et réafficher le héro
             searchResultsSection.style.display = 'none';
+            document.querySelector('.hero').style.display = 'block';
           } else {
             // Recherche avec tolérance aux fautes
             const jerseyMatches = allJerseys.map(jersey => {
-              const similarity = calculateSimilarity(query, jersey.name);
+              const similarity = calculateSimilarity(query, jersey.name.toLowerCase());
               return { jersey, similarity };
-            }).filter(match => match.similarity > 0)
-              .sort((a, b) => b.similarity - a.similarity); // Trier par pertinence
+            })
+            // Maintenant on garde tous les maillots qui ont une similarité > 0.5
+            .filter(match => match.similarity >= 0.5)
+            // On trie toujours par pertinence
+            .sort((a, b) => b.similarity - a.similarity);
             
             currentFilteredJerseys = jerseyMatches.map(match => match.jersey);
             
@@ -1466,8 +1646,9 @@
               resultsCount.style.color = '#dc3545';
               searchResultsSection.style.display = 'none';
             } else {
-              // Afficher la section de résultats
+              // Afficher la section de résultats et cacher le héro
               searchResultsSection.style.display = 'block';
+              document.querySelector('.hero').style.display = 'none';
               
               if (currentFilteredJerseys.length === 1) {
                 const match = jerseyMatches[0];
@@ -1538,6 +1719,17 @@
           // Recherche en temps réel sur input
           searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
+            const carousel = document.querySelector('.jersey-carousel');
+            
+            // Gérer l'animation du carousel
+            if (carousel) {
+              if (query.trim() !== '') {
+                carousel.classList.add('paused');
+              } else {
+                carousel.classList.remove('paused');
+              }
+            }
+            
             console.log('📝 Input:', query);
             clearTimeout(searchTimeout);
             searchTimeout = setTimeout(() => {
@@ -1565,6 +1757,11 @@
           clearButton.addEventListener('click', () => {
             console.log('🗑️ Clear button');
             searchInput.value = '';
+            const carousel = document.querySelector('.jersey-carousel');
+            if (carousel) {
+              carousel.style.animationPlayState = 'running';
+              carousel.style.webkitAnimationPlayState = 'running';
+            }
             performSearch('');
             searchInput.focus();
           });

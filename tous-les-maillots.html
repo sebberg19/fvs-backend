@@ -369,6 +369,55 @@
         }
     </style>
     <script>
+        // Recherche des maillots
+        document.addEventListener('DOMContentLoaded', function() {
+            // Éléments de recherche
+            const searchInput = document.getElementById('carousel-search-input');
+            const clearButton = document.getElementById('carousel-clear-search');
+            const resultsCount = document.getElementById('carousel-search-results-count');
+            const container = document.querySelector('.row.g-0');
+            
+            // Fonction de recherche
+            function searchProducts() {
+                const query = searchInput.value.toLowerCase().trim();
+                const cards = container.querySelectorAll('.col-6');
+                let count = 0;
+                
+                cards.forEach(col => {
+                    const title = col.querySelector('.product-title').textContent.toLowerCase();
+                    if (query === '' || title.includes(query)) {
+                        col.style.display = '';
+                        count++;
+                    } else {
+                        col.style.display = 'none';
+                    }
+                });
+                
+                // Mise à jour du compteur
+                if (query === '') {
+                    resultsCount.textContent = '';
+                } else if (count === 0) {
+                    resultsCount.textContent = 'Aucun maillot trouvé';
+                } else if (count === 1) {
+                    resultsCount.textContent = '1 maillot trouvé';
+                } else {
+                    resultsCount.textContent = count + ' maillots trouvés';
+                }
+            }
+            
+            // Événements
+            if (searchInput) {
+                searchInput.addEventListener('input', searchProducts);
+            }
+            if (clearButton) {
+                clearButton.addEventListener('click', function() {
+                    searchInput.value = '';
+                    searchProducts();
+                    searchInput.focus();
+                });
+            }
+        });
+
         // Gestion dynamique des favicons selon le thème
         function updateFavicon() {
             const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
