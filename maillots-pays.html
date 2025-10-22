@@ -271,80 +271,108 @@
           }
         }
         
-  /* Styles pour la barre de recherche */
+  /* Styles pour la barre de recherche du carousel */
+  .input-group {
+    position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    transition: all 0.2s ease;
+  }
+
   #carousel-search-input {
-    border-left: none;
-    border-right: none;
-    border-radius: .375rem 0 0 .375rem; /* arrondir côté gauche */
+    border: none;
+    border-radius: 12px;
+    padding: 0.75rem 4rem 0.75rem 1rem;
+    font-size: 0.9375rem;
+    background: transparent;
+    transition: all 0.2s ease;
+    color: var(--text);
   }
 
-  .input-group-text {
-    border-right: none;
+  #carousel-search-input::placeholder {
+    color: var(--muted);
+    opacity: 0.8;
   }
 
-  #clear-search {
-    border-left: none;
-  }
-
-  /* Ajuste le bouton loupe (accent) pour s'aligner proprement avec l'input */
   .carousel-search-icon-btn {
-    background: #000000; /* black */
-    color: #ffffff;
-    border: 1px solid #000000; /* black border */
-    transition: all 0.12s ease;
-    border-radius: 0 .375rem .375rem 0; /* arrondir côté droit */
-    display: inline-flex;
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: none; /* remove subtle contour */
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    z-index: 3;
   }
 
-  .input-group-text,
-  #carousel-search-input,
-  #clear-search {
-    border-color: #000000; /* make borders black */
+  .carousel-search-icon-btn:hover {
+    background: var(--bg);
+    color: var(--accent);
   }
 
-  /* Remove focus glow/contour on the search input */
+  #carousel-clear-search {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    z-index: 3;
+  }
+
+  #carousel-clear-search:hover {
+    background: var(--bg);
+    color: var(--text);
+  }
+
   #carousel-search-input:focus {
-    box-shadow: none !important;
-    border-color: #000000 !important;
-    outline: none !important;
+    box-shadow: none;
+    outline: none;
+    background: var(--surface);
   }
 
-  /* Ensure no focus styles on input group elements */
+  .input-group:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    border-color: var(--muted);
+  }
+
+  .input-group:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(47,111,62,0.15);
+  }
+
   .input-group .form-control:focus {
-    box-shadow: none !important;
-    border-color: #000000 !important;
+    z-index: 5;
   }
 
-  /* Remove any Bootstrap focus ring */
   #carousel-search-input:focus,
   #carousel-search-input:focus-visible {
-    box-shadow: none !important;
-    outline: none !important;
-    border-color: #000000 !important;
+    outline: none;
+    box-shadow: none;
   }
 
-  /* Additional specificity to override any Bootstrap defaults */
   .input-group #carousel-search-input:focus,
-  .input-group #carousel-search-input:active,
-  .input-group #carousel-search-input:focus-within,
   .input-group #carousel-search-input:focus-visible {
     box-shadow: none !important;
-    outline: none !important;
-    border-color: #000000 !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    appearance: none !important;
-  }
-
-  /* Remove any possible ring or glow effects */
-  #carousel-search-input,
-  #carousel-search-input * {
-    --bs-focus-ring-color: transparent !important;
-    --bs-focus-ring-width: 0 !important;
-    --bs-focus-ring-opacity: 0 !important;
   }
 
   .carousel-search-icon-btn:hover {
@@ -467,11 +495,11 @@
               <div class="col-md-6 col-lg-4">
                 <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot (ex: Barca, Millan, Reall...)" aria-label="Rechercher un maillot" autocomplete="off">
-                  <button class="btn carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot" aria-label="Rechercher un maillot" autocomplete="off">
+                  <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
                     <i class="fas fa-search" aria-hidden="true"></i>
                   </button>
-                  <button class="btn btn-outline-secondary" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
                     <i class="fas fa-times" aria-hidden="true"></i>
                   </button>
                 </div>

@@ -318,7 +318,7 @@
       /* Styles hero améliorés */
       .hero {
         background: var(--bg);
-        min-height: 100vh;
+        min-height: auto;
         position: relative;
       }
 
@@ -465,12 +465,20 @@
         }
 
         .btn-hero {
-          width: 100%;
-          padding: 0.75rem 1.25rem;
+          width: auto !important;
+          padding: 0.6rem 1rem !important;
+          font-size: 0.875rem !important;
         }
 
         .hero-buttons {
           margin-bottom: 1rem;
+          align-items: center !important;
+        }
+        
+        .hero-buttons a {
+          width: 205px !important;
+          max-width: calc(100% - 2rem);
+          margin: 0 auto !important;
         }
       }
 
@@ -500,10 +508,16 @@
           gap: .35rem;               /* rapprocher légèrement */
         }
         .hero .d-grid .btn.w-100 {
-          width: 220px !important;   /* même largeur fixe pour les deux boutons */
-          max-width: calc(100% - 2rem);
+          width: 160px !important;   /* largeur encore plus réduite comme dans l'image */
+          max-width: calc(100% - 4rem);
           display: block;
           margin: .25rem auto;       /* moins d'espace vertical que précédemment */
+        }
+        
+        /* Ajuster le padding des boutons pour qu'ils soient plus compacts */
+        .hero .btn-hero {
+          padding: 0.6rem 1rem;
+          font-size: 0.875rem;
         }
       }
 
@@ -538,30 +552,37 @@
 
 .jersey-carousel-container {
   width: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 16px;
-  padding: 1.5rem 0;
-  margin: 0.25rem 0;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
+  border-radius: 20px;
+  padding: 2rem 0;
+  margin: 0.5rem 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
   position: relative;
   scrollbar-width: thin;
-  scrollbar-color: rgba(0,0,0,0.2) transparent;
+  scrollbar-color: rgba(0,0,0,0.3) rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.06);
 }
 
 .jersey-carousel-container::-webkit-scrollbar {
-  height: 6px;
+  height: 8px;
 }
 
 .jersey-carousel-container::-webkit-scrollbar-track {
-  background: transparent;
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
 }
 
 .jersey-carousel-container::-webkit-scrollbar-thumb {
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 20px;
+  background-color: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.jersey-carousel-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0,0,0,0.5);
 }
 
 
@@ -573,88 +594,124 @@
   border-radius: 12px;
   background: var(--surface);
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+}
+
+.input-group:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  border-color: rgba(0,0,0,0.2);
+  transform: translateY(-1px);
+}
+
+.input-group:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15), 0 0 0 4px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
 }
 
 #carousel-search-input {
   border: none;
   border-radius: 12px;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 4rem 0.75rem 3rem;
   font-size: 0.9375rem;
   background: transparent;
   transition: all 0.2s ease;
   color: var(--text);
+  font-weight: 500;
 }
 
 #carousel-search-input::placeholder {
   color: var(--muted);
-  opacity: 0.8;
+  opacity: 0.7;
+  font-weight: 400;
+}
+
+#carousel-search-input:focus::placeholder {
+  opacity: 0.5;
 }
 
 .carousel-search-icon-btn {
   position: absolute;
-  right: 56px;
+  left: 12px;
   top: 50%;
   transform: translateY(-50%);
   background: transparent;
   border: none;
   color: var(--muted);
-  padding: 0.5rem;
-  width: 36px;
-  height: 36px;
+  padding: 0;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 8px;
   transition: all 0.2s ease;
   z-index: 3;
+  cursor: pointer;
 }
 
 .carousel-search-icon-btn:hover {
   background: var(--bg);
   color: var(--accent);
-  transform: translateY(-50%);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-search-icon-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
+/* Loading spinner */
+.carousel-search-icon-btn .fa-spinner {
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 #carousel-clear-search {
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 50%;
   transform: translateY(-50%);
-  background: transparent;
+  background: rgba(0,0,0,0.05);
   border: none;
   color: var(--muted);
-  padding: 0.5rem;
-  width: 36px;
-  height: 36px;
+  padding: 0;
+  width: 28px;
+  height: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: 50%;
   transition: all 0.2s ease;
   z-index: 3;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+}
+
+#carousel-clear-search.visible {
+  opacity: 1;
+  pointer-events: all;
 }
 
 #carousel-clear-search:hover {
-  background: var(--bg);
-  color: var(--text);
-  transform: translateY(-50%);
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  transform: translateY(-50%) scale(1.15) rotate(90deg);
+}
+
+#carousel-clear-search:active {
+  transform: translateY(-50%) scale(0.9) rotate(90deg);
 }
 
 #carousel-search-input:focus {
   box-shadow: none;
   outline: none;
   background: var(--surface);
-}
-
-.input-group:hover {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-  border-color: var(--muted);
-}
-
-.input-group:focus-within {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(47,111,62,0.15);
 }
 
 .input-group .form-control:focus {
@@ -670,6 +727,142 @@
 .input-group #carousel-search-input:focus,
 .input-group #carousel-search-input:focus-visible {
   box-shadow: none !important;
+}
+
+/* Suggestions de recherche */
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-suggestions.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.search-suggestions-header {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+.search-suggestion-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.search-suggestion-item:last-child {
+  border-bottom: none;
+}
+
+.search-suggestion-item:hover {
+  background: var(--bg);
+  padding-left: 1.25rem;
+}
+
+.search-suggestion-item .suggestion-icon {
+  color: var(--muted);
+  font-size: 0.875rem;
+  width: 20px;
+  text-align: center;
+}
+
+.search-suggestion-item .suggestion-text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.search-suggestion-item .suggestion-count {
+  font-size: 0.75rem;
+  color: var(--muted);
+  background: rgba(0,0,0,0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 100px;
+}
+
+.search-suggestion-item.active {
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+}
+
+/* Compteur de résultats animé */
+#carousel-search-results-count {
+  font-weight: 600;
+  display: inline-block;
+  animation: fadeInUp 0.3s ease;
+}
+
+#carousel-search-results-count.success {
+  color: #198754 !important;
+}
+
+#carousel-search-results-count.error {
+  color: #dc3545 !important;
+}
+
+/* Raccourcis clavier hint */
+.search-keyboard-hint {
+  position: absolute;
+  bottom: -24px;
+  right: 0;
+  font-size: 0.7rem;
+  color: var(--muted);
+  opacity: 0.6;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.search-keyboard-hint kbd {
+  background: rgba(0,0,0,0.05);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.65rem;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Scrollbar personnalisée pour les suggestions */
+.search-suggestions::-webkit-scrollbar {
+  width: 6px;
+}
+
+.search-suggestions::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.2);
+  border-radius: 10px;
+}
+
+.search-suggestions::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,0.3);
 }
 
 /* Message de no-results pour le carousel */
@@ -858,26 +1051,6 @@
     padding: 1rem 0;
     position: relative;
   }
-
-  .jersey-carousel-container::after {
-    content: '\f30b';
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    right: 1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--accent);
-    font-size: 1.5rem;
-    animation: slideHint 1.5s ease-in-out infinite;
-    z-index: 3;
-    opacity: 0.7;
-  }
-
-  @keyframes slideHint {
-    0%, 100% { transform: translate(0, -50%); }
-    50% { transform: translate(0.5rem, -50%); }
-  }
   
   .jersey-item {
     min-width: 150px;
@@ -999,6 +1172,38 @@
     padding: 0.35rem 0.7rem;
   }
 }
+
+/* Animation d'apparition pour les résultats */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Amélioration du bouton clear */
+#carousel-clear-search {
+  transition: all 0.2s ease;
+}
+
+#carousel-clear-search:not([style*="display: none"]) {
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
     </style>
       <script>
         // Gestion dynamique des favicons selon le thème
@@ -1027,29 +1232,29 @@
   <header id="site-header"></header>
 
     <!-- Carrousel de maillots automatique en haut -->
-    <section class="pb-2 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 1px solid var(--border);">
+    <section id="carousel-section" class="py-5 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 2px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <!-- Barre de recherche pour le carousel -->
-            <div class="row justify-content-center mb-2">
+            <div class="row justify-content-center mb-3">
               <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                 <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
                 <div class="input-group">
-                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off">
                   <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
-                    <i class="fas fa-search" aria-hidden="true"></i>
+                    <i class="fas fa-search" aria-hidden="true" id="search-icon"></i>
                   </button>
-                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer la recherche" aria-label="Effacer la recherche">
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off" spellcheck="false">
+                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer (Esc)" aria-label="Effacer la recherche">
                     <i class="fas fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
-                <div class="text-center mb-2">
+                <div class="text-center mb-3">
                   <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
                 </div>
               </div>
             </div>
-            <div class="jersey-carousel-container">
+            <div class="jersey-carousel-container" id="carousel-container">
               <div class="jersey-carousel" id="jerseyCarousel">
                 <!-- Le contenu sera généré dynamiquement par JavaScript -->
               </div>
@@ -1068,7 +1273,7 @@
               <h2 class="h4 mb-0" id="search-results-title">Résultats de recherche</h2>
               <small class="text-muted" id="search-results-info"></small>
             </div>
-            <div class="row g-3" id="search-results-grid">
+            <div class="row g-3 g-md-4" id="search-results-grid">
               <!-- Les résultats seront générés ici dynamiquement -->
             </div>
           </div>
@@ -1077,7 +1282,7 @@
     </section>
 
     <!-- Hero -->
-    <section class="hero position-relative overflow-hidden" style="margin-top: -1rem;">
+    <section class="hero position-relative overflow-hidden" style="margin-top: -1rem; padding-bottom: 2rem;">
       <div class="hero-bg"></div>
       <div class="container position-relative">
         <div class="row align-items-center">
@@ -1122,7 +1327,7 @@
       </div>
     </section>
     <!-- Footer -->
-    <footer class="footer mt-n3 py-4">
+    <footer class="footer py-4">
       <div class="container">
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-8">
@@ -1231,99 +1436,59 @@
           }, { passive: true });
         }
         
-        // Liste mélangée des maillots disponibles
-        const allJerseys = [
-          { img: './images/Colombia_11.webp', name: 'Colombie', price: '$36.70' },
-          { img: './images/Argentina_111.webp', name: 'Argentina', price: '$36.70' },
-          { img: './images/RB_Leipzig_180.webp', name: 'RB Leipzig', price: '$36.70' },
-          { img: './images/Borussia_Dortmund_195.webp', name: 'Borussia Dortmund', price: '$36.70' },
-          { img: './images/Brighton_&_Hove_Albion_001.webp', name: 'Brighton', price: '$36.70' },
-          { img: './images/Argentina_40.webp', name: 'Argentine', price: '$36.70' },
-          { img: './images/Manchester_City_009.webp', name: 'Manchester City', price: '$36.70' },
-          { img: './images/AS_Roma_163.webp', name: 'AS Roma', price: '$36.70' },
-          { img: './images/Netherlands_99.webp', name: 'Pays-Bas', price: '$36.70' },
-          { img: './images/Morocco_124.webp', name: 'Morocco', price: '$36.70' },
-          { img: './images/Tottenham_1.webp', name: 'Tottenham', price: '$36.70' },
-          { img: './images/Newcastle_United_001.webp', name: 'Newcastle United', price: '$36.70' },
-          { img: './images/Senegal1.webp', name: 'Senegal', price: '$36.70' },
-          { img: './images/Flamengo_89.webp', name: 'Flamengo', price: '$36.70' },
-          { img: './images/Morocco_124.webp', name: 'Maroc', price: '$36.70' },
-          { img: './images/Atletico_Madrid_124.webp', name: 'Atlético Madrid', price: '$36.70' },
-          { img: './images/USA_104.webp', name: 'États-Unis', price: '$36.70' },
-          { img: './images/Inter_Miami_CF_112.webp', name: 'Inter Miami', price: '$36.70' },
-          { img: './images/Spain_128.webp', name: 'Espagne', price: '$36.70' },
-          { img: './images/Canada_49.webp', name: 'Canada', price: '$36.70' },
-          { img: './images/leverkussen_111.webp', name: 'Bayer Leverkusen', price: '$36.70' },
-          { img: './images/FC_Porto_104.webp', name: 'FC Porto', price: '$36.70' },
-          { img: './images/germany_103.webp', name: 'Germany', price: '$36.70' },
-          { img: './images/Inter_milan_38.webp', name: 'Inter Milan', price: '$36.70' },
-          { img: './images/Corinthians_33.webp', name: 'Corinthians', price: '$36.70' },
-          { img: './images/sporting_42.webp', name: 'Sporting CP Home 2023-24', price: '$36.70' },
-          { img: './images/Croatia_72.webp', name: 'Croatie', price: '$36.70' },
-          { img: './images/Boca_Juniors_102.webp', name: 'Boca Juniors', price: '$36.70' },
-          { img: './images/Atletico_Madrid_13.webp', name: 'Atlético Madrid', price: '$36.70' },
-          { img: './images/Olympique_de_Marseille_155.webp', name: 'Olympique Marseille', price: '$36.70' },
-          { img: './images/Italy_74.webp', name: 'Italie', price: '$36.70' },
-          { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$36.70' },
-          { img: './images/France_118.webp', name: 'France', price: '$36.70' },
-          { img: './images/FC_Porto_104.webp', name: 'FC Porto', price: '$36.70' },
-          { img: './images/chelsea_206.webp', name: 'Chelsea FC', price: '$36.70' },
-          { img: './images/Paris_Saint_Germain_159.webp', name: 'Paris Saint-Germain', price: '$36.70' },
-          { img: './images/Lazio_105.webp', name: 'Lazio', price: '$36.70' },
-          { img: './images/Germany_4.webp', name: 'Allemagne', price: '$36.70' },
-          { img: './images/Mexico_102.webp', name: 'Mexique', price: '$36.70' },
-          { img: './images/Borussia_Dortmund_136.webp', name: 'Borussia Dortmund', price: '$36.70' },
-          { img: './images/Boca_Juniors_102.webp', name: 'Boca Juniors Home 2023-24', price: '$36.70' },
-          { img: './images/manchester_united_233.webp', name: 'Manchester United', price: '$36.70' },
-          { img: './images/Leicester_City_001.webp', name: 'Leicester City', price: '$36.70' },
-          { img: './images/Uruguay_37.webp', name: 'Uruguay', price: '$36.70' },
-          { img: './images/Tottenham_001.webp', name: 'Tottenham', price: '$36.70' },
-          { img: './images/River_Plate_100.webp', name: 'River Plate', price: '$36.70' },
-          { img: './images/Japan_129.webp', name: 'Japon', price: '$36.70' },
-          { img: './images/Valencia_CF_001.webp', name: 'Valencia CF', price: '$36.70' },
-          { img: './images/Leicester_City_175.webp', name: 'Leicester City', price: '$36.70' },
-          { img: './images/Boca_Juniors_102.webp', name: 'Boca Juniors', price: '$36.70' },
-          { img: './images/Netherlands_100.webp', name: 'Netherlands', price: '$36.70' },
-          { img: './images/sporting_42.webp', name: 'Sporting CP', price: '$36.70' },
-          { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$36.70' },
-          { img: './images/Nigeria_10.webp', name: 'Nigeria', price: '$36.70' },
-          { img: './images/Arsenal_002.webp', name: 'Arsenal', price: '$36.70' },
-          { img: './images/Athletic_Bilbao_001.webp', name: 'Athletic Bilbao', price: '$36.70' },
-          { img: './images/rc_lens_94.webp', name: 'RC Lens', price: '$36.70' },
-          { img: './images/Ghana_135.webp', name: 'Ghana', price: '$36.70' },
-          { img: './images/Everton_FC_001.webp', name: 'Everton FC', price: '$36.70' },
-          { img: './images/Chelsea_FC_170.webp', name: 'Chelsea FC', price: '$36.70' },
-          { img: './images/FC_Porto_104.webp', name: 'FC Porto Home 2023-24', price: '$36.70' },
-          { img: './images/rc_lens_94.webp', name: 'RC Lens Home 2023-24', price: '$36.70' },
-          { img: './images/Manchester_City_003.webp', name: 'Manchester City', price: '$36.70' },
-          { img: './images/portugal-1.webp', name: 'Portugal', price: '$36.70' },
-          { img: './images/Brazil_13.webp', name: 'Brésil', price: '$36.70' },
-          { img: './images/Peru.webp', name: 'Pérou', price: '$36.70' },
-          { img: './images/Bayern_Munich_157.webp', name: 'Bayern Munich', price: '$36.70' },
-          { img: './images/Juventus_34.webp', name: 'Juventus', price: '$36.70' },
-          { img: './images/Chelsea_FC_200.webp', name: 'Chelsea', price: '$36.70' },
-          { img: './images/Olympique_de_Marseille_155.webp', name: 'Marseille Home 2023-24', price: '$36.70' },
-          { img: './images/Ac_milan_-7.webp', name: 'AC Milan', price: '$36.70' },
-          { img: './images/OL_58.webp', name: 'Lyon Home 2023-24', price: '$36.70' },
-          { img: './images/arsenal_141.webp', name: 'Arsenal', price: '$36.70' },
-          { img: './images/Chile_38.webp', name: 'Chili', price: '$36.70' },
-          { img: './images/Manchester_United_83.webp', name: 'Manchester United', price: '$36.70' },
-          { img: './images/Valencia_CF_148.webp', name: 'Valencia', price: '$36.70' },
-          { img: './images/Napoli_170.webp', name: 'Napoli', price: '$36.70' },
-          { img: './images/AC_Milan_20.webp', name: 'AC Milan', price: '$36.70' },
-          { img: './images/Bayern_Munich_9.webp', name: 'Bayern Munich', price: '$36.70' },
-          { img: './images/France_62.webp', name: 'France', price: '$36.70' },
-          { img: './images/AS_Roma_146.webp', name: 'AS Roma', price: '$36.70' },
-          { img: './images/FC_Barcelona_189.webp', name: 'FC Barcelona', price: '$36.70' },
-          { img: './images/Olympique_de_Marseille_155.webp', name: 'Olympique de Marseille', price: '$36.70' },
-          { img: './images/Brazil_138.webp', name: 'Brazil', price: '$36.70' },
-          { img: './images/Paris_Saint_Germain_152.webp', name: 'PSG', price: '$36.70' },
-          { img: './images/Napoli_001.webp', name: 'Napoli', price: '$36.70' },
-          { img: './images/West_Ham_United_001.webp', name: 'West Ham United', price: '$36.70' },
-          { img: './images/Real_Madrid_006.webp', name: 'Real Madrid', price: '$36.70' },
-          { img: './images/Santos_FC_13.webp', name: 'Santos FC', price: '$36.70' },
-          { img: './images/Palmeiras_104.webp', name: 'Palmeiras', price: '$36.70' }
-        ];
+        // Charger tous les maillots depuis tous-les-maillots.html
+        let allJerseys = [];
+        let jerseysLoaded = false;
+
+        // Fonction pour extraire les maillots depuis tous-les-maillots.html
+        async function loadAllJerseys() {
+          try {
+            console.log('🔄 Chargement de tous les maillots depuis tous-les-maillots.html...');
+            const response = await fetch('./tous-les-maillots.html');
+            const html = await response.text();
+            
+            // Créer un document temporaire pour parser le HTML
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            
+            // Extraire tous les product-cards
+            const productCards = doc.querySelectorAll('.product-card');
+            
+            allJerseys = Array.from(productCards).map(card => {
+              const img = card.querySelector('img');
+              const title = card.querySelector('.product-title');
+              const imgSrc = img ? img.getAttribute('src') : '';
+              const name = title ? title.textContent.trim() : '';
+              
+              return {
+                img: imgSrc.startsWith('images/') ? './' + imgSrc : imgSrc,
+                name: name,
+                price: '$36.70'
+              };
+            }).filter(jersey => jersey.img && jersey.name);
+            
+            console.log(`✅ ${allJerseys.length} maillots chargés avec succès!`);
+            jerseysLoaded = true;
+            
+            // Initialiser le carrousel avec tous les maillots
+            currentFilteredJerseys = shuffleArray([...allJerseys]);
+            generateCarousel();
+            
+          } catch (error) {
+            console.error('❌ Erreur lors du chargement des maillots:', error);
+            // Fallback: utiliser une liste minimale en cas d'erreur
+            allJerseys = [
+              { img: './images/Argentina_40.webp', name: 'Argentine', price: '$36.70' },
+              { img: './images/Brazil_13.webp', name: 'Brésil', price: '$36.70' },
+              { img: './images/France_118.webp', name: 'France', price: '$36.70' },
+              { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$36.70' },
+              { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$36.70' }
+            ];
+            jerseysLoaded = true;
+            currentFilteredJerseys = [...allJerseys];
+            generateCarousel();
+          }
+        }
 
         let currentFilteredJerseys = [...allJerseys];
         let searchTimeout;
@@ -1379,54 +1544,217 @@
           const normalizedQuery = normalizeText(query);
           const normalizedTarget = normalizeText(target);
           
-          // Map des équipes et leurs variations pour une recherche plus précise
+          // Map COMPLÈTE des équipes avec variations
           const teamVariations = {
-            'portugal': ['portugal'],
-            'barcelone': ['barcelona', 'fc barcelona', 'barca', 'barça'],
-            'real': ['real madrid', 'madrid'],
-            'milan': ['ac milan', 'milan'],
-            'juventus': ['juventus', 'juve'],
-            'psg': ['paris', 'paris saint germain', 'paris saint-germain'],
-            'manchester': ['manchester united', 'manchester city', 'man united', 'man city'],
-            'arsenal': ['arsenal'],
-            'chelsea': ['chelsea'],
-            'liverpool': ['liverpool'],
-            'tottenham': ['tottenham', 'spurs'],
-            'bayern': ['bayern munich', 'bayern', 'munich'],
-            'dortmund': ['borussia dortmund', 'dortmund'],
-            'inter': ['inter milan', 'inter'],
-            'roma': ['as roma', 'roma'],
-            'napoli': ['napoli'],
-            'atletico': ['atletico madrid', 'atletico'],
-            'valencia': ['valencia'],
-            'sevilla': ['sevilla'],
+            // Clubs anglais
+            'manchesterunited': ['manchester united', 'manutd', 'man utd', 'man united'],
+            'manchestercity': ['manchester city', 'man city'],
+            'arsenal': ['arsenal', 'arsenal fc'],
+            'chelsea': ['chelsea', 'chelsea fc'],
+            'liverpool': ['liverpool', 'liverpool fc'],
+            'tottenham': ['tottenham', 'spurs', 'tottenham hotspur'],
+            'leicester': ['leicester', 'leicester city'],
+            'everton': ['everton', 'everton fc'],
+            'newcastle': ['newcastle', 'newcastle united'],
+            'astonvilla': ['aston villa', 'villa'],
+            'westham': ['west ham', 'west ham united'],
+            
+            // Clubs espagnols
+            'barcelona': ['barcelona', 'fc barcelona', 'barca', 'barça', 'fcb'],
+            'realmadrid': ['real madrid', 'madrid', 'real'],
+            'atleticomadrid': ['atletico madrid', 'atletico', 'atleti'],
+            'sevilla': ['sevilla', 'sevilla fc'],
+            'valencia': ['valencia', 'valencia cf'],
+            'villarreal': ['villarreal', 'villarreal cf'],
+            'realsociedad': ['real sociedad', 'sociedad'],
+            'athletic': ['athletic bilbao', 'athletic club', 'bilbao'],
+            'betis': ['real betis', 'betis'],
+            
+            // Clubs italiens
+            'acmilan': ['ac milan', 'milan', 'acm'],
+            'intermilan': ['inter milan', 'inter', 'internazionale', 'fc internazionale'],
+            'juventus': ['juventus', 'juve', 'juventus fc'],
+            'asroma': ['as roma', 'roma'],
+            'napoli': ['napoli', 'ssc napoli', 'ssc'],
+            'lazio': ['lazio', 'ss lazio'],
+            'fiorentina': ['fiorentina', 'acf fiorentina'],
+            'atalanta': ['atalanta', 'atalanta bc'],
+            
+            // Clubs allemands
+            'bayernmunich': ['bayern munich', 'bayern', 'fc bayern', 'fcb'],
+            'borussiadortmund': ['borussia dortmund', 'dortmund', 'bvb'],
+            'leipzigrb': ['rb leipzig', 'leipzig'],
+            'leverkusen': ['bayer leverkusen', 'leverkusen'],
+            'borussiamonchengladbach': ['borussia monchengladbach', 'monchengladbach', 'gladbach'],
+            'frankfurteintracht': ['eintracht frankfurt', 'frankfurt'],
+            
+            // Clubs français
+            'psg': ['paris saint germain', 'paris saint-germain', 'psg', 'paris sg'],
+            'marseille': ['olympique marseille', 'marseille', 'om'],
+            'lyon': ['olympique lyonnais', 'lyon', 'ol'],
+            'monaco': ['as monaco', 'monaco', 'asm'],
+            'lille': ['lille', 'losc'],
+            'nice': ['ogc nice', 'nice'],
+            'rennes': ['stade rennais', 'rennes'],
+            
+            // Clubs portugais
+            'benfica': ['benfica', 'sl benfica', 'slb'],
+            'porto': ['fc porto', 'porto', 'fcp'],
+            'sporting': ['sporting cp', 'sporting', 'sporting lisbon'],
+            
+            // Clubs néerlandais
+            'ajax': ['ajax', 'afc ajax', 'ajax amsterdam'],
+            'psv': ['psv', 'psv eindhoven'],
+            'feyenoord': ['feyenoord', 'feyenoord rotterdam'],
+            
+            // Équipes nationales
             'france': ['france', 'équipe de france'],
-            'allemagne': ['germany', 'allemagne'],
-            'espagne': ['spain', 'espagne'],
-            'italie': ['italy', 'italie'],
-            'angleterre': ['england', 'angleterre'],
-            'bresil': ['brazil', 'brésil', 'bresil'],
-            'argentine': ['argentina', 'argentine'],
-            'mexique': ['mexico', 'mexique'],
-            'japon': ['japan', 'japon'],
-            'coree': ['korea', 'corée'],
-            'maroc': ['morocco', 'maroc'],
-            'nigeria': ['nigeria']
+            'germany': ['germany', 'allemagne', 'deutschland'],
+            'spain': ['spain', 'espagne', 'españa'],
+            'italy': ['italy', 'italie', 'italia'],
+            'england': ['england', 'angleterre'],
+            'portugal': ['portugal'],
+            'brazil': ['brazil', 'brésil', 'bresil', 'brasil'],
+            'argentina': ['argentina', 'argentine'],
+            'netherlands': ['netherlands', 'holland', 'pays-bas', 'paysbas'],
+            'belgium': ['belgium', 'belgique'],
+            'croatia': ['croatia', 'croatie'],
+            'uruguay': ['uruguay'],
+            'mexico': ['mexico', 'mexique'],
+            'japan': ['japan', 'japon'],
+            'korea': ['korea', 'corée', 'south korea'],
+            'morocco': ['morocco', 'maroc'],
+            'nigeria': ['nigeria'],
+            'senegal': ['senegal', 'sénégal'],
+            'cameroon': ['cameroon', 'cameroun'],
+            'ghana': ['ghana'],
+            'ivorycoast': ['ivory coast', 'cote divoire', 'côte divoire']
           };
 
-          // Vérifier si la recherche correspond à une des variations d'équipe
+          // PRIORITÉ 1: Chercher dans les variations d'équipes en premier
+          let matchedTeamKey = null;
+          let matchScore = 0;
+          
           for (const [key, variations] of Object.entries(teamVariations)) {
-            if (variations.some(v => normalizeText(v).includes(normalizedQuery)) ||
-                variations.some(v => normalizedQuery.includes(normalizeText(v)))) {
-              // Si le nom cible contient une des variations, c'est un match
-              if (variations.some(v => normalizeText(target).includes(normalizeText(v)))) {
-                return 1.0;
+            for (const variation of variations) {
+              const normalizedVariation = normalizeText(variation);
+              
+              // Si la requête est exactement une variation connue
+              if (normalizedQuery === normalizedVariation) {
+                // Et le target contient cette variation
+                if (normalizedTarget.includes(normalizedVariation)) {
+                  return 1.0; // Score parfait
+                }
+              }
+              
+              // Si la variation contient la requête (ex: "napoli" dans "ssc napoli")
+              if (normalizedVariation.includes(normalizedQuery) && normalizedQuery.length >= 3) {
+                // Et le target contient aussi cette variation ou le mot clé
+                if (normalizedTarget.includes(normalizedVariation) || normalizedTarget.includes(normalizedQuery)) {
+                  matchedTeamKey = key;
+                  // Score basé sur la position: début = mieux
+                  if (normalizedVariation.startsWith(normalizedQuery)) {
+                    matchScore = Math.max(matchScore, 1.0);
+                  } else {
+                    matchScore = Math.max(matchScore, 0.98);
+                  }
+                }
+              }
+              
+              // Si la requête contient la variation (ex: "napoli ssc" cherche "napoli")
+              if (normalizedQuery.includes(normalizedVariation) && normalizedVariation.length >= 3) {
+                if (normalizedTarget.includes(normalizedVariation)) {
+                  matchedTeamKey = key;
+                  matchScore = Math.max(matchScore, 0.95);
+                }
               }
             }
           }
+          
+          // Si on a trouvé un match via les variations
+          if (matchScore > 0) {
+            return matchScore;
+          }
+          
+          // PRIORITÉ 2: Correspondance exacte directe
+          if (normalizedTarget === normalizedQuery) {
+            return 1.0;
+          }
+          
+          // PRIORITÉ 3: Le target contient la requête complète
+          if (normalizedTarget.includes(normalizedQuery)) {
+            if (normalizedTarget.startsWith(normalizedQuery)) {
+              return 0.97;
+            }
+            return 0.95;
+          }
+          
+          // PRIORITÉ 4: La requête contient le target
+          if (normalizedQuery.includes(normalizedTarget)) {
+            return 0.92;
+          }
 
-          // Si aucune correspondance exacte n'est trouvée, on continue avec la logique existante
-          // Calculer la distance de Levenshtein
+          // Recherche par mots individuels - TRÈS STRICT
+          const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 2);
+          const targetWords = normalizedTarget.split(/\s+/).filter(w => w.length > 2);
+          
+          // Pour les requêtes multi-mots (ex: "Manchester United")
+          if (queryWords.length >= 2) {
+            // TOUS les mots de la requête doivent être dans le target
+            const allWordsPresent = queryWords.every(qWord => 
+              targetWords.some(tWord => 
+                tWord === qWord || 
+                tWord.includes(qWord) || 
+                qWord.includes(tWord)
+              )
+            );
+            
+            if (allWordsPresent) {
+              // Calculer le pourcentage de mots qui matchent exactement
+              const exactMatches = queryWords.filter(qWord => 
+                targetWords.some(tWord => tWord === qWord)
+              ).length;
+              
+              const partialMatches = queryWords.filter(qWord => 
+                targetWords.some(tWord => tWord.includes(qWord) || qWord.includes(tWord))
+              ).length;
+              
+              // Score basé sur la qualité des matches
+              if (exactMatches === queryWords.length) {
+                return 0.9; // Tous les mots matchent exactement
+              } else if (partialMatches === queryWords.length) {
+                return 0.75; // Tous les mots matchent partiellement
+              }
+            }
+            
+            // Si moins de 75% des mots matchent, on rejette
+            const matchingWords = queryWords.filter(qWord => 
+              targetWords.some(tWord => tWord.includes(qWord) || qWord.includes(tWord))
+            );
+            
+            const matchRatio = matchingWords.length / queryWords.length;
+            if (matchRatio < 0.75) {
+              return 0; // Rejet
+            }
+            
+            return matchRatio * 0.6; // Score réduit
+          }
+
+          // Pour les requêtes d'un seul mot
+          if (queryWords.length === 1 && targetWords.length > 0) {
+            const qWord = queryWords[0];
+            
+            // Le mot doit être présent dans le target
+            const wordFound = targetWords.some(tWord => 
+              tWord.includes(qWord) || qWord.includes(tWord)
+            );
+            
+            if (!wordFound) {
+              return 0;
+            }
+          }
+
+          // Distance de Levenshtein comme DERNIER recours - seuils TRÈS STRICTS
           const distance = levenshteinDistance(normalizedQuery, normalizedTarget);
           const maxLength = Math.max(normalizedQuery.length, normalizedTarget.length);
           
@@ -1434,13 +1762,17 @@
           
           const similarity = 1 - (distance / maxLength);
           
-          // Tolérance pour les mots courts (plus stricte)
+          // Seuils très stricts selon la longueur
           if (normalizedQuery.length <= 3) {
-            return similarity >= 0.7 ? similarity : 0;
+            // Mots courts: 95% de similarité minimum
+            return similarity >= 0.95 ? similarity : 0;
+          } else if (normalizedQuery.length <= 5) {
+            // Mots moyens: 85% de similarité minimum
+            return similarity >= 0.85 ? similarity : 0;
+          } else {
+            // Mots longs: 80% de similarité minimum
+            return similarity >= 0.80 ? similarity : 0;
           }
-          
-          // Tolérance plus flexible pour les mots longs
-          return similarity >= 0.5 ? similarity : 0;
         }
 
         // Mélanger aléatoirement la liste
@@ -1516,65 +1848,68 @@
         function performSearch(query) {
           const resultsCount = document.getElementById('carousel-search-results-count');
           const searchResultsSection = document.getElementById('search-results-section');
+          const carouselContainer = document.getElementById('carousel-container');
+          const heroSection = document.querySelector('.hero');
           
-          console.log('🔍 Recherche tolérante pour:', query);
+          console.log('🔍 Recherche pour:', query);
           
           if (query.trim() === '') {
             // Aucune recherche : afficher tous les maillots mélangés dans le carrousel
             currentFilteredJerseys = shuffleArray([...allJerseys]);
             resultsCount.textContent = '';
             resultsCount.style.color = '';
-            // Masquer la section de résultats et réafficher le héro
+            // Masquer la section de résultats et réafficher le carousel et le héro
             searchResultsSection.style.display = 'none';
-            document.querySelector('.hero').style.display = 'block';
-          } else {
-            // Recherche avec tolérance aux fautes
-            const jerseyMatches = allJerseys.map(jersey => {
-              const similarity = calculateSimilarity(query, jersey.name.toLowerCase());
-              return { jersey, similarity };
-            })
-            // Maintenant on garde tous les maillots qui ont une similarité > 0.5
-            .filter(match => match.similarity >= 0.5)
-            // On trie toujours par pertinence
-            .sort((a, b) => b.similarity - a.similarity);
-            
-            currentFilteredJerseys = jerseyMatches.map(match => match.jersey);
-            
-            console.log('📊 Résultats trouvés:', currentFilteredJerseys.length);
-            console.log('🎯 Correspondances:', jerseyMatches.slice(0, 5).map(m => 
+            if (carouselContainer) carouselContainer.style.display = 'block';
+            if (heroSection) heroSection.style.display = 'block';
+            generateCarousel(currentFilteredJerseys);
+            return;
+          }
+
+          // Recherche avec tolérance aux fautes et pondération
+          const jerseyMatches = allJerseys.map(jersey => {
+            const similarity = calculateSimilarity(query, jersey.name);
+            return { jersey, similarity };
+          })
+          .filter(match => match.similarity > 0)
+          .sort((a, b) => {
+            // Trier par similarité décroissante
+            if (b.similarity !== a.similarity) {
+              return b.similarity - a.similarity;
+            }
+            // En cas d'égalité, ordre alphabétique
+            return a.jersey.name.localeCompare(b.jersey.name);
+          });
+          
+          currentFilteredJerseys = jerseyMatches.map(match => match.jersey);
+          
+          console.log('📊 Résultats:', currentFilteredJerseys.length, 'maillots');
+          if (jerseyMatches.length > 0) {
+            console.log('🎯 Top 5:', jerseyMatches.slice(0, 5).map(m => 
               `${m.jersey.name} (${Math.round(m.similarity * 100)}%)`
             ));
-            
-            // Affichage du nombre de résultats avec indication de tolérance
-            if (currentFilteredJerseys.length === 0) {
-              resultsCount.textContent = '❌ Aucun maillot trouvé';
-              resultsCount.style.color = '#dc3545';
-              searchResultsSection.style.display = 'none';
-            } else {
-              // Afficher la section de résultats et cacher le héro
-              searchResultsSection.style.display = 'block';
-              document.querySelector('.hero').style.display = 'none';
-              
-              if (currentFilteredJerseys.length === 1) {
-                const match = jerseyMatches[0];
-                const confidence = Math.round(match.similarity * 100);
-                resultsCount.textContent = `✅ 1 maillot trouvé (${confidence}% de correspondance)`;
-                resultsCount.style.color = confidence >= 90 ? '#198754' : '#fd7e14';
-              } else {
-                const avgConfidence = Math.round(
-                  jerseyMatches.slice(0, 5).reduce((sum, m) => sum + m.similarity, 0) / 
-                  Math.min(5, jerseyMatches.length) * 100
-                );
-                resultsCount.textContent = `✅ ${currentFilteredJerseys.length} maillots trouvés (${avgConfidence}% de correspondance)`;
-                resultsCount.style.color = avgConfidence >= 90 ? '#198754' : '#fd7e14';
-              }
-              
-              // Générer la grille de résultats
-              generateSearchResultsGrid(currentFilteredJerseys, query);
-            }
           }
           
-          generateCarousel(currentFilteredJerseys);
+          // Affichage des résultats
+          if (currentFilteredJerseys.length === 0) {
+            resultsCount.textContent = 'Aucun résultat';
+            resultsCount.style.color = '#dc3545';
+            searchResultsSection.style.display = 'none';
+            if (carouselContainer) carouselContainer.style.display = 'none';
+            if (heroSection) heroSection.style.display = 'none';
+          } else {
+            // Afficher la grille de résultats
+            searchResultsSection.style.display = 'block';
+            if (carouselContainer) carouselContainer.style.display = 'none';
+            if (heroSection) heroSection.style.display = 'none';
+            
+            const count = currentFilteredJerseys.length;
+            resultsCount.textContent = `${count} résultat${count > 1 ? 's' : ''}`;
+            resultsCount.style.color = '#198754';
+            
+            // Générer la grille
+            generateSearchResultsGrid(currentFilteredJerseys, query);
+          }
         }
 
         // Attacher les événements aux éléments du carousel
@@ -1611,6 +1946,9 @@
           const searchInput = document.getElementById('carousel-search-input');
           const clearButton = document.getElementById('carousel-clear-search');
           const searchButton = document.getElementById('carousel-search-button');
+          const searchIcon = document.getElementById('search-icon');
+          const suggestionsContainer = document.getElementById('search-suggestions');
+          const resultsCount = document.getElementById('carousel-search-results-count');
 
           console.log('🎯 Initialisation recherche carousel...');
 
@@ -1621,7 +1959,9 @@
 
           console.log('✅ Éléments trouvés, configuration des événements...');
 
-          // Recherche en temps réel sur input
+          let isSearching = false;
+
+          // Recherche en temps réel
           searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
             const carousel = document.querySelector('.jersey-carousel');
@@ -1635,11 +1975,43 @@
               }
             }
             
-            console.log('📝 Input:', query);
+            // Afficher/masquer le bouton clear
+            if (query.trim()) {
+              clearButton.classList.add('visible');
+            } else {
+              clearButton.classList.remove('visible');
+            }
+            
             clearTimeout(searchTimeout);
+            
+            // Délai adaptatif
+            const delay = query.length < 3 ? 300 : 200;
+            
+            // Afficher l'indicateur de chargement
+            if (query.trim() && searchIcon) {
+              isSearching = true;
+              searchIcon.className = 'fas fa-spinner fa-spin';
+            }
+            
             searchTimeout = setTimeout(() => {
               performSearch(query);
-            }, 150); // Petit délai pour éviter trop d'appels
+              if (searchIcon) {
+                isSearching = false;
+                searchIcon.className = 'fas fa-search';
+              }
+            }, delay);
+          });
+
+          // Navigation au clavier
+          searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault();
+              performSearch(searchInput.value);
+            } else if (e.key === 'Escape') {
+              searchInput.value = '';
+              clearButton.classList.remove('visible');
+              performSearch('');
+            }
           });
 
           // Recherche immédiate sur paste
@@ -1660,36 +2032,44 @@
 
           // Bouton effacer
           clearButton.addEventListener('click', () => {
-            console.log('🗑️ Clear button');
+            console.log('🗑️ Effacement recherche');
             searchInput.value = '';
+            clearButton.classList.remove('visible');
             const carousel = document.querySelector('.jersey-carousel');
             if (carousel) {
+              carousel.classList.remove('paused');
               carousel.style.animationPlayState = 'running';
               carousel.style.webkitAnimationPlayState = 'running';
             }
             performSearch('');
             searchInput.focus();
           });
+          
+          // Cacher le bouton clear au démarrage
+          clearButton.classList.remove('visible');
 
-          // Raccourcis clavier
-          searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault();
-              console.log('⏎ Enter - recherche immédiate');
-              performSearch(searchInput.value);
-            } else if (e.key === 'Escape') {
-              console.log('⎋ Escape - effacement');
-              searchInput.value = '';
-              performSearch('');
+          // Wrapper pour performSearch avec feedback visuel
+          const originalPerformSearch = performSearch;
+          performSearch = function(query) {
+            const resultsCount = document.getElementById('carousel-search-results-count');
+            
+            // Appeler la fonction originale
+            originalPerformSearch(query);
+            
+            // Ajouter des classes pour l'animation
+            if (resultsCount) {
+              resultsCount.classList.remove('success', 'error');
+              setTimeout(() => {
+                if (resultsCount.textContent.includes('Aucun')) {
+                  resultsCount.classList.add('error');
+                } else if (resultsCount.textContent.match(/\d+/)) {
+                  resultsCount.classList.add('success');
+                }
+              }, 100);
             }
-          });
+          };
 
-          // Focus automatique pour une meilleure UX
-          searchInput.addEventListener('focus', () => {
-            console.log('🎯 Focus sur la recherche');
-          });
-
-          console.log('✅ Système de recherche configuré!');
+          console.log('✅ Système de recherche avancé configuré!');
         }
 
         // Générer la grille de résultats de recherche
@@ -1701,12 +2081,13 @@
           if (!searchResultsGrid) return;
           
           // Mettre à jour le titre et les infos
-          searchResultsTitle.textContent = `Résultats pour "${query}"`;
-          searchResultsInfo.textContent = `${jerseys.length} maillot${jerseys.length > 1 ? 's' : ''} trouvé${jerseys.length > 1 ? 's' : ''}`;
+          const queryDisplay = query.length > 30 ? query.substring(0, 30) + '...' : query;
+          searchResultsTitle.textContent = `Résultats pour "${queryDisplay}"`;
+          searchResultsInfo.textContent = `${jerseys.length} résultat${jerseys.length > 1 ? 's' : ''}`;
           
-          // Générer les cartes de résultats
+          // Générer les cartes de résultats avec animation d'apparition
           searchResultsGrid.innerHTML = jerseys.map((jersey, index) => `
-            <div class="col-6 col-md-4 col-lg-3">
+            <div class="col-6 col-md-4 col-lg-3" style="animation: fadeInUp 0.3s ease ${index * 0.05}s both;">
               <div class="search-result-card product-card" 
                    data-jersey-name="${jersey.name}" 
                    data-jersey-img="${jersey.img}" 
@@ -1735,7 +2116,7 @@
           // Réattacher les événements pour les nouveaux éléments
           attachSearchResultsEvents();
           
-          console.log('✅ Grille de résultats générée avec', jerseys.length, 'maillots');
+          console.log('✅ Grille:', jerseys.length, 'résultats pour', `"${query}"`);
         }
 
         // Attacher les événements aux cartes de résultats
@@ -1765,8 +2146,9 @@
 
         // Initialiser le carrousel au démarrage
         console.log('🚀 Initialisation du carrousel...');
-        currentFilteredJerseys = shuffleArray([...allJerseys]);
-        generateCarousel();
+        
+        // Charger tous les maillots depuis tous-les-maillots.html
+        loadAllJerseys();
         
         // Initialiser la recherche
         initCarouselSearch();
@@ -1775,8 +2157,10 @@
         setInterval(() => {
           const searchInput = document.getElementById('carousel-search-input');
           if (!searchInput || !searchInput.value.trim()) {
-            currentFilteredJerseys = [...allJerseys];
-            generateCarousel();
+            if (jerseysLoaded && allJerseys.length > 0) {
+              currentFilteredJerseys = shuffleArray([...allJerseys]);
+              generateCarousel();
+            }
           }
         }, 600000);
       }

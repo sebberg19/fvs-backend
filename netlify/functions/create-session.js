@@ -83,22 +83,41 @@ exports.handler = async (event, context) => {
     // Préparer les infos des articles pour les métadonnées
     const items = Array.isArray(body.items) ? body.items : [];
     
-    // Créer un objet metadata optimisé pour éviter la troncature
+    // Créer un objet metadata optimisé avec TOUS les détails des produits
     const metadata = { 
       source: 'netlify_function', 
       orderId: orderId,
       itemCount: items.length.toString()
     };
     
-    // Ajouter chaque article comme clé séparée pour éviter la troncature
+    // Ajouter chaque article avec TOUS ses détails (taille, personnalisation, etc)
     items.forEach((item, index) => {
-      if (index < 10) { // Limite à 10 articles pour éviter d'atteindre la limite de métadonnées
+      if (index < 20) { // Augmenté à 20 articles (Stripe permet ~50 clés metadata)
+        // Construire l'objet item complet avec tous les détails
         const itemData = {
           name: item.name || 'Article',
           quantity: item.quantity || 1,
           price: item.perUnitPrice || item.price || 0,
-          image: item.img || item.image || item.imageUrl || ''
+          size: item.size || '',
+          image: item.img || item.image || item.imageUrl || '',
+          isVintage: item.isVintage || false
         };
+        
+        // Ajouter la personnalisation si présente
+        if (item.personalization) {
+          if (item.personalization.name) {
+            itemData.persoName = item.personalization.name;
+          }
+          if (item.personalization.number) {
+            itemData.persoNumber = item.personalization.number;
+          }
+          // Indiquer qu'il y a des frais de personnalisation
+          if (item.personalization.name || item.personalization.number) {
+            itemData.persoFee = 5.00;
+          }
+        }
+        
+        // Stocker en JSON compact
         metadata[`item_${index}`] = JSON.stringify(itemData);
       }
     });

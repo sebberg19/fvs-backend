@@ -55,7 +55,7 @@ const renderEmailTemplate = (session, orderId) => {
     const itemCount = parseInt(metadata.itemCount) || 0;
     console.log('[webhook] Item count:', itemCount);
     
-    for (let i = 0; i < itemCount && i < 10; i++) {
+    for (let i = 0; i < itemCount && i < 20; i++) {
       const itemKey = `item_${i}`;
       if (metadata[itemKey]) {
         const item = JSON.parse(metadata[itemKey]);
@@ -76,7 +76,7 @@ const renderEmailTemplate = (session, orderId) => {
   
   console.log('[webhook] Final items for email:', items);
   
-  // Générer le HTML des articles avec le style noir et blanc
+  // Générer le HTML des articles avec le style noir et blanc et TOUS les détails
   const itemsHtml = items.map(item => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
@@ -94,20 +94,55 @@ const renderEmailTemplate = (session, orderId) => {
     
     console.log(`[webhook] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
+    // Construire les détails de l'article (taille, personnalisation, etc)
+    let detailsHtml = '';
+    
+    // Taille
+    if (item.size) {
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">📏 Taille: <strong>${item.size}</strong></p>`;
+    }
+    
+    // Type (Vintage)
+    if (item.isVintage) {
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">⭐ Maillot Vintage</p>`;
+    }
+    
+    // Personnalisation (IMPORTANT!)
+    if (item.persoName || item.persoNumber) {
+      detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
+        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">✨ PERSONNALISATION:</p>`;
+      
+      if (item.persoName) {
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Nom: <strong>${item.persoName}</strong></p>`;
+      }
+      
+      if (item.persoNumber) {
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Numéro: <strong>${item.persoNumber}</strong></p>`;
+      }
+      
+      if (item.persoFee) {
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-style: italic; font-family: Inter, system-ui, sans-serif;">(+$${item.persoFee.toFixed(2)} CAD)</p>`;
+      }
+      
+      detailsHtml += `</div>`;
+    }
+    
     return `
-    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: flex-start; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       ${imageUrl && imageUrl.length > 10 ? `
         <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
       ` : `
-        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd;">
+        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; flex-shrink: 0;">
           ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 6px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        <p style="margin: 0 0 4px 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        ${detailsHtml}
+        <p style="margin: 4px 0 0 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 4px 0 0 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">Prix unitaire: $${(item.price || 0).toFixed(2)} CAD</p>
+        ${item.quantity > 1 ? `<p style="margin: 2px 0 0 0; color: #000; font-weight: 700; font-size: 16px; font-family: Inter, system-ui, sans-serif;">Total: $${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>` : ''}
       </div>
     </div>
   `;
@@ -229,7 +264,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
   let items = [];
   try {
     const itemCount = parseInt(metadata.itemCount) || 0;
-    for (let i = 0; i < itemCount && i < 10; i++) {
+    for (let i = 0; i < itemCount && i < 20; i++) {
       const itemKey = `item_${i}`;
       if (metadata[itemKey]) {
         const item = JSON.parse(metadata[itemKey]);
@@ -245,7 +280,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     items = [{ name: 'Votre commande Futbolero', quantity: 1, price: parseFloat(total), image: '' }];
   }
   
-  // Générer le HTML des articles pour le client avec style noir et blanc
+  // Générer le HTML des articles pour le client avec style noir et blanc et TOUS les détails
   const itemsHtml = items.map(item => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
@@ -263,20 +298,55 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     
     console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
+    // Construire les détails de l'article (taille, personnalisation, etc)
+    let detailsHtml = '';
+    
+    // Taille
+    if (item.size) {
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">📏 Taille: <strong>${item.size}</strong></p>`;
+    }
+    
+    // Type (Vintage)
+    if (item.isVintage) {
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">⭐ Maillot Vintage</p>`;
+    }
+    
+    // Personnalisation (IMPORTANT!)
+    if (item.persoName || item.persoNumber) {
+      detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
+        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">✨ PERSONNALISATION:</p>`;
+      
+      if (item.persoName) {
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Nom: <strong>${item.persoName}</strong></p>`;
+      }
+      
+      if (item.persoNumber) {
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Numéro: <strong>${item.persoNumber}</strong></p>`;
+      }
+      
+      if (item.persoFee) {
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-style: italic; font-family: Inter, system-ui, sans-serif;">(+$${item.persoFee.toFixed(2)} CAD)</p>`;
+      }
+      
+      detailsHtml += `</div>`;
+    }
+    
     return `
-    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: flex-start; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
       ${imageUrl && imageUrl.length > 10 && !imageUrl.includes('data:image/svg') ? `
         <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd;">
+             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
       ` : `
-        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; font-size: 20px;">
+        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; font-size: 20px; flex-shrink: 0;">
           ⚽
         </div>
       `}
       <div style="flex: 1;">
-        <h4 style="margin: 0 0 6px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        <p style="margin: 0 0 4px 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">$${(item.price || 0).toFixed(2)} CAD</p>
+        <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+        ${detailsHtml}
+        <p style="margin: 4px 0 0 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
+        <p style="margin: 4px 0 0 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">Prix unitaire: $${(item.price || 0).toFixed(2)} CAD</p>
+        ${item.quantity > 1 ? `<p style="margin: 2px 0 0 0; color: #000; font-weight: 700; font-size: 16px; font-family: Inter, system-ui, sans-serif;">Total: $${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>` : ''}
       </div>
     </div>
   `;

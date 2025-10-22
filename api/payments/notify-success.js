@@ -18,13 +18,125 @@ transporter.verify().then(() => {
   console.warn('Mail transporter verify failed (will still accept requests):', err && err.message ? err.message : err);
 });
 
-// Small helper to build order text
+// Small helper to build order text with FULL product details
 function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = new Date().toISOString(), orderId }) {
-  const itemsList = (items || []).map(item =>
-    `• ${item.name || 'Article'} ${item.size ? `(Taille: ${item.size})` : ''} - Quantité: ${item.quantity || 1} - ${Number(item.perUnitPrice || item.price || 0).toFixed(2)}€`
-  ).join('\n') || 'Aucun article listé.';
+  const itemsList = (items || []).map((item, index) => {
+    const itemName = item.name || 'Article';
+    const quantity = item.quantity || 1;
+    const price = Number(item.perUnitPrice || item.price || 0).toFixed(2);
+    const totalItemPrice = (Number(item.perUnitPrice || item.price || 0) * quantity).toFixed(2);
+    
+    // Build detailed item description
+    let details = `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nArticle ${index + 1}: ${itemName}\n`;
+    
+    // Taille
+    if (item.size) {
+      details += `  → Taille: ${item.size}\n`;
+    }
+    
+    // Quantité
+    details += `  → Quantité: ${quantity}\n`;
+    
+    // Prix unitaire et total
+    details += `  → Prix unitaire: $${price} CAD\n`;
+    if (quantity > 1) {
+      details += `  → Prix total: $${totalItemPrice} CAD\n`;
+    }
+    
+    // Personnalisation (si présente)
+    if (item.personalization) {
+      const perso = item.personalization;
+      if (perso.name || perso.number) {
+        details += `  → ⭐ PERSONNALISATION:\n`;
+        if (perso.name) {
+          details += `     • Nom: ${perso.name}\n`;
+        }
+        if (perso.number) {
+          details += `     • Numéro: ${perso.number}\n`;
+        }
+        details += `     • Frais de personnalisation: +$5.00 CAD\n`;
+      }
+    }
+    
+    // Type de maillot (vintage ou récent)
+    if (item.isVintage) {
+      details += `  → Type: Maillot Vintage\n`;
+    }
+    
+    // Image du produit (pour référence)
+    if (item.img || item.image || item.imageUrl) {
+      const imgUrl = item.img || item.image || item.imageUrl;
+      details += `  → Image: ${imgUrl}\n`;
+    }
+    
+    return details;
+  }).join('\n') || 'Aucun article listé.';
 
-  return `Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},\n\nMerci pour votre commande sur Futbolero Vintage Shop !\n\nDétails de votre commande :\nNuméro de commande : ${orderId}\nDate : ${new Date(timestamp).toLocaleString('fr-FR')}\n\nArticles commandés :\n${itemsList}\n\nAdresse de livraison :\n${checkoutInfo.address || ''}\n${checkoutInfo.city || ''} ${checkoutInfo.postalCode || ''}\n${checkoutInfo.country || ''}\n\nTotal : ${Number(total || 0).toFixed(2)}€\n\nCordialement,\nL'équipe Futbolero Vintage Shop\n`;
+  const subtotal = (items || []).reduce((sum, item) => {
+    const unitPrice = Number(item.perUnitPrice || item.price || 0);
+    const qty = item.quantity || 1;
+    let itemTotal = unitPrice * qty;
+    // Ajouter frais de personnalisation si présent
+    if (item.personalization && (item.personalization.name || item.personalization.number)) {
+      itemTotal += 5.00;
+    }
+    return sum + itemTotal;
+  }, 0);
+
+  return `Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},
+
+Merci pour votre commande sur Futbolero Vintage Shop ! ⚽
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📦 DÉTAILS DE VOTRE COMMANDE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Numéro de commande : ${orderId}
+Date : ${new Date(timestamp).toLocaleString('fr-FR', { 
+  timeZone: 'America/Toronto',
+  dateStyle: 'full',
+  timeStyle: 'short'
+})}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛍️ ARTICLES COMMANDÉS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${itemsList}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💰 RÉCAPITULATIF DES PRIX
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Sous-total: $${subtotal.toFixed(2)} CAD
+Frais de livraison: $7.00 CAD
+───────────────────────────────
+TOTAL: $${Number(total || 0).toFixed(2)} CAD
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 ADRESSE DE LIVRAISON
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''}
+${checkoutInfo.address || ''}
+${checkoutInfo.city || ''} ${checkoutInfo.postalCode || ''}
+${checkoutInfo.country || ''}
+
+${checkoutInfo.phone ? `Téléphone: ${checkoutInfo.phone}` : ''}
+${checkoutInfo.email ? `Email: ${checkoutInfo.email}` : ''}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Votre commande sera préparée et expédiée dans les plus brefs délais.
+Vous recevrez un email de confirmation d'expédition avec le numéro de suivi.
+
+Pour toute question, n'hésitez pas à nous contacter à :
+📧 futbolerovintageshop@gmail.com
+
+Merci de votre confiance ! 🙏
+
+Cordialement,
+L'équipe Futbolero Vintage Shop
+⚽ www.futbolerovintageshop.com
+`;
 }
 
 router.post('/notify-success', async (req, res) => {
@@ -47,8 +159,25 @@ router.post('/notify-success', async (req, res) => {
   const shopMail = {
     from: process.env.EMAIL_USER,
     to: shopEmail,
-    subject: `Nouvelle commande ${orderId} (${effectiveStage})`,
-    text: `Stage: ${effectiveStage}\n\nNouvelle commande reçue :\n\n${orderText}\nEmail client : ${checkoutInfo && checkoutInfo.email ? checkoutInfo.email : 'Non fourni'}\nTéléphone : ${checkoutInfo && checkoutInfo.phone ? checkoutInfo.phone : 'Non renseigné'}`
+    subject: `🔔 Nouvelle commande ${orderId} - ${(items || []).length} article${(items || []).length > 1 ? 's' : ''}`,
+    text: `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🏪 NOUVELLE COMMANDE REÇUE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Stage: ${effectiveStage}
+Commande: ${orderId}
+Date: ${new Date().toLocaleString('fr-FR', { timeZone: 'America/Toronto' })}
+
+${orderText}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📞 COORDONNÉES DU CLIENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Email: ${checkoutInfo && checkoutInfo.email ? checkoutInfo.email : 'Non fourni'}
+Téléphone: ${checkoutInfo && checkoutInfo.phone ? checkoutInfo.phone : 'Non renseigné'}
+
+⚠️ Action requise: Préparer et expédier la commande
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`
   };
 
   try {
