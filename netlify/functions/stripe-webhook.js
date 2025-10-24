@@ -99,25 +99,25 @@ const renderEmailTemplate = (session, orderId) => {
     
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">📏 Taille: <strong>${item.size}</strong></p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Taille: <strong>${item.size}</strong></p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">⭐ Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Maillot Vintage</p>`;
     }
     
     // Personnalisation (IMPORTANT!)
     if (item.persoName || item.persoNumber) {
       detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
-        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">✨ PERSONNALISATION:</p>`;
+        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">PERSONNALISATION:</p>`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Nom: <strong>${item.persoName}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Nom: <strong>${item.persoName}</strong></p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Numéro: <strong>${item.persoNumber}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Numéro: <strong>${item.persoNumber}</strong></p>`;
       }
       
       if (item.persoFee) {
@@ -132,11 +132,7 @@ const renderEmailTemplate = (session, orderId) => {
       ${imageUrl && imageUrl.length > 10 ? `
         <img src="${imageUrl}" alt="${item.name}" 
              style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
-      ` : `
-        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; flex-shrink: 0;">
-          ⚽
-        </div>
-      `}
+      ` : ''}
       <div style="flex: 1;">
         <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
         ${detailsHtml}
@@ -164,7 +160,7 @@ const renderEmailTemplate = (session, orderId) => {
       
       <!-- Message principal -->
       <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
-        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">🎉 Nouvelle commande reçue !</h2>
+        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">Nouvelle commande reçue</h2>
         <p style="color: #ffffff; margin: 0; font-size: 16px;">Une nouvelle commande vient d'être confirmée sur votre boutique.</p>
       </div>
       
@@ -172,7 +168,7 @@ const renderEmailTemplate = (session, orderId) => {
       <div style="padding: 24px; background: #f9f9f9;">
         <!-- Détails de la commande -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Détails de la commande</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Détails de la commande</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
               <span style="color: #666; font-weight: 500;">ID Commande:</span>
@@ -195,7 +191,7 @@ const renderEmailTemplate = (session, orderId) => {
         
         <!-- Informations client -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">👤 Informations client</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Informations client</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
               <span style="color: #666; font-weight: 500;">Nom:</span>
@@ -211,14 +207,14 @@ const renderEmailTemplate = (session, orderId) => {
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
               <span style="color: #666; font-weight: 500;">Paiement:</span>
-              <span style="color: #000; font-weight: 600;">✅ Confirmé</span>
+              <span style="color: #000; font-weight: 600;">Confirmé</span>
             </div>
           </div>
         </div>
         
         <!-- Adresse de livraison -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🏠 Adresse de livraison</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Adresse de livraison</h3>
           <div style="background: #f9f9f9; padding: 16px; border-radius: 4px; border: 1px solid #ddd;">
             <p style="margin: 0; line-height: 1.5; color: #000;">${fullAddress}</p>
           </div>
@@ -226,18 +222,18 @@ const renderEmailTemplate = (session, orderId) => {
         
         <!-- Articles commandés -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Articles commandés</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Articles commandés</h3>
           ${itemsHtml}
         </div>
         
         <!-- Actions à faire -->
         <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Prochaines étapes</h3>
           <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #000; font-weight: 600;">✅ Paiement confirmé par Stripe</p>
-            <p style="margin: 0; color: #000;">⏳ Préparer la commande</p>
-            <p style="margin: 0; color: #000;">📧 Contacter le client: <a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline; font-weight: 600;">${customerEmail}</a></p>
-            <p style="margin: 0; color: #000;">📞 Téléphone: <strong>${customerPhone}</strong></p>
+            <p style="margin: 0; color: #000; font-weight: 600;">Paiement confirmé par Stripe</p>
+            <p style="margin: 0; color: #000;">Préparer la commande</p>
+            <p style="margin: 0; color: #000;">Contacter le client: <a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline; font-weight: 600;">${customerEmail}</a></p>
+            <p style="margin: 0; color: #000;">Téléphone: <strong>${customerPhone}</strong></p>
           </div>
         </div>
       </div>
@@ -303,25 +299,25 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">📏 Taille: <strong>${item.size}</strong></p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Taille: <strong>${item.size}</strong></p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">⭐ Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Maillot Vintage</p>`;
     }
     
     // Personnalisation (IMPORTANT!)
     if (item.persoName || item.persoNumber) {
       detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
-        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">✨ PERSONNALISATION:</p>`;
+        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">PERSONNALISATION:</p>`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Nom: <strong>${item.persoName}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Nom: <strong>${item.persoName}</strong></p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">• Numéro: <strong>${item.persoNumber}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Numéro: <strong>${item.persoNumber}</strong></p>`;
       }
       
       if (item.persoFee) {
@@ -336,11 +332,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
       ${imageUrl && imageUrl.length > 10 && !imageUrl.includes('data:image/svg') ? `
         <img src="${imageUrl}" alt="${item.name}" 
              style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
-      ` : `
-        <div style="width: 70px; height: 70px; background: #f5f5f5; border-radius: 8px; margin-right: 16px; display: flex; align-items: center; justify-content: center; color: #666; border: 1px solid #ddd; font-size: 20px; flex-shrink: 0;">
-          ⚽
-        </div>
-      `}
+      ` : ''}
       <div style="flex: 1;">
         <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
         ${detailsHtml}
@@ -368,7 +360,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
       
       <!-- Message de remerciement -->
       <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
-        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">⚽ Merci pour votre commande !</h2>
+        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">Merci pour votre commande</h2>
         <p style="color: #ffffff; margin: 0; font-size: 16px; line-height: 1.5;">
           Bonjour <strong style="color: #ffffff;">${customerName}</strong>,<br>
           Votre commande a été confirmée avec succès. Nous préparons vos articles avec soin !
@@ -379,7 +371,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
       <div style="padding: 24px; background: #f9f9f9;">
         <!-- Récapitulatif de commande -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📋 Récapitulatif de votre commande</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Récapitulatif de votre commande</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
               <span style="color: #666; font-weight: 500;">Numéro de commande:</span>
@@ -402,18 +394,18 @@ const renderCustomerEmailTemplate = (session, orderId) => {
         
         <!-- Articles commandés -->
         <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">🛍️ Vos articles</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Vos articles</h3>
           ${itemsHtml}
         </div>
         
         <!-- Informations importantes -->
         <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">📦 Prochaines étapes</h3>
+          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Prochaines étapes</h3>
           <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #000; font-weight: 600;">✅ Votre paiement a été confirmé</p>
-            <p style="margin: 0; color: #000;">📦 Nous préparons votre commande</p>
-            <p style="margin: 0; color: #000;">🚚 Vous recevrez un email avec les détails d'expédition</p>
-            <p style="margin: 0; color: #000;">📧 Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #000; text-decoration: underline; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
+            <p style="margin: 0; color: #000; font-weight: 600;">Votre paiement a été confirmé</p>
+            <p style="margin: 0; color: #000;">Nous préparons votre commande</p>
+            <p style="margin: 0; color: #000;">Vous recevrez un email avec les détails d'expédition</p>
+            <p style="margin: 0; color: #000;">Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #000; text-decoration: underline; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
           </div>
         </div>
       </div>

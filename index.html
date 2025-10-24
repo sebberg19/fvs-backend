@@ -902,25 +902,9 @@
   margin: 0.25rem;
 }
 
-.jersey-item::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(to right, #000000, #333333);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
 .jersey-item:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-}
-
-.jersey-item:hover::before {
-  opacity: 1;
 }
 
 .jersey-img {
@@ -1558,6 +1542,7 @@
             'newcastle': ['newcastle', 'newcastle united'],
             'astonvilla': ['aston villa', 'villa'],
             'westham': ['west ham', 'west ham united'],
+            'leedsunited': ['leeds united', 'leeds', 'lufc'],
             
             // Clubs espagnols
             'barcelona': ['barcelona', 'fc barcelona', 'barca', 'barça', 'fcb'],

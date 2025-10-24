@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
                 <div class="text-center mb-3">
-                    <img id="modalImg" src="" alt="" class="img-fluid rounded" style="max-height:180px; object-fit:contain; background:#f4f6f7;">
+                    <img id="modalImg" src="" alt="" class="img-fluid rounded" style="max-height:280px; object-fit:contain;">
                 </div>
 
                 <div class="mb-2">
