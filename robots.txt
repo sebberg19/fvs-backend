@@ -1,0 +1,35 @@
+# Futbolero Vintage Shop - Robots.txt
+
+User-agent: *
+Allow: /
+
+# Pages principales
+Allow: /index.html
+Allow: /tous-les-maillots.html
+Allow: /maillots-vintage.html
+Allow: /maillots.html
+Allow: /maillots-pays.html
+Allow: /classiques.html
+
+# Assets
+Allow: /images/
+Allow: /assets/
+
+# Bloquer les pages de checkout et cart
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /payment-success.html
+
+# Bloquer les fichiers de test et backup
+Disallow: /debug-
+Disallow: /test-
+Disallow: /backup/
+Disallow: /_redirects
+Disallow: /*.bat
+Disallow: /*.ps1
+Disallow: /*.js$
+Disallow: /netlify/
+Disallow: /api/
+
+# Sitemap
+Sitemap: https://futbolerovintageshop.com/sitemap.xml

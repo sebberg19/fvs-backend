@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Paiement confirmé — Futbolero Vintage Shop</title>
+  <title>Commande confirmée — Futbolero</title>
   
           <!-- Favicon dynamique géré par JavaScript -->
     <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=7" id="favicon">
@@ -106,32 +106,78 @@
 
   <main class="container py-5">
     <div class="col-12 col-md-8 col-lg-6 mx-auto">
-      <div class="card shadow-sm">
-        <div class="card-body p-4 text-center">
-          <div class="mb-3">
-            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+      <div class="card shadow-lg border-0" style="border-radius: 16px; overflow: hidden;">
+        <div class="card-body p-5 text-center">
+          <div class="mb-4 success-icon" style="animation: scaleIn 0.5s ease-out;">
+            <img src="./assets/logo.png" alt="Futbolero" style="height: 80px; width: auto; object-fit: contain;">
           </div>
-          <h1 class="h4 mb-3">Merci pour votre commande !</h1>
-          <p class="text-secondary mb-3">Votre paiement a bien été confirmé.</p>
-          <div id="emailStatus" class="alert alert-info d-none mb-3" role="alert">
+          <h1 class="h2 fw-bold mb-3" style="animation: fadeInUp 0.6s ease-out 0.2s both;">Commande confirmée</h1>
+          <p class="text-secondary mb-4 fs-5" style="animation: fadeInUp 0.6s ease-out 0.3s both;">Votre paiement a bien été reçu.</p>
+          
+          <div id="emailStatus" class="alert alert-info d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #0dcaf0;">
             <div class="spinner-border spinner-border-sm me-2" role="status">
               <span class="visually-hidden">Envoi en cours...</span>
             </div>
-            Envoi de l'e-mail de confirmation en cours...
+            Envoi de la confirmation par email...
           </div>
-          <div id="emailSuccess" class="alert alert-success d-none mb-3" role="alert">
+          <div id="emailSuccess" class="alert alert-success d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #198754; animation: fadeIn 0.4s ease-out;">
             <i class="bi bi-envelope-check me-2"></i>
-            Un e-mail de confirmation a été envoyé avec les détails de votre commande.
+            Email de confirmation envoyé
           </div>
-          <div id="emailError" class="alert alert-warning d-none mb-3" role="alert">
+          <div id="emailError" class="alert alert-warning d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #ffc107;">
             <i class="bi bi-exclamation-triangle me-2"></i>
-            L'e-mail de confirmation sera envoyé sous peu. Vérifiez votre boîte de réception.
+          Un email sera envoyé sous peu
           </div>
-          <a href="./tous-les-maillots.html" class="btn btn-dark">Retourner à la boutique</a>
+          
+          <div class="d-grid gap-2 col-md-8 mx-auto" style="animation: fadeInUp 0.6s ease-out 0.4s both;">
+            <a href="./index.html" class="btn btn-dark btn-lg" style="border-radius: 12px; padding: 14px;">Retour à la boutique</a>
+          </div>
         </div>
       </div>
     </div>
   </main>
+  
+  <style>
+    @keyframes scaleIn {
+      from {
+        transform: scale(0);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .card {
+      transition: transform 0.3s ease;
+    }
+    
+    .btn-dark:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+  </style>
   <script>
     (function(){
       try {
@@ -247,28 +293,28 @@
 
 document.addEventListener('DOMContentLoaded', sendConfirmationIfPending);
   </script>
-<footer class="footer py-5">
+<footer class="footer py-4">
   <div class="container">
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-8">
-        <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-          <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
-          <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
+        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+          <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+          <h5 class="mb-0" style="color: #ffffff;">Futbolero</h5>
         </div>
-        <p class="text-secondary mb-4">
-          Votre destination pour les maillots de football vintage. <br>
-          Qualité premium, prix compétitifs.
+        <p class="text-secondary mb-3">
+          Maillots vintage et actuels.<br>
+          990+ maillots | Qualité premium | Livraison rapide
         </p>
-        <div class="d-flex justify-content-center gap-4 mb-4">
-          <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
-          <a href="./maillots-vintage.html" class="text-white">Vintage</a>
-          <a href="./maillots.html" class="text-white">Maillots récents</a>
-          <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
+        <div class="d-flex justify-content-center gap-3 mb-3">
+          <a href="./tous-les-maillots.html" class="text-white" title="Tous les maillots">Tous les maillots</a>
+          <a href="./maillots-vintage.html" class="text-white" title="Maillots vintage">Vintage</a>
+          <a href="./maillots.html" class="text-white" title="Maillots récents">Récents</a>
+          <a href="mailto:futbolerovintageshop@gmail.com" class="text-white" title="Contact">Contact</a>
         </div>
-        <hr style="border-color: #333333; margin: 2rem 0;">
+        <hr style="border-color: #333333; margin: 1.5rem 0;">
         <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-          <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
-          <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
+          <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero. Tous droits réservés.</small>
+          <small class="text-secondary">Créé pour les amoureux du football.</small>
         </div>
       </div>
     </div>

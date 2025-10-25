@@ -28,7 +28,7 @@
                 <div class="row g-2 mt-2">
                     <div class="col-6">
                         <label class="form-label small">Taille</label>
-                        <select id="modalSize" class="form-select form-select-sm">
+                        <select id="modalSize" class="form-select form-select-sm" style="font-size: 16px;">
                             <option>M</option>
                             <option>S</option>
                             <option>L</option>
@@ -37,7 +37,7 @@
                     </div>
                     <div class="col-6">
                         <label class="form-label small">Quantité</label>
-                        <input id="modalQty" type="number" min="1" value="1" class="form-control form-control-sm">
+                        <input id="modalQty" type="number" min="1" value="1" class="form-control form-control-sm" style="font-size: 16px;">
                     </div>
                 </div>
 
@@ -49,18 +49,18 @@
                 <div id="personalizeFields" class="row g-2 mt-2" style="display:none;">
                     <div class="col-6">
                         <label class="form-label small">Nom</label>
-                        <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off">
+                        <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
                         <div class="invalid-feedback">Veuillez renseigner le nom.</div>
                     </div>
                     <div class="col-6">
                         <label class="form-label small">Numéro</label>
-                        <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off">
+                        <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
                         <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button id="confirmAdd" type="button" class="btn btn-accent btn-sm">Ajouter au panier</button>
+                <button id="confirmAdd" type="button" class="btn btn-dark btn-sm">Ajouter au panier</button>
                 <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
             </div>
         </div>
@@ -186,6 +186,27 @@
       try { localStorage.setItem('cartItems', JSON.stringify(cartItems)); } catch {}
       try { localStorage.setItem('cartCount', String(next)); } catch {}
       bsCustomizeModal.hide();
+    });
+
+    // Empêcher le zoom sur mobile lors de la fermeture du modal
+    customizeModalEl.addEventListener('hidden.bs.modal', () => {
+      // Retirer le focus de tous les inputs
+      if (document.activeElement && document.activeElement.blur) {
+        document.activeElement.blur();
+      }
+      
+      // Forcer le scroll vers le haut pour réinitialiser le viewport
+      window.scrollTo(0, 0);
+      
+      // Réinitialiser le viewport sur mobile
+      const viewport = document.querySelector('meta[name=viewport]');
+      if (viewport) {
+        const content = viewport.getAttribute('content');
+        viewport.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1');
+        setTimeout(() => {
+          viewport.setAttribute('content', content);
+        }, 300);
+      }
     });
 
     // Exposer la fonction de réattachement pour les éléments dynamiques

@@ -5,7 +5,62 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#ffffff" />
-    <title>Futbolero Vintage Shop — Boutique de maillots</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>Futbolero - Maillots Vintage et Actuels</title>
+    <meta name="description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool, Arsenal. Qualité premium, livraison rapide." />
+    <meta name="keywords" content="futbolero, maillots vintage, maillots football, barcelona, real madrid, manchester united, psg, liverpool, arsenal, maillots retro, maillots authentiques" />
+    <meta name="author" content="Futbolero Vintage Shop" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://futbolerovintageshop.com/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://futbolerovintageshop.com/" />
+    <meta property="og:title" content="Futbolero - Maillots de Football Vintage" />
+    <meta property="og:description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool." />
+    <meta property="og:image" content="https://futbolerovintageshop.com/assets/logo.png" />
+    <meta property="og:site_name" content="Futbolero Vintage Shop" />
+    <meta property="og:locale" content="fr_FR" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://futbolerovintageshop.com/" />
+    <meta property="twitter:title" content="Futbolero - Maillots Vintage" />
+    <meta property="twitter:description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG." />
+    <meta property="twitter:image" content="https://futbolerovintageshop.com/assets/logo.png" />
+    
+    <!-- Structured Data / JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Futbolero",
+      "url": "https://futbolerovintageshop.com",
+      "description": "Maillots de football vintage et actuels",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://futbolerovintageshop.com/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "Futbolero",
+      "image": "https://futbolerovintageshop.com/assets/logo.png",
+      "description": "990+ maillots de football vintage et actuels",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CA"
+      },
+      "priceRange": "$36-$45",
+      "email": "futbolerovintageshop@gmail.com",
+      "url": "https://futbolerovintageshop.com"
+    }
+    </script>
 
             <!-- Favicon dynamique géré par JavaScript -->
     <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=7" id="favicon">
@@ -13,8 +68,14 @@
     <link rel="manifest" href="./assets/site.webmanifest">
 
     <!-- Google Fonts: Inter pour le corps + Nunito pour les titres (plus arrondi/cartoon) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
+
+    <!-- Preconnect CDN pour performances -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
     <!-- Bootstrap CSS -->
     <link
@@ -24,14 +85,17 @@
       crossorigin="anonymous"
     />
 
-    <!-- Bootstrap Icons -->
+    <!-- Bootstrap Icons - Non bloquant -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+      media="print" onload="this.media='all'"
     />
+    <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"></noscript>
 
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Font Awesome - Non bloquant -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 
     <!-- Système typographique cohérent -->
     <link rel="stylesheet" href="./assets/typography.css">
@@ -1037,21 +1101,22 @@
   }
   
   .jersey-item {
-    min-width: 150px;
-    padding: 1rem;
+    min-width: 180px;
+    padding: 1.25rem;
   }
   
   .jersey-img {
-    width: 110px;
-    height: 110px;
+    width: 150px;
+    height: 150px;
   }
   
   .jersey-name {
-    font-size: 0.9375rem;
+    font-size: 0.95rem;
   }
   
   .jersey-price {
-    font-size: 0.95rem;
+    font-size: 1rem;
+    font-weight: 700;
   }
 }
 
@@ -1216,12 +1281,12 @@
   <header id="site-header"></header>
 
     <!-- Carrousel de maillots automatique en haut -->
-    <section id="carousel-section" class="py-5 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 2px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
+    <section id="carousel-section" class="py-3 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 2px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
       <div class="container">
         <div class="row">
           <div class="col-12">
             <!-- Barre de recherche pour le carousel -->
-            <div class="row justify-content-center mb-3">
+            <div class="row justify-content-center mb-2">
               <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
                 <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
                 <div class="input-group">
@@ -1233,7 +1298,7 @@
                     <i class="fas fa-times" aria-hidden="true"></i>
                   </button>
                 </div>
-                <div class="text-center mb-3">
+                <div class="text-center mb-1">
                   <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
                 </div>
               </div>
@@ -1273,34 +1338,33 @@
           <div class="col-12 col-lg-7 col-xl-6 hero-content py-3">
             <div class="hero-text-wrapper">
               <h1 class="hero-title display-3 fw-bold mb-2">
-                Des maillots<br>
-                <span class="gradient-text">iconiques</span><br>
-                Juste pour vous.
+                Maillots de foot<br>
+                <span class="gradient-text">vintage & récents</span>
               </h1>
               <p class="lead hero-description mb-3">
-                Découvrez notre collection exclusive de maillots de football 
-                actuels et vintage à porter sur le terrain comme en dehors.
+                990+ maillots en stock.<br>
+                Livraison : <strong>10-15 jours</strong>.
               </p>
               <div class="hero-buttons d-flex flex-column flex-sm-row gap-2 mb-2">
                 <a href="./tous-les-maillots.html" class="btn btn-dark btn-hero">
-                  <span>Voir tous les maillots</span>
+                  <span>Voir le catalogue</span>
                   <i class="bi bi-arrow-right ms-2"></i>
                 </a>
                 <a href="./maillots-vintage.html" class="btn btn-outline-dark btn-hero">
-                  <span>Explorer le vintage</span>
+                  <span>Collection vintage</span>
                   <i class="bi bi-arrow-right ms-2"></i>
                 </a>
               </div>
               <div class="hero-stats d-none d-lg-flex align-items-center gap-4 mt-3">
                 <div class="stat-item">
-                  <div class="stat-number">500+</div>
+                  <div class="stat-number">990+</div>
                   <div class="stat-label">Maillots</div>
                 </div>
                 <div class="stat-item">
-                  <div class="stat-number">50+</div>
-                  <div class="stat-label">Équipes</div>
+                  <div class="stat-number">90+</div>
+                  <div class="stat-label">Clubs</div>
                 </div>
-                                <div class="stat-item">
+                <div class="stat-item">
                   <div class="stat-number">50+</div>
                   <div class="stat-label">Pays</div>
                 </div>
@@ -1317,22 +1381,22 @@
           <div class="col-12 col-md-8">
             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
               <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
-              <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
+              <h5 class="mb-0" style="color: #ffffff;">Futbolero</h5>
             </div>
             <p class="text-secondary mb-3">
-              Votre destination pour les maillots de football vintage. <br>
-              Qualité premium, prix compétitifs.
+              Maillots vintage et actuels.<br>
+              990+ maillots | Qualité premium | Livraison rapide
             </p>
             <div class="d-flex justify-content-center gap-3 mb-3">
-              <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
-              <a href="./maillots-vintage.html" class="text-white">Vintage</a>
-              <a href="./maillots.html" class="text-white">Maillots récents</a>
-              <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
+              <a href="./tous-les-maillots.html" class="text-white" title="Tous les maillots">Tous les maillots</a>
+              <a href="./maillots-vintage.html" class="text-white" title="Maillots vintage">Vintage</a>
+              <a href="./maillots.html" class="text-white" title="Maillots récents">Récents</a>
+              <a href="mailto:futbolerovintageshop@gmail.com" class="text-white" title="Contact">Contact</a>
             </div>
             <hr style="border-color: #333333; margin: 1.5rem 0;">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-              <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
-              <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
+              <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero. Tous droits réservés.</small>
+              <small class="text-secondary">Créé pour les amoureux du football.</small>
             </div>
           </div>
         </div>
@@ -1343,18 +1407,19 @@
       document.getElementById('year')?.textContent = new Date().getFullYear();
     </script>
 
-    <!-- Bootstrap JS -->
+    <!-- Bootstrap JS - Chargement différé -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
+      defer
     ></script>
 
-  <!-- Nav partagée -->
-  <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+  <!-- Nav partagée - Chargement différé -->
+  <script src="./maillots-store/client/src/scripts/include-nav.js" defer></script>
 
-  <!-- Personnalisation/tailles -->
-  <script src="./maillots-store/client/src/scripts/product-customizer.js"></script>
+  <!-- Personnalisation/tailles - Chargement différé -->
+  <script src="./maillots-store/client/src/scripts/product-customizer.js" defer></script>
 
     <!-- Script minimal: année + badge panier -->
     <script>
@@ -1427,7 +1492,7 @@
         // Fonction pour extraire les maillots depuis tous-les-maillots.html
         async function loadAllJerseys() {
           try {
-            console.log('🔄 Chargement de tous les maillots depuis tous-les-maillots.html...');
+            console.log('🔄 Chargement des maillots depuis tous-les-maillots.html...');
             const response = await fetch('./tous-les-maillots.html');
             const html = await response.text();
             
@@ -1454,8 +1519,10 @@
             console.log(`✅ ${allJerseys.length} maillots chargés avec succès!`);
             jerseysLoaded = true;
             
-            // Initialiser le carrousel avec tous les maillots
-            currentFilteredJerseys = shuffleArray([...allJerseys]);
+            // Initialiser le carrousel avec un échantillon aléatoire pour un chargement rapide
+            // Limiter à 30 maillots pour le carrousel initial (performance)
+            const sampleSize = Math.min(30, allJerseys.length);
+            currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
             generateCarousel();
             
           } catch (error) {
@@ -2139,11 +2206,13 @@
         initCarouselSearch();
 
         // Régénérer le carrousel toutes les 10 minutes si aucune recherche active
+        // Optimisation: limiter à 30 maillots pour garder les performances
         setInterval(() => {
           const searchInput = document.getElementById('carousel-search-input');
           if (!searchInput || !searchInput.value.trim()) {
             if (jerseysLoaded && allJerseys.length > 0) {
-              currentFilteredJerseys = shuffleArray([...allJerseys]);
+              const sampleSize = Math.min(30, allJerseys.length);
+              currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
               generateCarousel();
             }
           }

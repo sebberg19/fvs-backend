@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Page d'accueil - Priorité maximale -->
+  <url>
+    <loc>https://futbolerovintageshop.com/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Tous les maillots - Haute priorité -->
+  <url>
+    <loc>https://futbolerovintageshop.com/tous-les-maillots.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Maillots vintage - Haute priorité -->
+  <url>
+    <loc>https://futbolerovintageshop.com/maillots-vintage.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Maillots actuels - Haute priorité -->
+  <url>
+    <loc>https://futbolerovintageshop.com/maillots.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Maillots pays - Moyenne priorité -->
+  <url>
+    <loc>https://futbolerovintageshop.com/maillots-pays.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Classiques - Moyenne priorité -->
+  <url>
+    <loc>https://futbolerovintageshop.com/classiques.html</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+</urlset>
