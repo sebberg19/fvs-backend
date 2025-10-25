@@ -2635,7 +2635,7 @@
         // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image
 
         // Configuration du panier (localStorage)
-        let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        let cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
 
         // Ajouter au panier
         document.addEventListener('click', function(e) {
@@ -2656,7 +2656,7 @@
                 };
 
                 cart.push(item);
-                localStorage.setItem('cart', JSON.stringify(cart));
+                localStorage.setItem('cartItems', JSON.stringify(cart));
                 updateCartBadge();
 
                 // Animation sur le bouton s'il existe
