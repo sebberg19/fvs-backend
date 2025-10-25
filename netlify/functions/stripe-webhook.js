@@ -9,8 +9,54 @@ const Stripe = require('stripe');
 const nodemailer = require('nodemailer');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
+const http = require('http');
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+
+// Fonction pour télécharger une image et la convertir en base64
+const getImageAsBase64 = async (imageUrl) => {
+  return new Promise((resolve, reject) => {
+    if (!imageUrl || !imageUrl.length) {
+      resolve('');
+      return;
+    }
+
+    const protocol = imageUrl.startsWith('https') ? https : http;
+    const timeout = setTimeout(() => {
+      reject(new Error('Image download timeout'));
+    }, 5000);
+
+    protocol.get(imageUrl, (response) => {
+      clearTimeout(timeout);
+      
+      if (response.statusCode !== 200) {
+        console.warn(`[webhook] Image fetch failed with status ${response.statusCode}: ${imageUrl}`);
+        resolve('');
+        return;
+      }
+
+      const chunks = [];
+      response.on('data', chunk => chunks.push(chunk));
+      response.on('end', () => {
+        try {
+          const buffer = Buffer.concat(chunks);
+          const base64 = buffer.toString('base64');
+          const contentType = response.headers['content-type'] || 'image/webp';
+          const dataUrl = `data:${contentType};base64,${base64}`;
+          resolve(dataUrl);
+        } catch (err) {
+          console.warn('[webhook] Failed to encode image:', err.message);
+          resolve('');
+        }
+      });
+    }).on('error', err => {
+      clearTimeout(timeout);
+      console.warn('[webhook] Image download error:', err.message);
+      resolve('');
+    });
+  });
+};
 
 // Configuration email
 const createTransporter = () => {
@@ -76,8 +122,13 @@ const renderEmailTemplate = (session, orderId) => {
   
   console.log('[webhook] Final items for email:', items);
   
+  // Debug: afficher les images de chaque item
+  items.forEach((item, idx) => {
+    console.log(`[webhook] Item ${idx} - name: "${item.name}", image: "${item.image}"`);
+  });
+  
   // Générer le HTML des articles avec le style noir et blanc et TOUS les détails
-  const itemsHtml = items.map(item => {
+  const itemsHtml = items.map((item, itemIdx) => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
@@ -90,9 +141,14 @@ const renderEmailTemplate = (session, orderId) => {
       } else {
         imageUrl = `https://futbolerovintageshop.com/images/${item.image}`;
       }
+    } else {
+      // Fallback: créer une URL basée sur le nom du produit
+      const slug = (item.name || 'item').toLowerCase().replace(/[^a-z0-9]/g, '_');
+      imageUrl = `https://futbolerovintageshop.com/images/${slug}.webp`;
+      console.log(`[webhook] No image for "${item.name}", trying fallback: ${imageUrl}`);
     }
     
-    console.log(`[webhook] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
+    console.log(`[webhook] Item ${itemIdx} "${item.name}": image="${item.image}", final URL="${imageUrl}"`);
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
