@@ -530,9 +530,6 @@
 			applyPromoCode();
 		}
 	});
-	
-	// Always show the info message (no checkout info needed anymore)
-	document.getElementById('missingInfo').classList.remove('d-none');
 
 	// Legacy functions removed - Stripe now handles all checkout info
 	window.clearCheckoutInfo = function() {
