@@ -109,7 +109,8 @@
           const card = btn.closest('.product-card') || btn.closest('.card');
           const name = (card?.querySelector('.product-title')?.textContent || card?.querySelector('h3')?.textContent || card?.querySelector('h2')?.textContent || 'Article').trim();
           const price = Number(btn.dataset.price) || 0;
-          const img = btn.dataset.img || card?.querySelector('img')?.src || '';
+          // Prioriser data-img du bouton, sinon chercher data-img sur l'image parente, sinon fallback sur src
+          const img = btn.dataset.img || card?.querySelector('[data-img]')?.dataset.img || card?.querySelector('img')?.getAttribute('src') || '';
           currentProduct = { name, price, img };
 
           // populate modal
