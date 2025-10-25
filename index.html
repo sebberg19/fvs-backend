@@ -1280,34 +1280,29 @@
   <!-- Nav partagée (injection) -->
   <header id="site-header"></header>
 
-    <!-- Barre de recherche sticky -->
-    <div class="position-sticky" style="z-index: 1020; top: 56px; background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
-      <div class="container" style="padding: 0.5rem 0;">
-        <div class="row justify-content-center">
-          <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-            <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
-            <div class="input-group">
-              <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
-                <i class="fas fa-search" aria-hidden="true" id="search-icon"></i>
-              </button>
-              <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off" spellcheck="false">
-              <button class="btn" type="button" id="carousel-clear-search" title="Effacer (Esc)" aria-label="Effacer la recherche">
-                <i class="fas fa-times" aria-hidden="true"></i>
-              </button>
-            </div>
-            <div class="text-center" style="height: 12px;">
-              <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Carrousel de maillots automatique en haut -->
-    <section id="carousel-section" class="position-relative" style="background: #ffffff; padding: 0.25rem 0;">
+    <section id="carousel-section" class="py-3 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 2px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
       <div class="container">
         <div class="row">
           <div class="col-12">
+            <!-- Barre de recherche pour le carousel -->
+            <div class="row justify-content-center mb-2">
+              <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
+                <div class="input-group">
+                  <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+                    <i class="fas fa-search" aria-hidden="true" id="search-icon"></i>
+                  </button>
+                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off" spellcheck="false">
+                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer (Esc)" aria-label="Effacer la recherche">
+                    <i class="fas fa-times" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <div class="text-center mb-1">
+                  <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
+                </div>
+              </div>
+            </div>
             <div class="jersey-carousel-container" id="carousel-container">
               <div class="jersey-carousel" id="jerseyCarousel">
                 <!-- Le contenu sera généré dynamiquement par JavaScript -->
