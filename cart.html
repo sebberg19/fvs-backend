@@ -409,6 +409,7 @@
 			const p = it.personalization;
 			const detailsParts = [];
 			
+			if (it.productId) detailsParts.push(`<small class="text-secondary" style="font-family: monospace; font-size: 11px;">ID: ${it.productId}</small>`);
 			if (size) detailsParts.push(`Taille ${size}`);
 			if (p && (p.name || p.number)) {
 				const persoText = (p.name||'') + (p.number ? ' #' + p.number : '');

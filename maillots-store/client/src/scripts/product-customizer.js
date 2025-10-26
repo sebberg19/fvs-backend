@@ -10,7 +10,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Personnaliser</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                <div style="display: flex; align-items: center; gap: 8px; margin-left: auto; margin-right: 8px;">
+                    <span id="modalProductId" style="font-size: 12px; color: #666; font-family: monospace; font-weight: 600;"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
             </div>
             <div class="modal-body">
                 <div class="text-center mb-3">
@@ -69,13 +72,28 @@
     document.body.insertAdjacentHTML('beforeend', modalHtml);
   }
 
+  // Générer un ID unique pour chaque produit basé sur son image
+  function generateProductId(imagePath, productName) {
+    // Combiner le chemin de l'image et le nom pour créer un ID unique
+    const combined = (imagePath || productName || '').toLowerCase();
+    const normalized = combined.replace(/[^a-z0-9]/g, '');
+    let hash = 0;
+    for (let i = 0; i < normalized.length; i++) {
+      const char = normalized.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    const id = Math.abs(hash).toString(36).toUpperCase().padStart(6, '0');
+    return id.slice(0, 6);
+  }
+
   function formatPrice(n){ return '$' + Number(n).toFixed(2) + ' CAD'; }
 
   function init(){
     ensureCustomizeModal();
     const customizeModalEl = document.getElementById('customizeModal');
     const bsCustomizeModal = new bootstrap.Modal(customizeModalEl);
-    let currentProduct = { name: '', price: 0, img: '' };
+    let currentProduct = { name: '', price: 0, img: '', productId: '' };
 
     // DOM refs
     const modalPriceEl = () => customizeModalEl.querySelector('#modalPrice');
@@ -111,11 +129,13 @@
           const price = Number(btn.dataset.price) || 0;
           // Prioriser data-img du bouton, sinon chercher data-img sur l'image parente, sinon fallback sur src
           const img = btn.dataset.img || card?.querySelector('[data-img]')?.dataset.img || card?.querySelector('img')?.getAttribute('src') || '';
-          currentProduct = { name, price, img };
+          const productId = generateProductId(img, name);
+          currentProduct = { name, price, img, productId };
 
           // populate modal
           customizeModalEl.querySelector('.modal-title').textContent = 'Personnaliser';
           modalTitleEl().textContent = name;
+          customizeModalEl.querySelector('#modalProductId').textContent = `ID: ${productId}`;
           modalImgEl().src = img;
           modalImgEl().alt = name;
           modalSizeEl().value = 'M';
@@ -183,7 +203,7 @@
       const personalization = personalize ? { name: pName, ...(pNumber ? { number: pNumber } : {}), extra: PERSONALIZE_FEE } : null;
       const placeholderImg = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23eef0f3%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b6f76%22%3ENo image%3C/text%3E%3C/svg%3E';
       const imgVal = currentProduct.img || placeholderImg;
-      cartItems.push({ name: currentProduct.name, basePrice: base, perUnitPrice: perUnitFinal, quantity: qty, size: size, isVintage: !!(document.title && /vintage/i.test(document.title)), img: imgVal, personalized: personalize, personalization });
+      cartItems.push({ name: currentProduct.name, basePrice: base, perUnitPrice: perUnitFinal, quantity: qty, size: size, isVintage: !!(document.title && /vintage/i.test(document.title)), img: imgVal, productId: currentProduct.productId, personalized: personalize, personalization });
       try { localStorage.setItem('cartItems', JSON.stringify(cartItems)); } catch {}
       try { localStorage.setItem('cartCount', String(next)); } catch {}
       bsCustomizeModal.hide();

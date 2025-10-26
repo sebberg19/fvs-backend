@@ -70,8 +70,8 @@ const createTransporter = () => {
   });
 };
 
-// Template email détaillé avec articles et photos - Style du site
-const renderEmailTemplate = (session, orderId) => {
+// Template email détaillé avec articles et photos - Style du site (ASYNC)
+const renderEmailTemplate = async (session, orderId) => {
   // Utiliser la même logique de fallback pour l'email que pour le client
   const customerEmail = session.customer_email || session.customer_details?.email || 'Email non fourni';
   const total = ((session.amount_total || 0) / 100).toFixed(2);
@@ -128,7 +128,7 @@ const renderEmailTemplate = (session, orderId) => {
   });
   
   // Générer le HTML des articles avec le style noir et blanc et TOUS les détails
-  const itemsHtml = items.map((item, itemIdx) => {
+  const itemsHtmlPromises = items.map(async (item, itemIdx) => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
@@ -150,55 +150,90 @@ const renderEmailTemplate = (session, orderId) => {
     
     console.log(`[webhook] Item ${itemIdx} "${item.name}": image="${item.image}", final URL="${imageUrl}"`);
     
+    // Convertir l'image en base64 pour l'inclure dans l'email
+    let imageBase64 = '';
+    if (imageUrl && imageUrl.length > 10) {
+      try {
+        imageBase64 = await getImageAsBase64(imageUrl);
+        if (imageBase64) {
+          console.log(`[webhook] ✅ Image converted to base64 for "${item.name}" (${imageBase64.length} chars)`);
+        } else {
+          console.log(`[webhook] ⚠️ Image conversion returned empty for "${item.name}"`);
+          // Fallback sur l'URL si base64 échoue
+          imageBase64 = imageUrl;
+        }
+      } catch (err) {
+        console.warn(`[webhook] Image base64 conversion failed for "${item.name}":`, err.message);
+        // Fallback sur l'URL si base64 échoue
+        imageBase64 = imageUrl;
+      }
+    }
+    
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
     
+    // ID du produit (en premier, bien visible)
+    if (item.productId) {
+      detailsHtml += `<div style="margin: 0 0 8px 0; padding: 6px 8px; background: #f5f5f5; border-left: 4px solid #000; border-radius: 2px;">
+        <p style="margin: 0; color: #000; font-size: 12px; font-family: 'Courier New', monospace; font-weight: 700;">🔖 ID: <strong>${item.productId}</strong></p>
+      </div>`;
+    }
+    
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Taille: <strong>${item.size}</strong></p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
     }
     
-    // Personnalisation (IMPORTANT!)
+    // Personnalisation
     if (item.persoName || item.persoNumber) {
-      detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
-        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">PERSONNALISATION:</p>`;
+      detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Nom: <strong>${item.persoName}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Numéro: <strong>${item.persoNumber}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
       }
       
       if (item.persoFee) {
-        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-style: italic; font-family: Inter, system-ui, sans-serif;">(+$${item.persoFee.toFixed(2)} CAD)</p>`;
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: Inter, system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
       }
       
       detailsHtml += `</div>`;
     }
     
     return `
-    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: flex-start; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      ${imageUrl && imageUrl.length > 10 ? `
-        <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
-      ` : ''}
-      <div style="flex: 1;">
-        <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        ${detailsHtml}
-        <p style="margin: 4px 0 0 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 4px 0 0 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">Prix unitaire: $${(item.price || 0).toFixed(2)} CAD</p>
-        ${item.quantity > 1 ? `<p style="margin: 2px 0 0 0; color: #000; font-weight: 700; font-size: 16px; font-family: Inter, system-ui, sans-serif;">Total: $${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>` : ''}
-      </div>
+    <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px; margin: 10px 0;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="width: 80px; padding-right: 12px; vertical-align: top;">
+            ${imageBase64 && imageBase64.length > 10 ? `
+              <img src="${imageBase64}" alt="${item.name}" 
+                   style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+            ` : `<div style="width: 70px; height: 70px; background: #f0f0f0; border-radius: 4px; border: 1px solid #ddd;"></div>`}
+          </td>
+          <td style="vertical-align: top;">
+            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+            ${detailsHtml}
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
+              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
+              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
   `;
-  }).join('');
+  });
+  
+  const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
+  const itemsHtml = itemsHtmlArray.join('');
   
   return `
     <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
@@ -303,8 +338,8 @@ const renderEmailTemplate = (session, orderId) => {
   `;
 };
 
-// Template email pour le CLIENT (confirmation de commande) - Style du site
-const renderCustomerEmailTemplate = (session, orderId) => {
+// Template email pour le CLIENT (confirmation de commande) - Style du site (ASYNC)
+const renderCustomerEmailTemplate = async (session, orderId) => {
   const customerEmail = session.customer_email || 'Non fourni';
   const total = ((session.amount_total || 0) / 100).toFixed(2);
   const currency = (session.currency || 'cad').toUpperCase();
@@ -333,7 +368,7 @@ const renderCustomerEmailTemplate = (session, orderId) => {
   }
   
   // Générer le HTML des articles pour le client avec style noir et blanc et TOUS les détails
-  const itemsHtml = items.map(item => {
+  const itemsHtmlPromises = items.map(async item => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
@@ -350,55 +385,90 @@ const renderCustomerEmailTemplate = (session, orderId) => {
     
     console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
+    // Convertir l'image en base64 pour l'inclure dans l'email
+    let imageBase64 = '';
+    if (imageUrl && imageUrl.length > 10) {
+      try {
+        imageBase64 = await getImageAsBase64(imageUrl);
+        if (imageBase64) {
+          console.log(`[webhook] [CLIENT] ✅ Image converted to base64 for "${item.name}" (${imageBase64.length} chars)`);
+        } else {
+          console.log(`[webhook] [CLIENT] ⚠️ Image conversion returned empty for "${item.name}"`);
+          // Fallback sur l'URL si base64 échoue
+          imageBase64 = imageUrl;
+        }
+      } catch (err) {
+        console.warn(`[webhook] [CLIENT] Image base64 conversion failed for "${item.name}":`, err.message);
+        // Fallback sur l'URL si base64 échoue
+        imageBase64 = imageUrl;
+      }
+    }
+    
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
     
+    // ID du produit (en premier, bien visible)
+    if (item.productId) {
+      detailsHtml += `<div style="margin: 0 0 8px 0; padding: 6px 8px; background: #f5f5f5; border-left: 4px solid #000; border-radius: 2px;">
+        <p style="margin: 0; color: #000; font-size: 12px; font-family: 'Courier New', monospace; font-weight: 700;">🔖 ID: <strong>${item.productId}</strong></p>
+      </div>`;
+    }
+    
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Taille: <strong>${item.size}</strong></p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
     }
     
-    // Personnalisation (IMPORTANT!)
+    // Personnalisation
     if (item.persoName || item.persoNumber) {
-      detailsHtml += `<div style="margin: 6px 0; padding: 8px; background: #f0f8ff; border-left: 3px solid #4CAF50; border-radius: 4px;">
-        <p style="margin: 0 0 4px 0; color: #000; font-size: 13px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">PERSONNALISATION:</p>`;
+      detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Nom: <strong>${item.persoName}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Numéro: <strong>${item.persoNumber}</strong></p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
       }
       
       if (item.persoFee) {
-        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-style: italic; font-family: Inter, system-ui, sans-serif;">(+$${item.persoFee.toFixed(2)} CAD)</p>`;
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: Inter, system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
       }
       
       detailsHtml += `</div>`;
     }
     
     return `
-    <div style="background: #ffffff; border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin: 12px 0; display: flex; align-items: flex-start; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-      ${imageUrl && imageUrl.length > 10 && !imageUrl.includes('data:image/svg') ? `
-        <img src="${imageUrl}" alt="${item.name}" 
-             style="width: 70px; height: 70px; object-fit: cover; border-radius: 8px; margin-right: 16px; border: 1px solid #ddd; flex-shrink: 0;">
-      ` : ''}
-      <div style="flex: 1;">
-        <h4 style="margin: 0 0 8px 0; color: #000; font-size: 16px; font-weight: 600; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
-        ${detailsHtml}
-        <p style="margin: 4px 0 0 0; color: #666; font-size: 14px; font-family: Inter, system-ui, sans-serif;">Quantité: ${item.quantity}</p>
-        <p style="margin: 4px 0 0 0; color: #000; font-weight: 600; font-size: 15px; font-family: Inter, system-ui, sans-serif;">Prix unitaire: $${(item.price || 0).toFixed(2)} CAD</p>
-        ${item.quantity > 1 ? `<p style="margin: 2px 0 0 0; color: #000; font-weight: 700; font-size: 16px; font-family: Inter, system-ui, sans-serif;">Total: $${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>` : ''}
-      </div>
+    <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px; margin: 10px 0;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="width: 80px; padding-right: 12px; vertical-align: top;">
+            ${imageBase64 && imageBase64.length > 10 && !imageBase64.includes('data:image/svg') ? `
+              <img src="${imageBase64}" alt="${item.name}" 
+                   style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
+            ` : `<div style="width: 70px; height: 70px; background: #f0f0f0; border-radius: 4px; border: 1px solid #ddd;"></div>`}
+          </td>
+          <td style="vertical-align: top;">
+            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+            ${detailsHtml}
+            <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
+              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
+              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
+            </div>
+          </td>
+        </tr>
+      </table>
     </div>
   `;
-  }).join('');
+  });
+  
+  const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
+  const itemsHtml = itemsHtmlArray.join('');
   
   return `
     <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
@@ -566,7 +636,7 @@ exports.handler = async (event, context) => {
       
       // 1. EMAIL POUR LE PROPRIÉTAIRE (vous)
       console.log('[webhook] Generating owner email template...');
-      const ownerEmailHtml = renderEmailTemplate(session, orderId);
+      const ownerEmailHtml = await renderEmailTemplate(session, orderId);
       
       const ownerMailOptions = {
         from: process.env.SMTP_USER,
@@ -591,7 +661,7 @@ exports.handler = async (event, context) => {
       
       if (finalCustomerEmail && finalCustomerEmail.includes('@') && !finalCustomerEmail.includes('example.com')) {
         console.log('[webhook] ✅ Customer email validation PASSED - sending email to:', finalCustomerEmail);
-        const customerEmailHtml = renderCustomerEmailTemplate(session, orderId);
+        const customerEmailHtml = await renderCustomerEmailTemplate(session, orderId);
         
         const customerMailOptions = {
           from: process.env.SMTP_USER,

@@ -100,6 +100,7 @@ exports.handler = async (event, context) => {
           price: item.perUnitPrice || item.price || 0,
           size: item.size || '',
           image: item.img || item.image || item.imageUrl || '',
+          productId: item.productId || '',
           isVintage: item.isVintage || false
         };
         

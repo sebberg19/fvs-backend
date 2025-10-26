@@ -1503,16 +1503,34 @@
             // Extraire tous les product-cards
             const productCards = doc.querySelectorAll('.product-card');
             
+            // Fonction pour générer un ID unique basé sur l'image
+            function generateProductId(imagePath, productName) {
+              const combined = (imagePath || productName || '').toLowerCase();
+              const normalized = combined.replace(/[^a-z0-9]/g, '');
+              let hash = 0;
+              for (let i = 0; i < normalized.length; i++) {
+                const char = normalized.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash;
+              }
+              const id = Math.abs(hash).toString(36).toUpperCase().padStart(6, '0');
+              return id.slice(0, 6);
+            }
+            
             allJerseys = Array.from(productCards).map(card => {
               const img = card.querySelector('img');
               const title = card.querySelector('.product-title');
+              const dataImg = card.querySelector('[data-img]');
               const imgSrc = img ? img.getAttribute('src') : '';
+              const dataImgSrc = dataImg ? dataImg.getAttribute('data-img') : '';
               const name = title ? title.textContent.trim() : '';
+              const productId = generateProductId(dataImgSrc || imgSrc, name);
               
               return {
                 img: imgSrc.startsWith('images/') ? './' + imgSrc : imgSrc,
                 name: name,
-                price: '$36.70'
+                price: '$36.70',
+                productId: productId
               };
             }).filter(jersey => jersey.img && jersey.name);
             
@@ -1920,7 +1938,11 @@
 
           // Recherche avec tolérance aux fautes et pondération
           const jerseyMatches = allJerseys.map(jersey => {
-            const similarity = calculateSimilarity(query, jersey.name);
+            // Chercher par nom OU par ID
+            const nameSimilarity = calculateSimilarity(query, jersey.name);
+            const idMatch = jersey.productId && jersey.productId.includes(query.toUpperCase()) ? 100 : 0;
+            // Si c'est une recherche par ID exacte, priorité absolue
+            const similarity = idMatch > 0 ? idMatch : nameSimilarity;
             return { jersey, similarity };
           })
           .filter(match => match.similarity > 0)
