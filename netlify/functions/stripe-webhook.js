@@ -150,24 +150,11 @@ const renderEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] Item ${itemIdx} "${item.name}": image="${item.image}", final URL="${imageUrl}"`);
     
-    // Convertir l'image en base64 pour l'inclure dans l'email
-    let imageBase64 = '';
-    if (imageUrl && imageUrl.length > 10) {
-      try {
-        imageBase64 = await getImageAsBase64(imageUrl);
-        if (imageBase64) {
-          console.log(`[webhook] ✅ Image converted to base64 for "${item.name}" (${imageBase64.length} chars)`);
-        } else {
-          console.log(`[webhook] ⚠️ Image conversion returned empty for "${item.name}"`);
-          // Fallback sur l'URL si base64 échoue
-          imageBase64 = imageUrl;
-        }
-      } catch (err) {
-        console.warn(`[webhook] Image base64 conversion failed for "${item.name}":`, err.message);
-        // Fallback sur l'URL si base64 échoue
-        imageBase64 = imageUrl;
-      }
-    }
+    // IMPORTANT: Les images base64 sont trop volumineuses pour les emails
+    // Utiliser les URLs directes à la place
+    let imageBase64 = imageUrl; // Juste utiliser l'URL directe
+    
+    console.log(`[webhook] Item ${itemIdx} "${item.name}" will use image URL: ${imageBase64.substring(0, 100)}...`);
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -213,10 +200,8 @@ const renderEmailTemplate = async (session, orderId) => {
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="width: 80px; padding-right: 12px; vertical-align: top;">
-            ${imageBase64 && imageBase64.length > 10 ? `
-              <img src="${imageBase64}" alt="${item.name}" 
-                   style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-            ` : `<div style="width: 70px; height: 70px; background: #f0f0f0; border-radius: 4px; border: 1px solid #ddd;"></div>`}
+            <img src="${imageBase64}" alt="${item.name}" loading="eager"
+                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; background-color: #f0f0f0;">
           </td>
           <td style="vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
@@ -385,24 +370,9 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
-    // Convertir l'image en base64 pour l'inclure dans l'email
-    let imageBase64 = '';
-    if (imageUrl && imageUrl.length > 10) {
-      try {
-        imageBase64 = await getImageAsBase64(imageUrl);
-        if (imageBase64) {
-          console.log(`[webhook] [CLIENT] ✅ Image converted to base64 for "${item.name}" (${imageBase64.length} chars)`);
-        } else {
-          console.log(`[webhook] [CLIENT] ⚠️ Image conversion returned empty for "${item.name}"`);
-          // Fallback sur l'URL si base64 échoue
-          imageBase64 = imageUrl;
-        }
-      } catch (err) {
-        console.warn(`[webhook] [CLIENT] Image base64 conversion failed for "${item.name}":`, err.message);
-        // Fallback sur l'URL si base64 échoue
-        imageBase64 = imageUrl;
-      }
-    }
+    // IMPORTANT: Les images base64 sont trop volumineuses pour les emails
+    // Utiliser les URLs directes à la place
+    let imageBase64 = imageUrl; // Juste utiliser l'URL directe
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -448,10 +418,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       <table style="width: 100%; border-collapse: collapse;">
         <tr>
           <td style="width: 80px; padding-right: 12px; vertical-align: top;">
-            ${imageBase64 && imageBase64.length > 10 && !imageBase64.includes('data:image/svg') ? `
-              <img src="${imageBase64}" alt="${item.name}" 
-                   style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd;">
-            ` : `<div style="width: 70px; height: 70px; background: #f0f0f0; border-radius: 4px; border: 1px solid #ddd;"></div>`}
+            <img src="${imageBase64}" alt="${item.name}" loading="eager"
+                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; background-color: #f0f0f0;">
           </td>
           <td style="vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
