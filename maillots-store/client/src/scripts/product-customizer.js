@@ -216,9 +216,6 @@
         document.activeElement.blur();
       }
       
-      // Forcer le scroll vers le haut pour réinitialiser le viewport
-      window.scrollTo(0, 0);
-      
       // Réinitialiser le viewport sur mobile
       const viewport = document.querySelector('meta[name=viewport]');
       if (viewport) {

@@ -357,7 +357,7 @@
 
 .input-group:focus-within {
   border-color: var(--accent);
-  box-shadow: 0 0 0 4px rgba(47,111,62,0.15);
+  box-shadow: none;
 }
 
 .input-group .form-control:focus {
@@ -1365,48 +1365,11 @@
         }
 
         // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image
-
-        // Configuration du panier (localStorage)
-        let cart = JSON.parse(localStorage.getItem('cartItems') || '[]');
-
-        // Ajouter au panier
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('add-to-cart') || e.target.closest('.add-to-cart')) {
-                const element = e.target.classList.contains('add-to-cart') ? e.target : e.target.closest('.add-to-cart');
-                const price = parseFloat(element.dataset.price);
-                const vintage = element.dataset.vintage === 'true';
-                const imgSrc = element.dataset.img;
-                const productTitle = element.closest('.product-card').querySelector('.product-title').textContent;
-
-                const item = {
-                    id: Date.now(),
-                    name: productTitle,
-                    price: price,
-                    vintage: vintage,
-                    img: imgSrc,
-                    quantity: 1
-                };
-
-                cart.push(item);
-                localStorage.setItem('cartItems', JSON.stringify(cart));
-                updateCartBadge();
-
-                // Animation sur le bouton s'il existe
-                const btn = element.classList.contains('product-btn') ? element : element.closest('.product-card').querySelector('.product-btn');
-                if (btn) {
-                    btn.textContent = '✓ Ajouté';
-                    btn.classList.remove('btn-dark');
-                    btn.classList.add('btn-success');
-                    setTimeout(() => {
-                        btn.textContent = 'Ajouter';
-                        btn.classList.remove('btn-success');
-                        btn.classList.add('btn-dark');
-                    }, 1500);
-                }
-            }
-        });
+        // NOTE: Le panier est géré par product-customizer.js - les clics .add-to-cart ouvrent le modal de personnalisation
 
         function updateCartBadge() {
+            let cart = [];
+            try { cart = JSON.parse(localStorage.getItem('cartItems') || '[]'); } catch {}
             const badge = document.querySelector('.cart-badge');
             if (badge) {
                 const count = cart.reduce((sum, item) => sum + item.quantity, 0);
