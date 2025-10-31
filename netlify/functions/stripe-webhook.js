@@ -58,6 +58,43 @@ const getImageAsBase64 = async (imageUrl) => {
   });
 };
 
+// Télécharger une image et renvoyer le buffer + content-type (utilisé pour attachments CID)
+const getImageBuffer = async (imageUrl) => {
+  return new Promise((resolve, reject) => {
+    if (!imageUrl || !imageUrl.length) return resolve({ buffer: null, contentType: null });
+    const protocol = imageUrl.startsWith('https') ? https : http;
+    const timeout = setTimeout(() => {
+      reject(new Error('Image download timeout'));
+    }, 5000);
+
+    protocol.get(imageUrl, (response) => {
+      clearTimeout(timeout);
+      if (response.statusCode !== 200) {
+        console.warn(`[webhook] Image fetch failed with status ${response.statusCode}: ${imageUrl}`);
+        resolve({ buffer: null, contentType: null });
+        return;
+      }
+
+      const chunks = [];
+      response.on('data', chunk => chunks.push(chunk));
+      response.on('end', () => {
+        try {
+          const buffer = Buffer.concat(chunks);
+          const contentType = response.headers['content-type'] || 'image/webp';
+          resolve({ buffer, contentType });
+        } catch (err) {
+          console.warn('[webhook] Failed to build image buffer:', err.message);
+          resolve({ buffer: null, contentType: null });
+        }
+      });
+    }).on('error', err => {
+      clearTimeout(timeout);
+      console.warn('[webhook] Image download error:', err.message);
+      resolve({ buffer: null, contentType: null });
+    });
+  });
+};
+
 // Configuration email
 const createTransporter = () => {
   // Configuration Gmail SMTP
@@ -128,6 +165,7 @@ const renderEmailTemplate = async (session, orderId) => {
   });
   
   // Générer le HTML des articles avec le style noir et blanc et TOUS les détails
+  const attachments = [];
   const itemsHtmlPromises = items.map(async (item, itemIdx) => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
@@ -150,11 +188,30 @@ const renderEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] Item ${itemIdx} "${item.name}": image="${item.image}", final URL="${imageUrl}"`);
     
-    // IMPORTANT: Les images base64 sont trop volumineuses pour les emails
-    // Utiliser les URLs directes à la place
-    let imageBase64 = imageUrl; // Juste utiliser l'URL directe
-    
-    console.log(`[webhook] Item ${itemIdx} "${item.name}" will use image URL: ${imageBase64.substring(0, 100)}...`);
+    // Essayer de télécharger l'image en buffer pour l'ajouter en tant qu'attachement CID (meilleure compatibilité)
+    let imgSrc = '';
+    try {
+      const { buffer, contentType } = await getImageBuffer(imageUrl);
+      if (buffer) {
+        const cid = `item-${orderId || 'noid'}-${itemIdx}@futbolero`;
+        const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
+        attachments.push({ filename, content: buffer, cid, contentType });
+        imgSrc = `cid:${cid}`;
+        console.log(`[webhook] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
+      } else {
+        // fallback to data URL
+        const dataUrl = await getImageAsBase64(imageUrl);
+        if (dataUrl && dataUrl.length) {
+          imgSrc = dataUrl;
+        } else {
+          imgSrc = imageUrl; // last resort: absolute URL
+        }
+      }
+    } catch (err) {
+      console.warn(`[webhook] Failed to fetch/attach image for "${item.name}":`, err.message);
+      const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
+      imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+    }
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -197,13 +254,14 @@ const renderEmailTemplate = async (session, orderId) => {
     
     return `
     <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px; margin: 10px 0;">
-      <table style="width: 100%; border-collapse: collapse;">
+      <table style="width: 100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tbody>
         <tr>
-          <td style="width: 80px; padding-right: 12px; vertical-align: top;">
-            <img src="${imageBase64}" alt="${item.name}" loading="eager"
-                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; background-color: #f0f0f0;">
+          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: top;">
+      <img src="${imgSrc}" alt="${item.name}"
+        style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0;">
           </td>
-          <td style="vertical-align: top;">
+          <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
             ${detailsHtml}
             <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
@@ -212,6 +270,7 @@ const renderEmailTemplate = async (session, orderId) => {
             </div>
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   `;
@@ -220,7 +279,7 @@ const renderEmailTemplate = async (session, orderId) => {
   const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
   const itemsHtml = itemsHtmlArray.join('');
   
-  return `
+  const html = `
     <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
       <!-- Header avec style noir et blanc -->
       <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
@@ -321,6 +380,8 @@ const renderEmailTemplate = async (session, orderId) => {
       </div>
     </div>
   `;
+
+  return { html, attachments };
 };
 
 // Template email pour le CLIENT (confirmation de commande) - Style du site (ASYNC)
@@ -353,7 +414,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
   }
   
   // Générer le HTML des articles pour le client avec style noir et blanc et TOUS les détails
-  const itemsHtmlPromises = items.map(async item => {
+  const attachments = [];
+  const itemsHtmlPromises = items.map(async (item, itemIdx) => {
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
@@ -370,9 +432,24 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
     
-    // IMPORTANT: Les images base64 sont trop volumineuses pour les emails
-    // Utiliser les URLs directes à la place
-    let imageBase64 = imageUrl; // Juste utiliser l'URL directe
+    // Essayer d'attacher l'image en CID pour fiabilité, sinon fallback en data URI ou URL
+    let imgSrc = '';
+    try {
+      const { buffer, contentType } = await getImageBuffer(imageUrl);
+      if (buffer) {
+        const cid = `item-${orderId || 'noid'}-${itemIdx}@futbolero`;
+        const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
+        attachments.push({ filename, content: buffer, cid, contentType });
+        imgSrc = `cid:${cid}`;
+      } else {
+        const dataUrl = await getImageAsBase64(imageUrl);
+        imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+      }
+    } catch (err) {
+      console.warn(`[webhook] [CLIENT] Failed to fetch/attach image for "${item.name}":`, err.message);
+      const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
+      imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+    }
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -415,13 +492,14 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     return `
     <div style="background: #ffffff; border: 1px solid #e0e0e0; border-radius: 6px; padding: 12px; margin: 10px 0;">
-      <table style="width: 100%; border-collapse: collapse;">
+      <table style="width: 100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+        <tbody>
         <tr>
-          <td style="width: 80px; padding-right: 12px; vertical-align: top;">
-            <img src="${imageBase64}" alt="${item.name}" loading="eager"
-                 style="width: 70px; height: 70px; object-fit: cover; border-radius: 4px; border: 1px solid #ddd; display: block; background-color: #f0f0f0;">
+          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: top;">
+      <img src="${imgSrc}" alt="${item.name}"
+                 style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0;">
           </td>
-          <td style="vertical-align: top;">
+          <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
             ${detailsHtml}
             <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
@@ -430,6 +508,7 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
             </div>
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   `;
@@ -438,7 +517,7 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
   const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
   const itemsHtml = itemsHtmlArray.join('');
   
-  return `
+  const html = `
     <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
       <!-- Header avec logo noir et blanc -->
       <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
@@ -518,6 +597,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       </div>
     </div>
   `;
+
+  return { html, attachments };
 };
 
 // Idempotence simple (en production, utiliser une DB)
@@ -604,13 +685,14 @@ exports.handler = async (event, context) => {
       
       // 1. EMAIL POUR LE PROPRIÉTAIRE (vous)
       console.log('[webhook] Generating owner email template...');
-      const ownerEmailHtml = await renderEmailTemplate(session, orderId);
+      const { html: ownerEmailHtml, attachments: ownerAttachments } = await renderEmailTemplate(session, orderId);
       
       const ownerMailOptions = {
         from: process.env.SMTP_USER,
         to: process.env.ORDER_NOTIFY_TO,
         subject: `🛒 Nouvelle commande ${orderId} - $${total} CAD`,
         html: ownerEmailHtml,
+        attachments: ownerAttachments && ownerAttachments.length ? ownerAttachments : undefined,
       };
       
       console.log('[webhook] Sending owner email...');
@@ -629,13 +711,14 @@ exports.handler = async (event, context) => {
       
       if (finalCustomerEmail && finalCustomerEmail.includes('@') && !finalCustomerEmail.includes('example.com')) {
         console.log('[webhook] ✅ Customer email validation PASSED - sending email to:', finalCustomerEmail);
-        const customerEmailHtml = await renderCustomerEmailTemplate(session, orderId);
+        const { html: customerEmailHtml, attachments: customerAttachments } = await renderCustomerEmailTemplate(session, orderId);
         
         const customerMailOptions = {
           from: process.env.SMTP_USER,
           to: finalCustomerEmail,
           subject: `Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
           html: customerEmailHtml,
+          attachments: customerAttachments && customerAttachments.length ? customerAttachments : undefined,
         };
         
         console.log('[webhook] Sending customer email to:', finalCustomerEmail);
