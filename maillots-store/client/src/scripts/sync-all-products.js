@@ -79,6 +79,11 @@ async function syncAllProducts() {
 
   if (newProductsAdded > 0) {
     console.log(`✓ Added ${newProductsAdded} new products to tous-les-maillots.html`);
+    // Reattach product customizer events to newly added products
+    if (window.productCustomizerInit) {
+      console.log('Reattaching product customizer events...');
+      window.productCustomizerInit();
+    }
     // Trigger search update if search-utils is available
     if (window.searchProductsGlobal) {
       console.log('Triggering search update...');
