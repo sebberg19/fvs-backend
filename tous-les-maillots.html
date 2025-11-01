@@ -13852,10 +13852,11 @@
             const searchInput = document.getElementById('carousel-search-input');
             const clearButton = document.getElementById('clear-search');
             const resultsCount = document.getElementById('search-results-count');
-            const productCards = document.querySelectorAll('.product-card');
             let noResultsMessage = null;
 
             function performSearch(query) {
+                // Get fresh list of product cards each time (to include dynamically added ones)
+                const productCards = document.querySelectorAll('.product-card');
                 const normalizedQuery = normalizeText(query.trim());
                 let visibleCount = 0;
 

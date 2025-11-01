@@ -5,11 +5,16 @@
 
 async function syncAllProducts() {
   const productContainer = document.querySelector('.row.g-0') || document.querySelector('main .row');
-  if (!productContainer) return;
+  if (!productContainer) {
+    console.warn('Product container not found');
+    return;
+  }
 
   // Get currently existing product IDs to avoid duplicates
   const existingProductIds = new Set();
   const existingProducts = productContainer.querySelectorAll('.product-card');
+  
+  console.log(`Found ${existingProducts.length} existing products`);
   
   existingProducts.forEach(card => {
     const id = card.getAttribute('data-id') || card.getAttribute('data-product-id');
@@ -37,12 +42,17 @@ async function syncAllProducts() {
   for (const source of sources) {
     try {
       const response = await fetch(source.url);
-      if (!response.ok) continue;
+      if (!response.ok) {
+        console.warn(`Failed to fetch ${source.url}: ${response.status}`);
+        continue;
+      }
 
       const text = await response.text();
       const parser = new DOMParser();
       const doc = parser.parseFromString(text, 'text/html');
       const products = doc.querySelectorAll(source.selector);
+
+      console.log(`Fetched ${products.length} products from ${source.name}`);
 
       products.forEach(product => {
         // Get product ID
@@ -52,7 +62,11 @@ async function syncAllProducts() {
 
         // Check if product already exists
         const id = productId ? productId.toLowerCase() : productTitle;
-        if (!id || existingProductIds.has(id)) return;
+        if (!id) return;
+        
+        if (existingProductIds.has(id)) {
+          return; // Product already exists
+        }
 
         // Clone and add the product
         const clone = product.cloneNode(true);
@@ -73,6 +87,17 @@ async function syncAllProducts() {
 
   if (newProductsAdded > 0) {
     console.log(`✓ Added ${newProductsAdded} new products to tous-les-maillots.html`);
+    // Trigger search update if search-utils is available
+    if (window.searchProductsGlobal) {
+      console.log('Triggering search update...');
+      const searchInput = document.getElementById('carousel-search-input');
+      if (searchInput && searchInput.value) {
+        // Re-trigger search to include newly added products
+        searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+      }
+    }
+  } else {
+    console.log('No new products to add');
   }
 }
 
