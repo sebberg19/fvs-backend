@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Functionality Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-case {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f0f0f0;
+            border-left: 4px solid #2f6f3e;
+            border-radius: 4px;
+        }
+        .test-case h3 {
+            margin-top: 0;
+            color: #2f6f3e;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+        .result.pass {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            color: #155724;
+        }
+        .result.fail {
+            background-color: #f8d7da;
+            border-left: 4px solid #dc3545;
+            color: #721c24;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2f6f3e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Futbolero Search Functionality Test</h1>
+        <p>This page tests the search functionality after improvements.</p>
+        
+        <div id="test-results">
+            <div style="text-align: center; padding: 20px;">
+                <div class="spinner"></div>
+                <p>Loading page and syncing products...</p>
+            </div>
+        </div>
+    </div>
+
+    <iframe src="tous-les-maillots.html" style="display: none;" id="test-frame"></iframe>
+
+    <script>
+        // Wait for the iframe to load
+        setTimeout(async () => {
+            const results = document.getElementById('test-results');
+            results.innerHTML = '';
+
+            try {
+                // Get the iframe document
+                const frame = document.getElementById('test-frame');
+                const frameDoc = frame.contentDocument || frame.contentWindow.document;
+
+                // Wait a bit more for sync to complete
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Get product count
+                const productCards = frameDoc.querySelectorAll('.product-card');
+                const totalProducts = productCards.length;
+
+                // Test cases
+                const testCases = [
+                    { query: 'manchester', expectedMin: 20, name: 'Manchester Teams' },
+                    { query: 'liverpool', expectedMin: 5, name: 'Liverpool' },
+                    { query: 'real', expectedMin: 10, name: 'Real Madrid' },
+                    { query: 'barcelon', expectedMin: 10, name: 'Barcelona' },
+                    { query: 'vintage', expectedMin: 400, name: 'Vintage Products' }
+                ];
+
+                // Add total count result
+                const html = `
+                    <div class="test-case">
+                        <h3>📊 Product Count</h3>
+                        <div class="result ${totalProducts > 1000 ? 'pass' : 'fail'}">
+                            <strong>Total Products in tous-les-maillots.html:</strong> <span style="font-size: 1.2em; font-weight: bold;">${totalProducts}</span>
+                            <br><small>${totalProducts > 1000 ? '✓ Success! All products loaded.' : '⚠ Still syncing products...'}</small>
+                        </div>
+                    </div>
+                `;
+
+                results.innerHTML = html;
+
+                // Test each search query
+                for (const testCase of testCases) {
+                    await runSearchTest(frameDoc, testCase, results);
+                }
+
+            } catch (error) {
+                results.innerHTML = `<div class="result fail">Error testing: ${error.message}</div>`;
+            }
+        }, 1000);
+
+        async function runSearchTest(frameDoc, testCase, resultsContainer) {
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    const productCards = frameDoc.querySelectorAll('.product-card');
+                    let count = 0;
+
+                    productCards.forEach(card => {
+                        const titleEl = card.querySelector('.product-title');
+                        if (titleEl) {
+                            const title = titleEl.textContent.toLowerCase();
+                            if (title.includes(testCase.query.toLowerCase())) {
+                                count++;
+                            }
+                        }
+                    });
+
+                    const passed = count >= testCase.expectedMin;
+                    const resultHtml = `
+                        <div class="test-case">
+                            <h3>🔍 ${testCase.name}</h3>
+                            <div class="result ${passed ? 'pass' : 'fail'}">
+                                <strong>Query:</strong> "${testCase.query}"<br>
+                                <strong>Found:</strong> ${count} products (expected ≥ ${testCase.expectedMin})
+                                <br><small>${passed ? '✓ PASS' : '✗ FAIL'}</small>
+                            </div>
+                        </div>
+                    `;
+                    resultsContainer.innerHTML += resultHtml;
+                    resolve();
+                }, 100);
+            });
+        }
+    </script>
+</body>
+</html>

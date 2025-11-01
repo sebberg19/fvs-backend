@@ -8,7 +8,7 @@
     
     <!-- SEO Meta Tags -->
     <title>Futbolero - Maillots Vintage et Actuels</title>
-    <meta name="description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool, Arsenal. Qualité premium, livraison rapide." />
+    <meta name="description" content="1000+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool, Arsenal. Qualité premium, livraison rapide." />
     <meta name="keywords" content="futbolero, maillots vintage, maillots football, barcelona, real madrid, manchester united, psg, liverpool, arsenal, maillots retro, maillots authentiques" />
     <meta name="author" content="Futbolero Vintage Shop" />
     <meta name="robots" content="index, follow" />
@@ -18,7 +18,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://futbolerovintageshop.com/" />
     <meta property="og:title" content="Futbolero - Maillots de Football Vintage" />
-    <meta property="og:description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool." />
+    <meta property="og:description" content="1000+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool." />
     <meta property="og:image" content="https://futbolerovintageshop.com/assets/logo.png" />
     <meta property="og:site_name" content="Futbolero Vintage Shop" />
     <meta property="og:locale" content="fr_FR" />
@@ -27,7 +27,7 @@
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://futbolerovintageshop.com/" />
     <meta property="twitter:title" content="Futbolero - Maillots Vintage" />
-    <meta property="twitter:description" content="990+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG." />
+    <meta property="twitter:description" content="1000+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG." />
     <meta property="twitter:image" content="https://futbolerovintageshop.com/assets/logo.png" />
     
     <!-- Structured Data / JSON-LD -->
@@ -51,7 +51,7 @@
       "@type": "Store",
       "name": "Futbolero",
       "image": "https://futbolerovintageshop.com/assets/logo.png",
-      "description": "990+ maillots de football vintage et actuels",
+      "description": "1000+ maillots de football vintage et actuels",
       "address": {
         "@type": "PostalAddress",
         "addressCountry": "CA"
@@ -1342,8 +1342,8 @@
                 <span class="gradient-text">vintage & récents</span>
               </h1>
               <p class="lead hero-description mb-3">
-                990+ maillots en stock.<br>
-                Livraison : <strong>10-15 jours</strong>.
+                1000+ maillots en stock.<br>
+                Livraison : <strong>12-20 jours</strong>.
               </p>
               <div class="hero-buttons d-flex flex-column flex-sm-row gap-2 mb-2">
                 <a href="./tous-les-maillots.html" class="btn btn-dark btn-hero">
@@ -1357,7 +1357,7 @@
               </div>
               <div class="hero-stats d-none d-lg-flex align-items-center gap-4 mt-3">
                 <div class="stat-item">
-                  <div class="stat-number">990+</div>
+                  <div class="stat-number">1000+</div>
                   <div class="stat-label">Maillots</div>
                 </div>
                 <div class="stat-item">
@@ -1381,11 +1381,11 @@
           <div class="col-12 col-md-8">
             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
               <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
-              <h5 class="mb-0" style="color: #ffffff;">Futbolero</h5>
+              <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
             </div>
             <p class="text-secondary mb-3">
               Maillots vintage et actuels.<br>
-              990+ maillots | Qualité premium | Livraison rapide
+              1000+ maillots | Qualité premium | Livraison rapide
             </p>
             <div class="d-flex justify-content-center gap-3 mb-3">
               <a href="./tous-les-maillots.html" class="text-white" title="Tous les maillots">Tous les maillots</a>
@@ -1496,8 +1496,14 @@
         async function loadAllJerseys() {
           try {
             console.log('🔄 Chargement des maillots depuis tous-les-maillots.html...');
+            // Ajouter un délai pour laisser le temps au script de sync de charger les produits manquants
+            // (le fetch déclenche le chargement de tous-les-maillots.html qui inclut le script sync-all-products.js)
             const response = await fetch('./tous-les-maillots.html');
             const html = await response.text();
+            
+            // Attendre un peu que les produits soient synchronisés
+            console.log('⏳ Attente de la synchronisation des produits...');
+            await new Promise(resolve => setTimeout(resolve, 1500));
             
             // Créer un document temporaire pour parser le HTML
             const parser = new DOMParser();
@@ -2249,3 +2255,5 @@
     </script>
   </body>
 </html>
+
+
