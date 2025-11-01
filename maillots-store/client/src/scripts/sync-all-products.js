@@ -10,21 +10,17 @@ async function syncAllProducts() {
     return;
   }
 
-  // Get currently existing product IDs to avoid duplicates
-  const existingProductIds = new Set();
+  // Get currently existing product images to avoid duplicates
+  const existingImages = new Set();
   const existingProducts = productContainer.querySelectorAll('.product-card');
   
   console.log(`Found ${existingProducts.length} existing products`);
   
   existingProducts.forEach(card => {
-    const id = card.getAttribute('data-id') || card.getAttribute('data-product-id');
-    if (id) existingProductIds.add(id.toLowerCase());
-    
-    // Also track by product name as fallback
-    const titleEl = card.querySelector('.product-title') || card.querySelector('h3');
-    if (titleEl) {
-      const normalized = titleEl.textContent.toLowerCase().trim();
-      existingProductIds.add(normalized);
+    // Track by image URL (most unique identifier)
+    const img = card.querySelector('img');
+    if (img && img.src) {
+      existingImages.add(img.src.toLowerCase().trim());
     }
   });
 
@@ -55,16 +51,12 @@ async function syncAllProducts() {
       console.log(`Fetched ${products.length} products from ${source.name}`);
 
       products.forEach(product => {
-        // Get product ID
-        const productId = product.getAttribute('data-id') || product.getAttribute('data-product-id');
-        const titleEl = product.querySelector('.product-title') || product.querySelector('h3');
-        const productTitle = titleEl ? titleEl.textContent.toLowerCase().trim() : '';
-
-        // Check if product already exists
-        const id = productId ? productId.toLowerCase() : productTitle;
-        if (!id) return;
+        // Get product image URL as primary identifier
+        const img = product.querySelector('img');
+        if (!img || !img.src) return;
         
-        if (existingProductIds.has(id)) {
+        const imageUrl = img.src.toLowerCase().trim();
+        if (existingImages.has(imageUrl)) {
           return; // Product already exists
         }
 
@@ -77,7 +69,7 @@ async function syncAllProducts() {
         wrapper.appendChild(clone);
         
         productContainer.appendChild(wrapper);
-        existingProductIds.add(id);
+        existingImages.add(imageUrl);
         newProductsAdded++;
       });
     } catch (error) {
