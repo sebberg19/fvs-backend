@@ -6,7 +6,7 @@
 async function syncAllProducts() {
   const productContainer = document.querySelector('.row.g-0') || document.querySelector('main .row');
   if (!productContainer) {
-    console.warn('Product container not found');
+    (typeof DEBUG !== 'undefined' && DEBUG) && console.warn('Product container not found');
     return;
   }
 
@@ -14,7 +14,7 @@ async function syncAllProducts() {
   const existingImages = new Set();
   const existingProducts = productContainer.querySelectorAll('.product-card');
   
-  console.log(`Found ${existingProducts.length} existing products`);
+  (typeof DEBUG !== 'undefined' && DEBUG) && console.log(`Found ${existingProducts.length} existing products`);
   
   existingProducts.forEach(card => {
     // Track by image URL (most unique identifier)
@@ -39,7 +39,7 @@ async function syncAllProducts() {
     try {
       const response = await fetch(source.url);
       if (!response.ok) {
-        console.warn(`Failed to fetch ${source.url}: ${response.status}`);
+        (typeof DEBUG !== 'undefined' && DEBUG) && console.warn(`Failed to fetch ${source.url}: ${response.status}`);
         continue;
       }
 
@@ -48,7 +48,7 @@ async function syncAllProducts() {
       const doc = parser.parseFromString(text, 'text/html');
       const products = doc.querySelectorAll(source.selector);
 
-      console.log(`Fetched ${products.length} products from ${source.name}`);
+      (typeof DEBUG !== 'undefined' && DEBUG) && console.log(`Fetched ${products.length} products from ${source.name}`);
 
       products.forEach(product => {
         // Get product image URL as primary identifier
@@ -73,20 +73,20 @@ async function syncAllProducts() {
         newProductsAdded++;
       });
     } catch (error) {
-      console.warn(`Failed to fetch products from ${source.url}:`, error);
+      (typeof DEBUG !== 'undefined' && DEBUG) && console.warn(`Failed to fetch products from ${source.url}:`, error);
     }
   }
 
   if (newProductsAdded > 0) {
-    console.log(`✓ Added ${newProductsAdded} new products to tous-les-maillots.html`);
+    (typeof DEBUG !== 'undefined' && DEBUG) && console.log(`✓ Added ${newProductsAdded} new products to tous-les-maillots.html`);
     // Reattach product customizer events to newly added products
     if (window.productCustomizerInit) {
-      console.log('Reattaching product customizer events...');
+      (typeof DEBUG !== 'undefined' && DEBUG) && console.log('Reattaching product customizer events...');
       window.productCustomizerInit();
     }
     // Trigger search update if search-utils is available
     if (window.searchProductsGlobal) {
-      console.log('Triggering search update...');
+      (typeof DEBUG !== 'undefined' && DEBUG) && console.log('Triggering search update...');
       const searchInput = document.getElementById('carousel-search-input');
       if (searchInput && searchInput.value) {
         // Re-trigger search to include newly added products
@@ -94,7 +94,7 @@ async function syncAllProducts() {
       }
     }
   } else {
-    console.log('No new products to add');
+    (typeof DEBUG !== 'undefined' && DEBUG) && console.log('No new products to add');
   }
 }
 

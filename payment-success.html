@@ -10,8 +10,12 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
   <link rel="manifest" href="./assets/site.webmanifest">
   
+  <!-- Preconnect CDNs -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"></noscript>
     <script>
         // Gestion dynamique des favicons selon le thème
         function updateFavicon() {

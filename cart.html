@@ -9,14 +9,23 @@
     <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=7" id="favicon">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
 	<link rel="manifest" href="./assets/site.webmanifest">
-	<link rel="apple-touch-icon" sizes="180x180" href="./assets/apple-touch-icon.png?v=5">
 	
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
-		
-		<!-- Google Fonts: Inter + Nunito -->
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+	<!-- Preconnect pour CDNs critiques -->
+	<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="https://api.stripe.com">
+	
+	<!-- Bootstrap CSS (bloquant) -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	
+	<!-- Bootstrap Icons - Non bloquant avec fallback -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" media="print" onload="this.media='all'">
+	<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"></noscript>
+	
+	<!-- Google Fonts: Inter + Nunito - Non bloquant -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+	<noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
 		
 		<!-- Système typographique cohérent -->
 		<link rel="stylesheet" href="./assets/typography.css">
@@ -234,6 +243,13 @@
 				height: 50px;
 			}
 		}
+
+		/* Remove navbar background color */
+		.navbar, .navbar.navbar-light {
+			background-color: transparent !important;
+			background: transparent !important;
+			border-bottom: 1px solid #e9ecef;
+		}
 	</style>
     <script>
         // Gestion dynamique des favicons selon le thème
@@ -373,11 +389,6 @@
 		
 		const SHIPPING_FEE = 7.00;
 		
-		if(!list || !empty || !totalEl || !subtotalEl) {
-			console.warn('Cart elements not found yet, will retry');
-			return;
-		}
-		
 		list.innerHTML = '';
 		
 		if(items.length===0){
@@ -474,6 +485,74 @@
 		totalEl.textContent = `$${finalTotal.toFixed(2)}`;
 	}
 
+	// Délégation d'événement pour supprimer des articles
+	function attachCartEventListeners() {
+		const itemsList = document.getElementById('items');
+		if (!itemsList) {
+			setTimeout(attachCartEventListeners, 100);
+			return;
+		}
+
+		itemsList.addEventListener('click', function(e){
+			const target = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
+			if(!target) return;
+			const idx = Number(target.getAttribute('data-index'));
+			if(Number.isNaN(idx)) return;
+			let items = [];
+			try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+			if(idx < 0 || idx >= items.length) return;
+			items.splice(idx, 1);
+			try { localStorage.setItem('cartItems', JSON.stringify(items)); } catch {}
+			// Mettre à jour le badge (somme des quantités)
+			const totalQty = items.reduce((sum, it) => sum + (Number(it.quantity||1)||1), 0);
+			if (typeof window.updateCartCount === 'function') {
+				window.updateCartCount(totalQty);
+			} else {
+				try { localStorage.setItem('cartCount', String(totalQty)); } catch {}
+			}
+			render();
+		});
+
+		// Event listeners pour le code promo
+		const applyPromoBtn = document.getElementById('applyPromo');
+		const promoCodeInput = document.getElementById('promoCode');
+		
+		if (applyPromoBtn) {
+			applyPromoBtn.addEventListener('click', applyPromoCode);
+		}
+		if (promoCodeInput) {
+			promoCodeInput.addEventListener('keypress', function(e) {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					applyPromoCode();
+				}
+			});
+		}
+
+		const checkoutBtn = document.getElementById('checkout-button');
+		if (checkoutBtn) {
+			checkoutBtn.addEventListener('click', handleCheckout);
+		}
+
+		(typeof DEBUG !== 'undefined' && DEBUG) && console.log('✅ Cart event listeners attached');
+	}
+
+	// Initialize render when DOM is ready
+	function initializeCart() {
+		try {
+			render();
+			attachCartEventListeners();
+		} catch (err) {
+			(typeof DEBUG !== 'undefined' && DEBUG) && console.error('Error initializing cart:', err);
+		}
+	}
+
+	if (document.readyState === 'loading') {
+		document.addEventListener('DOMContentLoaded', initializeCart);
+	} else {
+		initializeCart();
+	}
+	
 	// Gestion du code promo
 	function applyPromoCode() {
 		const promoInput = document.getElementById('promoCode');
@@ -509,15 +588,13 @@
 			promoMessage.classList.remove('d-none');
 		}
 	}
-
-	// Checkout button handler
+	
+	// Checkout button handler - extract to function for delayed attachment
 	async function handleCheckout(e) {
-		console.log('🔄 Bouton paiement cliqué');
 		e.preventDefault();
 		
 		let items = [];
 		try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
-		console.log('📦 Articles dans le panier:', items.length);
 		
 		if (items.length === 0) {
 			alert('Votre panier est vide.');
@@ -549,14 +626,10 @@
 		// Total avec ou sans frais de livraison selon le code promo
 		const shippingFee = (isPromoActive && activePromo && activePromo.freeShipping) ? 0 : SHIPPING_FEE;
 		const total = subtotal + shippingFee;
-		
-		console.log('💰 Total calculé:', total);
-		console.log('🌐 URL API:', window.API ? window.API.payments.createSessionFromTotal() : 'API non disponible');
 
 		try {
 			// Prefer configured API helper; fallback to Netlify function
 			const endpoint = window.API ? window.API.payments.createSessionFromTotal() : '/.netlify/functions/create-session';
-			console.log('📡 Envoi requête vers:', endpoint);
 			
 			const resp = await fetch(endpoint, {
 				method: 'POST',
@@ -567,19 +640,14 @@
 				})
 			});
 			
-			console.log('📬 Réponse reçue, status:', resp.status);
 			const data = await resp.json();
-			console.log('📋 Données de réponse:', data);
 			
 			if (resp.ok && data.url) {
-				console.log('✅ Redirection vers Stripe:', data.url);
 				window.location.href = data.url;
 			} else {
-				console.error('❌ Erreur session paiement', data);
 				alert('Erreur lors de la création du paiement: ' + (data.error || data.message || 'Erreur inconnue'));
 			}
 		} catch (err) {
-			console.error('💥 Erreur réseau:', err);
 			alert('Erreur réseau lors de la création du paiement: ' + err.message);
 		}
 	}
@@ -588,91 +656,33 @@
 	window.clearCheckoutInfo = function() {
 		try {
 			localStorage.removeItem('checkoutInfo');
-			console.log('🗑️ Legacy checkout info cleared');
-		} catch (err) {
-			console.error('Error clearing legacy data:', err);
-		}
+		} catch (err) {}
 	};
 
-	// Initialize cart when DOM is ready
-	function initializeCart() {
-		try {
-			console.log('📋 Initializing cart...');
-			
-			// Render the cart
-			render();
-			
-			// Attach event listeners
-			const itemsList = document.getElementById('items');
-			if (itemsList) {
-				itemsList.addEventListener('click', function(e){
-					const target = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
-					if(!target) return;
-					const idx = Number(target.getAttribute('data-index'));
-					if(Number.isNaN(idx)) return;
-					let items = [];
-					try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
-					if(idx < 0 || idx >= items.length) return;
-					items.splice(idx, 1);
-					try { localStorage.setItem('cartItems', JSON.stringify(items)); } catch {}
-					// Update cart badge
-					const totalQty = items.reduce((sum, it) => sum + (Number(it.quantity||1)||1), 0);
-					if (typeof window.updateCartCount === 'function') {
-						window.updateCartCount(totalQty);
-					} else {
-						try { localStorage.setItem('cartCount', String(totalQty)); } catch {}
-					}
-					render();
-				});
-			}
-
-			// Promo code listeners
-			const applyPromoBtn = document.getElementById('applyPromo');
-			const promoCodeInput = document.getElementById('promoCode');
-			const checkoutBtn = document.getElementById('checkout-button');
-			
-			if (applyPromoBtn) {
-				applyPromoBtn.addEventListener('click', applyPromoCode);
-			}
-			if (promoCodeInput) {
-				promoCodeInput.addEventListener('keypress', function(e) {
-					if (e.key === 'Enter') {
-						e.preventDefault();
-						applyPromoCode();
-					}
-				});
-			}
-			if (checkoutBtn) {
-				checkoutBtn.addEventListener('click', handleCheckout);
-			}
-
-			// Back button
-			const backBtn = document.getElementById('backBtn');
-			if (backBtn) {
-				backBtn.addEventListener('click', function(){
-					var ref = document.referrer || '';
-					try {
-						if (ref) {
-							var u = new URL(ref);
-							if (u.origin === location.origin) { location.href = ref; return; }
-						}
-					} catch(e) {}
-					if (history.length > 1) { history.back(); return; }
-					location.href = './tous-les-maillots.html';
-				});
-			}
-
-			console.log('✅ Cart initialized');
-		} catch (err) {
-			console.error('Error initializing cart:', err);
+	// Bouton retour: revenir à la page précédente si possible, sinon fallback
+	function initBackButton() {
+		var btn = document.getElementById('backBtn');
+		if(!btn) {
+			setTimeout(initBackButton, 100);
+			return;
 		}
+		btn.addEventListener('click', function(){
+			var ref = document.referrer || '';
+			try {
+				if (ref) {
+					var u = new URL(ref);
+					if (u.origin === location.origin) { location.href = ref; return; }
+				}
+			} catch(e) {}
+			if (history.length > 1) { history.back(); return; }
+			location.href = './tous-les-maillots.html';
+		});
 	}
 
-	// Call initialize when DOM is ready
 	if (document.readyState === 'loading') {
-		document.addEventListener('DOMContentLoaded', initializeCart);
+		document.addEventListener('DOMContentLoaded', initBackButton);
 	} else {
-		initializeCart();
+		initBackButton();
 	}
 	</script>
 	<!-- Footer -->
@@ -709,3 +719,4 @@
     </script>
 </body>
 </html>
+

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       } catch (_) { /* try next */ }
     }
     if (!injected) {
-      console.warn('Nav include not injected (partial not found).');
+      (typeof DEBUG !== 'undefined' && DEBUG) && console.warn('Nav include not injected (partial not found).');
     }
 
     // Lien actif: set on injected header nav and on any existing static navbars.

@@ -186,7 +186,7 @@ const renderEmailTemplate = async (session, orderId) => {
       console.log(`[webhook] No image for "${item.name}", trying fallback: ${imageUrl}`);
     }
     
-    console.log(`[webhook] Item ${itemIdx} "${item.name}": image="${item.image}", final URL="${imageUrl}"`);
+    console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}": original image path is "${item.image}"`);
     
     // Essayer de télécharger l'image en buffer pour l'ajouter en tant qu'attachement CID (meilleure compatibilité)
     let imgSrc = '';
@@ -197,9 +197,10 @@ const renderEmailTemplate = async (session, orderId) => {
         const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
         attachments.push({ filename, content: buffer, cid, contentType });
         imgSrc = `cid:${cid}`;
-        console.log(`[webhook] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
+        console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
       } else {
         // fallback to data URL
+        console.log(`[webhook] [EMAIL_RENDER] CID attachment failed for ${imageUrl}, trying base64 fallback.`);
         const dataUrl = await getImageAsBase64(imageUrl);
         if (dataUrl && dataUrl.length) {
           imgSrc = dataUrl;
@@ -208,7 +209,7 @@ const renderEmailTemplate = async (session, orderId) => {
         }
       }
     } catch (err) {
-      console.warn(`[webhook] Failed to fetch/attach image for "${item.name}":`, err.message);
+      console.warn(`[webhook] [EMAIL_RENDER] Failed to fetch/attach image for "${item.name}":`, err.message);
       const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
       imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
     }
@@ -430,7 +431,7 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       }
     }
     
-    console.log(`[webhook] [CLIENT] Processing item "${item.name}": original image="${item.image}", final imageUrl="${imageUrl}"`);
+    console.log(`[webhook] [CLIENT_EMAIL] Processing item "${item.name}": original image path is "${item.image}"`);
     
     // Essayer d'attacher l'image en CID pour fiabilité, sinon fallback en data URI ou URL
     let imgSrc = '';
@@ -441,12 +442,14 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
         const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
         attachments.push({ filename, content: buffer, cid, contentType });
         imgSrc = `cid:${cid}`;
+        console.log(`[webhook] [CLIENT_EMAIL] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
       } else {
+        console.log(`[webhook] [CLIENT_EMAIL] CID attachment failed for ${imageUrl}, trying base64 fallback.`);
         const dataUrl = await getImageAsBase64(imageUrl);
         imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
       }
     } catch (err) {
-      console.warn(`[webhook] [CLIENT] Failed to fetch/attach image for "${item.name}":`, err.message);
+      console.warn(`[webhook] [CLIENT_EMAIL] Failed to fetch/attach image for "${item.name}":`, err.message);
       const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
       imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
     }
