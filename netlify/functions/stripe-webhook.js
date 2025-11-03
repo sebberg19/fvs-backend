@@ -196,46 +196,8 @@ const renderEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
-    // Essayer de télécharger l'image en buffer pour l'ajouter en tant qu'attachement CID (meilleure compatibilité)
-    let imgSrc = '';
-    try {
-      const { buffer, contentType } = await getImageBuffer(imageUrl);
-      if (buffer) {
-        const cid = `item-${orderId || 'noid'}-${itemIdx}@futbolero`;
-        const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
-        attachments.push({ filename, content: buffer, cid, contentType });
-        imgSrc = `cid:${cid}`;
-        console.log(`[webhook] [EMAIL_RENDER] ✅ Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
-      } else {
-        // fallback to data URL
-        console.log(`[webhook] [EMAIL_RENDER] ⚠️ CID attachment failed for ${imageUrl}, trying base64 fallback.`);
-        const dataUrl = await getImageAsBase64(imageUrl);
-        if (dataUrl && dataUrl.length > 100) {
-          imgSrc = dataUrl;
-          console.log(`[webhook] [EMAIL_RENDER] ✅ Using base64 data URL for item ${itemIdx}`);
-        } else {
-          // Use direct URL as last resort
-          imgSrc = imageUrl;
-          console.log(`[webhook] [EMAIL_RENDER] ⚠️ Using direct URL for item ${itemIdx}: ${imageUrl}`);
-        }
-      }
-    } catch (err) {
-      console.error(`[webhook] [EMAIL_RENDER] ❌ Failed to fetch/attach image for "${item.name}":`, err.message);
-      // Try one more time with data URL
-      try {
-        const dataUrl = await getImageAsBase64(imageUrl);
-        if (dataUrl && dataUrl.length > 100) {
-          imgSrc = dataUrl;
-          console.log(`[webhook] [EMAIL_RENDER] ✅ Recovered with base64 for item ${itemIdx}`);
-        } else {
-          throw new Error('Base64 conversion failed');
-        }
-      } catch (fallbackErr) {
-        // Ultimate fallback: use the URL directly or placeholder
-        imgSrc = imageUrl;
-        console.log(`[webhook] [EMAIL_RENDER] ⚠️ All methods failed, using URL directly: ${imageUrl}`);
-      }
-    }
+    // Convertir l'image en base64 pour l'intégrer directement dans l'e-mail
+    const imgSrc = await getImageAsBase64(imageUrl) || imageUrl;
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -469,42 +431,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [CLIENT_EMAIL] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
-    // Essayer d'attacher l'image en CID pour fiabilité, sinon fallback en data URI ou URL
-    let imgSrc = '';
-    try {
-      const { buffer, contentType } = await getImageBuffer(imageUrl);
-      if (buffer) {
-        const cid = `item-${orderId || 'noid'}-${itemIdx}@futbolero`;
-        const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
-        attachments.push({ filename, content: buffer, cid, contentType });
-        imgSrc = `cid:${cid}`;
-        console.log(`[webhook] [CLIENT_EMAIL] ✅ Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
-      } else {
-        console.log(`[webhook] [CLIENT_EMAIL] ⚠️ CID attachment failed for ${imageUrl}, trying base64 fallback.`);
-        const dataUrl = await getImageAsBase64(imageUrl);
-        if (dataUrl && dataUrl.length > 100) {
-          imgSrc = dataUrl;
-          console.log(`[webhook] [CLIENT_EMAIL] ✅ Using base64 data URL for item ${itemIdx}`);
-        } else {
-          imgSrc = imageUrl;
-          console.log(`[webhook] [CLIENT_EMAIL] ⚠️ Using direct URL for item ${itemIdx}: ${imageUrl}`);
-        }
-      }
-    } catch (err) {
-      console.error(`[webhook] [CLIENT_EMAIL] ❌ Failed to fetch/attach image for "${item.name}":`, err.message);
-      try {
-        const dataUrl = await getImageAsBase64(imageUrl);
-        if (dataUrl && dataUrl.length > 100) {
-          imgSrc = dataUrl;
-          console.log(`[webhook] [CLIENT_EMAIL] ✅ Recovered with base64 for item ${itemIdx}`);
-        } else {
-          throw new Error('Base64 conversion failed');
-        }
-      } catch (fallbackErr) {
-        imgSrc = imageUrl;
-        console.log(`[webhook] [CLIENT_EMAIL] ⚠️ All methods failed, using URL directly: ${imageUrl}`);
-      }
-    }
+    // Convertir l'image en base64 pour l'intégrer directement dans l'e-mail
+    const imgSrc = await getImageAsBase64(imageUrl) || imageUrl;
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
