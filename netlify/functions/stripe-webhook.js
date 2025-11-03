@@ -167,6 +167,8 @@ const renderEmailTemplate = async (session, orderId) => {
   // Générer le HTML des articles avec le style noir et blanc et TOUS les détails
   const attachments = [];
   const itemsHtmlPromises = items.map(async (item, itemIdx) => {
+    console.log(`[webhook] [EMAIL_RENDER] Processing item ${itemIdx}:`, JSON.stringify(item, null, 2));
+    
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
@@ -417,6 +419,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
   // Générer le HTML des articles pour le client avec style noir et blanc et TOUS les détails
   const attachments = [];
   const itemsHtmlPromises = items.map(async (item, itemIdx) => {
+    console.log(`[webhook] [CLIENT_EMAIL] Processing item ${itemIdx}:`, JSON.stringify(item, null, 2));
+    
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
     if (item.image) {
