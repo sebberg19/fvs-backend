@@ -171,24 +171,30 @@ const renderEmailTemplate = async (session, orderId) => {
     
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
-    if (item.image) {
-      if (item.image.startsWith('http')) {
-        imageUrl = item.image; // URL absolue déjà
-      } else if (item.image.startsWith('images/')) {
-        imageUrl = `https://futbolerovintageshop.com/${item.image}`;
-      } else if (item.image.startsWith('/')) {
-        imageUrl = `https://futbolerovintageshop.com${item.image}`;
+    const rawImage = item.image || item.img || item.imageUrl || '';
+    
+    if (rawImage) {
+      if (rawImage.startsWith('http://') || rawImage.startsWith('https://')) {
+        imageUrl = rawImage; // URL absolue déjà
+      } else if (rawImage.startsWith('images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${rawImage}`;
+      } else if (rawImage.startsWith('./images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${rawImage.substring(2)}`;
+      } else if (rawImage.startsWith('/images/')) {
+        imageUrl = `https://futbolerovintageshop.com${rawImage}`;
+      } else if (rawImage.startsWith('/')) {
+        imageUrl = `https://futbolerovintageshop.com${rawImage}`;
       } else {
-        imageUrl = `https://futbolerovintageshop.com/images/${item.image}`;
+        // Assume it's just a filename
+        imageUrl = `https://futbolerovintageshop.com/images/${rawImage}`;
       }
     } else {
-      // Fallback: créer une URL basée sur le nom du produit
-      const slug = (item.name || 'item').toLowerCase().replace(/[^a-z0-9]/g, '_');
-      imageUrl = `https://futbolerovintageshop.com/images/${slug}.webp`;
-      console.log(`[webhook] No image for "${item.name}", trying fallback: ${imageUrl}`);
+      // No image provided - use placeholder
+      imageUrl = 'https://futbolerovintageshop.com/assets/logo.png';
+      console.log(`[webhook] No image for "${item.name}", using placeholder`);
     }
     
-    console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}": original image path is "${item.image}"`);
+    console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
     // Essayer de télécharger l'image en buffer pour l'ajouter en tant qu'attachement CID (meilleure compatibilité)
     let imgSrc = '';
@@ -199,21 +205,36 @@ const renderEmailTemplate = async (session, orderId) => {
         const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
         attachments.push({ filename, content: buffer, cid, contentType });
         imgSrc = `cid:${cid}`;
-        console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
+        console.log(`[webhook] [EMAIL_RENDER] ✅ Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
       } else {
         // fallback to data URL
-        console.log(`[webhook] [EMAIL_RENDER] CID attachment failed for ${imageUrl}, trying base64 fallback.`);
+        console.log(`[webhook] [EMAIL_RENDER] ⚠️ CID attachment failed for ${imageUrl}, trying base64 fallback.`);
         const dataUrl = await getImageAsBase64(imageUrl);
-        if (dataUrl && dataUrl.length) {
+        if (dataUrl && dataUrl.length > 100) {
           imgSrc = dataUrl;
+          console.log(`[webhook] [EMAIL_RENDER] ✅ Using base64 data URL for item ${itemIdx}`);
         } else {
-          imgSrc = imageUrl; // last resort: absolute URL
+          // Use direct URL as last resort
+          imgSrc = imageUrl;
+          console.log(`[webhook] [EMAIL_RENDER] ⚠️ Using direct URL for item ${itemIdx}: ${imageUrl}`);
         }
       }
     } catch (err) {
-      console.warn(`[webhook] [EMAIL_RENDER] Failed to fetch/attach image for "${item.name}":`, err.message);
-      const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
-      imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+      console.error(`[webhook] [EMAIL_RENDER] ❌ Failed to fetch/attach image for "${item.name}":`, err.message);
+      // Try one more time with data URL
+      try {
+        const dataUrl = await getImageAsBase64(imageUrl);
+        if (dataUrl && dataUrl.length > 100) {
+          imgSrc = dataUrl;
+          console.log(`[webhook] [EMAIL_RENDER] ✅ Recovered with base64 for item ${itemIdx}`);
+        } else {
+          throw new Error('Base64 conversion failed');
+        }
+      } catch (fallbackErr) {
+        // Ultimate fallback: use the URL directly or placeholder
+        imgSrc = imageUrl;
+        console.log(`[webhook] [EMAIL_RENDER] ⚠️ All methods failed, using URL directly: ${imageUrl}`);
+      }
     }
     
     // Construire les détails de l'article (taille, personnalisation, etc)
@@ -423,19 +444,30 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     // Convertir les chemins relatifs en URLs absolues - multiple fallbacks
     let imageUrl = '';
-    if (item.image) {
-      if (item.image.startsWith('http')) {
-        imageUrl = item.image; // URL absolue déjà
-      } else if (item.image.startsWith('images/')) {
-        imageUrl = `https://futbolerovintageshop.com/${item.image}`;
-      } else if (item.image.startsWith('/')) {
-        imageUrl = `https://futbolerovintageshop.com${item.image}`;
+    const rawImage = item.image || item.img || item.imageUrl || '';
+    
+    if (rawImage) {
+      if (rawImage.startsWith('http://') || rawImage.startsWith('https://')) {
+        imageUrl = rawImage; // URL absolue déjà
+      } else if (rawImage.startsWith('images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${rawImage}`;
+      } else if (rawImage.startsWith('./images/')) {
+        imageUrl = `https://futbolerovintageshop.com/${rawImage.substring(2)}`;
+      } else if (rawImage.startsWith('/images/')) {
+        imageUrl = `https://futbolerovintageshop.com${rawImage}`;
+      } else if (rawImage.startsWith('/')) {
+        imageUrl = `https://futbolerovintageshop.com${rawImage}`;
       } else {
-        imageUrl = `https://futbolerovintageshop.com/images/${item.image}`;
+        // Assume it's just a filename
+        imageUrl = `https://futbolerovintageshop.com/images/${rawImage}`;
       }
+    } else {
+      // No image provided - use placeholder
+      imageUrl = 'https://futbolerovintageshop.com/assets/logo.png';
+      console.log(`[webhook] [CLIENT_EMAIL] No image for "${item.name}", using placeholder`);
     }
     
-    console.log(`[webhook] [CLIENT_EMAIL] Processing item "${item.name}": original image path is "${item.image}"`);
+    console.log(`[webhook] [CLIENT_EMAIL] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
     // Essayer d'attacher l'image en CID pour fiabilité, sinon fallback en data URI ou URL
     let imgSrc = '';
@@ -446,16 +478,32 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
         const filename = (imageUrl && imageUrl.split('/').pop()) || `item-${itemIdx}.webp`;
         attachments.push({ filename, content: buffer, cid, contentType });
         imgSrc = `cid:${cid}`;
-        console.log(`[webhook] [CLIENT_EMAIL] Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
+        console.log(`[webhook] [CLIENT_EMAIL] ✅ Item ${itemIdx} "${item.name}" attached as CID ${cid}`);
       } else {
-        console.log(`[webhook] [CLIENT_EMAIL] CID attachment failed for ${imageUrl}, trying base64 fallback.`);
+        console.log(`[webhook] [CLIENT_EMAIL] ⚠️ CID attachment failed for ${imageUrl}, trying base64 fallback.`);
         const dataUrl = await getImageAsBase64(imageUrl);
-        imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+        if (dataUrl && dataUrl.length > 100) {
+          imgSrc = dataUrl;
+          console.log(`[webhook] [CLIENT_EMAIL] ✅ Using base64 data URL for item ${itemIdx}`);
+        } else {
+          imgSrc = imageUrl;
+          console.log(`[webhook] [CLIENT_EMAIL] ⚠️ Using direct URL for item ${itemIdx}: ${imageUrl}`);
+        }
       }
     } catch (err) {
-      console.warn(`[webhook] [CLIENT_EMAIL] Failed to fetch/attach image for "${item.name}":`, err.message);
-      const dataUrl = await getImageAsBase64(imageUrl).catch(() => '');
-      imgSrc = dataUrl || imageUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%228%22 text-anchor=%22middle%22 fill=%22%23999%22%3EImage%3C/text%3E%3C/svg%3E';
+      console.error(`[webhook] [CLIENT_EMAIL] ❌ Failed to fetch/attach image for "${item.name}":`, err.message);
+      try {
+        const dataUrl = await getImageAsBase64(imageUrl);
+        if (dataUrl && dataUrl.length > 100) {
+          imgSrc = dataUrl;
+          console.log(`[webhook] [CLIENT_EMAIL] ✅ Recovered with base64 for item ${itemIdx}`);
+        } else {
+          throw new Error('Base64 conversion failed');
+        }
+      } catch (fallbackErr) {
+        imgSrc = imageUrl;
+        console.log(`[webhook] [CLIENT_EMAIL] ⚠️ All methods failed, using URL directly: ${imageUrl}`);
+      }
     }
     
     // Construire les détails de l'article (taille, personnalisation, etc)
