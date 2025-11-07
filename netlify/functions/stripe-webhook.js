@@ -24,10 +24,11 @@ const getImageAsBase64 = async (imageUrl) => {
 
     const protocol = imageUrl.startsWith('https') ? https : http;
     const timeout = setTimeout(() => {
+      console.warn('[webhook] Image download timeout for:', imageUrl);
       reject(new Error('Image download timeout'));
-    }, 5000);
+    }, 8000);
 
-    protocol.get(imageUrl, (response) => {
+    const request = protocol.get(imageUrl, (response) => {
       clearTimeout(timeout);
       
       if (response.statusCode !== 200) {
@@ -37,18 +38,44 @@ const getImageAsBase64 = async (imageUrl) => {
       }
 
       const chunks = [];
-      response.on('data', chunk => chunks.push(chunk));
+      let totalSize = 0;
+      const maxSize = 5 * 1024 * 1024; // 5MB max
+
+      response.on('data', chunk => {
+        totalSize += chunk.length;
+        if (totalSize > maxSize) {
+          request.abort();
+          console.warn('[webhook] Image too large (>5MB):', imageUrl);
+          resolve('');
+          return;
+        }
+        chunks.push(chunk);
+      });
+
       response.on('end', () => {
         try {
           const buffer = Buffer.concat(chunks);
+          if (buffer.length === 0) {
+            console.warn('[webhook] Empty buffer for:', imageUrl);
+            resolve('');
+            return;
+          }
+          
           const base64 = buffer.toString('base64');
           const contentType = response.headers['content-type'] || 'image/webp';
           const dataUrl = `data:${contentType};base64,${base64}`;
+          console.log(`[webhook] ✅ Image converted to base64 (${(buffer.length/1024).toFixed(2)}KB): ${imageUrl}`);
           resolve(dataUrl);
         } catch (err) {
           console.warn('[webhook] Failed to encode image:', err.message);
           resolve('');
         }
+      });
+
+      response.on('error', err => {
+        clearTimeout(timeout);
+        console.warn('[webhook] Response error:', err.message);
+        resolve('');
       });
     }).on('error', err => {
       clearTimeout(timeout);
@@ -198,10 +225,11 @@ const renderEmailTemplate = async (session, orderId) => {
     
     // Convertir l'image en base64 pour l'intégrer directement dans l'e-mail
     let imgSrc = await getImageAsBase64(imageUrl);
+    
+    // Si la conversion base64 a échoué, utiliser directement l'URL
     if (!imgSrc || imgSrc.length < 100) {
-      console.warn(`[webhook] [EMAIL_RENDER] ⚠️ Base64 conversion failed for ${imageUrl}, using placeholder`);
-      // Placeholder SVG gris avec texte "Photo"
-      imgSrc = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%22100%22 y=%22105%22 font-size=%2218%22 text-anchor=%22middle%22 fill=%22%23999%22 font-family=%22Arial%22%3EPhoto%3C/text%3E%3C/svg%3E';
+      console.warn(`[webhook] [EMAIL_RENDER] Base64 conversion failed or too small (${imgSrc?.length || 0}B), using direct URL fallback`);
+      imgSrc = imageUrl; // Fallback à l'URL directe
     } else {
       console.log(`[webhook] [EMAIL_RENDER] ✅ Base64 image OK (${Math.round(imgSrc.length/1024)}KB)`);
     }
@@ -252,7 +280,7 @@ const renderEmailTemplate = async (session, orderId) => {
         <tr>
           <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: top;">
       <img src="${imgSrc}" alt="${item.name}"
-        style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0;">
+        style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: contain;" onerror="this.src='https://futbolerovintageshop.com/assets/logo.png'">
           </td>
           <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>

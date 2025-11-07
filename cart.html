@@ -331,6 +331,23 @@
 							<i class="bi bi-lock-fill me-2"></i>Paiement sécurisé
 						</button>
 						
+						<!-- Disclaimer -->
+						<div class="alert alert-light border" style="background: #f8f9fa; border-color: #dee2e6 !important;">
+							<div class="form-check mb-2">
+								<input class="form-check-input" type="checkbox" id="disclaimerCheckbox">
+								<label class="form-check-label small" for="disclaimerCheckbox">
+									J'accepte les conditions de disponibilité
+								</label>
+							</div>
+							<small class="text-muted d-block">
+								Certains styles peuvent être indisponibles. Si c'est le cas, nous vous contacterons par email pour trouver un remplacement. Si vous ne répondez pas dans les 2 jours, un remboursement complet sera effectué.
+							</small>
+						</div>
+						
+						<div id="disclaimerError" class="alert alert-danger d-none mb-3" role="alert">
+							Vous devez accepter les conditions pour continuer
+						</div>
+						
 						<div class="text-center">
 							<small class="text-muted d-block mb-2">Paiement 100% sécurisé</small>
 							<div class="pay-icons">
@@ -595,6 +612,17 @@
 	// Checkout button handler - extract to function for delayed attachment
 	async function handleCheckout(e) {
 		e.preventDefault();
+		
+		// Vérifier le disclaimer
+		const disclaimerCheckbox = document.getElementById('disclaimerCheckbox');
+		const disclaimerError = document.getElementById('disclaimerError');
+		
+		if (!disclaimerCheckbox.checked) {
+			disclaimerError.classList.remove('d-none');
+			disclaimerCheckbox.focus();
+			return;
+		}
+		disclaimerError.classList.add('d-none');
 		
 		let items = [];
 		try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}

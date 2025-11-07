@@ -193,11 +193,14 @@
           height: 100%;
           display: flex;
           flex-direction: column;
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
         }
         
         .product-card:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+          transform: translateY(-4px);
+          box-shadow: 0 8px 24px rgba(0,0,0,0.12);
           border-color: var(--accent);
         }
         
@@ -387,43 +390,55 @@
         }
     </style>
     <script>
-        // Recherche des maillots
+        // Recherche des maillots (avec recherche par ID - sans affichage du compteur)
         document.addEventListener('DOMContentLoaded', function() {
-            // Éléments de recherche
             const searchInput = document.getElementById('carousel-search-input');
             const clearButton = document.getElementById('carousel-clear-search');
-            const resultsCount = document.getElementById('carousel-search-results-count');
             const container = document.querySelector('.row.g-0');
             
-            // Fonction de recherche
+            // Fonction pour générer l'ID produit (même logique que product-customizer.js)
+            function generateProductId(imagePath, productName) {
+                const combined = (imagePath || productName || '').toLowerCase();
+                const normalized = combined.replace(/[^a-z0-9]/g, '');
+                let hash = 0;
+                for (let i = 0; i < normalized.length; i++) {
+                    const char = normalized.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                const id = Math.abs(hash).toString(36).toUpperCase().padStart(6, '0');
+                return id.slice(0, 6);
+            }
+            
             function searchProducts() {
                 const query = searchInput.value.toLowerCase().trim();
                 const cards = container.querySelectorAll('.col-6');
-                let count = 0;
                 
                 cards.forEach(col => {
                     const title = col.querySelector('.product-title').textContent.toLowerCase();
-                    if (query === '' || title.includes(query)) {
+                    const imgElement = col.querySelector('.product-image img');
+                    const imgSrc = imgElement ? imgElement.getAttribute('src') : '';
+                    
+                    // Générer l'ID produit
+                    const productId = generateProductId(imgSrc, title);
+                    
+                    // Extraire le nom de fichier (ex: "images/Bayern_V4.webp" -> "bayern_v4")
+                    const match = imgSrc.toLowerCase().match(/\/([^\/]+)\.(webp|png|jpg)/i);
+                    const filename = match ? match[1].toLowerCase() : '';
+                    
+                    // Recherche dans le titre, nom de fichier OU ID produit
+                    const matchesTitle = title.includes(query);
+                    const matchesFilename = filename.includes(query);
+                    const matchesId = productId.toLowerCase().includes(query);
+                    
+                    if (query === '' || matchesTitle || matchesFilename || matchesId) {
                         col.style.display = '';
-                        count++;
                     } else {
                         col.style.display = 'none';
                     }
                 });
-                
-                // Mise à jour du compteur
-                if (query === '') {
-                    resultsCount.textContent = '';
-                } else if (count === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
-                } else if (count === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
-                } else {
-                    resultsCount.textContent = count + ' maillots trouvés';
-                }
             }
             
-            // Événements
             if (searchInput) {
                 searchInput.addEventListener('input', searchProducts);
             }
@@ -435,7 +450,7 @@
                 });
             }
         });
-
+        
         // Gestion dynamique des favicons selon le thème
         function updateFavicon() {
             const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -13934,6 +13949,9 @@
             });
         }
     </script>
+    
+    <!-- Bouton de demande de maillot -->
+    <script src="./scripts/request-jersey-button.js"></script>
 </body>
 </html>
 <
