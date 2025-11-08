@@ -315,15 +315,23 @@
                 .btn-request-jersey {
                     bottom: 20px;
                     right: 20px;
-                    padding: 12px 20px;
-                    font-size: 13px;
+                    padding: 12px 16px;
+                    font-size: 11px;
+                    border-radius: 8px;
+                    flex-direction: column;
+                    gap: 4px;
                 }
                 
                 .btn-request-jersey .btn-text {
-                    display: none;
+                    display: block;
+                    font-size: 10px;
+                    font-weight: 700;
+                    text-align: center;
+                    line-height: 1.1;
                 }
                 
                 .btn-request-jersey i {
+                    font-size: 16px;
                     margin-right: 0 !important;
                 }
                 
