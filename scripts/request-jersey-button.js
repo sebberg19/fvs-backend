@@ -324,15 +324,14 @@
                 
                 .btn-request-jersey .btn-text {
                     display: block;
-                    font-size: 10px;
+                    font-size: 11px;
                     font-weight: 700;
                     text-align: center;
-                    line-height: 1.1;
+                    line-height: 1.2;
                 }
                 
                 .btn-request-jersey i {
-                    font-size: 16px;
-                    margin-right: 0 !important;
+                    display: none;
                 }
                 
                 .request-modal-content {
