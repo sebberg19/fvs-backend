@@ -223,16 +223,9 @@ const renderEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [EMAIL_RENDER] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
-    // Convertir l'image en base64 pour l'intégrer directement dans l'e-mail
-    let imgSrc = await getImageAsBase64(imageUrl);
-    
-    // Si la conversion base64 a échoué, utiliser directement l'URL
-    if (!imgSrc || imgSrc.length < 100) {
-      console.warn(`[webhook] [EMAIL_RENDER] Base64 conversion failed or too small (${imgSrc?.length || 0}B), using direct URL fallback`);
-      imgSrc = imageUrl; // Fallback à l'URL directe
-    } else {
-      console.log(`[webhook] [EMAIL_RENDER] ✅ Base64 image OK (${Math.round(imgSrc.length/1024)}KB)`);
-    }
+    // Utiliser l'URL directement (plus fiable que base64 pour les clients email)
+    const imgSrc = imageUrl;
+    console.log(`[webhook] [EMAIL_RENDER] ✅ Image URL: ${imgSrc}`);
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -278,9 +271,8 @@ const renderEmailTemplate = async (session, orderId) => {
       <table style="width: 100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tbody>
         <tr>
-          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: top;">
-      <img src="${imgSrc}" alt="${item.name}"
-        style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: contain;" onerror="this.src='https://futbolerovintageshop.com/assets/logo.png'">
+          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: middle;">
+            <img src="${imgSrc}" alt="${item.name}" style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: cover; object-position: center;">
           </td>
           <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
