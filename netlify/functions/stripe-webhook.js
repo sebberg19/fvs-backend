@@ -458,15 +458,9 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     console.log(`[webhook] [CLIENT_EMAIL] Item ${itemIdx} "${item.name}": raw="${rawImage}" -> final="${imageUrl}"`);
     
-    // Convertir l'image en base64 pour l'intégrer directement dans l'e-mail
-    let imgSrc = await getImageAsBase64(imageUrl);
-    if (!imgSrc || imgSrc.length < 100) {
-      console.warn(`[webhook] [CLIENT_EMAIL] ⚠️ Base64 conversion failed for ${imageUrl}, using placeholder`);
-      // Placeholder SVG gris avec texte "Photo"
-      imgSrc = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22200%22 viewBox=%220 0 200 200%22%3E%3Crect width=%22200%22 height=%22200%22 fill=%22%23f0f0f0%22/%3E%3Ctext x=%22100%22 y=%22105%22 font-size=%2218%22 text-anchor=%22middle%22 fill=%22%23999%22 font-family=%22Arial%22%3EPhoto%3C/text%3E%3C/svg%3E';
-    } else {
-      console.log(`[webhook] [CLIENT_EMAIL] ✅ Base64 image OK (${Math.round(imgSrc.length/1024)}KB)`);
-    }
+    // Utiliser l'URL directement (plus fiable que base64 pour les clients email)
+    const imgSrc = imageUrl;
+    console.log(`[webhook] [CLIENT_EMAIL] ✅ Image URL: ${imgSrc}`);
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
@@ -512,9 +506,8 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       <table style="width: 100%; border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
         <tbody>
         <tr>
-          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: top;">
-      <img src="${imgSrc}" alt="${item.name}"
-                 style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0;">
+          <td style="width: 80px; padding-right: 12px; padding-bottom: 0; padding-top: 0; vertical-align: middle;">
+            <img src="${imgSrc}" alt="${item.name}" style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: cover; object-position: center;">
           </td>
           <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
             <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
