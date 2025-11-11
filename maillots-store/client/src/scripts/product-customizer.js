@@ -6,7 +6,54 @@
     if(document.getElementById('customizeModal')) return;
     const modalHtml = `
 <div class="modal fade" id="customizeModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-dialog modal-sm modal-md-lg modal-dialog-centered" style="max-width: 100%; margin: 0 auto; padding: 12px;">
+        <style>
+            @media (min-width: 992px) {
+                #customizeModal .modal-dialog {
+                    max-width: 900px !important;
+                }
+                #customizeModal .modal-body {
+                    display: flex !important;
+                    gap: 1.5rem !important;
+                    padding: 1.5rem !important;
+                }
+                #modalImgContainer {
+                    flex: 0 0 40%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+                #modalImg {
+                    max-height: 550px !important;
+                }
+                #modalFormContainer {
+                    flex: 1;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                }
+            }
+            @media (min-width: 768px) and (max-width: 991px) {
+                #customizeModal .modal-dialog {
+                    max-width: 550px !important;
+                }
+                #modalImgContainer {
+                    margin-bottom: 1.5rem;
+                }
+            }
+            @media (max-width: 767px) {
+                #customizeModal .modal-dialog {
+                    max-width: 95vw !important;
+                }
+                #modalImgContainer {
+                    text-align: center;
+                    margin-bottom: 1.5rem;
+                }
+                #modalImg {
+                    max-height: 280px !important;
+                }
+            }
+        </style>
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Personnaliser</h5>
@@ -16,49 +63,51 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="text-center mb-3">
-                    <img id="modalImg" src="" alt="" class="img-fluid rounded" style="max-height:280px; object-fit:contain;">
+                <div id="modalImgContainer">
+                    <img id="modalImg" src="" alt="" class="img-fluid rounded" style="object-fit:contain;">
                 </div>
 
-                <div class="mb-2">
-                    <div class="d-flex justify-content-between">
-                        <strong id="modalTitle">Produit</strong>
-                        <span id="modalPrice" class="text-muted small"></span>
+                <div id="modalFormContainer">
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between">
+                            <strong id="modalTitle">Produit</strong>
+                            <span id="modalPrice" class="text-muted small"></span>
+                        </div>
+                        <small class="text-secondary">Choisissez taille et quantité</small>
                     </div>
-                    <small class="text-secondary">Choisissez taille et quantité</small>
-                </div>
 
-                <div class="row g-2 mt-2">
-                    <div class="col-6">
-                        <label class="form-label small">Taille</label>
-                        <select id="modalSize" class="form-select form-select-sm" style="font-size: 16px;">
-                            <option>M</option>
-                            <option>S</option>
-                            <option>L</option>
-                            <option>XL</option>
-                        </select>
+                    <div class="row g-2 mt-2">
+                        <div class="col-6">
+                            <label class="form-label small">Taille</label>
+                            <select id="modalSize" class="form-select form-select-sm" style="font-size: 16px;">
+                                <option>M</option>
+                                <option>S</option>
+                                <option>L</option>
+                                <option>XL</option>
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Quantité</label>
+                            <input id="modalQty" type="number" min="1" value="1" class="form-control form-control-sm" style="font-size: 16px;">
+                        </div>
                     </div>
-                    <div class="col-6">
-                        <label class="form-label small">Quantité</label>
-                        <input id="modalQty" type="number" min="1" value="1" class="form-control form-control-sm" style="font-size: 16px;">
-                    </div>
-                </div>
 
-                <div class="form-check mt-3">
-                    <input class="form-check-input" type="checkbox" id="modalPersonalize">
-                    <label class="form-check-label small" for="modalPersonalize">Ajouter nom & numéro (+5 $ CAD)</label>
-                </div>
-
-                <div id="personalizeFields" class="row g-2 mt-2" style="display:none;">
-                    <div class="col-6">
-                        <label class="form-label small">Nom</label>
-                        <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
-                        <div class="invalid-feedback">Veuillez renseigner le nom.</div>
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="modalPersonalize">
+                        <label class="form-check-label small" for="modalPersonalize">Ajouter nom & numéro (+5 $ CAD)</label>
                     </div>
-                    <div class="col-6">
-                        <label class="form-label small">Numéro</label>
-                        <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
-                        <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
+
+                    <div id="personalizeFields" class="row g-2 mt-2" style="display:none;">
+                        <div class="col-6">
+                            <label class="form-label small">Nom</label>
+                            <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
+                            <div class="invalid-feedback">Veuillez renseigner le nom.</div>
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small">Numéro</label>
+                            <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
+                            <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
+                        </div>
                     </div>
                 </div>
             </div>
