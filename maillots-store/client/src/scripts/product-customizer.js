@@ -10,7 +10,7 @@
         <style>
             @media (min-width: 992px) {
                 #customizeModal .modal-dialog {
-                    max-width: 900px !important;
+                    max-width: 950px !important;
                 }
                 #customizeModal .modal-body {
                     display: flex !important;
@@ -18,13 +18,13 @@
                     padding: 1.5rem !important;
                 }
                 #modalImgContainer {
-                    flex: 0 0 40%;
+                    flex: 0 0 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                 }
                 #modalImg {
-                    max-height: 550px !important;
+                    max-height: 600px !important;
                 }
                 #modalFormContainer {
                     flex: 1;
