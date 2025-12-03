@@ -1,7 +1,8 @@
 // Shared product customizer (canonical modal + behavior)
-// Version: 2.0 - Always visible personalization fields, no checkbox
+// Version: 2.2 - Added badge field with championship/league examples (+$2.50)
 (function(){
   const PERSONALIZE_FEE = 5;
+  const BADGE_FEE = 2.50;
 
   function ensureCustomizeModal(){
     if(document.getElementById('customizeModal')) return;
@@ -105,7 +106,14 @@
                             <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
                         </div>
                     </div>
-                    <small class="text-muted d-block mt-2">Personnalisation: +5 $ CAD</small>
+                    <small class="text-muted d-block mt-2" style="color: #198754; font-weight: 600;">Nom + Numéro: +5,00 $ CAD</small>
+
+                    <div class="mt-3">
+                        <label class="form-label small">Badge (Championnat/Ligue)</label>
+                        <textarea id="modalBadge" class="form-control form-control-sm" rows="2" maxlength="50" style="font-size: 16px;" placeholder="Ex: Champions League, Europa League, Ligue 1, Premier League, Serie A..."></textarea>
+                        <small class="text-muted">Max 50 caractères | Optionnel</small>
+                    </div>
+                    <small class="text-muted d-block mt-2" style="color: #dc3545; font-weight: 600;">Badge (si renseigné): +2,50 $ CAD</small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -149,12 +157,18 @@
     const modalQtyEl = () => customizeModalEl.querySelector('#modalQty');
     const modalNameEl = () => customizeModalEl.querySelector('#modalName');
     const modalNumberEl = () => customizeModalEl.querySelector('#modalNumber');
+    const modalBadgeEl = () => customizeModalEl.querySelector('#modalBadge');
 
     function updateModalPriceDisplay() {
       const base = Number(currentProduct.price) || 0;
       const qty = Math.max(1, Number(modalQtyEl().value) || 1);
       // Toujours ajouter les +5$ pour la personnalisation
-      const perUnitExtra = PERSONALIZE_FEE;
+      let perUnitExtra = PERSONALIZE_FEE;
+      // Ajouter +2.50$ si badge renseigné
+      const hasBadge = (modalBadgeEl().value || '').trim().length > 0;
+      if (hasBadge) {
+        perUnitExtra += BADGE_FEE;
+      }
       const unitTotal = base + perUnitExtra;
       const total = unitTotal * qty;
       modalPriceEl().textContent = formatPrice(total);
@@ -186,6 +200,7 @@
           modalQtyEl().value = 1;
           modalNameEl().value = '';
           modalNumberEl().value = '';
+          modalBadgeEl().value = '';
           modalNameEl().classList.remove('is-invalid');
           modalNumberEl().classList.remove('is-invalid');
 
@@ -201,6 +216,7 @@
     // modal interactions
     modalQtyEl().addEventListener('input', updateModalPriceDisplay);
     modalSizeEl().addEventListener('change', updateModalPriceDisplay);
+    modalBadgeEl().addEventListener('input', updateModalPriceDisplay);
 
     // confirm -> add to cart
     customizeModalEl.querySelector('#confirmAdd').addEventListener('click', () => {
@@ -208,11 +224,16 @@
       const qty = Math.max(1, Number(modalQtyEl().value) || 1);
       const pName = (modalNameEl().value || '').trim();
       const pNumber = (modalNumberEl().value ?? '').toString().trim();
-      const hasPersonalization = pName || pNumber; // Optionnel
+      const pBadge = (modalBadgeEl().value || '').trim();
+      const hasPersonalization = pName || pNumber || pBadge; // Optionnel
 
       const base = Number(currentProduct.price) || 0;
       const perUnitExtra = PERSONALIZE_FEE; // Toujours +5$
-      const perUnitFinal = base + perUnitExtra;
+      let perUnitFinal = base + perUnitExtra;
+      // Ajouter +2.50$ si badge renseigné
+      if (pBadge) {
+        perUnitFinal += BADGE_FEE;
+      }
 
       // update cart count
       let saved = 0; try { saved = Number(localStorage.getItem('cartCount')) || 0; } catch {}
@@ -221,7 +242,7 @@
 
       let cartItems = [];
       try { cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
-      const personalization = hasPersonalization ? { name: pName, ...(pNumber ? { number: pNumber } : {}), extra: PERSONALIZE_FEE } : { extra: PERSONALIZE_FEE };
+      const personalization = hasPersonalization ? { name: pName, ...(pNumber ? { number: pNumber } : {}), ...(pBadge ? { badge: pBadge } : {}), extra: PERSONALIZE_FEE, badgeExtra: pBadge ? BADGE_FEE : 0 } : { extra: PERSONALIZE_FEE, badgeExtra: 0 };
       const placeholderImg = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23eef0f3%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b6f76%22%3ENo image%3C/text%3E%3C/svg%3E';
       const imgVal = currentProduct.img || placeholderImg;
       cartItems.push({ name: currentProduct.name, basePrice: base, perUnitPrice: perUnitFinal, quantity: qty, size: size, isVintage: !!(document.title && /vintage/i.test(document.title)), img: imgVal, productId: currentProduct.productId, personalized: true, personalization });

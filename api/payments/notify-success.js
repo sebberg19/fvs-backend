@@ -31,14 +31,16 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
     const fullImgUrl = imgUrl.startsWith('http') ? imgUrl : `${baseUrl}/${imgUrl}`;
     
     let personalizationHTML = '';
-    if (item.personalization && (item.personalization.name || item.personalization.number)) {
+    if (item.personalization && (item.personalization.name || item.personalization.number || item.personalization.badge)) {
       const perso = item.personalization;
       personalizationHTML = `
         <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-family: 'Oswald', sans-serif;">
           <strong style="font-family: 'Oswald', sans-serif;">Personnalisation:</strong><br>
           ${perso.name ? `Nom: ${perso.name}<br>` : ''}
           ${perso.number ? `Numéro: ${perso.number}<br>` : ''}
+          ${perso.badge ? `Badge: ${perso.badge}<br>` : ''}
           <span style="color: #198754; font-family: 'Oswald', sans-serif;">Frais: +$5.00 CAD</span>
+          ${perso.badgeExtra && perso.badgeExtra > 0 ? `<br><span style="color: #198754; font-family: 'Oswald', sans-serif;">Badge: +$${perso.badgeExtra.toFixed(2)} CAD</span>` : ''}
         </div>
       `;
     }
@@ -240,13 +242,20 @@ function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = 
     // Personnalisation (si présente)
     if (item.personalization) {
       const perso = item.personalization;
-      if (perso.name || perso.number) {
+      if (perso.name || perso.number || perso.badge) {
         details += `  PERSONNALISATION:\n`;
         if (perso.name) {
           details += `     Nom: ${perso.name}\n`;
         }
         if (perso.number) {
           details += `     Numéro: ${perso.number}\n`;
+        }
+        if (perso.badge) {
+          details += `     Badge: ${perso.badge}\n`;
+        }
+        details += `     Frais personnalisation: +$5.00 CAD\n`;
+        if (perso.badgeExtra && perso.badgeExtra > 0) {
+          details += `     Frais badge: +$${perso.badgeExtra.toFixed(2)} CAD\n`;
         }
         details += `     Frais de personnalisation: +$5.00 CAD\n`;
       }
