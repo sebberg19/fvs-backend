@@ -146,8 +146,6 @@
     const modalTitleEl = () => customizeModalEl.querySelector('#modalTitle');
     const modalSizeEl = () => customizeModalEl.querySelector('#modalSize');
     const modalQtyEl = () => customizeModalEl.querySelector('#modalQty');
-    const modalPersonalizeEl = () => customizeModalEl.querySelector('#modalPersonalize');
-    const personalizeFieldsEl = () => customizeModalEl.querySelector('#personalizeFields');
     const modalNameEl = () => customizeModalEl.querySelector('#modalName');
     const modalNumberEl = () => customizeModalEl.querySelector('#modalNumber');
 
