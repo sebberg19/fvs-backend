@@ -1,4 +1,5 @@
 // Shared product customizer (canonical modal + behavior)
+// Version: 2.0 - Always visible personalization fields, no checkbox
 (function(){
   const PERSONALIZE_FEE = 5;
 
