@@ -1,13 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container align-items-center">
     <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
+      <img src="./assets/new.png" alt="Futbolero Logo" class="navbar-logo">
       <div class="brand-text-stack d-flex d-md-none flex-column align-items-start lh-1">
         <span class="brand-line">Futbolero</span>
         <span class="brand-line">Vintage</span>
         <span class="brand-line">Shop</span>
       </div>
       <span class="d-none d-md-inline">Futbolero Vintage Shop</span>
-      <img src="./assets/logo.png" alt="Futbolero Logo" class="navbar-logo">
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-2">
@@ -52,12 +52,12 @@
 </nav>
 
 <style>
-  /* Importer Nunito pour les headers */
-  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800&display=swap');
+  /* Importer Oswald pour tout */
+  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
   
   /* Hiérarchie typographique cohérente */
   .navbar-brand {
-    font-family: Nunito, Inter, system-ui, sans-serif !important;
+    font-family: 'Oswald', system-ui, sans-serif !important;
     font-weight: 800 !important;
     letter-spacing: -0.02em;
     font-size: 1.15rem !important;
@@ -89,18 +89,19 @@
     align-items: center !important;
   }
   
-  /* Logo dans la navigation - centré parfaitement */
+  /* Logo dans la navigation - à gauche */
   .navbar-logo {
-    height: 38px;
+    height: 28px;
     width: auto;
     object-fit: contain;
     filter: none;
     flex-shrink: 0;
+    margin-right: 0.5rem;
   }
   
   /* Navigation links */
   .nav-link {
-    font-family: Inter, system-ui, sans-serif !important;
+    font-family: 'Oswald', system-ui, sans-serif !important;
     font-weight: 500;
     letter-spacing: -0.01em;
     font-size: 0.95rem;
@@ -119,7 +120,7 @@
     }
     
     .navbar-logo {
-      height: 44px;
+      height: 32px;
     }
     
     .nav-link {

@@ -92,23 +92,19 @@
                         </div>
                     </div>
 
-                    <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" id="modalPersonalize">
-                        <label class="form-check-label small" for="modalPersonalize">Ajouter nom & numéro (+5 $ CAD)</label>
-                    </div>
-
-                    <div id="personalizeFields" class="row g-2 mt-2" style="display:none;">
+                    <div class="row g-2 mt-3">
                         <div class="col-6">
                             <label class="form-label small">Nom</label>
-                            <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
+                            <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="Votre nom">
                             <div class="invalid-feedback">Veuillez renseigner le nom.</div>
                         </div>
                         <div class="col-6">
                             <label class="form-label small">Numéro</label>
-                            <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;">
+                            <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="10">
                             <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
                         </div>
                     </div>
+                    <small class="text-muted d-block mt-2">Personnalisation: +5 $ CAD</small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -158,8 +154,8 @@
     function updateModalPriceDisplay() {
       const base = Number(currentProduct.price) || 0;
       const qty = Math.max(1, Number(modalQtyEl().value) || 1);
-      const personalize = modalPersonalizeEl().checked;
-      const perUnitExtra = personalize ? PERSONALIZE_FEE : 0;
+      // Toujours ajouter les +5$ pour la personnalisation
+      const perUnitExtra = PERSONALIZE_FEE;
       const unitTotal = base + perUnitExtra;
       const total = unitTotal * qty;
       modalPriceEl().textContent = formatPrice(total);
@@ -189,8 +185,6 @@
           modalImgEl().alt = name;
           modalSizeEl().value = 'M';
           modalQtyEl().value = 1;
-          modalPersonalizeEl().checked = false;
-          personalizeFieldsEl().style.display = 'none';
           modalNameEl().value = '';
           modalNumberEl().value = '';
           modalNameEl().classList.remove('is-invalid');
@@ -206,40 +200,19 @@
     attachEvents();
 
     // modal interactions
-    modalPersonalizeEl().addEventListener('change', (e) => {
-      const checked = modalPersonalizeEl().checked;
-      personalizeFieldsEl().style.display = checked ? 'flex' : 'none';
-      modalNameEl().required = checked;
-      modalNumberEl().required = checked;
-      if (!checked) { modalNameEl().classList.remove('is-invalid'); modalNumberEl().classList.remove('is-invalid'); }
-      updateModalPriceDisplay();
-    });
     modalQtyEl().addEventListener('input', updateModalPriceDisplay);
     modalSizeEl().addEventListener('change', updateModalPriceDisplay);
-    modalNameEl().addEventListener('input', () => { if (modalPersonalizeEl().checked) { if ((modalNameEl().value||'').trim()) modalNameEl().classList.remove('is-invalid'); } });
-    modalNumberEl().addEventListener('input', () => { if (modalPersonalizeEl().checked) { if ((modalNumberEl().value||'').toString().trim() !== '') modalNumberEl().classList.remove('is-invalid'); } });
 
     // confirm -> add to cart
     customizeModalEl.querySelector('#confirmAdd').addEventListener('click', () => {
       const size = modalSizeEl().value;
       const qty = Math.max(1, Number(modalQtyEl().value) || 1);
-      const personalize = modalPersonalizeEl().checked;
       const pName = (modalNameEl().value || '').trim();
       const pNumber = (modalNumberEl().value ?? '').toString().trim();
-
-      if (personalize) {
-        const missingName = !pName;
-        const missingNumber = pNumber === '';
-        if (missingName || missingNumber) {
-          if (missingName) modalNameEl().classList.add('is-invalid'); else modalNameEl().classList.remove('is-invalid');
-          if (missingNumber) modalNumberEl().classList.add('is-invalid'); else modalNumberEl().classList.remove('is-invalid');
-          (missingName ? modalNameEl() : modalNumberEl()).focus();
-          return;
-        }
-      }
+      const hasPersonalization = pName || pNumber; // Optionnel
 
       const base = Number(currentProduct.price) || 0;
-      const perUnitExtra = personalize ? PERSONALIZE_FEE : 0;
+      const perUnitExtra = PERSONALIZE_FEE; // Toujours +5$
       const perUnitFinal = base + perUnitExtra;
 
       // update cart count
@@ -249,10 +222,10 @@
 
       let cartItems = [];
       try { cartItems = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
-      const personalization = personalize ? { name: pName, ...(pNumber ? { number: pNumber } : {}), extra: PERSONALIZE_FEE } : null;
+      const personalization = hasPersonalization ? { name: pName, ...(pNumber ? { number: pNumber } : {}), extra: PERSONALIZE_FEE } : { extra: PERSONALIZE_FEE };
       const placeholderImg = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 fill=%22%23eef0f3%22/%3E%3Ctext x=%2250%22 y=%2255%22 font-size=%2210%22 text-anchor=%22middle%22 fill=%22%236b6f76%22%3ENo image%3C/text%3E%3C/svg%3E';
       const imgVal = currentProduct.img || placeholderImg;
-      cartItems.push({ name: currentProduct.name, basePrice: base, perUnitPrice: perUnitFinal, quantity: qty, size: size, isVintage: !!(document.title && /vintage/i.test(document.title)), img: imgVal, productId: currentProduct.productId, personalized: personalize, personalization });
+      cartItems.push({ name: currentProduct.name, basePrice: base, perUnitPrice: perUnitFinal, quantity: qty, size: size, isVintage: !!(document.title && /vintage/i.test(document.title)), img: imgVal, productId: currentProduct.productId, personalized: true, personalization });
       try { localStorage.setItem('cartItems', JSON.stringify(cartItems)); } catch {}
       try { localStorage.setItem('cartCount', String(next)); } catch {}
       bsCustomizeModal.hide();

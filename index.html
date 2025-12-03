@@ -67,11 +67,10 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
     <link rel="manifest" href="./assets/site.webmanifest">
 
-    <!-- Google Fonts: Inter pour le corps + Nunito pour les titres (plus arrondi/cartoon) -->
+    <!-- Google Fonts: Oswald pour tout le site -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet"></noscript>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
 
     <!-- Preconnect CDN pour performances -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -114,15 +113,15 @@
         height: 100%;
         background: var(--bg);
         color: var(--text);
-        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+        font-family: 'Oswald', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
         font-size: 16px;
         line-height: 1.6;
         font-weight: 400;
       }
 
-      /* Hiérarchie typographique cohérente avec Nunito */
+      /* Hiérarchie typographique cohérente avec Oswald */
       h1, h2, h3, h4, h5, h6, .navbar-brand {
-        font-family: Nunito, Inter, system-ui, sans-serif !important;
+        font-family: 'Oswald', system-ui, sans-serif !important;
         font-weight: 700;
         letter-spacing: -0.025em;
         line-height: 1.3;
@@ -416,8 +415,9 @@
 
       .hero-title {
         font-size: clamp(2.5rem, 5vw, 4rem);
-        line-height: 1.1;
-        margin-bottom: 1.5rem;
+        line-height: 1.3;
+        margin-bottom: 5rem;
+        padding-bottom: 1rem;
       }
 
       .gradient-text {
@@ -431,7 +431,7 @@
       .hero-description {
         font-size: clamp(1.1rem, 2vw, 1.25rem);
         max-width: 540px;
-        color: var(--muted);
+        color: #000000;
         margin-bottom: 2rem;
       }
 
@@ -1339,7 +1339,7 @@
             <div class="hero-text-wrapper">
               <h1 class="hero-title display-3 fw-bold mb-2">
                 Maillots de foot<br>
-                <span class="gradient-text">vintage & récents</span>
+                <span style="color: #000000;">vintage & récents</span>
               </h1>
               <p class="lead hero-description mb-3">
                 1000+ maillots en stock.<br>
@@ -1371,8 +1371,8 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-5 col-xl-5 py-3 d-flex align-items-flex-start ms-auto" style="padding-top: 3rem;">
-            <div style="background: white; border-radius: 12px; padding: 2rem 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; height: fit-content; justify-content: flex-start;">
+          <div class="col-12 col-lg-5 col-xl-5 py-3 d-flex align-items-center">
+            <div style="background: white; border-radius: 12px; padding: 2rem 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; height: 100%; justify-content: center;">
               <h4 style="margin: 0 0 1rem 0; font-weight: 700; font-size: 1.1rem;">Vous cherchez un maillot ?</h4>
               
               <p style="color: #333; margin: 0 0 1rem 0; font-size: 0.9rem; line-height: 1.5;">
@@ -1405,7 +1405,7 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-8">
             <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-              <img src="./assets/logo.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
+              <img src="./assets/new.png" alt="Futbolero Logo" style="height: 32px; width: auto; object-fit: contain; filter: brightness(0) invert(1);">
               <h5 class="mb-0" style="color: #ffffff;">Futbolero Vintage Shop</h5>
             </div>
             <p class="text-secondary mb-3">

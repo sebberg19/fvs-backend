@@ -1,13 +1,13 @@
 /* 
  * Système typographique cohérent - Futbolero Vintage Shop
- * Base: Inter pour le texte, Nunito pour les titres
+ * Police: Oswald pour tout le site
  */
 
 /* Variables typographiques */
 :root {
-  --font-body: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, sans-serif;
-  --font-heading: Nunito, Inter, system-ui, sans-serif;
-  --font-ui: Inter, system-ui, sans-serif;
+  --font-body: 'Oswald', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Oswald', system-ui, sans-serif;
+  --font-ui: 'Oswald', system-ui, sans-serif;
   
   /* Tailles de base */
   --text-xs: 0.75rem;
