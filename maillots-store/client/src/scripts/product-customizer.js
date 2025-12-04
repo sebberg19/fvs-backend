@@ -111,9 +111,8 @@
                     <div class="mt-3">
                         <label class="form-label small">Badge (Championnat/Ligue)</label>
                         <textarea id="modalBadge" class="form-control form-control-sm" rows="2" maxlength="50" style="font-size: 16px;" placeholder="Ex: Champions League, Europa League, Ligue 1, Premier League, Serie A..."></textarea>
-                        <small class="text-muted">Max 50 caractères | Optionnel</small>
                     </div>
-                    <small class="text-muted d-block mt-2" style="color: #dc3545; font-weight: 600;">Badge (si renseigné): +2,50 $ CAD</small>
+                    <small class="text-muted d-block mt-2" style="color: #dc3545; font-weight: 600;">Badge: +2,50 $ CAD</small>
                 </div>
             </div>
             <div class="modal-footer">
