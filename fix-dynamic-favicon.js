@@ -18,9 +18,9 @@ function createJavaScriptFaviconSolution() {
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=7'; // Logo blanc pour mode sombre
+                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=7';  // Logo noir pour mode clair
+                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
                 }
             }
         }
@@ -34,7 +34,7 @@ function createJavaScriptFaviconSolution() {
     
     // Nouveau lien favicon simplifié
     const newFaviconLinks = `    <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=7" id="favicon">
+    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">`;
     
     htmlFiles.forEach(filename => {
