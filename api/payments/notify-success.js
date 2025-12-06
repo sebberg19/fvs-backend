@@ -34,13 +34,13 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
     if (item.personalization && (item.personalization.name || item.personalization.number || item.personalization.badge)) {
       const perso = item.personalization;
       personalizationHTML = `
-        <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-family: 'Oswald', sans-serif;">
-          <strong style="font-family: 'Oswald', sans-serif;">Personnalisation:</strong><br>
-          ${perso.name ? `Nom: ${perso.name}<br>` : ''}
-          ${perso.number ? `Numéro: ${perso.number}<br>` : ''}
-          ${perso.badge ? `Badge: ${perso.badge}<br>` : ''}
-          <span style="color: #198754; font-family: 'Oswald', sans-serif;">Frais: +$5.00 CAD</span>
-          ${perso.badgeExtra && perso.badgeExtra > 0 ? `<br><span style="color: #198754; font-family: 'Oswald', sans-serif;">Badge: +$${perso.badgeExtra.toFixed(2)} CAD</span>` : ''}
+        <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-family: 'Manrope', sans-serif; font-weight: 700;">
+          <strong style="font-family: 'Manrope', sans-serif; font-weight: 800;">Personnalisation:</strong><br>
+          ${perso.name ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Nom: ${perso.name}</span><br>` : ''}
+          ${perso.number ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Numéro: ${perso.number}</span><br>` : ''}
+          ${perso.badge ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Badge: ${perso.badge}</span><br>` : ''}
+          <span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Frais: +$5.00 CAD</span>
+          ${perso.badgeExtra && perso.badgeExtra > 0 ? `<br><span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Badge: +$${perso.badgeExtra.toFixed(2)} CAD</span>` : ''}
         </div>
       `;
     }
@@ -53,12 +53,12 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
               <td width="100" style="vertical-align: top;">
                 ${imgUrl ? `<img src="${fullImgUrl}" alt="${itemName}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">` : ''}
               </td>
-              <td style="padding-left: 20px; vertical-align: top; font-family: 'Oswald', sans-serif;">
-                <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #212529; font-weight: 700; font-family: 'Oswald', sans-serif;">${itemName}</h3>
-                ${item.size ? `<p style="margin: 4px 0; color: #6c757d; font-family: 'Oswald', sans-serif;">Taille: ${item.size}</p>` : ''}
-                <p style="margin: 4px 0; color: #6c757d; font-family: 'Oswald', sans-serif;">Quantité: ${quantity}</p>
-                <p style="margin: 8px 0; font-size: 16px; font-weight: bold; color: #212529; font-family: 'Oswald', sans-serif;">$${totalItemPrice} CAD</p>
-                ${item.isVintage ? '<p style="margin: 4px 0; color: #198754; font-weight: 600; font-family: \'Oswald\', sans-serif;">Maillot Vintage</p>' : ''}
+              <td style="padding-left: 20px; vertical-align: top; font-family: 'Manrope', sans-serif; font-weight: 700;">
+                <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #212529; font-weight: 800; font-family: 'Manrope', sans-serif;">${itemName}</h3>
+                ${item.size ? `<p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Taille: ${item.size}</p>` : ''}
+                <p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Quantité: ${quantity}</p>
+                <p style="margin: 8px 0; font-size: 16px; font-weight: 800; color: #212529; font-family: 'Manrope', sans-serif;">$${totalItemPrice} CAD</p>
+                ${item.isVintage ? '<p style="margin: 4px 0; color: #198754; font-weight: 700; font-family: \'Manrope\', sans-serif;">Maillot Vintage</p>' : ''}
                 ${personalizationHTML}
               </td>
             </tr>
@@ -87,9 +87,9 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   <title>Confirmation de commande</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Oswald', 'Segoe UI', Arial, sans-serif; background-color: #f8f9fa;">
+<body style="margin: 0; padding: 0; font-family: 'Manrope', 'Segoe UI', Arial, sans-serif; font-weight: 600; background-color: #f8f9fa;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa;">
     <tr>
       <td align="center" style="padding: 40px 20px;">
@@ -97,32 +97,32 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           <!-- Logo Header -->
           <tr>
             <td style="padding: 20px 40px; text-align: center; background: #ffffff; border-bottom: 1px solid #dee2e6;">
-              <img src="https://futbolerovintageshop.com/assets/new.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; margin-bottom: 10px;">
-              <h1 style="margin: 0; color: #000000; font-size: 24px; font-weight: 700; font-family: 'Oswald', sans-serif;">Futbolero Vintage Shop</h1>
+              <img src="https://futbolerovintageshop.com/assets/FVS.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; margin-bottom: 10px;">
+              <h1 style="margin: 0; color: #000000; font-size: 24px; font-weight: 800; font-family: 'Manrope', sans-serif;">Futbolero Vintage Shop</h1>
             </td>
           </tr>
           
           <!-- Header -->
           <tr>
             <td style="padding: 40px; text-align: center; background: linear-gradient(135deg, #2f6f3e 0%, #1a4d2e 100%); border-radius: 0;">
-              <h2 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700; font-family: 'Oswald', sans-serif;">Commande confirmée ✓</h2>
-              <p style="margin: 10px 0 0 0; color: #e8f5e9; font-size: 16px; font-family: 'Oswald', sans-serif;">Merci pour votre achat !</p>
+              <h2 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 800; font-family: 'Manrope', sans-serif;">Commande confirmée ✓</h2>
+              <p style="margin: 10px 0 0 0; color: #e8f5e9; font-size: 16px; font-family: 'Manrope', sans-serif; font-weight: 700;">Merci pour votre achat !</p>
             </td>
           </tr>
           
           <!-- Order Info -->
           <tr>
             <td style="padding: 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 700; font-family: 'Oswald', sans-serif;">Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},</h2>
-              <p style="margin: 0 0 20px 0; color: #6c757d; line-height: 1.6; font-family: 'Oswald', sans-serif;">
+              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},</h2>
+              <p style="margin: 0 0 20px 0; color: #6c757d; line-height: 1.6; font-family: 'Manrope', sans-serif; font-weight: 600;">
                 Votre commande a été reçue et sera préparée dans les plus brefs délais. Vous recevrez un email de confirmation d'expédition avec le numéro de suivi.
               </p>
               
               <table width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0; background: #f8f9fa; border-radius: 8px; padding: 20px;">
                 <tr>
                   <td>
-                    <p style="margin: 0 0 8px 0; color: #6c757d; font-family: 'Oswald', sans-serif;"><strong>Numéro de commande:</strong> ${orderId}</p>
-                    <p style="margin: 0; color: #6c757d; font-family: 'Oswald', sans-serif;"><strong>Date:</strong> ${new Date(timestamp).toLocaleString('fr-FR', { 
+                    <p style="margin: 0 0 8px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 700;"><strong>Numéro de commande:</strong> ${orderId}</p>
+                    <p style="margin: 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 700;"><strong>Date:</strong> ${new Date(timestamp).toLocaleString('fr-FR', { 
                       timeZone: 'America/Toronto',
                       dateStyle: 'full',
                       timeStyle: 'short'
@@ -136,7 +136,7 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           <!-- Items -->
           <tr>
             <td style="padding: 0 40px 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 700; font-family: 'Oswald', sans-serif;">Articles commandés</h2>
+              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Articles commandés</h2>
               <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden;">
                 ${itemsHTML}
               </table>
@@ -148,26 +148,26 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
             <td style="padding: 0 40px 30px 40px;">
               <table width="100%" cellpadding="0" cellspacing="0" style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
                 <tr>
-                  <td style="padding: 8px 0; font-family: 'Oswald', sans-serif;">
+                  <td style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
                     <span style="color: #6c757d;">Sous-total:</span>
                   </td>
-                  <td align="right" style="padding: 8px 0; font-family: 'Oswald', sans-serif;">
+                  <td align="right" style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
                     <strong style="color: #212529;">$${subtotal.toFixed(2)} CAD</strong>
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding: 8px 0; font-family: 'Oswald', sans-serif;">
+                  <td style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
                     <span style="color: #6c757d;">Livraison:</span>
                   </td>
-                  <td align="right" style="padding: 8px 0; font-family: 'Oswald', sans-serif;">
+                  <td align="right" style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
                     <strong style="color: #212529;">$7.00 CAD</strong>
                   </td>
                 </tr>
                 <tr style="border-top: 2px solid #dee2e6;">
-                  <td style="padding: 16px 0 0 0; font-family: 'Oswald', sans-serif;">
+                  <td style="padding: 16px 0 0 0; font-family: 'Manrope', sans-serif; font-weight: 800;">
                     <strong style="color: #212529; font-size: 18px;">Total:</strong>
                   </td>
-                  <td align="right" style="padding: 16px 0 0 0; font-family: 'Oswald', sans-serif;">
+                  <td align="right" style="padding: 16px 0 0 0; font-family: 'Manrope', sans-serif; font-weight: 800;">
                     <strong style="color: #2f6f3e; font-size: 20px;">$${Number(total || 0).toFixed(2)} CAD</strong>
                   </td>
                 </tr>
@@ -178,8 +178,8 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           <!-- Shipping Address -->
           <tr>
             <td style="padding: 0 40px 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 700; font-family: 'Oswald', sans-serif;">Adresse de livraison</h2>
-              <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; font-family: 'Oswald', sans-serif;">
+              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Adresse de livraison</h2>
+              <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; font-family: 'Manrope', sans-serif; font-weight: 700;">
                 <p style="margin: 0; color: #212529; line-height: 1.8;">
                   <strong>${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''}</strong><br>
                   ${checkoutInfo.address || ''}<br>
@@ -194,12 +194,12 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           
           <!-- Footer -->
           <tr>
-            <td style="padding: 30px 40px; background: #f8f9fa; border-radius: 0 0 12px 12px; text-align: center; font-family: 'Oswald', sans-serif;">
-              <p style="margin: 0 0 10px 0; color: #6c757d; font-size: 14px; font-family: 'Oswald', sans-serif;">
+            <td style="padding: 30px 40px; background: #f8f9fa; border-radius: 0 0 12px 12px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700;">
+              <p style="margin: 0 0 10px 0; color: #6c757d; font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 600;">
                 Pour toute question, contactez-nous à<br>
-                <a href="mailto:futbolerovintageshop@gmail.com" style="color: #2f6f3e; text-decoration: none; font-weight: 600;">futbolerovintageshop@gmail.com</a>
+                <a href="mailto:futbolerovintageshop@gmail.com" style="color: #2f6f3e; text-decoration: none; font-weight: 700;">futbolerovintageshop@gmail.com</a>
               </p>
-              <p style="margin: 20px 0 0 0; color: #6c757d; font-size: 14px; font-family: 'Oswald', sans-serif;">
+              <p style="margin: 20px 0 0 0; color: #6c757d; font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 600;">
                 <strong>Futbolero Vintage Shop</strong><br>
                 Maillots vintage et actuels de qualité premium
               </p>

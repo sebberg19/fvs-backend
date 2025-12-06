@@ -239,12 +239,12 @@ const renderEmailTemplate = async (session, orderId) => {
     
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
     }
     
     // Personnalisation
@@ -252,15 +252,15 @@ const renderEmailTemplate = async (session, orderId) => {
       detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
       }
       
       if (item.persoFee) {
-        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: Inter, system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: 'Manrope', system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
       }
       
       detailsHtml += `</div>`;
@@ -275,11 +275,11 @@ const renderEmailTemplate = async (session, orderId) => {
             <img src="${imgSrc}" alt="${item.name}" style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: cover; object-position: center;">
           </td>
           <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
-            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">${item.name}</h4>
             ${detailsHtml}
             <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
-              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
+              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
+              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
             </div>
           </td>
         </tr>
@@ -293,15 +293,15 @@ const renderEmailTemplate = async (session, orderId) => {
   const itemsHtml = itemsHtmlArray.join('');
   
   const html = `
-    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
+    <div style="font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
       <!-- Header avec style noir et blanc -->
       <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
                style="height: 40px; width: auto; margin-right: 12px;">
           <div>
-            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
+            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 700;">Vintage Shop</p>
           </div>
         </div>
       </div>
@@ -319,19 +319,19 @@ const renderEmailTemplate = async (session, orderId) => {
           <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Détails de la commande</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">ID Commande:</span>
+              <span style="color: #666; font-weight: 700;">ID Commande:</span>
               <span style="color: #000; font-weight: 600;">${orderId}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Montant total:</span>
+              <span style="color: #666; font-weight: 700;">Montant total:</span>
               <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Articles:</span>
+              <span style="color: #666; font-weight: 700;">Articles:</span>
               <span style="color: #000; font-weight: 600;">${items.length}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 500;">ID Session:</span>
+              <span style="color: #666; font-weight: 700;">ID Session:</span>
               <span style="color: #000; font-size: 12px; font-family: monospace;">${sessionId}</span>
             </div>
           </div>
@@ -342,19 +342,19 @@ const renderEmailTemplate = async (session, orderId) => {
           <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Informations client</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Nom:</span>
+              <span style="color: #666; font-weight: 700;">Nom:</span>
               <span style="color: #000; font-weight: 600;">${customerName}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Email:</span>
+              <span style="color: #666; font-weight: 700;">Email:</span>
               <span style="color: #000;"><a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline;">${customerEmail}</a></span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Téléphone:</span>
+              <span style="color: #666; font-weight: 700;">Téléphone:</span>
               <span style="color: #000; font-weight: 600;">${customerPhone}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 500;">Paiement:</span>
+              <span style="color: #666; font-weight: 700;">Paiement:</span>
               <span style="color: #000; font-weight: 600;">Confirmé</span>
             </div>
           </div>
@@ -474,12 +474,12 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
     }
     
     // Personnalisation
@@ -487,15 +487,15 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
       
       if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
       }
       
       if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: Inter, system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
+        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
       }
       
       if (item.persoFee) {
-        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: Inter, system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
+        detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: 'Manrope', system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
       }
       
       detailsHtml += `</div>`;
@@ -510,11 +510,11 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
             <img src="${imgSrc}" alt="${item.name}" style="width: 70px; height: 70px; display: block; border-radius: 4px; border: 1px solid #ddd; background-color: #f0f0f0; object-fit: cover; object-position: center;">
           </td>
           <td style="padding-bottom: 0; padding-top: 0; vertical-align: top;">
-            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">${item.name}</h4>
+            <h4 style="margin: 0 0 8px 0; color: #000; font-size: 15px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">${item.name}</h4>
             ${detailsHtml}
             <div style="margin-top: 8px; padding-top: 8px; border-top: 1px solid #f0f0f0;">
-              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: Inter, system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
-              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
+              <p style="margin: 0 0 2px 0; color: #666; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;">Quantité: <strong>${item.quantity}</strong></p>
+              <p style="margin: 0; color: #000; font-size: 14px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Prix: <strong>$${((item.price || 0) * item.quantity).toFixed(2)} CAD</strong></p>
             </div>
           </td>
         </tr>
@@ -528,15 +528,15 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
   const itemsHtml = itemsHtmlArray.join('');
   
   const html = `
-    <div style="font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
+    <div style="font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
       <!-- Header avec logo noir et blanc -->
       <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
         <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
           <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
                style="height: 40px; width: auto; margin-right: 12px;">
           <div>
-            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: Inter, system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 500;">Vintage Shop</p>
+            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Futbolero</h1>
+            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 700;">Vintage Shop</p>
           </div>
         </div>
       </div>
@@ -557,19 +557,19 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
           <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Récapitulatif de votre commande</h3>
           <div style="display: grid; gap: 8px;">
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Numéro de commande:</span>
+              <span style="color: #666; font-weight: 700;">Numéro de commande:</span>
               <span style="color: #000; font-weight: 600;">${orderId}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Total payé:</span>
+              <span style="color: #666; font-weight: 700;">Total payé:</span>
               <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 500;">Nombre d'articles:</span>
+              <span style="color: #666; font-weight: 700;">Nombre d'articles:</span>
               <span style="color: #000; font-weight: 600;">${items.length}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 500;">Email de confirmation:</span>
+              <span style="color: #666; font-weight: 700;">Email de confirmation:</span>
               <span style="color: #000; font-size: 14px;">${customerEmail}</span>
             </div>
           </div>

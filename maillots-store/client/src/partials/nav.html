@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container align-items-center">
     <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
-      <img src="./assets/new.png" alt="Futbolero Logo" class="navbar-logo">
+      <img src="./assets/FVS.png" alt="Futbolero Logo" class="navbar-logo">
       <div class="brand-text-stack d-flex d-md-none flex-column align-items-start lh-1">
         <span class="brand-line">Futbolero</span>
         <span class="brand-line">Vintage</span>
@@ -52,19 +52,25 @@
 </nav>
 
 <style>
-  /* Importer Oswald pour tout */
-  @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
+  /* Importer Manrope pour tout */
+  @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap');
   
   /* Hiérarchie typographique cohérente */
   .navbar-brand {
-    font-family: 'Oswald', system-ui, sans-serif !important;
-    font-weight: 800 !important;
+    font-family: 'Manrope', system-ui, sans-serif !important;
+    font-weight: 900 !important;
     letter-spacing: -0.02em;
     font-size: 1.15rem !important;
     line-height: 1.3;
     align-items: center !important;
     height: 60px;
     display: flex !important;
+    text-shadow: 
+      -0.3px -0.3px 0 rgba(0, 0, 0, 0.15),
+      0.3px -0.3px 0 rgba(0, 0, 0, 0.15),
+      -0.3px 0.3px 0 rgba(0, 0, 0, 0.15),
+      0.3px 0.3px 0 rgba(0, 0, 0, 0.15);
+    -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.08);
   }
   
   /* Texte empilé sur mobile */
@@ -91,7 +97,7 @@
   
   /* Logo dans la navigation - à gauche */
   .navbar-logo {
-    height: 28px;
+    height: 32px;
     width: auto;
     object-fit: contain;
     filter: none;
@@ -101,8 +107,8 @@
   
   /* Navigation links */
   .nav-link {
-    font-family: 'Oswald', system-ui, sans-serif !important;
-    font-weight: 500;
+    font-family: 'Manrope', system-ui, sans-serif !important;
+    font-weight: 700;
     letter-spacing: -0.01em;
     font-size: 0.95rem;
     transition: all 0.2s ease;
@@ -120,7 +126,7 @@
     }
     
     .navbar-logo {
-      height: 32px;
+      height: 36px;
     }
     
     .nav-link {
