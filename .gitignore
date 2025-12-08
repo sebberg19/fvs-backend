@@ -12,3 +12,6 @@ logs/
 # Build artefacts
 dist/
 build/
+
+# Local Netlify folder
+.netlify
