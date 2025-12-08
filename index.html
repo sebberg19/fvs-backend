@@ -68,10 +68,8 @@
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
     <link rel="manifest" href="./assets/site.webmanifest">
 
-    <!-- Google Fonts: Manrope pour tout le site -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <!-- Police Switzer -->
+    <link rel="stylesheet" href="./assets/switzer-fonts.css">
 
     <!-- Preconnect CDN pour performances -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -114,15 +112,15 @@
         height: 100%;
         background: var(--bg);
         color: var(--text);
-        font-family: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+        font-family: 'Switzer', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
         font-size: 16px;
         line-height: 1.6;
         font-weight: 400;
       }
 
-      /* Hiérarchie typographique cohérente avec Manrope */
+      /* Hiérarchie typographique cohérente avec Switzer */
       h1, h2, h3, h4, h5, h6, .navbar-brand {
-        font-family: 'Manrope', system-ui, sans-serif !important;
+        font-family: 'Switzer', system-ui, sans-serif !important;
         font-weight: 700;
         letter-spacing: -0.025em;
         line-height: 1.3;
@@ -130,16 +128,16 @@
       }
       
       /* Tailles de titres cohérentes */
-      h1 { font-size: 2.5rem; font-weight: 800; }
-      h2 { font-size: 2rem; font-weight: 700; }
-      h3 { font-size: 1.5rem; font-weight: 700; }
-      h4 { font-size: 1.25rem; font-weight: 600; }
-      h5 { font-size: 1.125rem; font-weight: 600; }
-      h6 { font-size: 1rem; font-weight: 600; }
+      h1 { font-size: 2.5rem; font-weight: 600; }
+      h2 { font-size: 2rem; font-weight: 500; }
+      h3 { font-size: 1.5rem; font-weight: 500; }
+      h4 { font-size: 1.25rem; font-weight: 500; }
+      h5 { font-size: 1.125rem; font-weight: 500; }
+      h6 { font-size: 1rem; font-weight: 500; }
       
       /* Brand navigation */
       .navbar-brand {
-        font-weight: 800 !important;
+        font-weight: 600 !important;
         font-size: 1.15rem;
         letter-spacing: -0.02em;
       }
@@ -154,7 +152,7 @@
       
       /* Texte corporel amélioré */
       p, .lead { 
-        font-family: 'Manrope', system-ui, sans-serif;
+        font-family: 'Switzer', system-ui, sans-serif;
         line-height: 1.65;
         margin-bottom: 1rem;
       }
@@ -167,7 +165,7 @@
       
       /* Navigation et UI */
       .nav-link, .btn {
-        font-family: 'Manrope', system-ui, sans-serif;
+        font-family: 'Switzer', system-ui, sans-serif;
         font-weight: 700;
         letter-spacing: -0.01em;
       }
@@ -946,37 +944,37 @@
 .jersey-carousel {
   display: flex;
   width: max-content;
-  gap: 1.5rem;
-  padding: 0.5rem 2rem;
+  gap: 2rem;
+  padding: 1rem 2rem;
 }
 
 .jersey-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 220px;
-  padding: 1.5rem;
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  width: 200px;
+  padding: 0.75rem;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
   transition: all 0.3s ease;
   cursor: pointer;
   flex-shrink: 0;
   position: relative;
-  overflow: hidden;
-  margin: 0.25rem;
+  overflow: visible;
+  margin: 0;
 }
 
 .jersey-item:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 }
 
 .jersey-img {
   width: 180px;
   height: 180px;
   object-fit: contain;
-  margin-bottom: 1.25rem;
+  margin-bottom: 0.75rem;
   transition: transform 0.3s ease;
 }
 
@@ -985,49 +983,25 @@
 }
 
 .jersey-name {
-  font-size: 1rem;
-  font-weight: 800;
+  font-size: 0.9rem;
+  font-weight: 500;
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.35rem;
   color: var(--text);
   transition: color 0.3s ease;
-  font-weight: 800;
-  color: var(--text);
-  text-align: center;
-  margin-bottom: 0.5rem;
   line-height: 1.2;
 }
 
 .jersey-price {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0;
+  text-align: center;
 }
 
 .jersey-item .add-to-cart {
-  padding: 0.6rem 1.2rem;
-  background-color: var(--accent);
-  color: var(--accent-contrast);
-  border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 0.75rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  opacity: 0.9;
-  transform: translateY(5px);
-}
-
-.jersey-item:hover .add-to-cart {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.jersey-item .add-to-cart:hover {
-  transform: translateY(0) scale(1.05);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: none;
 }
 
 @keyframes scroll-left {
@@ -1172,7 +1146,7 @@
 
 .search-result-title {
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 500;
   color: var(--text);
   margin: 0;
   line-height: 1.3;
@@ -1340,7 +1314,7 @@
             <div class="hero-text-wrapper">
               <h1 class="hero-title display-3 fw-bold mb-2">
                 Maillots de foot<br>
-                <span style="color: #000000;">vintage & récents</span>
+                <span style="color: #000000; font-weight: bold;">vintage & récents</span>
               </h1>
               <p class="lead hero-description mb-3">
                 1000+ maillots en stock.<br>

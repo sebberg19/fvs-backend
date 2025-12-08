@@ -1,0 +1,218 @@
+/* 
+ * Styles uniformes pour toutes les pages de produits
+ * Futbolero Vintage Shop
+ */
+
+/* Professional Product Layout */
+.product-grid {
+  margin: 0;
+  gap: 2rem 1.5rem;
+}
+
+.product-card {
+  border: none;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+
+.product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: transparent;
+}
+
+.product-image {
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  aspect-ratio: 1;
+}
+
+.product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+/* Style pour les images cliquables */
+.product-image.clickable {
+  cursor: pointer;
+}
+
+.product-image.clickable:hover {
+  opacity: 0.9;
+}
+
+.product-info {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.35rem;
+}
+
+.product-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.product-price {
+  font-size: 0.85rem;
+  color: #000;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+.product-btn {
+  display: none;
+}
+
+.vintage-badge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: var(--accent);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* Ajustement pour la navbar fixe */
+main {
+  padding-top: 1.5rem !important;
+}
+
+@media (max-width: 768px) {
+  main {
+    padding-top: 1rem !important;
+  }
+}
+
+/* Styles pour la barre de recherche du carousel */
+.input-group {
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+
+#carousel-search-input {
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1rem 0.75rem 48px;
+  font-size: 0.9375rem;
+  background: transparent;
+  transition: all 0.2s ease;
+  color: var(--text);
+}
+
+#carousel-search-input::placeholder {
+  color: var(--muted);
+  opacity: 0.8;
+}
+
+.carousel-search-icon-btn {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  z-index: 3;
+}
+
+.carousel-search-icon-btn:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+#carousel-clear-search {
+  display: none !important;
+}
+
+#carousel-clear-search:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+#carousel-search-input:focus {
+  box-shadow: none;
+  outline: none;
+  background: var(--surface);
+}
+
+.input-group:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  border-color: var(--border);
+}
+
+.input-group:focus-within {
+  border-color: var(--border);
+  box-shadow: none;
+}
+
+.input-group .form-control:focus {
+  z-index: 5;
+}
+
+#carousel-search-input:focus,
+#carousel-search-input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.input-group #carousel-search-input:focus,
+.input-group #carousel-search-input:focus-visible {
+  box-shadow: none !important;
+}
+
+.product-card.hidden {
+  display: none !important;
+}
+
+.jersey-item {
+  position: relative;
+}
+
+.jersey-item.visible {
+  display: flex !important;
+}
+
+.jersey-item.hidden {
+  display: none !important;
+}

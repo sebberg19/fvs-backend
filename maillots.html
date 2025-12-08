@@ -31,11 +31,16 @@
     <link rel="manifest" href="./assets/site.webmanifest">
 
     <!-- Fonts + Bootstrap + Icons (align� avec la page vintage) -->
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Police Switzer -->
+    <link rel="stylesheet" href="./assets/switzer-fonts.css">
+    
+    <!-- Styles uniformes des produits -->
+    <link rel="stylesheet" href="./assets/products.css">
 
     <!-- Styles thème -->
     <style>
@@ -44,7 +49,7 @@
             --accent: #2f6f3e; --accent-contrast: #ffffff;
         }
         html, body { height: 100%; background: var(--bg); color: var(--text);
-            font-family: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+            font-family: 'Switzer', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
             font-weight: 700;
         }
         .navbar { 
@@ -180,106 +185,6 @@
         }
         .row.g-0 {
             margin: 0 !important;
-        }
-        
-        /* Professional Product Layout - same as maillots-vintage */
-        .product-grid {
-          margin: 0;
-        }
-        
-        .product-card {
-          border: 1px solid var(--border);
-          background: var(--surface);
-          transition: all 0.3s ease;
-          cursor: pointer;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-        }
-        
-        .product-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-          border-color: var(--accent);
-        }
-        
-        .product-image {
-          position: relative;
-          overflow: hidden;
-          background: #f8f9fa;
-        }
-        
-        .product-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          transition: transform 0.3s ease;
-          cursor: pointer;
-        }
-        
-        .product-card:hover .product-image img {
-          transform: scale(1.05);
-        }
-        
-        /* Style pour les images cliquables */
-        .product-image.clickable {
-          cursor: pointer;
-        }
-        
-        .product-image.clickable:hover {
-          opacity: 0.9;
-        }
-        
-        .product-info {
-          padding: 1rem;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          gap: 0.5rem;
-        }
-        
-        .product-title {
-          font-size: 0.9rem;
-          font-weight: 800;
-          color: var(--text);
-          margin: 0;
-          line-height: 1.3;
-        }
-        
-        .product-price {
-          font-size: 0.85rem;
-          color: #000;
-          font-weight: 600;
-          margin: 0.25rem 0;
-        }
-        
-        .product-btn {
-          background: #000 !important;
-          color: #fff !important;
-          border: none;
-          padding: 0.4rem 0.8rem;
-          font-size: 0.8rem;
-          font-weight: 500;
-          border-radius: 4px;
-          transition: transform 0.2s ease;
-          width: 100%;
-          margin-top: auto;
-        }
-        
-        .vintage-badge {
-          position: absolute;
-          top: 0.5rem;
-          right: 0.5rem;
-          background: var(--accent);
-          color: white;
-          font-size: 0.7rem;
-          padding: 0.25rem 0.5rem;
-          border-radius: 12px;
-          font-weight: 500;
         }
         
         /* Ajustement pour la navbar fixe */
