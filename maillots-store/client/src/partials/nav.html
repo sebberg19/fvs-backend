@@ -1,13 +1,8 @@
 <nav class="navbar navbar-expand-lg navbar-light sticky-top">
   <div class="container align-items-center">
     <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
-      <img src="./assets/FVS.png" alt="Futbolero Logo" class="navbar-logo">
-      <div class="brand-text-stack d-flex d-md-none flex-column align-items-start lh-1">
-        <span class="brand-line">Futbolero</span>
-        <span class="brand-line">Vintage</span>
-        <span class="brand-line">Shop</span>
-      </div>
-      <span class="d-none d-md-inline">Futbolero Vintage Shop</span>
+      <img src="./assets/fvs_nav.png" alt="Futbolero Logo" class="navbar-logo navbar-logo-desktop" style="height: 32px; width: auto; object-fit: contain;">
+      <img src="./assets/fvs_nav_phone.png" alt="Futbolero Logo" class="navbar-logo navbar-logo-mobile" style="height: 32px; width: auto; object-fit: contain; display: none;">
     </a>
 
     <div class="d-flex align-items-center ms-auto gap-2">
@@ -103,6 +98,25 @@
     filter: none;
     flex-shrink: 0;
     margin-right: 0.5rem;
+  }
+  
+  /* Logos responsifs */
+  .navbar-logo-desktop {
+    display: block !important;
+  }
+  
+  .navbar-logo-mobile {
+    display: none !important;
+  }
+  
+  @media (max-width: 991.98px) {
+    .navbar-logo-desktop {
+      display: none !important;
+    }
+    
+    .navbar-logo-mobile {
+      display: block !important;
+    }
   }
   
   /* Navigation links */
