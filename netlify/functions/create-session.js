@@ -112,9 +112,10 @@ exports.handler = async (event, context) => {
           if (item.personalization.number) {
             itemData.persoNumber = item.personalization.number;
           }
-          // Indiquer qu'il y a des frais de personnalisation
-          if (item.personalization.name || item.personalization.number) {
-            itemData.persoFee = 5.00;
+          // Indiquer qu'il y a des frais de personnalisation (uniquement si Nom+Numéro => extra > 0)
+          const extra = Number(item.personalization.extra || 0);
+          if (Number.isFinite(extra) && extra > 0) {
+            itemData.persoFee = extra;
           }
         }
         

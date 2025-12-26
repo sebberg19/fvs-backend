@@ -25,21 +25,30 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   const itemsHTML = (items || []).map((item, index) => {
     const itemName = item.name || 'Article';
     const quantity = item.quantity || 1;
-    const price = Number(item.perUnitPrice || item.price || 0).toFixed(2);
-    const totalItemPrice = (Number(item.perUnitPrice || item.price || 0) * quantity).toFixed(2);
+    const storedPerUnit = Number(item.perUnitPrice);
+    const baseUnit = Number(item.price || 0);
+    let unitForHtml = (!Number.isNaN(storedPerUnit) && storedPerUnit > 0) ? storedPerUnit : baseUnit;
+    if (Number.isNaN(storedPerUnit) || storedPerUnit <= 0) {
+      unitForHtml += (Number(item.personalization?.extra || 0) || 0) + (Number(item.personalization?.badgeExtra || 0) || 0);
+    }
+    const price = unitForHtml.toFixed(2);
+    const totalItemPrice = (unitForHtml * quantity).toFixed(2);
     const imgUrl = item.img || item.image || item.imageUrl || '';
     const fullImgUrl = imgUrl.startsWith('http') ? imgUrl : `${baseUrl}/${imgUrl}`;
     
     let personalizationHTML = '';
     if (item.personalization && (item.personalization.name || item.personalization.number || item.personalization.badge)) {
       const perso = item.personalization;
+      const persoName = String(perso.name || '').trim() || 'Sans';
+      const persoNumber = String(perso.number ?? '').trim() || 'Sans';
+      const extra = Number(perso.extra || 0) || 0;
       personalizationHTML = `
         <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-family: 'Manrope', sans-serif; font-weight: 700;">
           <strong style="font-family: 'Manrope', sans-serif; font-weight: 800;">Personnalisation:</strong><br>
-          ${perso.name ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Nom: ${perso.name}</span><br>` : ''}
-          ${perso.number ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Numéro: ${perso.number}</span><br>` : ''}
+          <span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Nom: ${persoName}</span><br>
+          <span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Numéro: ${persoNumber}</span><br>
           ${perso.badge ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Badge: ${perso.badge}</span><br>` : ''}
-          <span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Frais: +$5.00 CAD</span>
+          ${extra > 0 ? `<span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Frais: +$${extra.toFixed(2)} CAD</span>` : ''}
           ${perso.badgeExtra && perso.badgeExtra > 0 ? `<br><span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Badge: +$${perso.badgeExtra.toFixed(2)} CAD</span>` : ''}
         </div>
       `;
@@ -69,13 +78,14 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   }).join('');
 
   const subtotal = (items || []).reduce((sum, item) => {
-    const unitPrice = Number(item.perUnitPrice || item.price || 0);
+    const storedPerUnit = Number(item.perUnitPrice);
+    const baseUnit = Number(item.price || 0);
+    let unitPrice = (!Number.isNaN(storedPerUnit) && storedPerUnit > 0) ? storedPerUnit : baseUnit;
     const qty = item.quantity || 1;
-    let itemTotal = unitPrice * qty;
-    if (item.personalization && (item.personalization.name || item.personalization.number)) {
-      itemTotal += 5.00;
+    if (Number.isNaN(storedPerUnit) || storedPerUnit <= 0) {
+      unitPrice += (Number(item.personalization?.extra || 0) || 0) + (Number(item.personalization?.badgeExtra || 0) || 0);
     }
-    return sum + itemTotal;
+    return sum + (unitPrice * qty);
   }, 0);
 
   return `
@@ -219,8 +229,17 @@ function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   const itemsList = (items || []).map((item, index) => {
     const itemName = item.name || 'Article';
     const quantity = item.quantity || 1;
-    const price = Number(item.perUnitPrice || item.price || 0).toFixed(2);
-    const totalItemPrice = (Number(item.perUnitPrice || item.price || 0) * quantity).toFixed(2);
+    const storedPerUnit = Number(item.perUnitPrice);
+    const baseUnit = Number(item.price || 0);
+    let unitForText = (!Number.isNaN(storedPerUnit) && storedPerUnit > 0) ? storedPerUnit : baseUnit;
+    // Si perUnitPrice n'est pas fourni, ajouter les extras éventuellement stockés.
+    if (Number.isNaN(storedPerUnit) || storedPerUnit <= 0) {
+      const extra = Number(item.personalization?.extra || 0) || 0;
+      const badgeExtra = Number(item.personalization?.badgeExtra || 0) || 0;
+      unitForText += extra + badgeExtra;
+    }
+    const price = unitForText.toFixed(2);
+    const totalItemPrice = (unitForText * quantity).toFixed(2);
     
     // Build detailed item description
     let details = `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━\nArticle ${index + 1}: ${itemName}\n`;
@@ -243,21 +262,21 @@ function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = 
     if (item.personalization) {
       const perso = item.personalization;
       if (perso.name || perso.number || perso.badge) {
+        const persoName = String(perso.name || '').trim() || 'Sans';
+        const persoNumber = String(perso.number ?? '').trim() || 'Sans';
         details += `  PERSONNALISATION:\n`;
-        if (perso.name) {
-          details += `     Nom: ${perso.name}\n`;
-        }
-        if (perso.number) {
-          details += `     Numéro: ${perso.number}\n`;
-        }
+        details += `     Nom: ${persoName}\n`;
+        details += `     Numéro: ${persoNumber}\n`;
         if (perso.badge) {
           details += `     Badge: ${perso.badge}\n`;
         }
-        details += `     Frais personnalisation: +$5.00 CAD\n`;
+        const extra = Number(perso.extra || 0) || 0;
+        if (extra > 0) {
+          details += `     Frais personnalisation: +$${extra.toFixed(2)} CAD\n`;
+        }
         if (perso.badgeExtra && perso.badgeExtra > 0) {
           details += `     Frais badge: +$${perso.badgeExtra.toFixed(2)} CAD\n`;
         }
-        details += `     Frais de personnalisation: +$5.00 CAD\n`;
       }
     }
     
@@ -276,14 +295,15 @@ function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   }).join('\n') || 'Aucun article listé.';
 
   const subtotal = (items || []).reduce((sum, item) => {
-    const unitPrice = Number(item.perUnitPrice || item.price || 0);
+    const storedPerUnit = Number(item.perUnitPrice);
+    const baseUnit = Number(item.price || 0);
+    let unitPrice = (!Number.isNaN(storedPerUnit) && storedPerUnit > 0) ? storedPerUnit : baseUnit;
     const qty = item.quantity || 1;
-    let itemTotal = unitPrice * qty;
-    // Ajouter frais de personnalisation si présent
-    if (item.personalization && (item.personalization.name || item.personalization.number)) {
-      itemTotal += 5.00;
+    // Si perUnitPrice n'est pas fourni, ajouter les extras éventuellement stockés.
+    if (Number.isNaN(storedPerUnit) || storedPerUnit <= 0) {
+      unitPrice += (Number(item.personalization?.extra || 0) || 0) + (Number(item.personalization?.badgeExtra || 0) || 0);
     }
-    return sum + itemTotal;
+    return sum + (unitPrice * qty);
   }, 0);
 
   return `Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},

@@ -287,14 +287,11 @@ const renderEmailTemplate = async (session, orderId) => {
     // Personnalisation
     if (item.persoName || item.persoNumber) {
       detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
-      
-      if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
-      }
-      
-      if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
-      }
+
+      const persoName = String(item.persoName || '').trim() || 'Sans';
+      const persoNumber = String(item.persoNumber ?? '').trim() || 'Sans';
+      detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${persoName}</p>`;
+      detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${persoNumber}</p>`;
       
       if (item.persoFee) {
         detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: 'Manrope', system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;
@@ -551,14 +548,11 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     // Personnalisation
     if (item.persoName || item.persoNumber) {
       detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 2px;">`;
-      
-      if (item.persoName) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${item.persoName}</p>`;
-      }
-      
-      if (item.persoNumber) {
-        detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${item.persoNumber}</p>`;
-      }
+
+      const persoName = String(item.persoName || '').trim() || 'Sans';
+      const persoNumber = String(item.persoNumber ?? '').trim() || 'Sans';
+      detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Nom:</strong> ${persoName}</p>`;
+      detailsHtml += `<p style="margin: 0 0 2px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Numéro:</strong> ${persoNumber}</p>`;
       
       if (item.persoFee) {
         detailsHtml += `<p style="margin: 2px 0 0 0; color: #666; font-size: 12px; font-family: 'Manrope', system-ui, sans-serif;">Supplément: +$${item.persoFee.toFixed(2)} CAD</p>`;

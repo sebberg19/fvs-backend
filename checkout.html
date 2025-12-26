@@ -247,7 +247,9 @@
         const label = it.name && String(it.name).trim().length ? it.name : 'Article';
         const size = it.size ? ` — <small class="text-secondary">Taille: ${it.size}</small>` : '';
         const p = it.personalization;
-        const pers = p && (p.name || p.number) ? ` — <small class="text-secondary">Perso: ${p.name||''}${p.number? ' #'+p.number: ''} (+$5)</small>` : '';
+        const pExtra = p && typeof p === 'object' ? Number(p.extra) : 0;
+        const showExtra = (Number.isFinite(pExtra) && pExtra > 0) || (p && p.name && p.number);
+        const pers = p && (p.name || p.number) ? ` — <small class="text-secondary">Perso: ${p.name||''}${p.number? ' #'+p.number: ''}${showExtra ? ' (+$5)' : ''}</small>` : '';
         li.innerHTML = `<span>${label} × ${qty}${size}${pers}</span><span>$${line.toFixed(2)} CAD`;
         list.appendChild(li);
       });
