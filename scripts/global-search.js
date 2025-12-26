@@ -4,6 +4,27 @@
 (function() {
     'use strict';
 
+    // If the page already uses the unified search (search-utils.js), do not bind this
+    // older cross-page search to avoid duplicate handlers and conflicting results.
+    if (typeof window.searchProducts === 'function') {
+        return;
+    }
+
+    function normalizeForSearch(s) {
+        try {
+            if (typeof window.normalizeText === 'function') return window.normalizeText(s);
+        } catch {}
+        return (s || '').toString().toLowerCase().trim();
+    }
+
+    function expandQueryTokens(query) {
+        try {
+            if (typeof window.__expandQueryTokens__ === 'function') return window.__expandQueryTokens__(query);
+        } catch {}
+        const q = normalizeForSearch(query);
+        return q ? [q] : [];
+    }
+
     // Configuration des pages produits
     const PRODUCT_PAGES = {
         'tous-les-maillots.html': 'Tous les maillots',
@@ -57,6 +78,8 @@
     async function searchOtherPages(query) {
         const currentPage = getCurrentPage();
         const otherResults = [];
+
+        const queryTokens = expandQueryTokens(query);
         
         for (const [page, pageTitle] of Object.entries(PRODUCT_PAGES)) {
             if (page === currentPage) continue;
@@ -80,10 +103,16 @@
                         const imgSrc = imgEl.getAttribute('src') || '';
                         const match = imgSrc.match(/\/([^\/]+)\.(webp|png|jpg)/i);
                         const filename = match ? match[1].toLowerCase() : '';
-                        const title = titleEl.textContent.trim().toLowerCase();
-                        
-                        // Vérifier si le produit correspond à la recherche
-                        if (title.includes(query) || filename.includes(query)) {
+                        const title = normalizeForSearch(titleEl.textContent);
+
+                        // Vérifier si le produit correspond à la recherche (avec aliases si dispo)
+                        const matches = queryTokens.length > 0 && queryTokens.some((tok) => {
+                            if (!tok) return false;
+                            const tokNoSpaces = tok.replace(/\s+/g, '');
+                            return title.includes(tok) || filename.includes(tokNoSpaces);
+                        });
+
+                        if (matches) {
                             otherResults.push({
                                 page,
                                 pageTitle,
@@ -146,12 +175,13 @@
         
         if (!searchInput || !container) return;
         
-        const query = searchInput.value.toLowerCase().trim();
+        const rawQuery = searchInput.value || '';
+        const queryTokens = expandQueryTokens(rawQuery);
         
         // Supprimer les anciennes cartes cross-page
         container.querySelectorAll('[data-cross-page="true"]').forEach(el => el.remove());
         
-        if (query === '') {
+        if (queryTokens.length === 0) {
             // Réafficher tous les produits de la page actuelle
             container.querySelectorAll('.col-6, .col-md-4, .col-lg-3').forEach(col => {
                 col.style.display = '';
@@ -165,10 +195,14 @@
         let localCount = 0;
         
         currentProducts.forEach(product => {
-            const matchesTitle = product.title.toLowerCase().includes(query);
-            const matchesFilename = product.filename.includes(query);
+            const title = normalizeForSearch(product.title);
+            const matches = queryTokens.some((tok) => {
+                if (!tok) return false;
+                const tokNoSpaces = tok.replace(/\s+/g, '');
+                return title.includes(tok) || product.filename.includes(tokNoSpaces);
+            });
             
-            if (matchesTitle || matchesFilename) {
+            if (matches) {
                 product.element.style.display = '';
                 localCount++;
             } else {
@@ -177,7 +211,7 @@
         });
         
         // 2. Chercher dans les autres pages
-        const otherResults = await searchOtherPages(query);
+        const otherResults = await searchOtherPages(normalizeForSearch(rawQuery));
         
         // 3. Ajouter les résultats des autres pages à la fin
         if (otherResults.length > 0) {

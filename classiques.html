@@ -7,8 +7,8 @@
     <meta name="theme-color" content="#ffffff" />
     <title>Les Classiques - Futbolero Vintage Shop</title>
 
-            <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
+                <!-- Favicon dynamique géré par JavaScript -->
+              <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
     <link rel="apple-touch-icon" href="./assets/FVS.png">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
     <link rel="manifest" href="./assets/site.webmanifest">
@@ -206,7 +206,7 @@
   justify-content: center;
   border-radius: 8px;
   transition: all 0.2s ease;
-  z-index: 3;
+  z-index: 6;
 }
 
 .carousel-search-icon-btn:hover {
@@ -270,9 +270,9 @@
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
+                  favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
+                  favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
                 }
             }
         }
@@ -291,14 +291,13 @@
     <header id="site-header"></header>
 
     <main class="py-4 py-md-5">
-        <div class="container">
+        <div class="container" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
+            <div style="padding-left: 1rem; padding-right: 1rem;">
             <!-- Titre -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="text-center mb-4">
-                        <div style="height: 2px; background: #2c2c2c; margin-bottom: 1.5rem;"></div>
-                        <h1 class="h3 mb-0" style="font-family: 'Switzer', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; font-size: 1.8rem;">Les classiques</h1>
-                        <div style="height: 2px; background: #2c2c2c; margin-top: 1.5rem;"></div>
+                        <h1 class="h3 mb-0" style="font-family: 'Switzer', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; font-size: 1.5rem;">Les classiques</h1>
                     </div>
                 </div>
             </div>
@@ -321,9 +320,6 @@
                 </div>
               </div>
             </div>
-                </div>
-            </div>
-            
             <!-- Grille de produits -->
             <div class="row g-0">
 <div class="col-6 col-md-4 col-lg-3">
@@ -1041,6 +1037,7 @@
 </div>
 
             </div> <!-- /row g-0 -->
+            </div>
         </div>
     </main>
 
@@ -1270,9 +1267,40 @@
             const clearButton = document.getElementById('carousel-clear-search');
             const resultsCount = document.getElementById('carousel-search-results-count');
             const productCards = document.querySelectorAll('.product-card');
+          const productsContainer = document.querySelector('.row.g-0');
             let noResultsMessage = null;
 
             function performSearch(query) {
+            // Prefer shared search-utils (supports aliases like PSG -> Paris Saint Germain)
+            if (typeof searchProducts === 'function' && productsContainer) {
+              // Remove legacy hidden classes
+              productCards.forEach(card => {
+                if (card && card.parentElement) card.parentElement.classList.remove('hidden');
+              });
+
+              const visibleCount = searchProducts(productsContainer, query, {
+                isVintage: false,
+                crossSectionLabel: '',
+                showCrossSectionResults: true
+              });
+
+              const trimmed = (query || '').trim();
+              if (!trimmed) {
+                resultsCount.textContent = '';
+                removeNoResultsMessage();
+              } else if (visibleCount === 0) {
+                resultsCount.textContent = 'Aucun maillot trouvé';
+                showNoResultsMessage();
+              } else if (visibleCount === 1) {
+                resultsCount.textContent = '1 maillot trouvé';
+                removeNoResultsMessage();
+              } else {
+                resultsCount.textContent = `${visibleCount} maillots trouvés`;
+                removeNoResultsMessage();
+              }
+              return;
+            }
+
                 const normalizedQuery = normalizeText(query.trim());
                 let visibleCount = 0;
 

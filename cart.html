@@ -6,7 +6,7 @@
 	<title>Panier — Futbolero Vintage Shop</title>
 	
 	        <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
+    <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
     <link rel="apple-touch-icon" href="./assets/FVS.png">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
 	<link rel="manifest" href="./assets/site.webmanifest">
@@ -87,6 +87,42 @@
 			object-fit: cover;
 			border-radius: 6px;
 			border: 1px solid #dee2e6;
+		}
+
+		/* Quantité */
+		.cart-qty {
+			max-width: 118px;
+			flex-wrap: nowrap;
+		}
+		.cart-qty .form-control {
+			width: 46px;
+			max-width: 46px;
+			text-align: center;
+			padding-left: 0.25rem;
+			padding-right: 0.25rem;
+		}
+		.cart-qty .btn {
+			padding: 0.2rem 0.4rem;
+			line-height: 1.2;
+			min-width: 28px;
+		}
+		/* Évite les doubles bordures (le wrapper .input-group a déjà une bordure) */
+		.cart-qty .btn-outline-secondary {
+			border: none;
+			border-left: 1px solid #dee2e6;
+		}
+		.cart-qty .qty-dec {
+			border-left: none;
+			border-right: 1px solid #dee2e6;
+		}
+		.cart-qty .qty-input {
+			border-left: 1px solid #dee2e6;
+			border-right: 1px solid #dee2e6;
+		}
+		@media (max-width: 480px) {
+			.cart-qty { max-width: 108px; }
+			.cart-qty .form-control { width: 42px; max-width: 42px; }
+			.cart-qty .btn { min-width: 26px; padding-left: 0.35rem; padding-right: 0.35rem; }
 		}
 
 		/* Boutons */
@@ -259,9 +295,9 @@
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
+					favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
+					favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
                 }
             }
         }
@@ -438,7 +474,7 @@
 				}
 			}
 			
-			const qty = Number(it.quantity||1)||1;
+			const qty = Math.max(1, Number(it.quantity||1)||1);
 			const line = unit * qty;
 			subtotal += line;
 			
@@ -450,11 +486,14 @@
 			const p = it.personalization;
 			const detailsParts = [];
 			
-			if (it.productId) detailsParts.push(`<small class="text-secondary" style="font-family: monospace; font-size: 11px;">ID: ${it.productId}</small>`);
+			const productId = it.productId ? String(it.productId).trim() : '';
+			detailsParts.push(`<small class="text-secondary" style="font-family: monospace; font-size: 11px;">ID: ${productId || 'Aucun'}</small>`);
 			if (size) detailsParts.push(`Taille ${size}`);
+			const badge = (p && typeof p === 'object' && 'badge' in p) ? String(p.badge || '').trim() : '';
+			detailsParts.push(`Badge: ${badge || 'Aucun'}`);
 			if (p && (p.name || p.number)) {
 				const persoText = (p.name||'') + (p.number ? ' #' + p.number : '');
-				detailsParts.push(`${persoText} (+$5)`);
+				detailsParts.push(`${persoText}`);
 			}
 			const detailsHtml = detailsParts.length ? `<small class="text-muted">${detailsParts.join(' • ')}</small>` : '';
 			const img = it.img || it.image || it.imageUrl || '';
@@ -479,11 +518,18 @@
 					<div class="flex-grow-1">
 						<div class="fw-bold">${label}</div>
 						${detailsHtml}
-						<small class="text-muted">Qté: ${qty}</small>
+						<div class="d-flex align-items-center gap-2 mt-2">
+							<small class="text-muted">Qté</small>
+							<div class="input-group input-group-sm cart-qty">
+								<button class="btn btn-outline-secondary qty-dec" type="button" data-index="${idx}" aria-label="Diminuer la quantité">-</button>
+								<input class="form-control qty-input" type="number" inputmode="numeric" min="1" max="99" step="1" value="${qty}" data-index="${idx}" aria-label="Quantité">
+								<button class="btn btn-outline-secondary qty-inc" type="button" data-index="${idx}" aria-label="Augmenter la quantité">+</button>
+							</div>
+						</div>
 					</div>
 					<div class="d-flex align-items-center gap-3">
 						${priceDisplay}
-						<button type="button" class="btn-close cart-remove btn-remove" data-index="${idx}"></button>
+						<button type="button" class="btn-close cart-remove btn-remove" data-index="${idx}" aria-label="Supprimer"></button>
 					</div>
 				</div>`;
 			list.appendChild(li);
@@ -513,24 +559,72 @@
 			return;
 		}
 
-		itemsList.addEventListener('click', function(e){
-			const target = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
-			if(!target) return;
-			const idx = Number(target.getAttribute('data-index'));
-			if(Number.isNaN(idx)) return;
-			let items = [];
-			try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
-			if(idx < 0 || idx >= items.length) return;
-			items.splice(idx, 1);
+		function persistAndRerender(items) {
 			try { localStorage.setItem('cartItems', JSON.stringify(items)); } catch {}
-			// Mettre à jour le badge (somme des quantités)
-			const totalQty = items.reduce((sum, it) => sum + (Number(it.quantity||1)||1), 0);
+			const totalQty = items.reduce((sum, it) => sum + (Math.max(1, Number(it.quantity||1)||1)), 0);
 			if (typeof window.updateCartCount === 'function') {
 				window.updateCartCount(totalQty);
 			} else {
 				try { localStorage.setItem('cartCount', String(totalQty)); } catch {}
 			}
 			render();
+		}
+
+		function setQuantityAtIndex(index, newQty) {
+			let items = [];
+			try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+			if (index < 0 || index >= items.length) return;
+			const q = Math.min(99, Math.max(1, Number(newQty) || 1));
+			items[index].quantity = q;
+			persistAndRerender(items);
+		}
+
+		itemsList.addEventListener('click', function(e){
+			const removeBtn = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
+			if(removeBtn) {
+				const idx = Number(removeBtn.getAttribute('data-index'));
+				if(Number.isNaN(idx)) return;
+				let items = [];
+				try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+				if(idx < 0 || idx >= items.length) return;
+				items.splice(idx, 1);
+				persistAndRerender(items);
+				return;
+			}
+
+			const incBtn = e.target && e.target.closest ? e.target.closest('.qty-inc') : null;
+			if (incBtn) {
+				const idx = Number(incBtn.getAttribute('data-index'));
+				if (Number.isNaN(idx)) return;
+				let items = [];
+				try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+				if (idx < 0 || idx >= items.length) return;
+				const current = Math.max(1, Number(items[idx].quantity||1)||1);
+				items[idx].quantity = Math.min(99, current + 1);
+				persistAndRerender(items);
+				return;
+			}
+
+			const decBtn = e.target && e.target.closest ? e.target.closest('.qty-dec') : null;
+			if (decBtn) {
+				const idx = Number(decBtn.getAttribute('data-index'));
+				if (Number.isNaN(idx)) return;
+				let items = [];
+				try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+				if (idx < 0 || idx >= items.length) return;
+				const current = Math.max(1, Number(items[idx].quantity||1)||1);
+				items[idx].quantity = Math.max(1, current - 1);
+				persistAndRerender(items);
+				return;
+			}
+		});
+
+		itemsList.addEventListener('change', function(e) {
+			const input = e.target && e.target.classList && e.target.classList.contains('qty-input') ? e.target : null;
+			if (!input) return;
+			const idx = Number(input.getAttribute('data-index'));
+			if (Number.isNaN(idx)) return;
+			setQuantityAtIndex(idx, input.value);
 		});
 
 		// Event listeners pour le code promo

@@ -9,6 +9,78 @@ function normalizeText(s) {
   return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
 }
 
+// Aliases / surnoms / abréviations d'équipes pour la recherche
+// (clé: ce que l'utilisateur tape; valeurs: équivalents à matcher dans les titres)
+const __SEARCH_ALIAS_RAW__ = {
+  // France
+  'psg': ['paris saint germain', 'paris saint-germain', 'paris sg', 'paris'],
+  'om': ['olympique de marseille', 'olympique marseille', 'marseille'],
+  'ol': ['olympique lyonnais', 'lyon'],
+  'asm': ['as monaco', 'monaco'],
+  'losc': ['lille', 'losc lille'],
+
+  // Espagne
+  'barca': ['barcelona', 'fc barcelona', 'barça'],
+  'fcb': ['fc barcelona', 'barcelona'],
+  'rm': ['real madrid', 'madrid'],
+  'real': ['real madrid', 'madrid'],
+  'atleti': ['atletico madrid', 'atletico'],
+
+  // Angleterre
+  'manutd': ['manchester united', 'man utd', 'man united'],
+  'man u': ['manchester united', 'man utd', 'manutd', 'man united'],
+  'manunited': ['manchester united', 'man utd', 'manutd', 'man united'],
+  'man utd': ['manchester united', 'manutd', 'man united'],
+  'man city': ['manchester city', 'mancity'],
+  'mancity': ['manchester city', 'man city'],
+  'lfc': ['liverpool', 'liverpool fc'],
+  'spurs': ['tottenham', 'tottenham hotspur'],
+
+  // Italie
+  'juve': ['juventus'],
+  'inter': ['inter milan', 'internazionale'],
+  'acm': ['ac milan', 'milan'],
+  'milan': ['ac milan']
+};
+
+const __SEARCH_ALIAS_MAP__ = (() => {
+  const map = new Map();
+  for (const [alias, expansions] of Object.entries(__SEARCH_ALIAS_RAW__)) {
+    const key = normalizeText(alias);
+    const values = (expansions || []).map((v) => normalizeText(v)).filter(Boolean);
+    if (key) map.set(key, values);
+  }
+  return map;
+})();
+
+function __expandQueryTokens__(query) {
+  const normalized = normalizeText(query);
+  if (!normalized) return [];
+
+  const parts = normalized.split(' ').filter(Boolean);
+  const seeds = new Set([normalized, ...parts]);
+  const out = new Set();
+
+  for (const seed of seeds) {
+    if (!seed) continue;
+    out.add(seed);
+    const expansions = __SEARCH_ALIAS_MAP__.get(seed);
+    if (expansions) {
+      for (const e of expansions) out.add(e);
+    }
+  }
+
+  return Array.from(out).filter(Boolean);
+}
+
+function __getDisplayElementForCard__(card) {
+  const parent = card && card.parentElement;
+  if (parent && typeof parent.className === 'string' && /(^|\s)col-/.test(parent.className)) {
+    return parent;
+  }
+  return card;
+}
+
 /**
  * Unified search function that looks for both title and product ID
  * @param {HTMLElement} container - The container with .product-card elements
@@ -26,7 +98,8 @@ function searchProducts(container, query, options = {}) {
     showCrossSectionResults = true
   } = options;
 
-  const normalizedQuery = normalizeText(query);
+  const queryTokens = __expandQueryTokens__(query);
+  const normalizedQueryNoSpaces = normalizeText(query).replace(/\s+/g, '');
   let visibleCount = 0;
 
   // Search by title OR by product ID
@@ -38,12 +111,13 @@ function searchProducts(container, query, options = {}) {
     // Get product ID (could be data-id or look for it in attributes)
     const productId = (card.getAttribute('data-id') || card.getAttribute('data-product-id') || '').trim().toLowerCase();
 
-    // Match either title or ID
-    const titleMatches = normalizedQuery && title.includes(normalizedQuery);
-    const idMatches = normalizedQuery && productId && productId === normalizedQuery;
+    // Match either title (with aliases) or ID
+    const titleMatches = queryTokens.length > 0 && queryTokens.some((tok) => tok && title.includes(tok));
+    const idMatches = normalizedQueryNoSpaces && productId && productId === normalizedQueryNoSpaces;
 
     if (titleMatches || idMatches) {
-      card.style.display = '';
+      const displayEl = __getDisplayElementForCard__(card);
+      if (displayEl) displayEl.style.display = '';
 
       // Add cross-section label if needed
       if (crossSectionLabel && titleElement) {
@@ -69,7 +143,8 @@ function searchProducts(container, query, options = {}) {
 
       visibleCount++;
     } else {
-      card.style.display = 'none';
+      const displayEl = __getDisplayElementForCard__(card);
+      if (displayEl) displayEl.style.display = 'none';
       // Remove cross-section badge when hiding
       const badge = card.querySelector('.cross-section-badge');
       if (badge) badge.remove();

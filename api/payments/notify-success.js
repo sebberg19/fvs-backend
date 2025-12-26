@@ -97,7 +97,7 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           <!-- Logo Header -->
           <tr>
             <td style="padding: 20px 40px; text-align: center; background: #ffffff; border-bottom: 1px solid #dee2e6;">
-              <img src="https://futbolerovintageshop.com/assets/FVS.png" alt="Futbolero Logo" style="height: 40px; width: auto; object-fit: contain; margin-bottom: 10px;">
+              <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero" style="height: 46px; width: auto; object-fit: contain; margin-bottom: 10px;">
               <h1 style="margin: 0; color: #000000; font-size: 24px; font-weight: 800; font-family: 'Manrope', sans-serif;">Futbolero Vintage Shop</h1>
             </td>
           </tr>

@@ -24,8 +24,8 @@
     <meta name="twitter:description" content="Maillots actuels saison 2024-2025.">
     <meta name="twitter:image" content="https://futbolerovintageshop.com/assets/logo.png">
 
-            <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
+                <!-- Favicon dynamique géré par JavaScript -->
+              <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
     <link rel="apple-touch-icon" href="./assets/FVS.png">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
     <link rel="manifest" href="./assets/site.webmanifest">
@@ -239,7 +239,7 @@
   justify-content: center;
   border-radius: 8px;
   transition: all 0.2s ease;
-  z-index: 3;
+  z-index: 6;
 }
 
 .carousel-search-icon-btn:hover {
@@ -310,9 +310,9 @@
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
+                  favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
+                  favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
                 }
             }
         }
@@ -331,14 +331,13 @@
     <header id="site-header"></header>
 
     <main class="py-4 py-md-5">
-        <div class="container">
+        <div class="container" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
+            <div style="padding-left: 1rem; padding-right: 1rem;">
             <!-- Titre -->
             <div class="row mb-4">
                 <div class="col-12">
                     <div class="text-center mb-4">
-                        <div style="height: 2px; background: #2c2c2c; margin-bottom: 1.5rem;"></div>
-                        <h1 class="h3 mb-0" style="font-family: 'Switzer', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; font-size: 1.8rem;">Maillots des clubs</h1>
-                        <div style="height: 2px; background: #2c2c2c; margin-top: 1.5rem;"></div>
+                        <h1 class="h3 mb-0" style="font-family: 'Switzer', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; font-size: 1.5rem;">Maillots des clubs</h1>
                     </div>
                 </div>
             </div>
@@ -4797,12 +4796,26 @@
         clr.addEventListener('click', function(){ input.value=''; perform(''); input.focus(); });
     }
 
-    if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', bindSearchFallback);
-    else bindSearchFallback();
+    function __shouldUseSearchFallback__() {
+      return typeof window.searchProducts !== 'function';
+    }
+
+    function __tryBindSearchFallback__() {
+      if (__shouldUseSearchFallback__()) bindSearchFallback();
+    }
+
+    // Bind fallback only if unified search isn't available.
+    // We delay until window load so search-utils.js has had a chance to register searchProducts.
+    if (document.readyState === 'complete') {
+      __tryBindSearchFallback__();
+    } else {
+      window.addEventListener('load', __tryBindSearchFallback__, { once: true });
+    }
 })();
 </script>
 
             <hr class="my-4">
+            </div>
         </div>
     </main>
 
@@ -4877,6 +4890,25 @@
                 card.setAttribute('data-id', productId);
                 card.setAttribute('data-product-id', productId);
             });
+
+              function showNoResults() {
+                let message = document.querySelector('.no-results');
+                if (!message) {
+                  message = document.createElement('div');
+                  message.className = 'col-12 no-results text-center';
+                  message.innerHTML = `
+                    <i class="fas fa-search fa-3x mb-3 text-muted"></i>
+                    <h4 class="text-muted">Aucun maillot trouvé</h4>
+                    <p class="text-muted">Essayez avec un autre terme de recherche</p>
+                  `;
+                  productsContainer.appendChild(message);
+                }
+              }
+
+              function hideNoResults() {
+                const message = document.querySelector('.no-results');
+                if (message) message.remove();
+              }
             
             // Unified search with debounce
             let searchTimeout;
@@ -4894,12 +4926,16 @@
                     // Update counter
                     if (query === '') {
                         resultsCount.textContent = '';
+                    hideNoResults();
                     } else if (visibleCount === 0) {
                         resultsCount.textContent = 'Aucun maillot trouve';
+                    showNoResults();
                     } else if (visibleCount === 1) {
                         resultsCount.textContent = '1 maillot trouve';
+                    hideNoResults();
                     } else {
                         resultsCount.textContent = `${visibleCount} maillots trouves`;
+                    hideNoResults();
                     }
                 } else {
                     // Fallback: simple search
@@ -4916,12 +4952,16 @@
                     
                     if (query === '') {
                         resultsCount.textContent = '';
+                      hideNoResults();
                     } else if (matches === 0) {
                         resultsCount.textContent = 'Aucun maillot trouve';
+                      showNoResults();
                     } else if (matches === 1) {
                         resultsCount.textContent = '1 maillot trouve';
+                      hideNoResults();
                     } else {
                         resultsCount.textContent = `${matches} maillots trouves`;
+                      hideNoResults();
                     }
                 }
             }
@@ -4937,6 +4977,8 @@
                 performSearch();
                 searchInput.focus();
             });
+
+            updateCartBadge();
         });
 
         function normalizeText(s) {
@@ -4957,96 +4999,7 @@
             }
         }
 
-        // Initialiser au chargement
-        document.addEventListener('DOMContentLoaded', function() {
-            // Générer les IDs uniques pour tous les produits basés sur l'image
-            function generateProductId(imagePath, productName) {
-                // Combiner le chemin de l'image et le nom pour créer un ID unique
-                const combined = (imagePath || productName || '').toLowerCase();
-                const normalized = combined.replace(/[^a-z0-9]/g, '');
-                let hash = 0;
-                for (let i = 0; i < normalized.length; i++) {
-                    const char = normalized.charCodeAt(i);
-                    hash = ((hash << 5) - hash) + char;
-                    hash = hash & hash;
-                }
-                const id = Math.abs(hash).toString(36).toUpperCase().padStart(6, '0');
-                return id.slice(0, 6);
-            }
-            
-            document.querySelectorAll('.product-card').forEach(card => {
-                const title = card.querySelector('.product-title')?.textContent || 'item';
-                const img = card.querySelector('[data-img]')?.getAttribute('data-img') || '';
-                const productId = generateProductId(img, title);
-                card.setAttribute('data-product-id', productId);
-            });
-            
-            updateCartBadge();
-            
-            // Recherche instantanée
-            const searchInput = document.getElementById('carousel-search-input');
-            const clearButton = document.getElementById('carousel-clear-search');
-            const resultsCount = document.getElementById('carousel-search-results-count');
-            
-            function filterProducts() {
-                const query = searchInput.value.toLowerCase().trim();
-                const cards = document.querySelectorAll('.product-card');
-                let matches = 0;
-                
-                cards.forEach(card => {
-                    const title = card.querySelector('.product-title').textContent.toLowerCase();
-                    const productId = card.getAttribute('data-product-id') || '';
-                    // Rechercher par nom OU par ID
-                    const visible = title.includes(query) || productId.includes(query.toUpperCase());
-                    card.parentElement.style.display = visible ? '' : 'none';
-                    if (visible) matches++;
-                });
-                
-                // Afficher le nombre de résultats
-                if (query === '') {
-                    resultsCount.textContent = '';
-                } else if (matches === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
-                    showNoResults();
-                } else if (matches === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
-                    hideNoResults();
-                } else {
-                    resultsCount.textContent = `${matches} maillots trouvés`;
-                    hideNoResults();
-                }
-            }
-            
-            function showNoResults() {
-                let message = document.querySelector('.no-results');
-                if (!message) {
-                    message = document.createElement('div');
-                    message.className = 'col-12 no-results text-center';
-                    message.innerHTML = `
-                        <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                        <h4 class="text-muted">Aucun maillot trouvé</h4>
-                        <p class="text-muted">Essayez avec un autre terme de recherche</p>
-                    `;
-                    document.querySelector('.row.g-0').appendChild(message);
-                }
-            }
-            
-            function hideNoResults() {
-                const message = document.querySelector('.no-results');
-                if (message) message.remove();
-            }
-            
-            // Activer la recherche instantanée
-            searchInput.addEventListener('input', filterProducts);
-            
-            // Bouton pour effacer la recherche
-            clearButton.addEventListener('click', () => {
-                searchInput.value = '';
-                filterProducts();
-                searchInput.focus();
-            });
-        }
-    </script>
+      </script>
     
     <!-- Recherche globale cross-page -->
     <script src="./scripts/global-search.js"></script>

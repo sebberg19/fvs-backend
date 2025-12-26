@@ -73,7 +73,7 @@
                     <div class="mb-2">
                         <div class="d-flex justify-content-between">
                             <strong id="modalTitle">Produit</strong>
-                            <span id="modalPrice" class="text-muted small"></span>
+                        <span id="modalPrice" class="d-none"></span>
                         </div>
                         <small class="text-secondary">Choisissez taille et quantité</small>
                     </div>
@@ -170,7 +170,9 @@
       }
       const unitTotal = base + perUnitExtra;
       const total = unitTotal * qty;
-      modalPriceEl().textContent = formatPrice(total);
+
+      const priceEl = modalPriceEl();
+      if (priceEl) priceEl.textContent = formatPrice(total);
     }
 
     function attachEvents() {

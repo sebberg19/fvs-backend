@@ -14,6 +14,43 @@ const http = require('http');
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const OFFICIAL_LOGO_URL = 'https://futbolerovintageshop.com/assets/logo.png';
+
+const wrapEmailHtml = ({ title, preheader, bodyHtml }) => {
+  const safeTitle = title || 'Futbolero Vintage Shop';
+  const safePreheader = preheader || '';
+  const safeBody = bodyHtml || '';
+
+  return `<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="x-apple-disable-message-reformatting">
+    <title>${safeTitle}</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f4f4f5;">
+    <div style="display:none;font-size:1px;color:#f4f4f5;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;">${safePreheader}</div>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#f4f4f5;">
+      <tr>
+        <td align="center" style="padding:28px 12px;">
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;border-collapse:separate;background:#ffffff;border:1px solid #e6e6e6;border-radius:12px;overflow:hidden;">
+            ${safeBody}
+          </table>
+          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;border-collapse:collapse;">
+            <tr>
+              <td align="center" style="padding:14px 10px 0 10px;color:#777;font-family:Arial, sans-serif;font-size:12px;line-height:16px;">
+                Futbolero Vintage Shop • <a href="https://futbolerovintageshop.com" style="color:#777;text-decoration:underline;">futbolerovintageshop.com</a>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+};
+
 // Fonction pour télécharger une image et la convertir en base64
 const getImageAsBase64 = async (imageUrl) => {
   return new Promise((resolve, reject) => {
@@ -291,108 +328,137 @@ const renderEmailTemplate = async (session, orderId) => {
   
   const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
   const itemsHtml = itemsHtmlArray.join('');
-  
-  const html = `
-    <div style="font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
-      <!-- Header avec style noir et blanc -->
-      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 40px; width: auto; margin-right: 12px;">
-          <div>
-            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 700;">Vintage Shop</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Message principal -->
-      <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
-        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">Nouvelle commande reçue</h2>
-        <p style="color: #ffffff; margin: 0; font-size: 16px;">Une nouvelle commande vient d'être confirmée sur votre boutique.</p>
-      </div>
-      
-      <!-- Corps de l'email -->
-      <div style="padding: 24px; background: #f9f9f9;">
-        <!-- Détails de la commande -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Détails de la commande</h3>
-          <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">ID Commande:</span>
-              <span style="color: #000; font-weight: 600;">${orderId}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Montant total:</span>
-              <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Articles:</span>
-              <span style="color: #000; font-weight: 600;">${items.length}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 700;">ID Session:</span>
-              <span style="color: #000; font-size: 12px; font-family: monospace;">${sessionId}</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Informations client -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Informations client</h3>
-          <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Nom:</span>
-              <span style="color: #000; font-weight: 600;">${customerName}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Email:</span>
-              <span style="color: #000;"><a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline;">${customerEmail}</a></span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Téléphone:</span>
-              <span style="color: #000; font-weight: 600;">${customerPhone}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 700;">Paiement:</span>
-              <span style="color: #000; font-weight: 600;">Confirmé</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Adresse de livraison -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Adresse de livraison</h3>
-          <div style="background: #f9f9f9; padding: 16px; border-radius: 4px; border: 1px solid #ddd;">
-            <p style="margin: 0; line-height: 1.5; color: #000;">${fullAddress}</p>
-          </div>
-        </div>
-        
-        <!-- Articles commandés -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Articles commandés</h3>
-          ${itemsHtml}
-        </div>
-        
-        <!-- Actions à faire -->
-        <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Prochaines étapes</h3>
-          <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #000; font-weight: 600;">Paiement confirmé par Stripe</p>
-            <p style="margin: 0; color: #000;">Préparer la commande</p>
-            <p style="margin: 0; color: #000;">Contacter le client: <a href="mailto:${customerEmail}" style="color: #000; text-decoration: underline; font-weight: 600;">${customerEmail}</a></p>
-            <p style="margin: 0; color: #000;">Téléphone: <strong>${customerPhone}</strong></p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Footer -->
-      <div style="background: #000; padding: 24px; text-align: center; color: #ffffff;">
-        <p style="margin: 0 0 8px 0; font-size: 14px;">Email automatique - Futbolero Vintage Shop</p>
-        <p style="margin: 0; font-size: 12px; color: #ccc;">Date: ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
-      </div>
-    </div>
-  `;
+
+  const html = wrapEmailHtml({
+    title: `Nouvelle commande ${orderId} - Futbolero Vintage Shop`,
+    preheader: `Nouvelle commande ${orderId} - $${total} ${currency}`,
+    bodyHtml: `
+      <tr>
+        <td align="center" style="padding: 22px 20px 16px 20px; border-bottom: 1px solid #eee;">
+          <img src="${OFFICIAL_LOGO_URL}" alt="Futbolero" style="height: 44px; width: auto; display: block;">
+        </td>
+      </tr>
+
+      <tr>
+        <td style="background:#000; padding: 22px 20px;">
+          <h1 style="margin:0;color:#fff;font-family:Arial, sans-serif;font-size:20px;line-height:26px;">Nouvelle commande reçue</h1>
+          <p style="margin:8px 0 0 0;color:#ddd;font-family:Arial, sans-serif;font-size:14px;line-height:20px;">Commande <strong style="color:#fff;">${orderId}</strong> — Total <strong style="color:#fff;">$${total} ${currency}</strong></p>
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 18px 20px; background:#ffffff;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Détails de la commande</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">ID Commande</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${orderId}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Montant total</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">$${total} ${currency}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Articles</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${items.length}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">ID Session</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:12px;font-family:monospace;">${sessionId}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Informations client</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Nom</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${customerName}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Email</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;">
+                      <a href="mailto:${customerEmail}" style="color:#111;text-decoration:underline;">${customerEmail}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Téléphone</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${customerPhone}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Paiement</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">Confirmé</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Adresse de livraison</td>
+            </tr>
+            <tr>
+              <td style="padding:12px 14px; color:#111; font-family:Arial, sans-serif; font-size:13px; line-height:18px;">
+                ${fullAddress}
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Articles commandés</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px;">
+                ${itemsHtml}
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;background:#fafafa;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Prochaines étapes</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px; color:#111; font-family:Arial, sans-serif; font-size:13px; line-height:18px;">
+                <p style="margin:0 0 6px 0;">- Paiement confirmé par Stripe</p>
+                <p style="margin:0 0 6px 0;">- Préparer la commande</p>
+                <p style="margin:0 0 6px 0;">- Contacter le client: <a href="mailto:${customerEmail}" style="color:#111;text-decoration:underline;font-weight:700;">${customerEmail}</a></p>
+                <p style="margin:0;">- Téléphone: <strong>${customerPhone}</strong></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" style="background:#000; padding: 16px 20px; color:#ddd; font-family:Arial, sans-serif; font-size:12px; line-height:16px;">
+          Email automatique • ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
+        </td>
+      </tr>
+    `
+  });
 
   return { html, attachments };
 };
@@ -526,87 +592,94 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
   
   const itemsHtmlArray = await Promise.all(itemsHtmlPromises);
   const itemsHtml = itemsHtmlArray.join('');
-  
-  const html = `
-    <div style="font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff; color: #000;">
-      <!-- Header avec logo noir et blanc -->
-      <div style="background: #ffffff; padding: 32px 24px; text-align: center; border-bottom: 2px solid #000;">
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
-          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 40px; width: auto; margin-right: 12px;">
-          <div>
-            <h1 style="color: #000; margin: 0; font-size: 28px; font-weight: 700; font-family: 'Manrope', system-ui, sans-serif;">Futbolero</h1>
-            <p style="color: #666; margin: 0; font-size: 14px; font-weight: 700;">Vintage Shop</p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Message de remerciement -->
-      <div style="background: #000; padding: 32px 24px; text-align: center; color: #ffffff;">
-        <h2 style="color: #ffffff; margin: 0 0 16px 0; font-size: 24px; font-weight: 700;">Merci pour votre commande</h2>
-        <p style="color: #ffffff; margin: 0; font-size: 16px; line-height: 1.5;">
-          Bonjour <strong style="color: #ffffff;">${customerName}</strong>,<br>
-          Votre commande a été confirmée avec succès. Nous préparons vos articles avec soin !
-        </p>
-      </div>
-      
-      <!-- Corps de l'email -->
-      <div style="padding: 24px; background: #f9f9f9;">
-        <!-- Récapitulatif de commande -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Récapitulatif de votre commande</h3>
-          <div style="display: grid; gap: 8px;">
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Numéro de commande:</span>
-              <span style="color: #000; font-weight: 600;">${orderId}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Total payé:</span>
-              <span style="color: #000; font-weight: 700; font-size: 18px;">$${total} ${currency}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
-              <span style="color: #666; font-weight: 700;">Nombre d'articles:</span>
-              <span style="color: #000; font-weight: 600;">${items.length}</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
-              <span style="color: #666; font-weight: 700;">Email de confirmation:</span>
-              <span style="color: #000; font-size: 14px;">${customerEmail}</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Articles commandés -->
-        <div style="background: #ffffff; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Vos articles</h3>
-          ${itemsHtml}
-        </div>
-        
-        <!-- Informations importantes -->
-        <div style="background: #f9f9f9; border: 2px solid #000; border-radius: 8px; padding: 24px; margin-bottom: 20px;">
-          <h3 style="color: #000; margin: 0 0 16px 0; font-size: 18px; font-weight: 600;">Prochaines étapes</h3>
-          <div style="display: grid; gap: 8px;">
-            <p style="margin: 0; color: #000; font-weight: 600;">Votre paiement a été confirmé</p>
-            <p style="margin: 0; color: #000;">Nous préparons votre commande</p>
-            <p style="margin: 0; color: #000;">Vous recevrez un email avec les détails d'expédition</p>
-            <p style="margin: 0; color: #000;">Questions ? Contactez-nous : <a href="mailto:futbolerovintageshop@gmail.com" style="color: #000; text-decoration: underline; font-weight: 600;">futbolerovintageshop@gmail.com</a></p>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Footer -->
-      <div style="background: #000; padding: 24px; text-align: center; color: #ffffff;">
-        <div style="display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
-          <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero Logo" 
-               style="height: 24px; width: auto; margin-right: 8px; filter: invert(1);">
-          <p style="color: #ffffff; margin: 0; font-size: 16px; font-weight: 600;">
-            Futbolero Vintage Shop
+
+  const html = wrapEmailHtml({
+    title: `Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
+    preheader: `Votre commande ${orderId} est confirmée - $${total} ${currency}`,
+    bodyHtml: `
+      <tr>
+        <td align="center" style="padding: 22px 20px 16px 20px; border-bottom: 1px solid #eee;">
+          <img src="${OFFICIAL_LOGO_URL}" alt="Futbolero" style="height: 44px; width: auto; display: block;">
+        </td>
+      </tr>
+
+      <tr>
+        <td style="background:#000; padding: 22px 20px;">
+          <h1 style="margin:0;color:#fff;font-family:Arial, sans-serif;font-size:20px;line-height:26px;">Merci pour votre commande</h1>
+          <p style="margin:8px 0 0 0;color:#ddd;font-family:Arial, sans-serif;font-size:14px;line-height:20px;">
+            Bonjour <strong style="color:#fff;">${customerName}</strong>, votre commande est confirmée. Nous préparons vos articles avec soin.
           </p>
-        </div>
-        <p style="color: #ccc; margin: 0 0 8px 0; font-size: 14px; font-style: italic;">Des maillots iconiques, un style intemporel</p>
-        <p style="color: #ccc; margin: 0; font-size: 12px;">Email automatique envoyé le ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}</p>
-      </div>
-    </div>
-  `;
+        </td>
+      </tr>
+
+      <tr>
+        <td style="padding: 18px 20px; background:#ffffff;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Récapitulatif de votre commande</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Numéro de commande</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${orderId}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Total payé</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">$${total} ${currency}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Nombre d'articles</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;font-weight:700;">${items.length}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:6px 0;color:#666;font-family:Arial, sans-serif;font-size:13px;">Email</td>
+                    <td align="right" style="padding:6px 0;color:#111;font-family:Arial, sans-serif;font-size:13px;">${customerEmail}</td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Vos articles</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px;">
+                ${itemsHtml}
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;background:#fafafa;">
+            <tr>
+              <td style="padding:14px 14px 10px 14px; border-bottom:1px solid #eee; font-family:Arial, sans-serif; font-weight:700; color:#111;">Prochaines étapes</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 14px; color:#111; font-family:Arial, sans-serif; font-size:13px; line-height:18px;">
+                <p style="margin:0 0 6px 0;">- Votre paiement a été confirmé</p>
+                <p style="margin:0 0 6px 0;">- Nous préparons votre commande</p>
+                <p style="margin:0 0 6px 0;">- Vous recevrez un email avec les détails d'expédition</p>
+                <p style="margin:0;">- Questions ? <a href="mailto:futbolerovintageshop@gmail.com" style="color:#111;text-decoration:underline;font-weight:700;">futbolerovintageshop@gmail.com</a></p>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+
+      <tr>
+        <td align="center" style="background:#000; padding: 16px 20px; color:#ddd; font-family:Arial, sans-serif; font-size:12px; line-height:16px;">
+          Futbolero Vintage Shop • ${new Date().toLocaleString('fr-CA', { timeZone: 'America/Toronto' })}
+        </td>
+      </tr>
+    `
+  });
 
   return { html, attachments };
 };

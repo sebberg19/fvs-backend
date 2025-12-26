@@ -6,7 +6,7 @@
     <title>🔧 Diagnostic Favicon - Mode Sombre</title>
     
     <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
+    <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
     
     <style>
         body {
@@ -111,12 +111,12 @@
         <p id="favicon-status">Favicon : En cours de vérification...</p>
         
         <div class="favicon-test">
-            <img src="./assets/favicon-dark.svg" alt="Logo noir">
+            <img src="./assets/fav_black.png" alt="Logo noir">
             <span>Logo NOIR (pour mode clair)</span>
         </div>
         
         <div class="favicon-test">
-            <img src="./assets/favicon-light.svg" alt="Logo blanc">
+            <img src="./assets/fav_white.png" alt="Logo blanc">
             <span>Logo BLANC (pour mode sombre)</span>
         </div>
     </div>
@@ -147,10 +147,10 @@
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
+                    favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
                     document.getElementById('favicon-status').textContent = 'Favicon : Logo BLANC activé (mode sombre)';
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
+                    favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
                     document.getElementById('favicon-status').textContent = 'Favicon : Logo NOIR activé (mode clair)';
                 }
             }
@@ -163,13 +163,13 @@
         // Fonctions manuelles
         function setFaviconDark() {
             const favicon = document.querySelector('#favicon');
-            favicon.href = './assets/favicon-dark.svg?v=8';
+            favicon.href = './assets/fav_black.png';
             document.getElementById('favicon-status').textContent = 'Favicon : Logo NOIR forcé manuellement';
         }
         
         function setFaviconLight() {
             const favicon = document.querySelector('#favicon');
-            favicon.href = './assets/favicon-light.svg?v=8';
+            favicon.href = './assets/fav_white.png';
             document.getElementById('favicon-status').textContent = 'Favicon : Logo BLANC forcé manuellement';
         }
         

@@ -62,8 +62,8 @@
     }
     </script>
 
-            <!-- Favicon dynamique géré par JavaScript -->
-    <link rel="icon" type="image/svg+xml" href="./assets/favicon-dark.svg?v=8" id="favicon">
+                <!-- Favicon dynamique géré par JavaScript -->
+              <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
     <link rel="apple-touch-icon" href="./assets/FVS.png">
     <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
     <link rel="manifest" href="./assets/site.webmanifest">
@@ -607,22 +607,18 @@
   border: 2px solid white;
 }
 
-/* Carrousel de maillots automatique */
-@keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
-}
+/* Mosaïque de maillots (remplace le slider horizontal) */
 
 .jersey-carousel-container {
   width: 100%;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.95) 100%);
   border-radius: 20px;
-  padding: 2rem 0;
+  padding: 0.75rem;
   margin: 0.5rem 0;
   box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08);
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
+  max-height: 520px;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: relative;
   scrollbar-width: thin;
   scrollbar-color: rgba(0,0,0,0.3) rgba(0,0,0,0.05);
@@ -630,7 +626,7 @@
 }
 
 .jersey-carousel-container::-webkit-scrollbar {
-  height: 8px;
+  width: 8px;
 }
 
 .jersey-carousel-container::-webkit-scrollbar-track {
@@ -710,7 +706,7 @@
   justify-content: center;
   border-radius: 8px;
   transition: all 0.2s ease;
-  z-index: 3;
+  z-index: 6;
   cursor: pointer;
 }
 
@@ -750,7 +746,7 @@
   justify-content: center;
   border-radius: 50%;
   transition: all 0.2s ease;
-  z-index: 3;
+  z-index: 6;
   cursor: pointer;
   opacity: 0;
   pointer-events: none;
@@ -933,7 +929,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 300px;
+  width: 100%;
+  grid-column: 1 / -1;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 8px;
@@ -942,24 +939,24 @@
 }
 
 .jersey-carousel {
-  display: flex;
-  width: max-content;
-  gap: 2rem;
-  padding: 1rem 2rem;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 1.25rem;
+  padding: 0;
 }
 
 .jersey-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 200px;
-  padding: 0.75rem;
+  width: 100%;
+  padding: 0;
   background: transparent;
   border-radius: 0;
   box-shadow: none;
   transition: all 0.3s ease;
   cursor: pointer;
-  flex-shrink: 0;
   position: relative;
   overflow: visible;
   margin: 0;
@@ -971,127 +968,60 @@
 }
 
 .jersey-img {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  margin-bottom: 0.75rem;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  height: auto;
+  object-fit: cover;
+  margin-bottom: 0;
   transition: transform 0.3s ease;
+  background: #f8f9fa;
+  border-radius: 12px;
 }
 
 .jersey-item:hover .jersey-img {
   transform: scale(1.05);
 }
 
-.jersey-name {
-  font-size: 0.9rem;
-  font-weight: 500;
-  text-align: center;
-  margin-bottom: 0.35rem;
-  color: var(--text);
-  transition: color 0.3s ease;
-  line-height: 1.2;
-}
-
-.jersey-price {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--text);
-  margin-bottom: 0;
-  text-align: center;
+.jersey-carousel .jersey-name,
+.jersey-carousel .jersey-price {
+  display: none !important;
 }
 
 .jersey-item .add-to-cart {
   display: none;
 }
 
-@keyframes scroll-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-@-webkit-keyframes scroll-left {
-  0% {
-    -webkit-transform: translateX(0);
-  }
-  100% {
-    -webkit-transform: translateX(-50%);
-  }
-}
-
-@-moz-keyframes scroll-left {
-  0% {
-    -moz-transform: translateX(0);
-  }
-  100% {
-    -moz-transform: translateX(-50%);
-  }
-}
-
-@-o-keyframes scroll-left {
-  0% {
-    -o-transform: translateX(0);
-  }
-  100% {
-    -o-transform: translateX(-50%);
-  }
-}
-
-/* Pause l'animation au hover - desktop seulement */
-@media (min-width: 769px) {
-  .jersey-carousel-container:hover .jersey-carousel {
-    animation-play-state: paused;
-    -webkit-animation-play-state: paused;
-    -moz-animation-play-state: paused;
-    -o-animation-play-state: paused;
-  }
-}
-
 /* Responsive pour mobile */
 @media (max-width: 768px) {
   .jersey-carousel {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
-    padding: 0 1rem;
-    position: relative;
-  }
-  
-  .jersey-carousel::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 3rem;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.9));
-    pointer-events: none;
-    z-index: 2;
   }
 
   .jersey-carousel-container {
-    padding: 1rem 0;
-    position: relative;
-  }
-  
-  .jersey-item {
-    min-width: 180px;
-    padding: 1.25rem;
+    padding: 0.5rem;
+    max-height: 360px;
   }
   
   .jersey-img {
-    width: 150px;
-    height: 150px;
+    border-radius: 10px;
   }
-  
-  .jersey-name {
-    font-size: 0.95rem;
+}
+
+/* Téléphones: vignettes plus petites pour en voir plus */
+@media (max-width: 480px) {
+  .jersey-carousel {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.5rem;
   }
-  
-  .jersey-price {
-    font-size: 1rem;
-    font-weight: 700;
+
+  .jersey-carousel-container {
+    padding: 0.25rem;
+    max-height: 320px;
+  }
+
+  .jersey-img {
+    border-radius: 8px;
   }
 }
 
@@ -1237,9 +1167,9 @@
             
             if (favicon) {
                 if (isDarkMode) {
-                    favicon.href = './assets/favicon-light.svg?v=8'; // Logo blanc pour mode sombre
+                  favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
                 } else {
-                    favicon.href = './assets/favicon-dark.svg?v=8';  // Logo noir pour mode clair
+                  favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
                 }
             }
         }
@@ -1490,6 +1420,7 @@
         // Charger tous les maillots depuis tous-les-maillots.html
         let allJerseys = [];
         let jerseysLoaded = false;
+        const HOME_MOSAIC_SIZE = 400; // plus de maillots aléatoires dans un cadre scrollable
 
         // Fonction pour extraire les maillots depuis tous-les-maillots.html
         async function loadAllJerseys() {
@@ -1545,9 +1476,8 @@
             console.log(`✅ ${allJerseys.length} maillots chargés avec succès!`);
             jerseysLoaded = true;
             
-            // Initialiser le carrousel avec un échantillon aléatoire pour un chargement rapide
-            // Limiter à 30 maillots pour le carrousel initial (performance)
-            const sampleSize = Math.min(30, allJerseys.length);
+            // Initialiser la mosaïque avec un échantillon aléatoire pour un chargement rapide
+            const sampleSize = Math.min(HOME_MOSAIC_SIZE, allJerseys.length);
             currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
             generateCarousel();
             
@@ -1562,7 +1492,7 @@
               { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$36.70' }
             ];
             jerseysLoaded = true;
-            currentFilteredJerseys = [...allJerseys];
+            currentFilteredJerseys = [...allJerseys].slice(0, HOME_MOSAIC_SIZE);
             generateCarousel();
           }
         }
@@ -1579,6 +1509,59 @@
             .replace(/[\u0300-\u036f]/g, '') // Supprimer les accents
             .replace(/[^a-z0-9]/g, '') // Garder seulement lettres et chiffres
             .trim();
+        }
+
+        // Aliases / surnoms / abréviations d'équipes pour la recherche
+        function expandSearchQueries(rawQuery) {
+          const q = (rawQuery || '').toString().trim().toLowerCase();
+          if (!q) return [];
+
+          const aliases = {
+            // France
+            'psg': ['paris saint germain', 'paris saint-germain', 'paris sg', 'paris'],
+            'om': ['olympique de marseille', 'olympique marseille', 'marseille'],
+            'ol': ['olympique lyonnais', 'lyon'],
+            'asm': ['as monaco', 'monaco'],
+            'losc': ['lille', 'losc lille'],
+
+            // Espagne
+            'barca': ['barcelona', 'fc barcelona', 'barça'],
+            'fcb': ['fc barcelona', 'barcelona'],
+            'rm': ['real madrid', 'madrid'],
+            'real': ['real madrid', 'madrid'],
+            'atleti': ['atletico madrid', 'atletico'],
+
+            // Angleterre
+            'manutd': ['manchester united', 'man utd', 'man united'],
+            'man u': ['manchester united', 'man utd', 'manutd', 'man united'],
+            'manunited': ['manchester united', 'man utd', 'manutd', 'man united'],
+            'mancity': ['manchester city', 'man city'],
+            'lfc': ['liverpool', 'liverpool fc'],
+            'spurs': ['tottenham', 'tottenham hotspur'],
+
+            // Italie
+            'juve': ['juventus'],
+            'inter': ['inter milan', 'internazionale'],
+            'acm': ['ac milan', 'milan']
+          };
+
+          const out = new Set([rawQuery]);
+
+          // Expand full query too (important for multi-word aliases like "man u")
+          if (aliases[q]) {
+            for (const e of aliases[q]) out.add(e);
+          }
+
+          const words = (q.match(/[a-z0-9]+/g) || []).filter(Boolean);
+
+          for (const w of words) {
+            const exp = aliases[w];
+            if (exp) {
+              for (const e of exp) out.add(e);
+            }
+          }
+
+          return Array.from(out).filter(Boolean);
         }
 
         // Calculer la distance de Levenshtein pour la tolérance aux fautes
@@ -1863,11 +1846,11 @@
           return shuffled;
         }
 
-        // Générer le carrousel avec les maillots filtrés
+        // Générer la mosaïque avec les maillots filtrés
         function generateCarousel(jerseys = currentFilteredJerseys) {
           const carousel = document.getElementById('jerseyCarousel');
           if (!carousel) {
-            console.error('❌ Carousel container introuvable!');
+            console.error('❌ Container mosaïque introuvable!');
             return;
           }
 
@@ -1888,24 +1871,18 @@
             return;
           }
 
-          // Toujours dupliquer exactement 2 fois pour l'animation infinie
-          const displayJerseys = [...jerseys, ...jerseys];
-          console.log('📦 Total maillots affichés (avec duplication):', displayJerseys.length);
-
-          carousel.innerHTML = displayJerseys.map((jersey, index) => `
+          carousel.innerHTML = jerseys.map((jersey, index) => `
             <div class="jersey-item product-card" 
                  data-jersey-name="${jersey.name}" 
                  data-jersey-img="${jersey.img}" 
                  data-jersey-price="36.70" 
                  data-jersey-id="carousel-${index}"
-                 title="Cliquez pour ajouter ${jersey.name} au panier">
+              aria-label="Ajouter au panier">
               <img loading="lazy" 
                    src="${jersey.img}" 
                    alt="${jersey.name}" 
                    class="jersey-img" 
                    onerror="this.src='./images/placeholder.webp'">
-              <h3 class="jersey-name product-title">${jersey.name}</h3>
-              <span class="jersey-price">${jersey.price}</span>
               <button class="add-to-cart" 
                       data-price="36.70" 
                       data-img="${jersey.img}" 
@@ -1932,8 +1909,9 @@
           console.log('🔍 Recherche pour:', query);
           
           if (query.trim() === '') {
-            // Aucune recherche : afficher tous les maillots mélangés dans le carrousel
-            currentFilteredJerseys = shuffleArray([...allJerseys]);
+            // Aucune recherche : afficher un échantillon mélangé dans la mosaïque (perf)
+            const sampleSize = Math.min(HOME_MOSAIC_SIZE, allJerseys.length);
+            currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
             resultsCount.textContent = '';
             resultsCount.style.color = '';
             // Masquer la section de résultats et réafficher le carousel et le héro
@@ -1945,9 +1923,12 @@
           }
 
           // Recherche avec tolérance aux fautes et pondération
+          const expandedQueries = expandSearchQueries(query);
           const jerseyMatches = allJerseys.map(jersey => {
             // Chercher par nom OU par ID
-            const nameSimilarity = calculateSimilarity(query, jersey.name);
+            const nameSimilarity = expandedQueries.length
+              ? Math.max(...expandedQueries.map(q => calculateSimilarity(q, jersey.name)))
+              : calculateSimilarity(query, jersey.name);
             const idMatch = jersey.productId && jersey.productId.includes(query.toUpperCase()) ? 100 : 0;
             // Si c'est une recherche par ID exacte, priorité absolue
             const similarity = idMatch > 0 ? idMatch : nameSimilarity;
@@ -2046,16 +2027,6 @@
           // Recherche en temps réel
           searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
-            const carousel = document.querySelector('.jersey-carousel');
-            
-            // Gérer l'animation du carousel
-            if (carousel) {
-              if (query.trim() !== '') {
-                carousel.classList.add('paused');
-              } else {
-                carousel.classList.remove('paused');
-              }
-            }
             
             // Afficher/masquer le bouton clear
             if (query.trim()) {
@@ -2117,12 +2088,6 @@
             console.log('🗑️ Effacement recherche');
             searchInput.value = '';
             clearButton.classList.remove('visible');
-            const carousel = document.querySelector('.jersey-carousel');
-            if (carousel) {
-              carousel.classList.remove('paused');
-              carousel.style.animationPlayState = 'running';
-              carousel.style.webkitAnimationPlayState = 'running';
-            }
             performSearch('');
             searchInput.focus();
           });
