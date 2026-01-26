@@ -1031,6 +1031,87 @@
   border-top: 1px solid var(--border);
 }
 
+/* Résultats de recherche: même style que les pages produits */
+#search-results-section .product-card {
+  border: none;
+  background: transparent;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
+}
+
+#search-results-section .product-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border-color: transparent;
+}
+
+#search-results-section .product-image {
+  position: relative;
+  overflow: hidden;
+  background: #f8f9fa;
+  border-radius: 12px;
+  margin-bottom: 0.75rem;
+  aspect-ratio: 1;
+}
+
+#search-results-section .product-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+#search-results-section .product-card:hover .product-image img {
+  transform: scale(1.05);
+}
+
+#search-results-section .product-image.clickable {
+  cursor: pointer;
+}
+
+#search-results-section .product-image.clickable:hover {
+  opacity: 0.9;
+}
+
+#search-results-section .product-info {
+  padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.35rem;
+}
+
+#search-results-section .product-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0;
+  line-height: 1.3;
+  text-align: center;
+}
+
+#search-results-section .product-price {
+  font-size: 0.85rem;
+  color: #000;
+  font-weight: 600;
+  margin: 0;
+  text-align: center;
+}
+
+/* Sur la grille de résultats, on garde le même comportement que les pages produits */
+#search-results-section .product-btn {
+  display: none;
+}
+
 .search-result-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -1227,7 +1308,7 @@
               <h2 class="h4 mb-0" id="search-results-title">Résultats de recherche</h2>
               <small class="text-muted" id="search-results-info"></small>
             </div>
-            <div class="row g-3 g-md-4" id="search-results-grid">
+            <div class="row g-0" id="search-results-grid">
               <!-- Les résultats seront générés ici dynamiquement -->
             </div>
           </div>
@@ -1351,7 +1432,7 @@
   <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20251203d" defer></script>
 
   <!-- Unified search utility with product ID + cross-section support -->
-  <script src="./maillots-store/client/src/scripts/search-utils.js" defer></script>
+  <script src="./scripts/search-utils.js" defer></script>
 
     <!-- Script minimal: année + badge panier -->
     <script>
@@ -2132,33 +2213,40 @@
           searchResultsTitle.textContent = `Résultats pour "${queryDisplay}"`;
           searchResultsInfo.textContent = `${jerseys.length} résultat${jerseys.length > 1 ? 's' : ''}`;
           
-          // Générer les cartes de résultats avec animation d'apparition
-          searchResultsGrid.innerHTML = jerseys.map((jersey, index) => `
-            <div class="col-6 col-md-4 col-lg-3" style="animation: fadeInUp 0.3s ease ${index * 0.05}s both;">
-              <div class="search-result-card product-card" 
-                   data-jersey-name="${jersey.name}" 
-                   data-jersey-img="${jersey.img}" 
-                   data-jersey-price="36.70" 
-                   data-jersey-id="search-${index}">
-                <div class="search-result-image">
-                  <img loading="lazy" 
-                       src="${jersey.img}" 
-                       alt="${jersey.name}" 
-                       onerror="this.src='./images/placeholder.webp'">
-                </div>
-                <div class="search-result-info">
-                  <h3 class="search-result-title product-title">${jersey.name}</h3>
-                  <p class="search-result-price">${jersey.price}</p>
-                  <button class="search-result-btn add-to-cart" 
-                          data-price="36.70" 
-                          data-img="${jersey.img}"
-                          data-name="${jersey.name}">
-                    Ajouter au panier
-                  </button>
+          // Générer les cartes de résultats (même markup que les pages produits)
+          searchResultsGrid.innerHTML = jerseys.map((jersey, index) => {
+            const imgSrc = jersey.img || '';
+            const dataImg = imgSrc.startsWith('./') ? imgSrc.slice(2) : imgSrc;
+            const name = (jersey.name || '').toString();
+            const priceText = jersey.price || '36,70 CAD';
+
+            return `
+              <div class="col-6 col-md-4 col-lg-3" style="animation: fadeInUp 0.3s ease ${index * 0.05}s both;">
+                <div class="product-card h-100">
+                  <div class="product-image ratio ratio-1x1 clickable add-to-cart"
+                       data-price="36.70"
+                       data-vintage="true"
+                       data-img="${dataImg}"
+                       data-name="${name}">
+                    <img loading="lazy"
+                         src="${imgSrc}"
+                         alt="${name}"
+                         class="w-100 h-100 object-fit-cover"
+                         onerror="this.src='./images/placeholder.webp'">
+                  </div>
+                  <div class="product-info">
+                    <h3 class="product-title">${name}</h3>
+                    <div class="product-price">${priceText}</div>
+                    <button class="product-btn btn btn-dark add-to-cart"
+                            data-price="36.70"
+                            data-vintage="true"
+                            data-img="${dataImg}"
+                            data-name="${name}">Ajouter</button>
+                  </div>
                 </div>
               </div>
-            </div>
-          `).join('');
+            `;
+          }).join('');
           
           // Réattacher les événements pour les nouveaux éléments
           attachSearchResultsEvents();
@@ -2168,20 +2256,21 @@
 
         // Attacher les événements aux cartes de résultats
         function attachSearchResultsEvents() {
-          const searchResultCards = document.querySelectorAll('.search-result-card');
-          
-          searchResultCards.forEach(card => {
+          const searchResultsGrid = document.getElementById('search-results-grid');
+          if (!searchResultsGrid) return;
+
+          const cards = searchResultsGrid.querySelectorAll('.product-card');
+
+          cards.forEach(card => {
             card.addEventListener('click', (e) => {
-              // Si le clic n'est pas sur le bouton, déclencher l'ajout au panier
-              if (!e.target.classList.contains('add-to-cart')) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                const addToCartBtn = card.querySelector('.add-to-cart');
-                if (addToCartBtn) {
-                  addToCartBtn.click();
-                }
-              }
+              // Si le clic est déjà sur un élément add-to-cart (image ou bouton), ne rien forcer
+              if (e.target && e.target.closest && e.target.closest('.add-to-cart')) return;
+
+              e.preventDefault();
+              e.stopPropagation();
+
+              const addToCartTarget = card.querySelector('.product-image.add-to-cart') || card.querySelector('.add-to-cart');
+              if (addToCartTarget) addToCartTarget.click();
             });
           });
 

@@ -1230,7 +1230,7 @@
     <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20251203d"></script>
 
     <!-- Unified search utility with product ID + cross-section support -->
-    <script src="./maillots-store/client/src/scripts/search-utils.js"></script>
+    <script src="./scripts/search-utils.js"></script>
 
     <!-- Page script: année + interactions -->
     <script>
@@ -1238,7 +1238,7 @@
 
 
         function normalizeText(s) {
-            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+          return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
         }
 
         // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image

@@ -2462,7 +2462,7 @@
     <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20251203d"></script>
 
     <!-- Unified search utility with product ID + cross-section support -->
-    <script src="./maillots-store/client/src/scripts/search-utils.js"></script>
+    <script src="./scripts/search-utils.js"></script>
 
     <!-- Page script: année + interactions -->
     <script>
@@ -2470,7 +2470,7 @@
 
 
         function normalizeText(s) {
-            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+          return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
         }
 
         // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image
@@ -2496,11 +2496,13 @@
         // Fonctionnalité de recherche
         function initSearchFunctionality() {
             const searchInput = document.getElementById('carousel-search-input');
-            const clearButton = document.getElementById('clear-search');
-            const resultsCount = document.getElementById('search-results-count');
+            const clearButton = document.getElementById('carousel-clear-search');
+            const resultsCount = document.getElementById('carousel-search-results-count');
             const productCards = document.querySelectorAll('.product-card');
           const productsContainer = document.querySelector('.row.g-0');
             let noResultsMessage = null;
+
+            if (!searchInput || !resultsCount) return;
 
             function performSearch(query) {
             // Prefer shared search-utils (supports aliases like PSG -> Paris Saint Germain)
@@ -2595,11 +2597,13 @@
             });
 
             // Bouton effacer
-            clearButton.addEventListener('click', () => {
+            if (clearButton) {
+              clearButton.addEventListener('click', () => {
                 searchInput.value = '';
                 performSearch('');
                 searchInput.focus();
-            });
+              });
+            }
 
             // Recherche au clavier (Entrée)
             searchInput.addEventListener('keydown', (e) => {

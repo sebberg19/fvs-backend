@@ -1057,10 +1057,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/angleterre-0.webp">
-      <img loading="lazy" src="images/angleterre-0.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/angleterre-0.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Angleterre</h3>
+      <h3 class="product-title">Arsenal</h3>
       <div class="product-price">36,70 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/angleterre-0.webp">Ajouter</button>
     </div>
@@ -1070,10 +1070,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="36.70" data-vintage="true" data-img="images/angleterre-01.webp">
-      <img loading="lazy" src="images/angleterre-01.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" src="images/angleterre-01.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Angleterre</h3>
+      <h3 class="product-title">Arsenal</h3>
       <div class="product-price">36,70 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="36.70" data-vintage="true" data-img="images/angleterre-01.webp">Ajouter</button>
     </div>
@@ -1975,7 +1975,7 @@
     <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20251203d"></script>
 
     <!-- Unified search utility with product ID + cross-section support -->
-    <script src="./maillots-store/client/src/scripts/search-utils.js"></script>
+    <script src="./scripts/search-utils.js"></script>
 
     <!-- Page script: année + interactions -->
     <script>
@@ -1983,7 +1983,7 @@
 
 
         function normalizeText(s) {
-            return (s || '').toString().toLowerCase().normalize('NFD').replace(/[ -\u036f]/g, '').replace(/\p{Diacritic}/gu, '');
+          return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
         }
 
         // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image

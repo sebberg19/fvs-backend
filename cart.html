@@ -491,15 +491,10 @@
 			if (size) detailsParts.push(`Taille ${size}`);
 			const badge = (p && typeof p === 'object' && 'badge' in p) ? String(p.badge || '').trim() : '';
 			detailsParts.push(`Badge: ${badge || 'Aucun'}`);
-			const hasAnyPerso = !!(p && typeof p === 'object' && (
-				String(p.name || '').trim().length > 0 ||
-				String(p.number ?? '').trim().length > 0 ||
-				badge.length > 0
-			));
-			if (hasAnyPerso) {
-				const persoName = String(p.name || '').trim() || 'Sans';
-				const persoNumber = String(p.number ?? '').trim() || 'Sans';
-				detailsParts.push(`Nom: ${persoName}`);
+			const persoName = (p && typeof p === 'object') ? String(p.name || '').trim() : '';
+			detailsParts.push(`Nom: ${persoName || 'Aucun'}`);
+			const persoNumber = (p && typeof p === 'object') ? String(p.number ?? '').trim() : '';
+			if (persoNumber) {
 				detailsParts.push(`Numéro: ${persoNumber}`);
 			}
 			const detailsHtml = detailsParts.length ? `<small class="text-muted">${detailsParts.join(' • ')}</small>` : '';
