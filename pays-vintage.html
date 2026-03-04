@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
@@ -6,12 +6,7 @@
     <meta name="co-scheme" content="light" />
     <meta name="theme-color" content="#ffffff" />
     <title>Maillots Nations - Futbolero Vintage Shop</title>
-
-                <!-- Favicon dynamique géré par JavaScript -->
-              <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
-    <link rel="apple-touch-icon" href="./assets/FVS.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
-    <link rel="manifest" href="./assets/site.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon_FVS.svg">
 
     <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -68,12 +63,12 @@
         
         /* Compenser la hauteur de la navbar fixe */
         body {
-            padding-top: 76px !important;
+            padding-top: 200px !important;
         }
         
         @media (max-width: 991.98px) {
             body {
-                padding-top: 72px !important;
+                padding-top: 145px !important;
             }
         }
         .navbar .navbar-brand { color: var(--text); }
@@ -325,25 +320,6 @@
             }
         });
 
-        // Gestion dynamique des favicons selon le thème
-        function updateFavicon() {
-            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const favicon = document.querySelector('link[rel="icon"]');
-            
-            if (favicon) {
-                if (isDarkMode) {
-                  favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
-                } else {
-                  favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
-                }
-            }
-        }
-        
-        // Exécuter au chargement
-        document.addEventListener('DOMContentLoaded', updateFavicon);
-        
-        // Écouter les changements de thème
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
     </script>
 </head>
 <body>
@@ -355,24 +331,17 @@
     <main class="py-4 py-md-5">
         <div class="container" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
             <div style="padding-left: 1rem; padding-right: 1rem;">
-            <!-- Titre -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="text-center mb-4">
-                        <h1 class="h3 mb-0" style="font-family: 'Switzer', system-ui, sans-serif; font-weight: 700; letter-spacing: -0.01em; text-transform: uppercase; font-size: 1.5rem;">Maillots des nations</h1>
+
+            <!-- En-tête de page -->
+            <div class="page-header mb-4">
+                <h1>Maillots des nations</h1>
+                <div class="d-flex justify-content-center mt-3">
+                    <div class="tab-toggle">
+                        <a href="maillots-vintage.html" class="tab-item">Clubs</a>
+                        <a href="pays-vintage.html" class="tab-item active">Nations</a>
                     </div>
                 </div>
             </div>
-                    
-                    <!-- Navigation entre Clubs et Nations -->
-                    <div class="d-flex justify-content-center gap-2 mb-4">
-                        <a href="maillots-vintage.html" class="btn btn-outline-dark">
-                            Clubs
-                        </a>
-                        <a href="pays-vintage.html" class="btn btn-dark active">
-                            Nations
-                        </a>
-                    </div>
                     
             <!-- Barre de recherche pour le carousel -->
             <div class="row justify-content-center mb-3">
@@ -1946,7 +1915,7 @@
         <div class="row justify-content-center text-center">
           <div class="col-12 col-md-8">
             <div class="d-flex justify-content-center align-items-center gap-3 mb-3">
-              <img src="./assets/fvs_footer.png" alt="Futbolero Logo" style="height: 30px; width: auto; object-fit: contain;">
+              <img src="./assets/FVS_LOGO_PNG_BLANC_footer.png" alt="Futbolero Logo" style="height: 69px; width: auto; object-fit: contain;">
             </div>
             <p class="text-secondary mb-4">
               Votre destination pour les maillots de football vintage. <br>

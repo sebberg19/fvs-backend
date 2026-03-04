@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -61,12 +61,7 @@
       "url": "https://futbolerovintageshop.com"
     }
     </script>
-
-                <!-- Favicon dynamique géré par JavaScript -->
-              <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
-    <link rel="apple-touch-icon" href="./assets/FVS.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
-    <link rel="manifest" href="./assets/site.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon_FVS.svg">
 
     <!-- Police Switzer -->
     <link rel="stylesheet" href="./assets/switzer-fonts.css">
@@ -209,7 +204,7 @@
       
       /* Compenser la hauteur de la navbar fixe */
       body {
-          padding-top: 100px !important;
+          padding-top: 200px !important;
       }
       
       @media (max-width: 991.98px) {
@@ -985,9 +980,30 @@
   transform: scale(1.05);
 }
 
-.jersey-carousel .jersey-name,
-.jersey-carousel .jersey-price {
-  display: none !important;
+/* Cacher par défaut, afficher lors de la recherche */
+.jersey-item .jersey-info {
+  display: none;
+  padding: 0.5rem 0 0;
+  text-align: center;
+}
+
+.jersey-carousel.searching .jersey-item .jersey-info {
+  display: block;
+}
+
+.jersey-item .jersey-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000;
+  margin: 0 0 0.25rem;
+  line-height: 1.3;
+}
+
+.jersey-item .jersey-price {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #000;
+  margin: 0;
 }
 
 .jersey-item .add-to-cart {
@@ -1065,179 +1081,444 @@
     transform: translateY(-50%) scale(1);
   }
 }
+
+    /* ====================================================
+       V2 — MAGAZINE / ÉDITORIAL REFINED
+       ==================================================== */
+
+    /* CAROUSEL GRANDE TAILLE */
+    #carousel-section {
+      background: #fff;
+      padding: 4rem 0 3rem;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .carousel-header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+    .carousel-header h2 {
+      font-size: clamp(1.85rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      color: #000;
+      margin: 0 0 0.5rem;
+      line-height: 1.15;
+    }
+    .carousel-header p {
+      font-size: 1rem;
+      color: #777;
+      margin: 0;
+      line-height: 1.5;
+    }
+    .jersey-carousel-container {
+      max-height: 650px !important;
+      border-radius: 16px !important;
+      background: linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%) !important;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08) !important;
+    }
+    @media (max-width: 768px) {
+      .jersey-carousel-container { max-height: 420px !important; }
+    }
+
+    /* HERO REFINED */
+    .hero {
+      background: #fff;
+      padding: 5rem 0;
+      margin-top: 0 !important;
+    }
+    .hero-bg { display: none; }
+    .hero-content {
+      text-align: center;
+      padding: 0 1rem !important;
+      max-width: 920px;
+      margin: 0 auto;
+    }
+    .hero-title {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      color: #000;
+      margin: 0 0 1.5rem;
+      padding: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+    }
+    .hero-title .highlight {
+      display: block;
+      color: #000;
+    }
+    .hero-description {
+      font-size: 1.15rem;
+      color: #666;
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.65;
+      font-weight: 400;
+    }
+    .hero-description strong { font-weight: 600; color: #000; }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3.5rem;
+    }
+    .hero-buttons .btn {
+      border-radius: 8px;
+      padding: 1rem 2.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      border-width: 2px;
+    }
+    .hero-buttons .btn-dark {
+      background-color: #000 !important;
+      border-color: #000 !important;
+      color: #fff !important;
+    }
+    .hero-buttons .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 4rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding-top: 2.5rem;
+      border-top: 2px solid #f0f0f0;
+    }
+    .hero-stats > div { text-align: center; }
+    .stat-number {
+      font-size: 2.75rem;
+      font-weight: 800;
+      color: #000;
+      line-height: 1.1;
+      display: block;
+      letter-spacing: -0.015em;
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: #999;
+      margin-top: 0.5rem;
+      display: block;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    @media (max-width: 991.98px) {
+      .hero { padding: 3.5rem 0; }
+      .hero-stats { gap: 2.5rem; padding-top: 2rem; }
+    }
+    @media (max-width: 575.98px) {
+      .hero { padding: 2.5rem 0; }
+      .hero-content { padding: 0 0.75rem !important; }
+      .hero-title { font-size: clamp(2rem, 9vw, 3rem); line-height: 1.15; }
+      .hero-description { font-size: 1rem; margin-bottom: 2rem; }
+      .hero-buttons .btn { padding: 0.85rem 2rem; font-size: 0.95rem; }
+      .hero-stats { gap: 2rem; padding-top: 1.5rem; }
+      .stat-number { font-size: 2rem; }
+      .stat-label { font-size: 0.75rem; }
+      .carousel-header h2 { font-size: clamp(1.5rem, 7vw, 2rem); line-height: 1.2; }
+    }
+
+    /* HOW IT WORKS SECTION */
+    .how-section {
+      background: var(--bg);
+      padding: 4rem 0;
+    }
+    .how-section h2 {
+      text-align: center;
+      font-size: clamp(1.65rem, 3.5vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.25;
+      margin-bottom: 3rem;
+      color: var(--text);
+    }
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2rem;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .steps-container {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 600px;
+      }
+      
+      .step:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .steps-container {
+        grid-template-columns: 1fr;
+        max-width: 350px;
+      }
+      
+      .step:nth-child(3) {
+        grid-column: auto;
+        max-width: 100%;
+      }
+    }
+    .step {
+      text-align: center;
+      position: relative;
+    }
+    .step-number {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--text);
+      color: var(--surface);
+      border-radius: 50%;
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+    .step h4 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    .step p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .how-section {
+        padding: 3rem 0;
+      }
+    }
+
+    /* CTA SECTION WHITE */
+    .cta-light {
+      background: #fff;
+      color: #000;
+      padding: 2.5rem 0 5rem 0;
+      text-align: center;
+    }
+    .cta-light h3 {
+      font-size: clamp(1.65rem, 3.5vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 0 0 1rem;
+      line-height: 1.25;
+      padding: 0 1rem;
+      color: #000;
+    }
+    .cta-light p {
+      color: #666;
+      max-width: 580px;
+      margin: 0 auto 2.5rem;
+      font-size: 1rem;
+      line-height: 1.65;
+      padding: 0 1rem;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      background: #000;
+      color: #fff !important;
+      border: none;
+      border-radius: 8px;
+      padding: 1rem 2.5rem;
+      font-weight: 600;
+      font-size: 1rem;
+      text-decoration: none !important;
+      transition: all 0.2s ease;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      color: #fff !important;
+    }
+    .cta-meta {
+      margin-top: 1.5rem;
+      font-size: 0.875rem;
+      color: #999;
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 0 1rem;
+    }
+    @media (max-width: 575.98px) {
+      .cta-light { padding: 2rem 0 3.5rem 0; }
+      .cta-light h3 { margin-bottom: 0.75rem; font-size: clamp(1.35rem, 6vw, 1.75rem); }
+      .cta-light p { font-size: 0.95rem; margin-bottom: 2rem; }
+      .cta-btn { padding: 0.85rem 2rem; font-size: 0.95rem; }
+      .cta-meta { gap: 1.5rem; font-size: 0.8rem; }
+    }
     </style>
-      <script>
-        // Gestion dynamique des favicons selon le thème
-        function updateFavicon() {
-            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const favicon = document.querySelector('link[rel="icon"]');
-            
-            if (favicon) {
-                if (isDarkMode) {
-                  favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
-                } else {
-                  favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
-                }
-            }
-        }
-        
-        // Exécuter au chargement
-        document.addEventListener('DOMContentLoaded', updateFavicon);
-        
-        // Écouter les changements de thème
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
-    </script>
 </head>
   <body>
   <!-- Nav partagée (injection) -->
   <header id="site-header"></header>
 
-    <!-- Carrousel de maillots automatique en haut -->
-    <section id="carousel-section" class="py-3 position-relative" style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-bottom: 2px solid rgba(0,0,0,0.08); box-shadow: 0 4px 20px rgba(0,0,0,0.05);">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <!-- Barre de recherche pour le carousel -->
-            <div class="row justify-content-center mb-2">
-              <div class="col-11 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
-                <div class="input-group">
-                  <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
-                    <i class="fas fa-search" aria-hidden="true" id="search-icon"></i>
-                  </button>
-                  <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off" spellcheck="false">
-                  <button class="btn" type="button" id="carousel-clear-search" title="Effacer (Esc)" aria-label="Effacer la recherche">
-                    <i class="fas fa-times" aria-hidden="true"></i>
-                  </button>
-                </div>
-                <div class="text-center mb-1">
-                  <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
-                </div>
-              </div>
-            </div>
-            <div class="jersey-carousel-container" id="carousel-container">
-              <div class="jersey-carousel" id="jerseyCarousel">
-                <!-- Le contenu sera généré dynamiquement par JavaScript -->
-              </div>
-            </div>
+  <!-- ===== CAROUSEL ÉLARGI ===== -->
+  <section id="carousel-section">
+    <div class="container">
+      <div class="row justify-content-center mb-3">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+          <label for="carousel-search-input" class="visually-hidden">Rechercher un maillot</label>
+          <div class="input-group">
+            <button class="carousel-search-icon-btn" type="button" id="carousel-search-button" title="Rechercher" aria-label="Lancer la recherche">
+              <i class="fas fa-search" aria-hidden="true" id="search-icon"></i>
+            </button>
+            <input type="text" class="form-control" id="carousel-search-input" placeholder="Rechercher un maillot..." aria-label="Rechercher un maillot" autocomplete="off" spellcheck="false">
+            <button class="btn" type="button" id="carousel-clear-search" title="Effacer (Esc)" aria-label="Effacer la recherche">
+              <i class="fas fa-times" aria-hidden="true"></i>
+            </button>
+          </div>
+          <div class="text-center mt-1">
+            <small class="text-muted" id="carousel-search-results-count" aria-live="polite"></small>
           </div>
         </div>
       </div>
-    </section>
+      <div class="jersey-carousel-container" id="carousel-container">
+        <div class="jersey-carousel" id="jerseyCarousel"></div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Section des résultats de recherche en grille -->
-    <section id="search-results-section" class="py-4" style="display: none;">
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-              <h2 class="h4 mb-0" id="search-results-title">Résultats de recherche</h2>
-              <small class="text-muted" id="search-results-info"></small>
-            </div>
-            <div class="row g-0" id="search-results-grid">
-              <!-- Les résultats seront générés ici dynamiquement -->
-            </div>
-          </div>
-        </div>
+  <!-- Résultats de recherche -->
+  <section id="search-results-section" class="py-4" style="display: none; background: #fafafa;">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="h4 mb-0" id="search-results-title">Résultats</h2>
+        <small class="text-muted" id="search-results-info"></small>
       </div>
-    </section>
+      <div class="row g-0" id="search-results-grid"></div>
+    </div>
+  </section>
 
-    <!-- Hero -->
-    <section class="hero position-relative overflow-hidden" style="margin-top: -1rem; padding-bottom: 2rem;">
-      <div class="hero-bg"></div>
-      <div class="container position-relative">
-        <div class="row align-items-center">
-          <div class="col-12 col-lg-7 col-xl-6 hero-content py-3">
-            <div class="hero-text-wrapper">
-              <h1 class="hero-title display-3 fw-bold mb-2">
-                Maillots de foot<br>
-                <span style="color: #000000;">vintage & récents</span>
-              </h1>
-              <p class="lead hero-description mb-3">
-                1000+ maillots en stock.<br>
-                Livraison : <strong>12-20 jours</strong>.
-              </p>
-              <div class="hero-buttons d-flex flex-column flex-sm-row gap-2 mb-2">
-                <a href="./tous-les-maillots.html" class="btn btn-dark btn-hero">
-                  <span>Voir le catalogue</span>
-                  <i class="bi bi-arrow-right ms-2"></i>
-                </a>
-                <a href="./maillots-vintage.html" class="btn btn-outline-dark btn-hero">
-                  <span>Collection vintage</span>
-                  <i class="bi bi-arrow-right ms-2"></i>
-                </a>
-              </div>
-              <div class="hero-stats d-none d-lg-flex align-items-center gap-4 mt-3">
-                <div class="stat-item">
-                  <div class="stat-number">1000+</div>
-                  <div class="stat-label">Maillots</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">90+</div>
-                  <div class="stat-label">Clubs</div>
-                </div>
-                <div class="stat-item">
-                  <div class="stat-number">50+</div>
-                  <div class="stat-label">Pays</div>
-                </div>
-              </div>
-            </div>
+  <!-- ===== HERO BOLD ===== -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">
+          Maillots de foot
+          <span class="highlight">vintage &amp; récents</span>
+        </h1>
+        <p class="hero-description">
+          Plus de <strong>1000 maillots</strong> en stock — clubs européens, équipes nationales, éditions vintage et collections actuelles. Livraison <strong>12–20 jours</strong>.
+        </p>
+        <div class="hero-buttons">
+          <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg">
+            Voir le catalogue
+            <i class="bi bi-arrow-right ms-2"></i>
+          </a>
+          <a href="./maillots-vintage.html" class="btn btn-outline-dark btn-lg">
+            Collection vintage
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div>
+            <span class="stat-number">1000+</span>
+            <span class="stat-label">Maillots</span>
           </div>
-          <div class="col-12 col-lg-5 col-xl-5 py-3 d-flex align-items-center">
-            <div style="background: white; border-radius: 12px; padding: 2rem 1.5rem; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06); display: flex; flex-direction: column; height: 100%; justify-content: center;">
-              <h4 style="margin: 0 0 1rem 0; font-weight: 700; font-size: 1.1rem;">Vous cherchez un maillot ?</h4>
-              
-              <p style="color: #333; margin: 0 0 1rem 0; font-size: 0.9rem; line-height: 1.5;">
-                Vous ne trouvez pas le maillot que vous recherchez ? Nous pouvons vous indiquer sa disponibilité.
-              </p>
-              
-              <div style="background: #f9f9f9; border-left: 4px solid #000; padding: 1rem; margin: 1rem 0; text-align: left; border-radius: 4px;">
-                <p style="margin: 0; font-size: 0.85rem; color: #555; line-height: 1.4;">
-                  <strong>Comment ça marche :</strong><br>
-                  Envoyez-nous une photo du maillot + infos (équipe, année, etc.) et nous vous contacterons avec les solutions disponibles.
-                </p>
-              </div>
-              
-              <a href="mailto:futbolerovintageshop@gmail.com" class="btn btn-dark" style="background: #000; color: white; border: 2px solid #000; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; font-size: 0.9rem; transition: all 0.3s ease; margin: 0.5rem 0;">
-                Envoyer un email
-              </a>
-              
-              <p style="margin: 1rem 0 0 0; font-size: 0.8rem; color: #999;">
-                ✓ Réponse en 1-2 jours<br>
-                ✓ Service gratuit
-              </p>
-            </div>
+          <div>
+            <span class="stat-number">90+</span>
+            <span class="stat-label">Clubs</span>
+          </div>
+          <div>
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Pays</span>
           </div>
         </div>
       </div>
-    </section>
-    <!-- Footer -->
-    <footer class="footer py-4">
-      <div class="container">
-        <div class="row justify-content-center text-center">
-          <div class="col-12 col-md-8">
-            <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-              <img src="./assets/fvs_footer.png" alt="Futbolero Logo" style="height: 30px; width: auto; object-fit: contain;">
-            </div>
-            <p class="text-secondary mb-3">
-              Maillots vintage et actuels.<br>
-              1000+ maillots | Qualité premium | Livraison rapide
-            </p>
-            <div class="d-flex justify-content-center gap-3 mb-3">
-              <a href="./tous-les-maillots.html" class="text-white" title="Tous les maillots">Tous les maillots</a>
-              <a href="./maillots-vintage.html" class="text-white" title="Maillots vintage">Vintage</a>
-              <a href="./maillots.html" class="text-white" title="Maillots récents">Récents</a>
-              <a href="mailto:futbolerovintageshop@gmail.com" class="text-white" title="Contact">Contact</a>
-            </div>
-            <hr style="border-color: #333333; margin: 1.5rem 0;">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-              <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero. Tous droits réservés.</small>
-              <small class="text-secondary">Créé pour les amoureux du football.</small>
-            </div>
+    </div>
+  </section>
+
+  <!-- ===== HOW IT WORKS ===== -->
+  <section class="how-section">
+    <div class="container">
+      <h2>Comment commander ?</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <h4>Choisissez votre maillot</h4>
+          <p>Parcourez notre catalogue de 1000+ maillots et trouvez votre coup de cœur</p>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <h4>Personnalisez et commandez</h4>
+          <p>Sélectionnez la taille, ajoutez un nom/numéro si souhaité</p>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <h4>Recevez votre maillot</h4>
+          <p>Complétez votre commande et recevez votre maillot directement chez vous</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA WHITE ===== -->
+  <section class="cta-light">
+    <div class="container">
+      <h3>Vous cherchez un maillot spécifique ?</h3>
+      <p>
+        Envoyez-nous une photo et les informations (équipe, année, version).<br>
+        Nous vérifions la disponibilité et vous répondons rapidement.
+      </p>
+      <a href="mailto:futbolerovintageshop@gmail.com" class="cta-btn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Nous contacter
+      </a>
+      <div class="cta-meta">
+        <span>✓ Réponse en 1–2 jours</span>
+        <span>✓ Service gratuit</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer py-4">
+    <div class="container">
+      <div class="row justify-content-center text-center">
+        <div class="col-12 col-md-8">
+          <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+            <img src="./assets/FVS_LOGO_PNG_BLANC_footer.png" alt="Futbolero Logo" style="height: 69px; width: auto; object-fit: contain;">
+          </div>
+          <p class="text-secondary mb-3">
+            Maillots vintage et actuels.<br>
+            1000+ maillots | Qualité premium | Livraison rapide
+          </p>
+          <div class="d-flex justify-content-center gap-3 mb-3 flex-wrap">
+            <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
+            <a href="./maillots-vintage.html" class="text-white">Vintage</a>
+            <a href="./maillots.html" class="text-white">Récents</a>
+            <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
+          </div>
+          <hr style="border-color: #333333; margin: 1.5rem 0;">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero. Tous droits réservés.</small>
+            <small class="text-secondary">Créé pour les amoureux du football.</small>
           </div>
         </div>
       </div>
-    </footer>
+    </div>
+  </footer>
 
     <script>
       document.getElementById('year')?.textContent = new Date().getFullYear();
@@ -1790,6 +2071,10 @@
                    alt="${jersey.name}" 
                    class="jersey-img" 
                    onerror="this.src='./images/placeholder.webp'">
+              <div class="jersey-info">
+                <div class="jersey-name">${jersey.name}</div>
+                <div class="jersey-price">${jersey.price || '36,70 CAD'}</div>
+              </div>
               <button class="add-to-cart" 
                       data-price="36.70" 
                       data-img="${jersey.img}" 
@@ -1809,22 +2094,18 @@
         // Fonction de recherche améliorée avec tolérance aux fautes
         function performSearch(query) {
           const resultsCount = document.getElementById('carousel-search-results-count');
-          const searchResultsSection = document.getElementById('search-results-section');
+          const carousel = document.getElementById('jerseyCarousel');
           const carouselContainer = document.getElementById('carousel-container');
-          const heroSection = document.querySelector('.hero');
           
           console.log('🔍 Recherche pour:', query);
           
           if (query.trim() === '') {
-            // Aucune recherche : afficher un échantillon mélangé dans la mosaïque (perf)
+            // Aucune recherche : retirer la classe searching et afficher un échantillon mélangé
+            if (carousel) carousel.classList.remove('searching');
             const sampleSize = Math.min(HOME_MOSAIC_SIZE, allJerseys.length);
             currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
             resultsCount.textContent = '';
             resultsCount.style.color = '';
-            // Masquer la section de résultats et réafficher le carousel et le héro
-            searchResultsSection.style.display = 'none';
-            if (carouselContainer) carouselContainer.style.display = 'block';
-            if (heroSection) heroSection.style.display = 'block';
             generateCarousel(currentFilteredJerseys);
             return;
           }
@@ -1860,26 +2141,21 @@
             ));
           }
           
-          // Affichage des résultats
+          // Ajouter la classe searching pour afficher les détails
+          if (carousel) carousel.classList.add('searching');
+          
+          // Affichage des résultats dans le carousel
           if (currentFilteredJerseys.length === 0) {
             resultsCount.textContent = 'Aucun résultat';
             resultsCount.style.color = '#dc3545';
-            searchResultsSection.style.display = 'none';
-            if (carouselContainer) carouselContainer.style.display = 'none';
-            if (heroSection) heroSection.style.display = 'none';
           } else {
-            // Afficher la grille de résultats
-            searchResultsSection.style.display = 'block';
-            if (carouselContainer) carouselContainer.style.display = 'none';
-            if (heroSection) heroSection.style.display = 'none';
-            
             const count = currentFilteredJerseys.length;
             resultsCount.textContent = `${count} résultat${count > 1 ? 's' : ''}`;
             resultsCount.style.color = '#198754';
-            
-            // Générer la grille
-            generateSearchResultsGrid(currentFilteredJerseys, query);
           }
+          
+          // Générer les résultats dans le carousel
+          generateCarousel(currentFilteredJerseys);
         }
 
         // Attacher les événements aux éléments du carousel

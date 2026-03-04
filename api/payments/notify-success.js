@@ -67,7 +67,7 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
                 ${item.size ? `<p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Taille: ${item.size}</p>` : ''}
                 <p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Quantité: ${quantity}</p>
                 <p style="margin: 8px 0; font-size: 16px; font-weight: 800; color: #212529; font-family: 'Manrope', sans-serif;">$${totalItemPrice} CAD</p>
-                ${item.isVintage ? '<p style="margin: 4px 0; color: #198754; font-weight: 700; font-family: \'Manrope\', sans-serif;">Maillot Vintage</p>' : ''}
+                ${item.isVintage ? '<p style="margin: 4px 0; color: #6b6f76; font-weight: 600; font-family: \'Manrope\', sans-serif;">Maillot Vintage</p>' : ''}
                 ${personalizationHTML}
               </td>
             </tr>
@@ -106,17 +106,15 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
         <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
           <!-- Logo Header -->
           <tr>
-            <td style="padding: 20px 40px; text-align: center; background: #ffffff; border-bottom: 1px solid #dee2e6;">
-              <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero" style="height: 46px; width: auto; object-fit: contain; margin-bottom: 10px;">
-              <h1 style="margin: 0; color: #000000; font-size: 24px; font-weight: 800; font-family: 'Manrope', sans-serif;">Futbolero Vintage Shop</h1>
-            </td>
+            <td style="padding: 24px 40px 20px 40px; text-align: center; background: #ffffff; border-bottom: 1px solid #e9ebf0;">
+              <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero" style="height: 40px; width: auto; object-fit: contain;">            </td>
           </tr>
           
           <!-- Header -->
           <tr>
-            <td style="padding: 40px; text-align: center; background: linear-gradient(135deg, #2f6f3e 0%, #1a4d2e 100%); border-radius: 0;">
-              <h2 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 800; font-family: 'Manrope', sans-serif;">Commande confirmée ✓</h2>
-              <p style="margin: 10px 0 0 0; color: #e8f5e9; font-size: 16px; font-family: 'Manrope', sans-serif; font-weight: 700;">Merci pour votre achat !</p>
+            <td style="padding: 32px 40px; text-align: center; background: #121314; border-radius: 0;">
+              <h2 style="margin: 0; color: #ffffff; font-size: 26px; font-weight: 800; font-family: 'Manrope', sans-serif;">Commande confirmée &#10003;</h2>
+              <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.65); font-size: 15px; font-family: 'Manrope', sans-serif; font-weight: 600;">Merci pour votre achat !</p>
             </td>
           </tr>
           
@@ -178,7 +176,7 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
                     <strong style="color: #212529; font-size: 18px;">Total:</strong>
                   </td>
                   <td align="right" style="padding: 16px 0 0 0; font-family: 'Manrope', sans-serif; font-weight: 800;">
-                    <strong style="color: #2f6f3e; font-size: 20px;">$${Number(total || 0).toFixed(2)} CAD</strong>
+                    <strong style="color: #121314; font-size: 20px;">$${Number(total || 0).toFixed(2)} CAD</strong>
                   </td>
                 </tr>
               </table>
@@ -204,14 +202,12 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           
           <!-- Footer -->
           <tr>
-            <td style="padding: 30px 40px; background: #f8f9fa; border-radius: 0 0 12px 12px; text-align: center; font-family: 'Manrope', sans-serif; font-weight: 700;">
-              <p style="margin: 0 0 10px 0; color: #6c757d; font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 600;">
-                Pour toute question, contactez-nous à<br>
-                <a href="mailto:futbolerovintageshop@gmail.com" style="color: #2f6f3e; text-decoration: none; font-weight: 700;">futbolerovintageshop@gmail.com</a>
+            <td style="padding: 24px 40px; background: #121314; border-radius: 0 0 12px 12px; text-align: center; font-family: 'Manrope', sans-serif;">
+              <p style="margin: 0 0 8px 0; color: rgba(255,255,255,0.9); font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 700;">
+                Futbolero Vintage Shop
               </p>
-              <p style="margin: 20px 0 0 0; color: #6c757d; font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 600;">
-                <strong>Futbolero Vintage Shop</strong><br>
-                Maillots vintage et actuels de qualité premium
+              <p style="margin: 0; color: rgba(255,255,255,0.5); font-size: 12px; font-family: 'Manrope', sans-serif;">
+                Questions ? <a href="mailto:futbolerovintageshop@gmail.com" style="color: rgba(255,255,255,0.65); text-decoration: underline;">futbolerovintageshop@gmail.com</a>
               </p>
             </td>
           </tr>

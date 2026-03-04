@@ -1,71 +1,164 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-  <div class="container align-items-center">
-    <a class="navbar-brand fw-semibold me-2 d-flex align-items-center gap-2" href="./index.html">
-      <img src="./assets/fvs_nav.png" alt="Futbolero Logo" class="navbar-logo navbar-logo-desktop" style="height: 32px; width: auto; object-fit: contain;">
-      <img src="./assets/logo-small-nav.png" alt="Futbolero Logo" class="navbar-logo navbar-logo-mobile logo-small-nav" style="height: 32px; width: auto; object-fit: contain;">
-    </a>
+<nav class="navbar navbar-expand-lg navbar-light sticky-top fvs-navbar">
+  <div class="container flex-column">
 
-    <div class="d-flex align-items-center ms-auto gap-2">
-      <!-- Top-right cart visible only on small/medium screens; hidden on lg+ -->
-      <button type="button" onclick="handleCartClick()" class="btn btn-outline-dark d-flex align-items-center gap-2 cart-btn tap-target d-lg-none" aria-label="Voir le panier">
-        <i class="bi bi-bag fs-5"></i>
-        <span class="visually-hidden">Articles dans le panier</span>
-        <span id="cartCount" class="badge rounded-pill cart-count d-none">0</span>
-      </button>
-      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="#mainNav" aria-expanded="false" aria-label="Basculer la navigation">
+    <!-- Row 1 : logo centré + toggler mobile -->
+    <div class="d-flex w-100 justify-content-center align-items-center position-relative py-2">
+      <a class="navbar-brand m-0" href="./index.html">
+        <img src="./assets/FVS_LOGO_SVG.svg" alt="Futbolero Logo" class="navbar-logo">
+      </a>
+      <!-- Toggler : visible mobile uniquement, positionné à droite en absolu -->
+      <button class="navbar-toggler border-0 position-absolute end-0" type="button"
+        data-bs-toggle="collapse" data-bs-target="#mainNav"
+        aria-controls="mainNav" aria-expanded="false" aria-label="Basculer la navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
     </div>
 
-    <div class="collapse navbar-collapse mt-2 mt-lg-0" id="mainNav">
-      <ul class="navbar-nav ms-auto">
-        <!-- Cart shown inline in nav on large screens (just before Accueil) -->
-  <li class="nav-item d-none d-lg-flex align-items-center ms-3">
-          <button type="button" onclick="handleCartClick()" class="btn btn-outline-dark d-flex align-items-center gap-2 cart-btn tap-target" aria-label="Voir le panier">
-            <i class="bi bi-bag fs-5"></i>
-            <span class="visually-hidden">Articles dans le panier</span>
-            <span id="cartCountNav" class="badge rounded-pill cart-count d-none">0</span>
-          </button>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./index.html">Accueil</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./tous-les-maillots.html">Tous les maillots</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./maillots.html">Maillots</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="./maillots-vintage.html">Maillots vintage</a>
-        </li>
-        <li class="nav-item">
-        </li>
-      </ul>
+    <!-- Row 2 : liens + panier centrés sous le logo -->
+    <div class="collapse navbar-collapse justify-content-center" id="mainNav">
+      <div class="nav-links-row">
+        <a class="nav-link" href="./index.html">Accueil</a>
+        <a class="nav-link" href="./tous-les-maillots.html">Tous les maillots</a>
+        <a class="nav-link" href="./maillots.html">Maillots</a>
+        <a class="nav-link" href="./maillots-vintage.html">Maillots vintage</a>
+        <button type="button" onclick="handleCartClick()" class="cart-btn" aria-label="Voir le panier">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+          <span id="cartCount" class="cart-count d-none">0</span>
+        </button>
+      </div>
     </div>
+
   </div>
 </nav>
 
 <style>
-  /* Importer Switzer pour tout */
   @import url('./../../../../../../assets/switzer-fonts.css');
-  
-  /* Hiérarchie typographique cohérente */
+
+  /* ─── Navbar shell ────────────────────────────────── */
+  .fvs-navbar {
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    padding: 0;
+  }
+
+  .fvs-navbar .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 1100px;
+    padding-top: 0.75rem;
+    padding-bottom: 0.55rem;
+  }
+
+  /* ─── Row 1 : Logo ───────────────────────────────── */
   .navbar-brand {
-    font-family: 'Switzer', system-ui, sans-serif !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.02em;
-    font-size: 1.15rem !important;
-    line-height: 1.3;
-    align-items: center !important;
-    height: 60px;
-    display: flex !important;
-    text-shadow: 
-      -0.3px -0.3px 0 rgba(0, 0, 0, 0.15),
-      0.3px -0.3px 0 rgba(0, 0, 0, 0.15),
-      -0.3px 0.3px 0 rgba(0, 0, 0, 0.15),
-      0.3px 0.3px 0 rgba(0, 0, 0, 0.15);
-    -webkit-text-stroke: 0.3px rgba(0, 0, 0, 0.08);
+    display: block;
+    margin: 0 auto;
+    line-height: 0;
+  }
+
+  .navbar-logo {
+    height: 110px;
+    width: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  @media (max-width: 991.98px) {
+    .navbar-logo { height: 75px; }
+  }
+
+  /* ─── Row 2 : links + cart ───────────────────────── */
+  .nav-links-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    padding: 0.5rem 0 0.35rem;
+    width: 100%;
+  }
+
+  .nav-links-row .nav-link {
+    font-family: 'Switzer', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.01em;
+    color: #1a1a1a;
+    padding: 0.55rem 1.2rem;
+    border-radius: 99px;
+    transition: background 0.15s, transform 0.15s;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .nav-links-row .nav-link:hover {
+    /* no hover effect */
+  }
+
+  .nav-links-row .nav-link.active {
+    font-weight: 900;
+    font-size: 1.1rem;
+    background: none !important;
+  }
+
+  /* ─── Cart button ────────────────────────────────── */
+  .nav-links-row .cart-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border: 2.5px solid #1a1a1a;
+    background: transparent;
+    color: #1a1a1a;
+    font-size: 1.05rem;
+    font-weight: 800;
+    padding: 0.55rem 1rem;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s, transform 0.15s;
+    margin-left: 0.75rem;
+  }
+
+  .nav-links-row .cart-btn:hover {
+    background: #1a1a1a;
+    color: #fff;
+    transform: translateY(-2px);
+  }
+
+  .nav-links-row .cart-count {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    font-size: 0.68rem;
+    background: #dc3545;
+    color: #fff;
+    border: 2px solid #fff;
+    font-weight: 700;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+  }
+
+  /* ─── Mobile collapse ───────────────────────────── */
+  @media (max-width: 991.98px) {
+    .nav-links-row {
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+    }
+    .nav-links-row .cart-btn { margin-left: 0; margin-top: 0.35rem; }
   }
   
   /* Texte empilé sur mobile */
@@ -78,143 +171,6 @@
     display: block;
     line-height: 0.9;
     font-weight: 800;
-  }
-  
-  /* Navigation container centré */
-  .navbar {
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-  }
-  
-  .container {
-    align-items: center !important;
-  }
-  
-  /* Logo dans la navigation - à gauche */
-  .navbar-logo {
-    height: 32px;
-    width: auto;
-    object-fit: contain;
-    filter: none;
-    flex-shrink: 0;
-    margin-right: 0.5rem;
-  }
-  
-  /* Logos responsifs */
-  .navbar-logo-desktop {
-    display: block !important;
-  }
-  
-  .navbar-logo-mobile {
-    display: none !important;
-  }
-  
-  @media (max-width: 991.98px) {
-    .navbar-logo-desktop {
-      display: none !important;
-    }
-    
-    .navbar-logo-mobile {
-      display: block !important;
-      height: 42px !important;
-    }
-  }
-  
-  /* Navigation links */
-  .nav-link {
-    font-family: 'Manrope', system-ui, sans-serif !important;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    font-size: 0.95rem;
-    transition: all 0.2s ease;
-  }
-  
-  .nav-link:hover, .nav-link.active {
-    font-weight: 600;
-    transform: translateY(-1px);
-  }
-  
-  @media (min-width: 992px) {
-    .navbar-brand {
-      font-size: 1.4rem !important;
-      height: auto;
-    }
-    
-    .navbar-logo {
-      height: 36px;
-    }
-    
-    .nav-link {
-      font-size: 1rem;
-    }
-  }
-  
-  /* Hover effect subtle sur le logo */
-  .navbar-brand:hover .navbar-logo {
-    transform: scale(1.05);
-    transition: transform 0.2s ease;
-  }
-  
-  /* Active nav link: just a stronger weight, no underline/color change */
-  .navbar .nav-link { transition: color .15s ease; }
-  .navbar .nav-link.active { font-weight: 800; color: inherit !important; }
-  
-  /* Brand text sizing: smaller on mobile, larger on desktop */
-  .navbar .navbar-brand { 
-    font-size: .95rem; 
-  }
-  
-  /* Larger brand text on bigger screens */
-  @media (min-width: 992px) {
-    .navbar .navbar-brand { 
-      font-size: 1.4rem !important; 
-    }
-  }
-
-  /* Cart button + badge aligned with index.html */
-  .navbar .cart-btn { 
-    position: relative; 
-    border: 2px solid #1a1a1a !important;
-    background: transparent !important;
-    color: #1a1a1a !important;
-    font-weight: 600;
-    padding: 0.5rem 0.75rem;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-  }
-  
-  .navbar .cart-btn:hover {
-    background: #1a1a1a !important;
-    color: white !important;
-    transform: translateY(-1px);
-  }
-  
-  .navbar .cart-btn .bi-bag {
-    font-size: 1.1rem !important;
-    font-weight: bold;
-  }
-  
-  /* Cart badge (pastille) - small circular indicator on the top-right of the icon */
-  .navbar .cart-btn { position: relative; }
-  .navbar .cart-count {
-    position: absolute;
-    top: -6px;
-    right: -8px;
-    font-size: 0.72rem;
-    background: #dc3545;
-    color: #ffffff;
-    border: 2px solid #ffffff;
-    font-weight: 700;
-    min-width: 18px;
-    height: 18px;
-    padding: 0 6px;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    line-height: 1;
-    transform: translate(30%, -30%);
   }
   
   /* Styles pour les sélecteurs de langue et devise */

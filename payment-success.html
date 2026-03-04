@@ -1,148 +1,109 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Commande confirmée — Futbolero</title>
-  
-              <!-- Favicon dynamique géré par JavaScript -->
-            <link rel="icon" type="image/png" href="./assets/fav_black.png" id="favicon">
-    <link rel="apple-touch-icon" href="./assets/FVS.png">
-    <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png?v=7" sizes="180x180">
-  <link rel="manifest" href="./assets/site.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="./assets/favicon_FVS.svg">
   
   <!-- Preconnect CDNs -->
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   
+  <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css"></noscript>
-    <script>
-        // Gestion dynamique des favicons selon le thème
-        function updateFavicon() {
-            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const favicon = document.querySelector('link[rel="icon"]');
-            
-            if (favicon) {
-                if (isDarkMode) {
-              favicon.href = './assets/fav_white.png'; // Logo blanc pour mode sombre
-                } else {
-              favicon.href = './assets/fav_black.png';  // Logo noir pour mode clair
-                }
-            }
-        }
-        
-        // Exécuter au chargement
-        document.addEventListener('DOMContentLoaded', updateFavicon);
-        
-        // Écouter les changements de thème
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', updateFavicon);
-    </script>
-</head>
-<body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
-      <div class="container align-items-center">
-        <a class="navbar-brand fw-semibold me-2" href="./index.html">
-          Futbolero Vintage Shop
-        </a>
-
-        <div class="d-flex align-items-center ms-auto gap-2">
-          <a href="./cart.html" class="btn btn-outline-dark d-flex align-items-center gap-2 cart-btn tap-target" aria-label="Voir le panier">
-            <i class="bi bi-bag fs-5"></i>
-            <span class="visually-hidden">Articles dans le panier</span>
-            <span id="cartCount" class="badge rounded-pill cart-count d-none">0</span>
-          </a>
-          <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Basculer la navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-        </div>
-
-        <div class="collapse navbar-collapse mt-2 mt-lg-0" id="mainNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="./index.html">Accueil</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./tous-les-maillots.html">Tous les maillots</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./maillots.html">Maillots</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="./maillots-vintage.html">Maillots vintage</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <style>
-      /* Remove hover effects for inline nav on this page */
-      .navbar .navbar-brand,
-      .navbar .nav-link,
-      .navbar .cart-btn,
-      .navbar .navbar-toggler { transition: none !important; transform: none !important; }
-      .navbar .navbar-brand:hover, .navbar .nav-link:hover, .navbar .cart-btn:hover, .navbar .navbar-toggler:hover { transform: none !important; color: inherit !important; text-decoration: none !important; }
-    </style>
-    <style>
-      /* Keep btn colors fixed and white text */
-      .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited { background-color: var(--accent, #2f6f3e) !important; border-color: var(--accent, #2f6f3e) !important; color: var(--accent-contrast, #fff) !important; }
-      .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited { background-color: #000 !important; border-color: #000 !important; color: #fff !important; }
-      
-      .footer {
-        background: #000000 !important;
-        color: #ffffff;
-        border-top: none;
-      }
-      
-      .footer a {
-        color: #ffffff;
-        text-decoration: none;
-      }
-      
-      .footer a:hover {
-        color: #cccccc;
-        text-decoration: underline;
-      }
-      
-      .footer .text-secondary {
-        color: #cccccc !important;
-      }
-    </style>
-
-  <main class="container py-5">
-    <div class="col-12 col-md-8 col-lg-6 mx-auto">
-      <div class="card shadow-lg border-0" style="border-radius: 16px; overflow: hidden;">
-        <div class="card-body p-5 text-center">
-          <div class="mb-4 success-icon" style="animation: scaleIn 0.5s ease-out;">
-            <img src="./assets/logo.png" alt="Futbolero" style="height: 80px; width: auto; object-fit: contain;">
-          </div>
-          <h1 class="h2 fw-bold mb-3" style="animation: fadeInUp 0.6s ease-out 0.2s both;">Commande confirmée</h1>
-          <p class="text-secondary mb-4 fs-5" style="animation: fadeInUp 0.6s ease-out 0.3s both;">Votre paiement a bien été reçu.</p>
-          
-          <div id="emailStatus" class="alert alert-info d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #0dcaf0;">
-            <div class="spinner-border spinner-border-sm me-2" role="status">
-              <span class="visually-hidden">Envoi en cours...</span>
-            </div>
-            Envoi de la confirmation par email...
-          </div>
-          <div id="emailSuccess" class="alert alert-success d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #198754; animation: fadeIn 0.4s ease-out;">
-            <i class="bi bi-envelope-check me-2"></i>
-            Email de confirmation envoyé
-          </div>
-          <div id="emailError" class="alert alert-warning d-none mb-4" role="alert" style="border-radius: 12px; border-left: 4px solid #ffc107;">
-            <i class="bi bi-exclamation-triangle me-2"></i>
-          Un email sera envoyé sous peu
-          </div>
-          
-          <div class="d-grid gap-2 col-md-8 mx-auto" style="animation: fadeInUp 0.6s ease-out 0.4s both;">
-            <a href="./index.html" class="btn btn-dark btn-lg" style="border-radius: 12px; padding: 14px;">Retour à la boutique</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
+  
+  <!-- Police Switzer -->
+  <link rel="stylesheet" href="./assets/switzer-fonts.css">
+  
+  <!-- Système typographique cohérent -->
+  <link rel="stylesheet" href="./assets/typography.css">
   
   <style>
+    :root {
+      --bg: #f7f8f9;
+      --surface: #ffffff;
+      --text: #121314;
+      --muted: #6b6f76;
+      --border: #e9ebf0;
+      --accent: #121314;
+      --accent-contrast: #ffffff;
+    }
+    
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Switzer', system-ui, -apple-system, sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+    }
+    
+    body {
+      padding-top: 200px !important;
+    }
+    
+    @media (max-width: 991.98px) {
+      body {
+        padding-top: 110px !important;
+      }
+    }
+    
+    /* Navigation fixe */
+    #site-header {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      z-index: 1050 !important;
+      width: 100% !important;
+      background: var(--surface) !important;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+    }
+    
+    #site-header .navbar {
+      position: relative !important;
+      background: transparent !important;
+      box-shadow: none !important;
+      margin: 0 !important;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .navbar .navbar-brand { 
+      color: var(--text); 
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    
+    .nav-link { 
+      color: var(--muted) !important; 
+      font-weight: 700;
+    }
+    
+    .nav-link.active, .nav-link:hover { 
+      color: var(--text) !important; 
+    }
+    
+    main {
+      min-height: calc(100vh - 200px);
+    }
+    
+    /* Success card styling */
+    .success-card {
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+    }
+    
+    .success-icon {
+      animation: scaleIn 0.5s ease-out;
+    }
+    
     @keyframes scaleIn {
       from {
         transform: scale(0);
@@ -174,15 +135,121 @@
       }
     }
     
-    .card {
-      transition: transform 0.3s ease;
+    .btn-dark {
+      background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
+      border: none;
+      border-radius: 12px;
+      padding: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
     
     .btn-dark:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+    }
+    
+    .btn-dark:active {
+      transform: translateY(-1px);
+    }
+    
+    .alert {
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .alert-info {
+      background-color: rgba(13, 202, 240, 0.1);
+      border-left: 4px solid #0dcaf0;
+    }
+    
+    .alert-success {
+      background-color: rgba(25, 135, 84, 0.1);
+      border-left: 4px solid #198754;
+      animation: fadeIn 0.4s ease-out;
+    }
+    
+    .alert-warning {
+      background-color: rgba(255, 193, 7, 0.1);
+      border-left: 4px solid #ffc107;
+    }
+    
+    /* Footer */
+    .footer {
+      background: #000;
+      color: #fff;
+      margin-top: 4rem;
+    }
+    
+    .footer a {
+      color: #fff;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    
+    .footer a:hover {
+      color: #ccc;
+    }
+    
+    .footer .text-secondary {
+      color: #999 !important;
     }
   </style>
+</head>
+<body>
+  <!-- Nav injectée via include-nav.js -->
+  <header id="site-header"></header>
+
+  
+  <main class="container py-5">
+    <div class="col-12 col-md-8 col-lg-6 mx-auto">
+      <div class="card shadow-lg border-0 success-card">
+        <div class="card-body p-5 text-center">
+          <div class="mb-4 success-icon">
+            <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 rounded-circle" style="width: 100px; height: 100px;">
+              <i class="bi bi-check-circle-fill text-success" style="font-size: 3.5rem;"></i>
+            </div>
+          </div>
+          <h1 class="h2 fw-bold mb-3" style="animation: fadeInUp 0.6s ease-out 0.2s both; font-family: 'Switzer', sans-serif; letter-spacing: -0.02em;">Commande confirmée</h1>
+          <p class="text-muted mb-4 fs-5" style="animation: fadeInUp 0.6s ease-out 0.3s both;">Votre paiement a bien été reçu.</p>
+          
+          <div id="emailStatus" class="alert alert-info d-none mb-4" role="alert">
+            <div class="spinner-border spinner-border-sm me-2" role="status">
+              <span class="visually-hidden">Envoi en cours...</span>
+            </div>
+            Envoi de la confirmation par email...
+          </div>
+          <div id="emailSuccess" class="alert alert-success d-none mb-4" role="alert">
+            <i class="bi bi-envelope-check me-2"></i>
+            Email de confirmation envoyé
+          </div>
+          <div id="emailError" class="alert alert-warning d-none mb-4" role="alert">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Un email sera envoyé sous peu
+          </div>
+          
+          <div class="d-grid gap-2 col-md-8 mx-auto" style="animation: fadeInUp 0.6s ease-out 0.4s both;">
+            <a href="./index.html" class="btn btn-dark btn-lg">
+              <i class="bi bi-arrow-left me-2"></i>
+              Retour à la boutique
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  
+  <!-- Shared nav include -->
+  <script>
+    window.NAV_ACTIVE = 'none';
+  </script>
+  <script src="./maillots-store/client/src/scripts/include-nav.js" defer></script>
+  
   <script>
     (function(){
       try {
@@ -298,12 +365,24 @@
 
 document.addEventListener('DOMContentLoaded', sendConfirmationIfPending);
   </script>
+  
+  <!-- Footer année -->
+  <script>
+    // Update year immediately and on DOMContentLoaded
+    const updateYear = () => {
+      const yearEl = document.getElementById('year');
+      if (yearEl) yearEl.textContent = new Date().getFullYear();
+    };
+    updateYear();
+    document.addEventListener('DOMContentLoaded', updateYear);
+  </script>
+  
 <footer class="footer py-4">
   <div class="container">
     <div class="row justify-content-center text-center">
       <div class="col-12 col-md-8">
       <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
-      <img src="./assets/fvs_footer.png" alt="Futbolero Logo" style="height: 30px; width: auto; object-fit: contain;">
+      <img src="./assets/FVS_LOGO_PNG_BLANC_footer.png" alt="Futbolero Logo" style="height: 69px; width: auto; object-fit: contain;">
       </div>
         <p class="text-secondary mb-3">
           Maillots vintage et actuels.<br>

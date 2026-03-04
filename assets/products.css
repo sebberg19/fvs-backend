@@ -216,3 +216,58 @@ main {
 .jersey-item.hidden {
   display: none !important;
 }
+
+/* ── Page header ─────────────────────────────── */
+.page-header {
+  text-align: center;
+  padding-bottom: 1.25rem;
+}
+
+.page-header h1 {
+  font-family: 'Switzer', system-ui, sans-serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.1rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+  color: var(--text);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* ── Segmented pill toggle ───────────────────── */
+.tab-toggle {
+  display: inline-flex;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.tab-item {
+  padding: 0.45rem 1.5rem;
+  border-radius: 999px;
+  font-size: 0.825rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  transition: background 0.18s ease, color 0.18s ease;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.4;
+}
+
+.tab-item:hover {
+  color: var(--text);
+  background: rgba(0,0,0,0.05);
+}
+
+.tab-item.active,
+.tab-item.active:hover {
+  background: var(--text);
+  color: #fff;
+}

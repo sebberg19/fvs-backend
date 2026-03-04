@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-light sticky-top">
+﻿<nav class="navbar navbar-expand-lg navbar-light sticky-top">
       <div class="container align-items-center">
         <a class="navbar-brand fw-semibold me-2" href="./index.html">
           Futbolero Vintage Shop
@@ -36,3 +36,45 @@
   /* Smaller brand text globally */
   .navbar .navbar-brand { font-size: .95rem; }
 </style>
+<!-- Site-wide visual improvements -->
+<link rel="stylesheet" href="./assets/site-enhancements.css">
+<!-- Initialisation intelligente du système de recherche (préférence pour search-utils.js si présent) -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const input = document.getElementById('carousel-search-input');
+  if (!input) return;
+
+  // If a page already includes search-utils.js (script tag present), wait for it to initialize.
+  const hasSearchUtilsTag = !!document.querySelector('script[src*="search-utils.js"]');
+
+  function trySetupWithUtils() {
+    const container = document.querySelector('.row.g-0');
+    if (typeof window.setupSearchWithDebounce === 'function' && typeof window.searchProducts === 'function') {
+      setupSearchWithDebounce(container, input, {});
+      return true;
+    }
+    if (typeof window.searchProducts === 'function') {
+      input.addEventListener('input', function() { searchProducts(container, input.value || ''); });
+      return true;
+    }
+    return false;
+  }
+
+  if (hasSearchUtilsTag) {
+    // Poll briefly for the utils to become available, then fallback to global-search.js
+    let waited = 0;
+    const interval = setInterval(function() {
+      if (trySetupWithUtils()) {
+        clearInterval(interval);
+      } else if (waited > 1000) {
+        clearInterval(interval);
+        const s = document.createElement('script'); s.src = './scripts/global-search.js'; s.defer = true; document.head.appendChild(s);
+      }
+      waited += 100;
+    }, 100);
+  } else {
+    // No search-utils script tag: load the global implementation which handles everything
+    const s = document.createElement('script'); s.src = './scripts/global-search.js'; s.defer = true; document.head.appendChild(s);
+  }
+});
+</script>
