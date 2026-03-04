@@ -102,7 +102,7 @@
                         </div>
                         <div class="col-6">
                             <label class="form-label small">Numéro</label>
-                            <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="10">
+                            <input id="modalNumber" type="number" min="0" max="99" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="ex: 10">
                             <div class="invalid-feedback">Veuillez renseigner le numéro.</div>
                         </div>
                     </div>
