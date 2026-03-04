@@ -212,7 +212,7 @@
         let unit = Number(it.perUnitPrice);
         if (Number.isNaN(unit) || unit <= 0) {
           const price = Number(it.price);
-          unit = isNaN(price) ? (it.isVintage ? 40.70 : 36.70) : price;
+          unit = isNaN(price) ? (it.isVintage ? 40.70 : 32.00) : price;
         }
         const qty = Number(it.quantity||1) || 1; const line = unit*qty;
         total += line;
@@ -239,7 +239,7 @@
         let unit = Number(it.perUnitPrice);
         if (Number.isNaN(unit) || unit <= 0) {
           const price = Number(it.price);
-          unit = isNaN(price) ? (it.isVintage ? 40.70 : 36.70) : price;
+          unit = isNaN(price) ? (it.isVintage ? 40.70 : 32.00) : price;
         }
         const qty = Number(it.quantity||1) || 1;
         total += unit * qty;

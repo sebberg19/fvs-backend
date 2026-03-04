@@ -528,10 +528,14 @@
 		empty.classList.add('d-none');
 		let subtotal = 0;
 		items.forEach((it, idx)=>{
+			// Normalize old base price (36.70 → 32.00)
+			const wasOldPrice = Number(it.price) === 36.70;
+			if (wasOldPrice) it.price = '32.00';
 			// prefer perUnitPrice if stored (from vintage modal), else fallback
 			let originalUnit = Number(it.perUnitPrice);
+			if (!Number.isNaN(originalUnit) && originalUnit > 0 && wasOldPrice) originalUnit -= 4.70;
 			if (Number.isNaN(originalUnit) || originalUnit <= 0) {
-				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 36.70) : Number(it.price);
+				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 32.00) : Number(it.price);
 				originalUnit = base;
 			}
 			
@@ -842,9 +846,13 @@
 		// Calculate subtotal and add shipping fee (always in CAD)
 		const SHIPPING_FEE = 7.00; // Frais de livraison fixes
 		const subtotal = items.reduce((acc, it) => {
+			// Normalize old base price (36.70 → 32.00)
+			const wasOldPrice = Number(it.price) === 36.70;
+			if (wasOldPrice) it.price = '32.00';
 			let originalUnit = Number(it.perUnitPrice);
+			if (!Number.isNaN(originalUnit) && originalUnit > 0 && wasOldPrice) originalUnit -= 4.70;
 			if (Number.isNaN(originalUnit) || originalUnit <= 0) {
-				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 36.70) : Number(it.price);
+				const base = isNaN(Number(it.price)) ? (it.isVintage ? 40.70 : 32.00) : Number(it.price);
 				originalUnit = base;
 			}
 			// Appliquer le code promo si actif

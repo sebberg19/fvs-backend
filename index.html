@@ -1374,6 +1374,9 @@
     .cdm-item:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,.09); }
     .cdm-item img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
 
+    .cdm-banner { width:100%; height:120px; overflow:hidden; background:#1a3a6b; display:flex; align-items:center; justify-content:center; }
+    .cdm-banner img { width:100%; height:100%; object-fit:cover; display:block; }
+    @media (max-width:767px){ .cdm-banner { height:80px; } }
     .cdm-cta { display:inline-block; margin-top:18px; font-size:12px; font-weight:700; color:#111; text-decoration:none; border-bottom:1px solid #111; padding-bottom:1px; letter-spacing:.3px; }
     .cdm-cta:hover { color:var(--accent,#2f6f3e); border-color:var(--accent,#2f6f3e); }
     .cdm-nav { position:absolute; top:50%; transform:translateY(-50%); background:#fff; border:1px solid #e0e0e0; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:20px; cursor:pointer; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.1); color:#111; transition:background .15s,color .15s; line-height:1; padding:0; }
@@ -1388,8 +1391,11 @@
   <header id="site-header"></header>
 
   <!-- ===== COUPE DU MONDE 2026 ===== -->
-  <section class="cdm-section">
-    <div class="container">
+  <section class="cdm-section" style="padding-top:0;">
+    <div class="cdm-banner" id="cdm-banner">
+      <img src="./assets/banniere_fvs.webp" alt="Coupe du Monde 2026">
+    </div>
+    <div class="container" style="padding-top:2rem;">
       <h2 class="cdm-heading">Coupe du Monde 2026</h2>
       <br>
 
@@ -1488,7 +1494,7 @@
       if(!track) return;
       var html = '';
       cdmProducts.forEach(function(p){
-        html += '<div class="cdm-item product-card add-to-cart" style="cursor:pointer;" data-price="36.70" data-vintage="true" data-img="'+p.img+'">';
+        html += '<div class="cdm-item product-card add-to-cart" style="cursor:pointer;" data-price="32.00" data-vintage="true" data-img="'+p.img+'">';
         html += '<img loading="lazy" src="'+p.img+'" alt="'+p.title+'" style="pointer-events:none;">';
         html += '<p class="product-title" style="display:none;">'+p.title+'</p>';
         html += '</div>';
@@ -1800,7 +1806,7 @@
               return {
                 img: imgSrc.startsWith('images/') ? './' + imgSrc : imgSrc,
                 name: name,
-                price: '$36.70',
+                price: '$32.00',
                 productId: productId
               };
             }).filter(jersey => jersey.img && jersey.name);
@@ -1817,11 +1823,11 @@
             console.error('❌ Erreur lors du chargement des maillots:', error);
             // Fallback: utiliser une liste minimale en cas d'erreur
             allJerseys = [
-              { img: './images/Argentina_40.webp', name: 'Argentine', price: '$36.70' },
-              { img: './images/Brazil_13.webp', name: 'Brésil', price: '$36.70' },
-              { img: './images/France_118.webp', name: 'France', price: '$36.70' },
-              { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$36.70' },
-              { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$36.70' }
+              { img: './images/Argentina_40.webp', name: 'Argentine', price: '$32.00' },
+              { img: './images/Brazil_13.webp', name: 'Brésil', price: '$32.00' },
+              { img: './images/France_118.webp', name: 'France', price: '$32.00' },
+              { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$32.00' },
+              { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$32.00' }
             ];
             jerseysLoaded = true;
             currentFilteredJerseys = [...allJerseys].slice(0, HOME_MOSAIC_SIZE);
@@ -2207,7 +2213,7 @@
             <div class="jersey-item product-card" 
                  data-jersey-name="${jersey.name}" 
                  data-jersey-img="${jersey.img}" 
-                 data-jersey-price="36.70" 
+                 data-jersey-price="32.00" 
                  data-jersey-id="carousel-${index}"
               aria-label="Ajouter au panier">
               <img loading="lazy" 
@@ -2217,10 +2223,10 @@
                    onerror="this.src='./images/placeholder.webp'">
               <div class="jersey-info">
                 <div class="jersey-name">${jersey.name}</div>
-                <div class="jersey-price">${jersey.price || '36,70 CAD'}</div>
+                <div class="jersey-price">${jersey.price || '32,00 CAD'}</div>
               </div>
               <button class="add-to-cart" 
-                      data-price="36.70" 
+                      data-price="32.00" 
                       data-img="${jersey.img}" 
                       style="display: none;">Ajouter au panier</button>
             </div>
@@ -2464,13 +2470,13 @@
             const imgSrc = jersey.img || '';
             const dataImg = imgSrc.startsWith('./') ? imgSrc.slice(2) : imgSrc;
             const name = (jersey.name || '').toString();
-            const priceText = jersey.price || '36,70 CAD';
+            const priceText = jersey.price || '32,00 CAD';
 
             return `
               <div class="col-6 col-md-4 col-lg-3" style="animation: fadeInUp 0.3s ease ${index * 0.05}s both;">
                 <div class="product-card h-100">
                   <div class="product-image ratio ratio-1x1 clickable add-to-cart"
-                       data-price="36.70"
+                       data-price="32.00"
                        data-vintage="true"
                        data-img="${dataImg}"
                        data-name="${name}">
@@ -2484,7 +2490,7 @@
                     <h3 class="product-title">${name}</h3>
                     <div class="product-price">${priceText}</div>
                     <button class="product-btn btn btn-dark add-to-cart"
-                            data-price="36.70"
+                            data-price="32.00"
                             data-vintage="true"
                             data-img="${dataImg}"
                             data-name="${name}">Ajouter</button>
