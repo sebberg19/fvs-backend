@@ -478,6 +478,52 @@
 		</div>
 	</main>
 
+	<!-- Modal Modifier l'article -->
+	<div class="modal fade" id="editItemModal" tabindex="-1" aria-labelledby="editItemModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+				<div class="modal-header border-0 pb-0">
+					<h5 class="modal-title fw-bold" id="editItemModalLabel">Modifier l'article</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+				</div>
+				<div class="modal-body pt-2">
+					<input type="hidden" id="editItemIndex">
+					<div class="mb-3">
+						<label for="editItemSize" class="form-label fw-semibold">Taille</label>
+						<select class="form-select" id="editItemSize">
+							<option value="">— Sélectionner —</option>
+							<option value="XS">XS</option>
+							<option value="S">S</option>
+							<option value="M">M</option>
+							<option value="L">L</option>
+							<option value="XL">XL</option>
+							<option value="XXL">XXL</option>
+							<option value="3XL">3XL</option>
+						</select>
+					</div>
+					<hr class="my-2">
+					<p class="small text-muted mb-2 fw-semibold">Personnalisation (optionnel)</p>
+					<div class="mb-3">
+						<label for="editItemBadge" class="form-label small">Badge</label>
+						<input type="text" class="form-control form-control-sm" id="editItemBadge" placeholder="ex: Premier League">
+					</div>
+					<div class="mb-3">
+						<label for="editItemName" class="form-label small">Nom dans le dos</label>
+						<input type="text" class="form-control form-control-sm" id="editItemName" placeholder="ex: DUPONT" maxlength="20">
+					</div>
+					<div class="mb-1">
+						<label for="editItemNumber" class="form-label small">Numéro</label>
+						<input type="text" class="form-control form-control-sm" id="editItemNumber" placeholder="ex: 10" maxlength="3">
+					</div>
+				</div>
+				<div class="modal-footer border-0 pt-0">
+					<button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Annuler</button>
+					<button type="button" class="btn btn-dark btn-sm" id="saveEditItem">Enregistrer</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<!-- Bootstrap JS -->
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
@@ -674,7 +720,51 @@
 			persistAndRerender(items);
 		}
 
+		// Open edit modal on pencil button click
+		const editModal = new bootstrap.Modal(document.getElementById('editItemModal'));
+		const saveEditBtn = document.getElementById('saveEditItem');
+
+		if (saveEditBtn) {
+			saveEditBtn.addEventListener('click', function() {
+				const idx = Number(document.getElementById('editItemIndex').value);
+				if (Number.isNaN(idx)) return;
+				let items = [];
+				try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+				if (idx < 0 || idx >= items.length) return;
+				items[idx].size = document.getElementById('editItemSize').value;
+				if (!items[idx].personalization || typeof items[idx].personalization !== 'object') {
+					items[idx].personalization = {};
+				}
+				items[idx].personalization.badge = document.getElementById('editItemBadge').value.trim();
+				items[idx].personalization.name = document.getElementById('editItemName').value.trim();
+				items[idx].personalization.number = document.getElementById('editItemNumber').value.trim();
+				persistAndRerender(items);
+				editModal.hide();
+			});
+		}
+
 		itemsList.addEventListener('click', function(e){
+			// Open edit modal
+			const editBtn = e.target && e.target.closest ? e.target.closest('.cart-edit') : null;
+			if (editBtn) {
+				e.stopPropagation();
+				const idx = Number(editBtn.getAttribute('data-index'));
+				if (Number.isNaN(idx)) return;
+				let items = [];
+				try { items = JSON.parse(localStorage.getItem('cartItems')) || []; } catch {}
+				if (idx < 0 || idx >= items.length) return;
+				const it = items[idx];
+				document.getElementById('editItemIndex').value = idx;
+				document.getElementById('editItemSize').value = it.size || '';
+				const p = (it.personalization && typeof it.personalization === 'object') ? it.personalization : {};
+				document.getElementById('editItemBadge').value = p.badge || '';
+				document.getElementById('editItemName').value = p.name || '';
+				document.getElementById('editItemNumber').value = p.number ?? '';
+				document.getElementById('editItemModalLabel').textContent = 'Modifier — ' + (it.name || 'Article');
+				editModal.show();
+				return;
+			}
+
 			const removeBtn = e.target && e.target.closest ? e.target.closest('.btn-remove') : null;
 			if(removeBtn) {
 				const idx = Number(removeBtn.getAttribute('data-index'));
