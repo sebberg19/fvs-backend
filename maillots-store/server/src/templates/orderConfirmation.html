@@ -6,59 +6,62 @@
     <meta name="x-apple-disable-message-reformatting">
     <title>Nouvelle commande - Futbolero</title>
   </head>
-  <body style="margin:0;padding:0;background:#f4f4f5;">
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#f4f4f5;">
+  <body style="margin:0;padding:0;background:#f6f6f6;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;background:#f6f6f6;">
       <tr>
-        <td align="center" style="padding:28px 12px;">
-          <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;border-collapse:separate;background:#ffffff;border:1px solid #e6e6e6;border-radius:12px;overflow:hidden;">
+        <td align="center" style="padding:40px 16px;">
+
+          <table role="presentation" width="540" cellpadding="0" cellspacing="0" style="width:540px;max-width:540px;border-collapse:collapse;background:#ffffff;border-radius:12px;border:1px solid #e8e8e8;">
+
+            <!-- Logo -->
             <tr>
-              <td align="center" style="padding:22px 20px 16px 20px;border-bottom:1px solid #eee;">
-                <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero" style="height:44px;width:auto;display:block;">
+              <td align="center" style="padding:32px 32px 24px 32px;border-bottom:1px solid #eeeeee;">
+                <img src="https://futbolerovintageshop.com/assets/FVS_SVG.svg" alt="Futbolero Vintage Shop" style="height:46px;width:auto;display:block;">
               </td>
             </tr>
+
+            <!-- Body -->
             <tr>
-              <td style="background:#000;padding:22px 20px;">
-                <h1 style="margin:0;color:#fff;font-family:Arial, sans-serif;font-size:20px;line-height:26px;">Nouvelle commande reçue</h1>
-                <p style="margin:8px 0 0 0;color:#ddd;font-family:Arial, sans-serif;font-size:14px;line-height:20px;">Vous avez reçu une nouvelle commande sur Futbolero Vintage Shop.</p>
-              </td>
-            </tr>
-            <tr>
-              <td style="padding:18px 20px;background:#ffffff;">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
+              <td style="padding:28px 32px;">
+
+                <p style="margin:0 0 24px 0;font-family:Arial,sans-serif;font-size:15px;color:#111111;font-weight:600;">Nouvelle commande reçue</p>
+
+                <!-- Client -->
+                <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#aaaaaa;">Client</p>
+                <p style="margin:0 0 24px 0;font-family:Arial,sans-serif;font-size:14px;color:#333333;line-height:20px;">
+                  {{contact_name}}<br>
+                  <span style="color:#777777;">{{contact_email}}</span>
+                </p>
+
+                <!-- Articles -->
+                <p style="margin:0 0 6px 0;font-family:Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:#aaaaaa;">Articles</p>
+                <div style="font-family:Arial,sans-serif;font-size:14px;color:#333333;line-height:22px;margin-bottom:16px;">
+                  {{items_html}}
+                </div>
+
+                <!-- Divider -->
+                <div style="height:1px;background:#eeeeee;margin:0 0 16px 0;font-size:1px;line-height:1px;">&nbsp;</div>
+
+                <!-- Total -->
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
                   <tr>
-                    <td style="padding:14px 14px 10px 14px;border-bottom:1px solid #eee;font-family:Arial, sans-serif;font-weight:700;color:#111;">Contact</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:12px 14px;color:#111;font-family:Arial, sans-serif;font-size:13px;line-height:18px;">
-                      {{contact_name}} &lt;{{contact_email}}&gt;
-                    </td>
+                    <td style="font-family:Arial,sans-serif;font-size:13px;color:#777777;">Total</td>
+                    <td align="right" style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#111111;">{{total}}</td>
                   </tr>
                 </table>
 
-                <div style="height:14px;line-height:14px;">&nbsp;</div>
+              </td>
+            </tr>
 
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e6e6e6;border-radius:10px;overflow:hidden;">
-                  <tr>
-                    <td style="padding:14px 14px 10px 14px;border-bottom:1px solid #eee;font-family:Arial, sans-serif;font-weight:700;color:#111;">Détails de la commande</td>
-                  </tr>
-                  <tr>
-                    <td style="padding:12px 14px;color:#111;font-family:Arial, sans-serif;font-size:13px;line-height:18px;">
-                      <ul style="margin:0;padding-left:18px;">
-                        {{items_html}}
-                      </ul>
-                      <p style="margin:12px 0 0 0;font-family:Arial, sans-serif;font-size:14px;line-height:20px;">
-                        <strong>Total:</strong> {{total}}
-                      </p>
-                    </td>
-                  </tr>
-                </table>
-              </td>
-            </tr>
+            <!-- Footer -->
             <tr>
-              <td align="center" style="background:#000;padding:16px 20px;color:#ddd;font-family:Arial, sans-serif;font-size:12px;line-height:16px;">
-                Email automatique • Futbolero Vintage Shop
+              <td align="center" style="padding:16px 32px 24px 32px;border-top:1px solid #eeeeee;">
+                <p style="margin:0;font-family:Arial,sans-serif;font-size:11px;color:#bbbbbb;line-height:18px;">
+                  Email automatique · <a href="https://futbolerovintageshop.com" style="color:#bbbbbb;text-decoration:none;">futbolerovintageshop.com</a>
+                </p>
               </td>
             </tr>
+
           </table>
         </td>
       </tr>
