@@ -9,7 +9,6 @@ Allow: /tous-les-maillots.html
 Allow: /maillots-vintage.html
 Allow: /maillots.html
 Allow: /maillots-pays.html
-Allow: /classiques.html
 
 # Assets
 Allow: /images/

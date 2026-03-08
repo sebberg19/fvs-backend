@@ -31,7 +31,6 @@
         'maillots.html': 'Maillots Actuels',
         'maillots-vintage.html': 'Maillots Vintage',
         'maillots-pays.html': 'Sélections Nationales',
-        'classiques.html': 'Classiques',
         'pays-vintage.html': 'Pays Vintage'
     };
 

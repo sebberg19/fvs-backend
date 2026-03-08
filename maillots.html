@@ -23,7 +23,9 @@
     <meta name="twitter:title" content="Maillots Actuels - Futbolero">
     <meta name="twitter:description" content="Maillots actuels saison 2024-2025.">
     <meta name="twitter:image" content="https://futbolerovintageshop.com/assets/logo.png">
+  <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/svg+xml" href="./assets/favicon_FVS.svg">
+  <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 
     <!-- Fonts + Bootstrap + Icons (align� avec la page vintage) -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
@@ -298,6 +300,36 @@
             text-align: center;
             padding: 3rem 1rem;
             color: var(--muted);
+        }
+        .tab-toggle {
+            display: inline-flex !important;
+            background: var(--bg) !important;
+            border: 1px solid var(--border) !important;
+            border-radius: 999px !important;
+            padding: 3px !important;
+            gap: 2px !important;
+        }
+        .tab-item {
+            display: inline-block !important;
+            padding: 0.45rem 1.5rem !important;
+            border-radius: 999px !important;
+            font-size: 0.825rem !important;
+            font-weight: 700 !important;
+            color: var(--muted) !important;
+            background: transparent !important;
+            border: none !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            white-space: nowrap !important;
+            transition: background 0.15s, color 0.15s !important;
+        }
+        .tab-item.active, .tab-item.active:hover {
+            background: var(--text) !important;
+            color: #fff !important;
+        }
+        .tab-item:not(.active):hover {
+            color: var(--text) !important;
+            background: rgba(0,0,0,0.05) !important;
         }
     </style>
 </head>

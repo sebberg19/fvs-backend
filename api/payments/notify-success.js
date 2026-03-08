@@ -42,33 +42,26 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
       const persoName = String(perso.name || '').trim() || 'Sans';
       const persoNumber = String(perso.number ?? '').trim() || 'Sans';
       const extra = Number(perso.extra || 0) || 0;
-      personalizationHTML = `
-        <div style="margin-top: 8px; padding: 8px; background: #f8f9fa; border-radius: 4px; font-family: 'Manrope', sans-serif; font-weight: 700;">
-          <strong style="font-family: 'Manrope', sans-serif; font-weight: 800;">Personnalisation:</strong><br>
-          <span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Nom: ${persoName}</span><br>
-          <span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Numéro: ${persoNumber}</span><br>
-          ${perso.badge ? `<span style="font-family: 'Manrope', sans-serif; font-weight: 600;">Badge: ${perso.badge}</span><br>` : ''}
-          ${extra > 0 ? `<span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Frais: +$${extra.toFixed(2)} CAD</span>` : ''}
-          ${perso.badgeExtra && perso.badgeExtra > 0 ? `<br><span style="color: #198754; font-family: 'Manrope', sans-serif; font-weight: 700;">Badge: +$${perso.badgeExtra.toFixed(2)} CAD</span>` : ''}
-        </div>
-      `;
+      personalizationHTML = `<p style="margin:4px 0 0 0;font-size:12px;color:#888888;">Personnalisation : ${persoName} / ${persoNumber}${perso.badge ? ' / ' + perso.badge : ''}${extra > 0 ? ' (+$' + extra.toFixed(2) + ' CAD)' : ''}</p>`;
     }
     
     return `
-      <tr>
-        <td style="padding: 20px; border-bottom: 1px solid #dee2e6;">
+      <tr style="border-bottom:1px solid #e8e8e8;">
+        <td style="padding:16px 0;">
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr>
-              <td width="100" style="vertical-align: top;">
-                ${imgUrl ? `<img src="${fullImgUrl}" alt="${itemName}" style="width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 1px solid #dee2e6;">` : ''}
+              <td width="72" style="vertical-align:top;">
+                ${imgUrl ? `<img src="${fullImgUrl}" alt="${itemName}" style="width:72px;height:72px;object-fit:cover;border:1px solid #e8e8e8;display:block;">` : ''}
               </td>
-              <td style="padding-left: 20px; vertical-align: top; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #212529; font-weight: 800; font-family: 'Manrope', sans-serif;">${itemName}</h3>
-                ${item.size ? `<p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Taille: ${item.size}</p>` : ''}
-                <p style="margin: 4px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 600;">Quantité: ${quantity}</p>
-                <p style="margin: 8px 0; font-size: 16px; font-weight: 800; color: #212529; font-family: 'Manrope', sans-serif;">$${totalItemPrice} CAD</p>
-                ${item.isVintage ? '<p style="margin: 4px 0; color: #6b6f76; font-weight: 600; font-family: \'Manrope\', sans-serif;">Maillot Vintage</p>' : ''}
+              <td style="padding-left:16px;vertical-align:top;">
+                <p style="margin:0 0 2px 0;font-size:13px;font-weight:700;color:#121314;">${itemName}</p>
+                ${item.size ? `<p style="margin:0 0 2px 0;font-size:12px;color:#888888;">${item.size}</p>` : ''}
+                ${item.isVintage ? '<p style="margin:0 0 2px 0;font-size:12px;color:#888888;">Vintage</p>' : ''}
                 ${personalizationHTML}
+              </td>
+              <td align="right" style="vertical-align:top;white-space:nowrap;">
+                <p style="margin:0;font-size:13px;font-weight:700;color:#121314;">$${totalItemPrice} CAD</p>
+                ${quantity > 1 ? `<p style="margin:2px 0 0 0;font-size:11px;color:#888888;">x${quantity}</p>` : ''}
               </td>
             </tr>
           </table>
@@ -88,6 +81,8 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
     return sum + (unitPrice * qty);
   }, 0);
 
+  const shippingCost = Number(total || 0) - subtotal > 0.5 ? (Number(total || 0) - subtotal).toFixed(2) : '7.00';
+
   return `
 <!DOCTYPE html>
 <html>
@@ -95,126 +90,199 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Confirmation de commande</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
 </head>
-<body style="margin: 0; padding: 0; font-family: 'Manrope', 'Segoe UI', Arial, sans-serif; font-weight: 600; background-color: #f8f9fa;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f8f9fa;">
-    <tr>
-      <td align="center" style="padding: 40px 20px;">
-        <table width="600" cellpadding="0" cellspacing="0" style="background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-          <!-- Logo Header -->
-          <tr>
-            <td style="padding: 24px 40px 20px 40px; text-align: center; background: #ffffff; border-bottom: 1px solid #e9ebf0;">
-              <img src="https://futbolerovintageshop.com/assets/logo.png" alt="Futbolero" style="height: 40px; width: auto; object-fit: contain;">            </td>
-          </tr>
-          
-          <!-- Header -->
-          <tr>
-            <td style="padding: 32px 40px; text-align: center; background: #121314; border-radius: 0;">
-              <h2 style="margin: 0; color: #ffffff; font-size: 26px; font-weight: 800; font-family: 'Manrope', sans-serif;">Commande confirmée &#10003;</h2>
-              <p style="margin: 10px 0 0 0; color: rgba(255,255,255,0.65); font-size: 15px; font-family: 'Manrope', sans-serif; font-weight: 600;">Merci pour votre achat !</p>
-            </td>
-          </tr>
-          
-          <!-- Order Info -->
-          <tr>
-            <td style="padding: 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Bonjour ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''},</h2>
-              <p style="margin: 0 0 20px 0; color: #6c757d; line-height: 1.6; font-family: 'Manrope', sans-serif; font-weight: 600;">
-                Votre commande a été reçue et sera préparée dans les plus brefs délais. Vous recevrez un email de confirmation d'expédition avec le numéro de suivi.
-              </p>
-              
-              <table width="100%" cellpadding="0" cellspacing="0" style="margin: 20px 0; background: #f8f9fa; border-radius: 8px; padding: 20px;">
-                <tr>
-                  <td>
-                    <p style="margin: 0 0 8px 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 700;"><strong>Numéro de commande:</strong> ${orderId}</p>
-                    <p style="margin: 0; color: #6c757d; font-family: 'Manrope', sans-serif; font-weight: 700;"><strong>Date:</strong> ${new Date(timestamp).toLocaleString('fr-FR', { 
-                      timeZone: 'America/Toronto',
-                      dateStyle: 'full',
-                      timeStyle: 'short'
-                    })}</p>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          
-          <!-- Items -->
-          <tr>
-            <td style="padding: 0 40px 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Articles commandés</h2>
-              <table width="100%" cellpadding="0" cellspacing="0" style="border: 1px solid #dee2e6; border-radius: 8px; overflow: hidden;">
-                ${itemsHTML}
-              </table>
-            </td>
-          </tr>
-          
-          <!-- Summary -->
-          <tr>
-            <td style="padding: 0 40px 30px 40px;">
-              <table width="100%" cellpadding="0" cellspacing="0" style="background: #f8f9fa; border-radius: 8px; padding: 20px;">
-                <tr>
-                  <td style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                    <span style="color: #6c757d;">Sous-total:</span>
-                  </td>
-                  <td align="right" style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                    <strong style="color: #212529;">$${subtotal.toFixed(2)} CAD</strong>
-                  </td>
-                </tr>
-                <tr>
-                  <td style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                    <span style="color: #6c757d;">Livraison:</span>
-                  </td>
-                  <td align="right" style="padding: 8px 0; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                    <strong style="color: #212529;">$7.00 CAD</strong>
-                  </td>
-                </tr>
-                <tr style="border-top: 2px solid #dee2e6;">
-                  <td style="padding: 16px 0 0 0; font-family: 'Manrope', sans-serif; font-weight: 800;">
-                    <strong style="color: #212529; font-size: 18px;">Total:</strong>
-                  </td>
-                  <td align="right" style="padding: 16px 0 0 0; font-family: 'Manrope', sans-serif; font-weight: 800;">
-                    <strong style="color: #121314; font-size: 20px;">$${Number(total || 0).toFixed(2)} CAD</strong>
-                  </td>
-                </tr>
-              </table>
-            </td>
-          </tr>
-          
-          <!-- Shipping Address -->
-          <tr>
-            <td style="padding: 0 40px 30px 40px;">
-              <h2 style="margin: 0 0 20px 0; color: #212529; font-size: 20px; font-weight: 800; font-family: 'Manrope', sans-serif;">Adresse de livraison</h2>
-              <div style="background: #f8f9fa; border-radius: 8px; padding: 20px; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                <p style="margin: 0; color: #212529; line-height: 1.8;">
-                  <strong>${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''}</strong><br>
-                  ${checkoutInfo.address || ''}<br>
-                  ${checkoutInfo.city || ''} ${checkoutInfo.postalCode || ''}<br>
-                  ${checkoutInfo.country || ''}<br>
-                  ${checkoutInfo.phone ? `Téléphone: ${checkoutInfo.phone}<br>` : ''}
-                  ${checkoutInfo.email ? `Email: ${checkoutInfo.email}` : ''}
-                </p>
-              </div>
-            </td>
-          </tr>
-          
-          <!-- Footer -->
-          <tr>
-            <td style="padding: 24px 40px; background: #121314; border-radius: 0 0 12px 12px; text-align: center; font-family: 'Manrope', sans-serif;">
-              <p style="margin: 0 0 8px 0; color: rgba(255,255,255,0.9); font-size: 14px; font-family: 'Manrope', sans-serif; font-weight: 700;">
-                Futbolero Vintage Shop
-              </p>
-              <p style="margin: 0; color: rgba(255,255,255,0.5); font-size: 12px; font-family: 'Manrope', sans-serif;">
-                Questions ? <a href="mailto:futbolerovintageshop@gmail.com" style="color: rgba(255,255,255,0.65); text-decoration: underline;">futbolerovintageshop@gmail.com</a>
-              </p>
-            </td>
-          </tr>
-        </table>
-      </td>
-    </tr>
-  </table>
+<body style="margin:0;padding:0;background-color:#f2f2f2;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f2f2f2;">
+  <tr>
+    <td align="center" style="padding:32px 16px;">
+
+      <!-- Email container -->
+      <table width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#ffffff;">
+
+        <!-- Top banner -->
+        <tr>
+          <td style="background:#121314;text-align:center;padding:10px 20px;">
+            <span style="color:#ffffff;font-size:13px;font-weight:700;letter-spacing:0.05em;">Livraison gratuite au Canada dès 100 CAD</span>
+          </td>
+        </tr>
+
+        <!-- Logo -->
+        <tr>
+          <td style="background:#ffffff;text-align:center;padding:28px 40px 24px 40px;border-bottom:1px solid #e8e8e8;">
+            <img src="https://futbolerovintageshop.com/assets/FVS_SVG.svg" alt="Futbolero" style="height:60px;width:auto;display:block;margin:0 auto;">
+          </td>
+        </tr>
+
+        <!-- Hero title -->
+        <tr>
+          <td style="background:#ffffff;text-align:center;padding:36px 40px 8px 40px;">
+            <h1 style="margin:0;font-size:26px;font-weight:900;color:#121314;letter-spacing:-0.02em;">Votre commande est confirmée&nbsp;!</h1>
+          </td>
+        </tr>
+        <tr>
+          <td style="background:#ffffff;text-align:center;padding:12px 48px 8px 48px;">
+            <p style="margin:0;font-size:14px;color:#666666;line-height:1.6;">
+              Merci ${checkoutInfo.firstName || ''}&nbsp;! Votre commande <strong style="color:#121314;">#${orderId}</strong> a bien été reçue.<br>
+              Vous recevrez un e-mail dès qu'elle sera expédiée.
+            </p>
+          </td>
+        </tr>
+
+        <!-- CTA button -->
+        <tr>
+          <td style="background:#ffffff;text-align:center;padding:24px 40px 36px 40px;">
+            <a href="https://futbolerovintageshop.com/tous-les-maillots.html" style="display:inline-block;background:#121314;color:#ffffff;font-size:13px;font-weight:800;letter-spacing:0.1em;text-decoration:none;padding:14px 36px;">VISITER LA BOUTIQUE</a>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Items section -->
+        <tr>
+          <td style="padding:28px 40px 8px 40px;">
+            <p style="margin:0 0 16px 0;font-size:15px;font-weight:900;color:#121314;letter-spacing:0.02em;">ARTICLES DE CETTE COMMANDE</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:0 40px 8px 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              ${itemsHTML}
+            </table>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:8px 40px 0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Totals -->
+        <tr>
+          <td style="padding:0 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding:14px 0 6px 0;font-size:12px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;">SOUS-TOTAL</td>
+                <td align="right" style="padding:14px 0 6px 0;font-size:13px;font-weight:700;color:#121314;">$${subtotal.toFixed(2)} CAD</td>
+              </tr>
+              <tr>
+                <td style="padding:6px 0;font-size:12px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;">LIVRAISON</td>
+                <td align="right" style="padding:6px 0;font-size:13px;font-weight:700;color:#121314;">$${shippingCost} CAD</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Total -->
+        <tr>
+          <td style="padding:0 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="padding:16px 0;font-size:12px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;">TOTAL</td>
+                <td align="right" style="padding:16px 0;font-size:22px;font-weight:900;color:#121314;">$${Number(total || 0).toFixed(2)} CAD</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Customer info -->
+        <tr>
+          <td style="padding:28px 40px 8px 40px;">
+            <p style="margin:0 0 20px 0;font-size:15px;font-weight:900;color:#121314;letter-spacing:0.02em;">INFORMATIONS CLIENT</p>
+            <p style="margin:0 0 6px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.08em;text-transform:uppercase;">ADRESSE DE LIVRAISON</p>
+            <p style="margin:0 0 20px 0;font-size:13px;color:#444444;line-height:1.8;">
+              ${checkoutInfo.firstName || ''} ${checkoutInfo.lastName || ''}<br>
+              ${checkoutInfo.address || ''}<br>
+              ${checkoutInfo.city || ''}${checkoutInfo.postalCode ? ' ' + checkoutInfo.postalCode : ''}<br>
+              ${checkoutInfo.country || ''}
+            </p>
+          </td>
+        </tr>
+
+        <!-- Shipping & Payment method -->
+        <tr>
+          <td style="padding:0 40px 28px 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="50%" style="vertical-align:top;padding-right:16px;">
+                  <p style="margin:0 0 6px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.08em;text-transform:uppercase;">MODE DE LIVRAISON</p>
+                  <p style="margin:0;font-size:13px;color:#444444;">Standard (5-10 jours ouvrables)</p>
+                </td>
+                <td width="50%" style="vertical-align:top;padding-left:16px;">
+                  <p style="margin:0 0 6px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.08em;text-transform:uppercase;">MODE DE PAIEMENT</p>
+                  <p style="margin:0;font-size:13px;color:#444444;">Carte de crédit &mdash; $${Number(total || 0).toFixed(2)} CAD</p>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Shop category buttons -->
+        <tr>
+          <td style="padding:28px 40px 0 40px;">
+            <table width="100%" cellpadding="0" cellspacing="0">
+              <tr>
+                <td width="50%" style="padding:0 6px 12px 0;">
+                  <a href="https://futbolerovintageshop.com/maillots-vintage.html" style="display:block;background:#121314;color:#ffffff;font-size:11px;font-weight:900;letter-spacing:0.1em;text-decoration:none;text-align:center;padding:16px 8px;">MAILLOTS VINTAGE</a>
+                </td>
+                <td width="50%" style="padding:0 0 12px 6px;">
+                  <a href="https://futbolerovintageshop.com/maillots.html" style="display:block;background:#121314;color:#ffffff;font-size:11px;font-weight:900;letter-spacing:0.1em;text-decoration:none;text-align:center;padding:16px 8px;">MAILLOTS ACTUELS</a>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" style="padding:0 6px 0 0;">
+                  <a href="https://futbolerovintageshop.com/maillots-pays.html" style="display:block;background:#121314;color:#ffffff;font-size:11px;font-weight:900;letter-spacing:0.1em;text-decoration:none;text-align:center;padding:16px 8px;">SÉLECTIONS NATIONALES</a>
+                </td>
+                <td width="50%" style="padding:0 0 0 6px;">
+                  <a href="https://futbolerovintageshop.com/tous-les-maillots.html" style="display:block;background:#121314;color:#ffffff;font-size:11px;font-weight:900;letter-spacing:0.1em;text-decoration:none;text-align:center;padding:16px 8px;">TOUS LES MAILLOTS</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:28px 40px 0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Social -->
+        <tr>
+          <td style="padding:24px 40px;text-align:center;">
+            <p style="margin:0 0 16px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.1em;text-transform:uppercase;">NOUS SUIVRE</p>
+            <a href="https://www.instagram.com/futbolerovintageshop" style="display:inline-block;margin:0 8px;text-decoration:none;">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" width="20" height="20" style="filter:invert(0);opacity:0.5;">
+            </a>
+            <a href="https://www.tiktok.com/@futbolerovintageshop" style="display:inline-block;margin:0 8px;text-decoration:none;">
+              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok" width="20" height="20" style="opacity:0.5;">
+            </a>
+          </td>
+        </tr>
+
+        <!-- Divider -->
+        <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
+
+        <!-- Footer -->
+        <tr>
+          <td style="padding:24px 40px;text-align:center;">
+            <p style="margin:0 0 6px 0;font-size:12px;color:#999999;">&copy;${new Date().getFullYear()} Futbolero Vintage Shop. Tous droits réservés.</p>
+            <p style="margin:0;font-size:12px;color:#999999;">
+              Questions ? <a href="mailto:futbolerovintageshop@gmail.com" style="color:#121314;font-weight:700;text-decoration:none;">futbolerovintageshop@gmail.com</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+      <!-- /Email container -->
+
+    </td>
+  </tr>
+</table>
 </body>
 </html>
   `;
