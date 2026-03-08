@@ -210,7 +210,7 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
               <tr>
                 <td width="50%" style="vertical-align:top;padding-right:16px;">
                   <p style="margin:0 0 6px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.08em;text-transform:uppercase;">MODE DE LIVRAISON</p>
-                  <p style="margin:0;font-size:13px;color:#444444;">Standard (5-10 jours ouvrables)</p>
+                  <p style="margin:0;font-size:13px;color:#444444;">Standard (12-20 jours ouvrables)</p>
                 </td>
                 <td width="50%" style="vertical-align:top;padding-left:16px;">
                   <p style="margin:0 0 6px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.08em;text-transform:uppercase;">MODE DE PAIEMENT</p>

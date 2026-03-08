@@ -14,7 +14,7 @@ const http = require('http');
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const OFFICIAL_LOGO_URL = 'https://futbolerovintageshop.com/assets/FVS_SVG.svg';
+const OFFICIAL_LOGO_URL = 'https://futbolerovintageshop.com/assets/FVS_logo_email.png';
 
 const wrapEmailHtml = ({ title, preheader, bodyHtml }) => {
   const safeTitle = title || 'Futbolero Vintage Shop';
@@ -583,13 +583,6 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     title: `Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
     preheader: `Votre commande ${orderId} est confirmée — $${total} ${currency}`,
     bodyHtml: `
-      <!-- Top banner -->
-      <tr>
-        <td style="background:#121314;text-align:center;padding:10px 20px;">
-          <span style="color:#ffffff;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:700;letter-spacing:0.04em;">Livraison gratuite au Canada d&egrave;s 100 CAD</span>
-        </td>
-      </tr>
-
       <!-- Logo -->
       <tr>
         <td align="center" style="padding:28px 20px 20px 20px;border-bottom:1px solid #e9ebf0;">
@@ -606,7 +599,7 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
       <tr>
         <td style="padding:12px 40px 6px 40px;text-align:center;">
           <p style="margin:0;font-size:14px;color:#666666;line-height:1.6;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">
-            Merci <strong style="color:#121314;">${customerName}</strong>&nbsp;! Votre commande <strong style="color:#121314;">#${orderId}</strong> a bien &eacute;t&eacute; re&ccedil;ue.<br>Vous recevrez un e-mail d&egrave;s qu&rsquo;elle sera exp&eacute;di&eacute;e.
+            Merci <strong style="color:#121314;">${customerName}</strong>&nbsp;! Votre commande <strong style="color:#121314;">#${orderId}</strong> a bien &eacute;t&eacute; re&ccedil;ue et est en cours de pr&eacute;paration.
           </p>
         </td>
       </tr>
@@ -691,7 +684,7 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
             <tr>
               <td width="50%" style="vertical-align:top;padding-right:12px;">
                 <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#121314;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Mode de livraison</p>
-                <p style="margin:0;font-size:13px;color:#444444;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Standard (5&ndash;10 jours ouvrables)</p>
+                <p style="margin:0;font-size:13px;color:#444444;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Standard (12&ndash;20 jours ouvrables)</p>
               </td>
               <td width="50%" style="vertical-align:top;padding-left:12px;">
                 <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#121314;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Mode de paiement</p>
