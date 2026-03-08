@@ -97,7 +97,7 @@
                     <div class="row g-2 mt-3">
                         <div class="col-6">
                             <label class="form-label small">Nom</label>
-                            <input id="modalName" type="text" maxlength="12" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="Votre nom">
+                            <input id="modalName" type="text" maxlength="20" class="form-control form-control-sm" autocomplete="off" style="font-size: 16px;" placeholder="Votre nom">
                             <div class="invalid-feedback">Veuillez renseigner le nom.</div>
                         </div>
                         <div class="col-6">
