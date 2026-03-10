@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ï»¿<!DOCTYPE html>
 <html lang="fr">
   <head>
     <meta charset="utf-8" />
@@ -8,7 +8,7 @@
     
     <!-- SEO Meta Tags -->
     <title>Futbolero - Maillots Vintage et Actuels</title>
-    <meta name="description" content="1000+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool, Arsenal. Qualité premium, prix compétitifs." />
+    <meta name="description" content="1000+ maillots vintage et actuels. Barcelona, Real Madrid, Manchester United, PSG, Liverpool, Arsenal. QualitÃ© premium, prix compÃ©titifs." />
     <meta name="keywords" content="futbolero, maillots vintage, maillots football, barcelona, real madrid, manchester united, psg, liverpool, arsenal, maillots retro, maillots authentiques" />
     <meta name="author" content="Futbolero Vintage Shop" />
     <meta name="robots" content="index, follow" />
@@ -66,11 +66,14 @@
   <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 
     <!-- Police Switzer -->
+    <link rel="preload" href="./assets/Switzer_Complete/Switzer_Complete/Fonts/WEB/fonts/Switzer-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./assets/switzer-fonts.css">
 
     <!-- Preconnect CDN pour performances -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
 
     <!-- Bootstrap CSS -->
     <link
@@ -92,7 +95,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
 
-    <!-- Système typographique cohérent -->
+    <!-- SystÃ¨me typographique cohÃ©rent -->
     <link rel="stylesheet" href="./assets/typography.css">
 
     <!-- Styles produits (cards, boutons, etc.) -->
@@ -118,7 +121,7 @@
         font-weight: 400;
       }
 
-      /* Hiérarchie typographique cohérente avec Switzer */
+      /* HiÃ©rarchie typographique cohÃ©rente avec Switzer */
       h1, h2, h3, h4, h5, h6, .navbar-brand {
         font-family: 'Switzer', system-ui, sans-serif !important;
         font-weight: 700;
@@ -127,7 +130,7 @@
         margin-bottom: 0.75rem;
       }
       
-      /* Tailles de titres cohérentes */
+      /* Tailles de titres cohÃ©rentes */
       h1 { font-size: 2.5rem; font-weight: 600; }
       h2 { font-size: 2rem; font-weight: 500; }
       h3 { font-size: 1.5rem; font-weight: 500; }
@@ -150,7 +153,7 @@
         h3 { font-size: 1.75rem; }
       }
       
-      /* Texte corporel amélioré */
+      /* Texte corporel amÃ©liorÃ© */
       p, .lead { 
         font-family: 'Switzer', system-ui, sans-serif;
         line-height: 1.65;
@@ -175,7 +178,7 @@
         letter-spacing: 0;
       }
 
-      /* Navbar claire et discrète */
+      /* Navbar claire et discrÃ¨te */
       .navbar {
         background: var(--surface) !important;
         border-bottom: 1px solid var(--border);
@@ -230,7 +233,7 @@
         --bs-btn-focus-shadow-rgb: 0,0,0;
       }
 
-      /* Bouton bleu personnalisé - maintenant noir */
+      /* Bouton bleu personnalisÃ© - maintenant noir */
       .btn-blue {
         background-color: var(--text) !important;
         border-color: var(--text) !important;
@@ -296,7 +299,7 @@
         text-decoration: none !important;
       }
 
-      /* Héro léger avec touche de vert très subtile */
+      /* HÃ©ro lÃ©ger avec touche de vert trÃ¨s subtile */
       .hero {
         background:
           radial-gradient(900px 280px at 85% -10%, rgba(47,111,62,0.06), transparent 60%),
@@ -377,7 +380,7 @@
         border: 2px solid var(--surface, #ffffff);
       }
 
-      /* Styles hero améliorés */
+      /* Styles hero amÃ©liorÃ©s */
       .hero {
         background: var(--bg);
         min-height: auto;
@@ -558,16 +561,16 @@
         .footer .text-secondary:not(small) { font-size: .85em; }
       }
 
-      /* Réduire un peu la largeur des boutons dans la section héro sur téléphones */
+      /* RÃ©duire un peu la largeur des boutons dans la section hÃ©ro sur tÃ©lÃ©phones */
       @media (max-width: 575.98px) {
         .hero .d-grid {
-          gap: .35rem;               /* rapprocher légèrement */
+          gap: .35rem;               /* rapprocher lÃ©gÃ¨rement */
         }
         .hero .d-grid .btn.w-100 {
-          width: 160px !important;   /* largeur encore plus réduite comme dans l'image */
+          width: 160px !important;   /* largeur encore plus rÃ©duite comme dans l'image */
           max-width: calc(100% - 4rem);
           display: block;
-          margin: .25rem auto;       /* moins d'espace vertical que précédemment */
+          margin: .25rem auto;       /* moins d'espace vertical que prÃ©cÃ©demment */
         }
         
         /* Ajuster le padding des boutons pour qu'ils soient plus compacts */
@@ -600,7 +603,7 @@
   border: 2px solid white;
 }
 
-/* Mosaïque de maillots (remplace le slider horizontal) */
+/* MosaÃ¯que de maillots (remplace le slider horizontal) */
 
 .jersey-carousel-container {
   width: 100%;
@@ -862,7 +865,7 @@
   border-left: 3px solid var(--accent);
 }
 
-/* Compteur de résultats animé */
+/* Compteur de rÃ©sultats animÃ© */
 #carousel-search-results-count {
   font-weight: 600;
   display: inline-block;
@@ -899,7 +902,7 @@
   border: 1px solid rgba(0,0,0,0.1);
 }
 
-/* Scrollbar personnalisée pour les suggestions */
+/* Scrollbar personnalisÃ©e pour les suggestions */
 .search-suggestions::-webkit-scrollbar {
   width: 6px;
 }
@@ -975,7 +978,7 @@
   transform: scale(1.05);
 }
 
-/* Cacher par défaut, afficher lors de la recherche */
+/* Cacher par dÃ©faut, afficher lors de la recherche */
 .jersey-item .jersey-info {
   display: none;
   padding: 0.5rem 0 0;
@@ -1022,7 +1025,7 @@
   }
 }
 
-/* Téléphones: vignettes plus petites pour en voir plus */
+/* TÃ©lÃ©phones: vignettes plus petites pour en voir plus */
 @media (max-width: 480px) {
   .jersey-carousel {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -1039,13 +1042,13 @@
   }
 }
 
-/* Styles pour la section de résultats de recherche */
+/* Styles pour la section de rÃ©sultats de recherche */
 #search-results-section {
   background: var(--bg);
   border-top: 1px solid var(--border);
 }
 
-/* Animation d'apparition pour les résultats */
+/* Animation d'apparition pour les rÃ©sultats */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -1057,7 +1060,7 @@
   }
 }
 
-/* Amélioration du bouton clear */
+/* AmÃ©lioration du bouton clear */
 #carousel-clear-search {
   transition: all 0.2s ease;
 }
@@ -1078,7 +1081,7 @@
 }
 
     /* ====================================================
-       V2 — MAGAZINE / ÉDITORIAL REFINED
+       V2 Â· MAGAZINE / Ã‰DITORIAL REFINED
        ==================================================== */
 
     /* CAROUSEL GRANDE TAILLE */
@@ -1364,45 +1367,46 @@
       .cta-meta { gap: 1.5rem; font-size: 0.8rem; }
     }
 
-    /* -- Coupe du Monde 2026 – Carousel --------------------------- */
-    .cdm-section { padding: 3rem 0 2.5rem; border-bottom: 1px solid #e5e5e5; margin-bottom: 0; background: #fff; }
+    /* -- Coupe du Monde 2026 Â· Carousel --------------------------- */
+    .cdm-section { padding: 3rem 0 0.25rem; border-bottom: 1px solid #e5e5e5; margin-bottom: 0; background: #fff; }
     .cdm-heading { font-size:1.4rem; font-weight:800; color:#111; margin:0 0 3px 0; }
     .cdm-sub { font-size:13px; color:#888; margin:0 0 20px 0; font-weight:400; }
     .cdm-wrap { position:relative; }
-    .cdm-track { display:flex; gap:10px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
+      .cdm-track { display:flex; align-items:flex-end; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; padding-bottom:6px; -webkit-overflow-scrolling:touch; }
     .cdm-track::-webkit-scrollbar { height:3px; }
     .cdm-track::-webkit-scrollbar-thumb { background:#ddd; border-radius:2px; }
-    .cdm-item { flex:0 0 160px; scroll-snap-align:start; background:#fff; border-radius:10px; overflow:hidden; border:none; transition:transform .15s,box-shadow .15s; }
+      .cdm-item { flex:0 0 170px; scroll-snap-align:start; background:#fff; border-radius:0; overflow:hidden; border:none; transition:transform .15s,box-shadow .15s; }
+    .cdm-item.product-card { content-visibility:visible; contain-intrinsic-size:auto; height:auto; padding:0; display:block; }
     .cdm-item:hover { transform:translateY(-3px); box-shadow:0 6px 18px rgba(0,0,0,.09); }
-    .cdm-item img { width:100%; aspect-ratio:1/1; object-fit:cover; display:block; }
+      .cdm-item img { width:100%; height:160px; object-fit:contain; object-position:center bottom; display:block; background:#fff; }
 
     .cdm-banner { width:100%; height:120px; overflow:hidden; background:#1a3a6b; display:flex; align-items:center; justify-content:center; }
     .cdm-banner img { width:100%; height:100%; object-fit:cover; display:block; }
     @media (max-width:767px){ .cdm-banner { height:80px; } }
-    .cdm-cta { display:inline-block; margin-top:18px; font-size:12px; font-weight:700; color:#111; text-decoration:none; border-bottom:1px solid #111; padding-bottom:1px; letter-spacing:.3px; }
+    .cdm-cta { display:inline-block; margin-top:2px; font-size:12px; font-weight:700; color:#111; text-decoration:none; border-bottom:1px solid #111; padding-bottom:1px; letter-spacing:.3px; }
     .cdm-cta:hover { color:var(--accent,#2f6f3e); border-color:var(--accent,#2f6f3e); }
     .cdm-nav { position:absolute; top:50%; transform:translateY(-50%); background:#fff; border:1px solid #e0e0e0; border-radius:50%; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:20px; cursor:pointer; z-index:10; box-shadow:0 2px 8px rgba(0,0,0,.1); color:#111; transition:background .15s,color .15s; line-height:1; padding:0; }
     .cdm-nav:hover { background:#111; color:#fff; border-color:#111; }
     .cdm-prev { left:-17px; }
     .cdm-next { right:-17px; }
-    @media (max-width:767px){ .cdm-nav { display:none; } .cdm-item { flex:0 0 130px; } }
+    @media (max-width:767px){ .cdm-nav { display:none; } .cdm-track { gap:10px; } .cdm-item { flex:0 0 140px; } .cdm-item img { height:132px; } }
     </style>
 </head>
   <body>
-  <!-- Nav partagée (injection) -->
+  <!-- Nav partagÃ©e (injection) -->
   <header id="site-header"></header>
 
   <!-- ===== COUPE DU MONDE 2026 ===== -->
   <section class="cdm-section" style="padding-top:0;">
     <div class="cdm-banner" id="cdm-banner">
-      <img src="./assets/banniere_fvs.webp" alt="Coupe du Monde 2026">
+      <img src="./assets/banniere_fvs.webp" alt="Coupe du Monde 2026" fetchpriority="high" decoding="async" width="1200" height="400">
     </div>
     <div class="container" style="padding-top:2rem;">
       <h2 class="cdm-heading">Coupe du Monde 2026</h2>
       <br>
 
       <div class="cdm-wrap">
-        <button class="cdm-nav cdm-prev" id="cdmPrev" aria-label="Précédent">&#8249;</button>
+        <button class="cdm-nav cdm-prev" id="cdmPrev" aria-label="PrÃ©cÃ©dent">&#8249;</button>
         <div class="cdm-track" id="cdmTrack"></div>
         <button class="cdm-nav cdm-next" id="cdmNext" aria-label="Suivant">&#8250;</button>
       </div>
@@ -1413,7 +1417,7 @@
   <script>
   (function(){
     var cdmProducts = [
-      {img:'./images/Algerie.png', title:'Algérie'},
+      {img:'./images/Algerie.png', title:'AlgÃ©rie'},
       {img:'./images/Allemagne.png', title:'Allemagne'},
       {img:'./images/allemagne2.png', title:'Allemagne'},
       {img:'./images/Arabie saoudite.png', title:'Arabie Saoudite'},
@@ -1423,9 +1427,9 @@
       {img:'./images/Autriche.png', title:'Autriche'},
       {img:'./images/Belgique.png', title:'Belgique'},
       {img:'./images/belgique (2).png', title:'Belgique'},
-      {img:'./images/Brazil_30.png', title:'Brésil'},
-      {img:'./images/Brazil_48.png', title:'Brésil'},
-      {img:'./images/bresil.png', title:'Brésil'},
+      {img:'./images/Brazil_30.png', title:'BrÃ©sil'},
+      {img:'./images/Brazil_48.png', title:'BrÃ©sil'},
+      {img:'./images/bresil.png', title:'BrÃ©sil'},
       {img:'./images/Canada_21.png', title:'Canada'},
       {img:'./images/Canada_44.png', title:'Canada'},
       {img:'./images/Canada_6.png', title:'Canada'},
@@ -1436,8 +1440,8 @@
       {img:'./images/Costa rica 2.png', title:'Costa Rica'},
       {img:'./images/Croatia_67.png', title:'Croatie'},
       {img:'./images/croatie.png', title:'Croatie'},
-      {img:'./images/Ecuador.png', title:'Équateur'},
-      {img:'./images/Egypte.png', title:'Égypte'},
+      {img:'./images/Ecuador.png', title:'Ã‰quateur'},
+      {img:'./images/Egypte.png', title:'Ã‰gypte'},
       {img:'./images/England_16.png', title:'Angleterre'},
       {img:'./images/England_26.png', title:'Angleterre'},
       {img:'./images/England_27.png', title:'Angleterre'},
@@ -1447,15 +1451,15 @@
       {img:'./images/espagne.png', title:'Espagne'},
       {img:'./images/France.png', title:'France'},
       {img:'./images/france (2).png', title:'France'},
-      {img:'./images/grece.png', title:'Grèce'},
-      {img:'./images/Haiti.png', title:'Haïti'},
-      {img:'./images/Haiti (2).png', title:'Haïti'},
-      {img:'./images/Haiti (3).png', title:'Haïti'},
+      {img:'./images/grece.png', title:'GrÃ¨ce'},
+      {img:'./images/Haiti.png', title:'HaÃ¯ti'},
+      {img:'./images/Haiti (2).png', title:'HaÃ¯ti'},
+      {img:'./images/Haiti (3).png', title:'HaÃ¯ti'},
       {img:'./images/Iceland.png', title:'Islande'},
       {img:'./images/irlande du nord.png', title:'Irlande du Nord'},
       {img:'./images/Italy_22.png', title:'Italie'},
       {img:'./images/Italy_68.png', title:'Italie'},
-      {img:'./images/jamaica.png', title:'Jamaïque'},
+      {img:'./images/jamaica.png', title:'JamaÃ¯que'},
       {img:'./images/Japan.png', title:'Japon'},
       {img:'./images/Japan_23.png', title:'Japon'},
       {img:'./images/Jordanie.png', title:'Jordanie'},
@@ -1468,22 +1472,22 @@
       {img:'./images/Netherlands_10.png', title:'Pays-Bas'},
       {img:'./images/Netherlands_43.png', title:'Pays-Bas'},
       {img:'./images/Netherlands_65.png', title:'Pays-Bas'},
-      {img:'./images/norvege.png', title:'Norvège'},
-      {img:'./images/Peru.png', title:'Pérou'},
+      {img:'./images/norvege.png', title:'NorvÃ¨ge'},
+      {img:'./images/Peru.png', title:'PÃ©rou'},
       {img:'./images/Portugal.png', title:'Portugal'},
       {img:'./images/portugal (2).png', title:'Portugal'},
-      {img:'./images/Scotland_5.png', title:'Écosse'},
-      {img:'./images/écosse.png', title:'Écosse'},
-      {img:'./images/Senegal.png', title:'Sénégal'},
-      {img:'./images/senegal (2).png', title:'Sénégal'},
+      {img:'./images/Scotland_5.png', title:'Ã‰cosse'},
+      {img:'./images/Ã©cosse.png', title:'Ã‰cosse'},
+      {img:'./images/Senegal.png', title:'SÃ©nÃ©gal'},
+      {img:'./images/senegal (2).png', title:'SÃ©nÃ©gal'},
       {img:'./images/Suisse.png', title:'Suisse'},
       {img:'./images/Suisse2.png', title:'Suisse'},
       {img:'./images/swiss.png', title:'Suisse'},
-      {img:'./images/Sweden_73.png', title:'Suède'},
+      {img:'./images/Sweden_73.png', title:'SuÃ¨de'},
       {img:'./images/Tunisie.png', title:'Tunisie'},
       {img:'./images/tunisie (2).png', title:'Tunisie'},
       {img:'./images/tunisie (3).png', title:'Tunisie'},
-      {img:'./images/USA_63.png', title:'États-Unis'},
+      {img:'./images/USA_63.png', title:'Ã‰tats-Unis'},
       {img:'./images/Ukraine_33.png', title:'Ukraine'},
       {img:'./images/Uruguay.png', title:'Uruguay'},
       {img:'./images/uruguay (2).png', title:'Uruguay'},
@@ -1491,6 +1495,10 @@
       {img:'./images/wales.png', title:'Pays de Galles'},
       {img:'./images/wales (2).png', title:'Pays de Galles'}
     ];
+    function getCarouselPreviewSrc(imagePath){
+      var fileName = imagePath.split('/').pop().replace(/\.[^.]+$/, '.webp');
+      return './images/cdm-carousel/' + fileName;
+    }
     function buildCarousel(){
       var track = document.getElementById('cdmTrack');
       if(!track) return;
@@ -1502,7 +1510,7 @@
       var html = '';
       cdmProducts.forEach(function(p){
         html += '<div class="cdm-item product-card add-to-cart" style="cursor:pointer;" data-price="32.00" data-vintage="true" data-img="'+p.img+'">';
-        html += '<img loading="lazy" src="'+p.img+'" alt="'+p.title+'" style="pointer-events:none;">';
+        html += '<img loading="lazy" decoding="async" fetchpriority="low" width="340" height="320" src="'+getCarouselPreviewSrc(p.img)+'" alt="'+p.title+'" onerror="this.onerror=null;this.src=\''+p.img+'\';" style="pointer-events:none;">';
         html += '<p class="product-title" style="display:none;">'+p.title+'</p>';
         html += '</div>';
       });
@@ -1514,8 +1522,8 @@
       var prev=document.getElementById('cdmPrev');
       var next=document.getElementById('cdmNext');
       if(!track||!prev||!next) return;
-      prev.addEventListener('click',function(){ track.scrollBy({left:-170*3,behavior:'smooth'}); });
-      next.addEventListener('click',function(){ track.scrollBy({left:170*3,behavior:'smooth'}); });
+        prev.addEventListener('click',function(){ track.scrollBy({left:-184*3,behavior:'smooth'}); });
+        next.addEventListener('click',function(){ track.scrollBy({left:184*3,behavior:'smooth'}); });
     }
     if(document.readyState==='loading'){
       document.addEventListener('DOMContentLoaded',function(){ buildCarousel(); bindNav(); });
@@ -1523,13 +1531,13 @@
   })();
   </script>
 
-  <!-- ===== CAROUSEL ÉLARGI ===== -->
+  <!-- ===== CAROUSEL Ã‰LARGI ===== -->
   <section id="carousel-section">
     <div class="container">
       <div class="row justify-content-center mb-1">
         <div class="col-12 text-center">
-          <h2 class="cdm-heading">Collection complète</h2>
-          <p class="cdm-sub">Clubs &amp; nations · tous les maillots vintage</p>
+          <h2 class="cdm-heading">Collection complÃ¨te</h2>
+          <p class="cdm-sub">Clubs &amp; nations Â· tous les maillots vintage</p>
         </div>
       </div>
       <div class="row justify-content-center mb-3">
@@ -1558,11 +1566,11 @@
     </div>
   </section>
 
-  <!-- Résultats de recherche -->
+  <!-- RÃ©sultats de recherche -->
   <section id="search-results-section" class="py-4" style="display: none; background: #fafafa;">
     <div class="container">
       <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2 class="h4 mb-0" id="search-results-title">Résultats</h2>
+        <h2 class="h4 mb-0" id="search-results-title">RÃ©sultats</h2>
         <small class="text-muted" id="search-results-info"></small>
       </div>
       <div class="row g-0" id="search-results-grid"></div>
@@ -1575,10 +1583,10 @@
       <div class="hero-content">
         <h1 class="hero-title">
           Maillots de foot
-          <span class="highlight">vintage &amp; récents</span>
+          <span class="highlight">vintage &amp; rÃ©cents</span>
         </h1>
         <p class="hero-description">
-          Plus de <strong>1000 maillots</strong> en stock — clubs européens, équipes nationales, éditions vintage et collections actuelles. Livraison <strong>12–20 jours</strong>.
+          Plus de <strong>1000 maillots</strong> en stock Â· clubs europÃ©ens, Ã©quipes nationales, Ã©ditions vintage et collections actuelles. Livraison <strong>12 Ã  20 jours</strong>.
         </p>
         <div class="hero-buttons">
           <a href="./tous-les-maillots.html" class="btn btn-dark btn-lg">
@@ -1614,17 +1622,17 @@
         <div class="step">
           <div class="step-number">1</div>
           <h4>Choisissez votre maillot</h4>
-          <p>Parcourez notre catalogue de 1000+ maillots et trouvez votre coup de cœur</p>
+          <p>Parcourez notre catalogue de 1000+ maillots et trouvez votre coup de cÅ“ur</p>
         </div>
         <div class="step">
           <div class="step-number">2</div>
           <h4>Personnalisez et commandez</h4>
-          <p>Sélectionnez la taille, ajoutez un nom/numéro si souhaité</p>
+          <p>SÃ©lectionnez la taille, ajoutez un nom/numÃ©ro si souhaitÃ©</p>
         </div>
         <div class="step">
           <div class="step-number">3</div>
           <h4>Recevez votre maillot</h4>
-          <p>Complétez votre commande et recevez votre maillot directement chez vous</p>
+          <p>ComplÃ©tez votre commande et recevez votre maillot directement chez vous</p>
         </div>
       </div>
     </div>
@@ -1633,17 +1641,17 @@
   <!-- ===== CTA WHITE ===== -->
   <section class="cta-light">
     <div class="container">
-      <h3>Vous cherchez un maillot spécifique ?</h3>
+      <h3>Vous cherchez un maillot spÃ©cifique ?</h3>
       <p>
-        Envoyez-nous une photo et les informations (équipe, année, version).<br>
-        Nous vérifions la disponibilité et vous répondons rapidement.
+        Envoyez-nous une photo et les informations (Ã©quipe, annÃ©e, version).<br>
+        Nous vÃ©rifions la disponibilitÃ© et vous rÃ©pondons rapidement.
       </p>
       <a href="mailto:futbolerovintageshop@gmail.com" class="cta-btn">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
         Nous contacter
       </a>
       <div class="cta-meta">
-        <span>? Réponse en 1–2 jours</span>
+        <span>? RÃ©ponse en 1 Ã  2 jours</span>
         <span>? Service gratuit</span>
       </div>
     </div>
@@ -1659,18 +1667,18 @@
           </div>
           <p class="text-secondary mb-3">
             Maillots vintage et actuels.<br>
-            1000+ maillots | Qualité premium
+            1000+ maillots | QualitÃ© premium
           </p>
           <div class="d-flex justify-content-center gap-3 mb-3 flex-wrap">
             <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
             <a href="./maillots-vintage.html" class="text-white">Vintage</a>
-            <a href="./maillots.html" class="text-white">Récents</a>
+            <a href="./maillots.html" class="text-white">RÃ©cents</a>
             <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
           </div>
           <hr style="border-color: #333333; margin: 1.5rem 0;">
           <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-            <small class="mb-1 mb-md-0">© <span id="year"></span> Futbolero. Tous droits réservés.</small>
-            <small class="text-secondary">Créé pour les amoureux du football.</small>
+            <small class="mb-1 mb-md-0">Â© <span id="year"></span> Futbolero. Tous droits rÃ©servÃ©s.</small>
+            <small class="text-secondary">CrÃ©Ã© pour les amoureux du football.</small>
           </div>
         </div>
       </div>
@@ -1681,7 +1689,7 @@
       document.getElementById('year')?.textContent = new Date().getFullYear();
     </script>
 
-    <!-- Bootstrap JS - Chargement différé -->
+    <!-- Bootstrap JS - Chargement diffÃ©rÃ© -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -1689,18 +1697,18 @@
       defer
     ></script>
 
-  <!-- Nav partagée - Chargement différé -->
+  <!-- Nav partagÃ©e - Chargement diffÃ©rÃ© -->
   <script src="./maillots-store/client/src/scripts/include-nav.js" defer></script>
 
-  <!-- Personnalisation/tailles - Chargement différé -->
+  <!-- Personnalisation/tailles - Chargement diffÃ©rÃ© -->
   <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20260308" defer></script>
 
   <!-- Unified search utility with product ID + cross-section support -->
   <script src="./scripts/search-utils.js" defer></script>
 
-    <!-- Script minimal: année + badge panier -->
+    <!-- Script minimal: annÃ©e + badge panier -->
     <script>
-      // Mettre l'année dans le footer
+      // Mettre l'annÃ©e dans le footer
       document.getElementById('year').textContent = new Date().getFullYear();
 
       // Gestion simple du badge panier
@@ -1713,7 +1721,7 @@
         });
       }
 
-      // Expose une fonction globale pour mises à jour futures
+      // Expose une fonction globale pour mises Ã  jour futures
       window.updateCartCount = function(count) {
         try {
           localStorage.setItem('cartCount', String(Number(count) || 0));
@@ -1721,7 +1729,7 @@
         renderCartCount(count);
       };
 
-      // Initialisation depuis le storage (si présent)
+      // Initialisation depuis le storage (si prÃ©sent)
       let saved = 0;
       try {
         saved = Number(localStorage.getItem('cartCount')) || 0;
@@ -1737,7 +1745,7 @@
         
         if (!carousel) return;
 
-        // Gérer la recherche
+        // GÃ©rer la recherche
         if (searchInput) {
           searchInput.addEventListener('input', function() {
             if (this.value.trim() !== '') {
@@ -1748,16 +1756,16 @@
           });
         }
 
-        // Masquer l'indicateur de défilement au scroll
+        // Masquer l'indicateur de dÃ©filement au scroll
         let scrollTimeout;
         if (carouselContainer && scrollHint) {
           carouselContainer.addEventListener('scroll', function() {
             if (!scrollHint.classList.contains('hint-hidden')) {
               scrollHint.classList.add('hint-hidden');
-              // Supprimer complètement après l'animation
+              // Supprimer complÃ¨tement aprÃ¨s l'animation
               setTimeout(() => {
                 scrollHint.style.display = 'none';
-              }, 300); // Correspond à la durée de transition
+              }, 300); // Correspond Ã  la durÃ©e de transition
             }
           }, { passive: true });
         }
@@ -1765,29 +1773,29 @@
         // Charger tous les maillots depuis tous-les-maillots.html
         let allJerseys = [];
         let jerseysLoaded = false;
-        const HOME_MOSAIC_SIZE = 400; // plus de maillots aléatoires dans un cadre scrollable
+        const HOME_MOSAIC_SIZE = 400; // plus de maillots alÃ©atoires dans un cadre scrollable
 
         // Fonction pour extraire les maillots depuis tous-les-maillots.html
         async function loadAllJerseys() {
           try {
             console.log('?? Chargement des maillots depuis tous-les-maillots.html...');
-            // Ajouter un délai pour laisser le temps au script de sync de charger les produits manquants
-            // (le fetch déclenche le chargement de tous-les-maillots.html qui inclut le script sync-all-products.js)
+            // Ajouter un dÃ©lai pour laisser le temps au script de sync de charger les produits manquants
+            // (le fetch dÃ©clenche le chargement de tous-les-maillots.html qui inclut le script sync-all-products.js)
             const response = await fetch('./tous-les-maillots.html');
             const html = await response.text();
             
-            // Attendre un peu que les produits soient synchronisés
+            // Attendre un peu que les produits soient synchronisÃ©s
             console.log('? Attente de la synchronisation des produits...');
             await new Promise(resolve => setTimeout(resolve, 1500));
             
-            // Créer un document temporaire pour parser le HTML
+            // CrÃ©er un document temporaire pour parser le HTML
             const parser = new DOMParser();
             const doc = parser.parseFromString(html, 'text/html');
             
             // Extraire tous les product-cards
             const productCards = doc.querySelectorAll('.product-card');
             
-            // Fonction pour générer un ID unique basé sur l'image
+            // Fonction pour gÃ©nÃ©rer un ID unique basÃ© sur l'image
             function generateProductId(imagePath, productName) {
               const combined = (imagePath || productName || '').toLowerCase();
               const normalized = combined.replace(/[^a-z0-9]/g, '');
@@ -1818,10 +1826,10 @@
               };
             }).filter(jersey => jersey.img && jersey.name);
             
-            console.log(`? ${allJerseys.length} maillots chargés avec succès!`);
+            console.log(`? ${allJerseys.length} maillots chargÃ©s avec succÃ¨s!`);
             jerseysLoaded = true;
             
-            // Initialiser la mosaïque avec un échantillon aléatoire pour un chargement rapide
+            // Initialiser la mosaÃ¯que avec un Ã©chantillon alÃ©atoire pour un chargement rapide
             const sampleSize = Math.min(HOME_MOSAIC_SIZE, allJerseys.length);
             currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
             generateCarousel();
@@ -1831,7 +1839,7 @@
             // Fallback: utiliser une liste minimale en cas d'erreur
             allJerseys = [
               { img: './images/Argentina_40.webp', name: 'Argentine', price: '$32.00' },
-              { img: './images/Brazil_13.webp', name: 'Brésil', price: '$32.00' },
+              { img: './images/Brazil_13.webp', name: 'BrÃ©sil', price: '$32.00' },
               { img: './images/France_118.webp', name: 'France', price: '$32.00' },
               { img: './images/Barcelona_FC.webp', name: 'FC Barcelona', price: '$32.00' },
               { img: './images/Real_Madrid_003.webp', name: 'Real Madrid', price: '$32.00' }
@@ -1856,7 +1864,7 @@
             .trim();
         }
 
-        // Aliases / surnoms / abréviations d'équipes pour la recherche
+        // Aliases / surnoms / abrÃ©viations d'Ã©quipes pour la recherche
         function expandSearchQueries(rawQuery) {
           const q = (rawQuery || '').toString().trim().toLowerCase();
           if (!q) return [];
@@ -1870,7 +1878,7 @@
             'losc': ['lille', 'losc lille'],
 
             // Espagne
-            'barca': ['barcelona', 'fc barcelona', 'barça'],
+            'barca': ['barcelona', 'fc barcelona', 'barÃ§a'],
             'fcb': ['fc barcelona', 'barcelona'],
             'rm': ['real madrid', 'madrid'],
             'real': ['real madrid', 'madrid'],
@@ -1909,7 +1917,7 @@
           return Array.from(out).filter(Boolean);
         }
 
-        // Calculer la distance de Levenshtein pour la tolérance aux fautes
+        // Calculer la distance de Levenshtein pour la tolÃ©rance aux fautes
         function levenshteinDistance(str1, str2) {
           const matrix = [];
           const len1 = str1.length;
@@ -1944,12 +1952,12 @@
           return matrix[len2][len1];
         }
 
-        // Fonction de similarité pour la recherche tolérante aux fautes
+        // Fonction de similaritÃ© pour la recherche tolÃ©rante aux fautes
         function calculateSimilarity(query, target) {
           const normalizedQuery = normalizeText(query);
           const normalizedTarget = normalizeText(target);
           
-          // Map COMPLÈTE des équipes avec variations
+          // Map COMPLÃˆTE des Ã©quipes avec variations
           const teamVariations = {
             // Clubs anglais
             'manchesterunited': ['manchester united', 'manutd', 'man utd', 'man united'],
@@ -1966,7 +1974,7 @@
             'leedsunited': ['leeds united', 'leeds', 'lufc'],
             
             // Clubs espagnols
-            'barcelona': ['barcelona', 'fc barcelona', 'barca', 'barça', 'fcb'],
+            'barcelona': ['barcelona', 'fc barcelona', 'barca', 'barÃ§a', 'fcb'],
             'realmadrid': ['real madrid', 'madrid', 'real'],
             'atleticomadrid': ['atletico madrid', 'atletico', 'atleti'],
             'sevilla': ['sevilla', 'sevilla fc'],
@@ -1994,7 +2002,7 @@
             'borussiamonchengladbach': ['borussia monchengladbach', 'monchengladbach', 'gladbach'],
             'frankfurteintracht': ['eintracht frankfurt', 'frankfurt'],
             
-            // Clubs français
+            // Clubs franÃ§ais
             'psg': ['paris saint germain', 'paris saint-germain', 'psg', 'paris sg'],
             'marseille': ['olympique marseille', 'marseille', 'om'],
             'lyon': ['olympique lyonnais', 'lyon', 'ol'],
@@ -2008,19 +2016,19 @@
             'porto': ['fc porto', 'porto', 'fcp'],
             'sporting': ['sporting cp', 'sporting', 'sporting lisbon'],
             
-            // Clubs néerlandais
+            // Clubs nÃ©erlandais
             'ajax': ['ajax', 'afc ajax', 'ajax amsterdam'],
             'psv': ['psv', 'psv eindhoven'],
             'feyenoord': ['feyenoord', 'feyenoord rotterdam'],
             
-            // Équipes nationales
-            'france': ['france', 'équipe de france'],
+            // Ã©quipes nationales
+            'france': ['france', 'Ã©quipe de france'],
             'germany': ['germany', 'allemagne', 'deutschland'],
-            'spain': ['spain', 'espagne', 'españa'],
+            'spain': ['spain', 'espagne', 'espaÃ±a'],
             'italy': ['italy', 'italie', 'italia'],
             'england': ['england', 'angleterre'],
             'portugal': ['portugal'],
-            'brazil': ['brazil', 'brésil', 'bresil', 'brasil'],
+            'brazil': ['brazil', 'brÃ©sil', 'bresil', 'brasil'],
             'argentina': ['argentina', 'argentine'],
             'netherlands': ['netherlands', 'holland', 'pays-bas', 'paysbas'],
             'belgium': ['belgium', 'belgique'],
@@ -2028,16 +2036,16 @@
             'uruguay': ['uruguay'],
             'mexico': ['mexico', 'mexique'],
             'japan': ['japan', 'japon'],
-            'korea': ['korea', 'corée', 'south korea'],
+            'korea': ['korea', 'corÃ©e', 'south korea'],
             'morocco': ['morocco', 'maroc'],
             'nigeria': ['nigeria'],
-            'senegal': ['senegal', 'sénégal'],
+            'senegal': ['senegal', 'sÃ©nÃ©gal'],
             'cameroon': ['cameroon', 'cameroun'],
             'ghana': ['ghana'],
-            'ivorycoast': ['ivory coast', 'cote divoire', 'côte divoire']
+            'ivorycoast': ['ivory coast', 'cote divoire', 'cÃ´te divoire']
           };
 
-          // PRIORITÉ 1: Chercher dans les variations d'équipes en premier
+          // PRIORITÃ‰ 1: Chercher dans les variations d'Ã©quipes en premier
           let matchedTeamKey = null;
           let matchScore = 0;
           
@@ -2045,7 +2053,7 @@
             for (const variation of variations) {
               const normalizedVariation = normalizeText(variation);
               
-              // Si la requête est exactement une variation connue
+              // Si la requÃªte est exactement une variation connue
               if (normalizedQuery === normalizedVariation) {
                 // Et le target contient cette variation
                 if (normalizedTarget.includes(normalizedVariation)) {
@@ -2053,12 +2061,12 @@
                 }
               }
               
-              // Si la variation contient la requête (ex: "napoli" dans "ssc napoli")
+              // Si la variation contient la requÃªte (ex: "napoli" dans "ssc napoli")
               if (normalizedVariation.includes(normalizedQuery) && normalizedQuery.length >= 3) {
-                // Et le target contient aussi cette variation ou le mot clé
+                // Et le target contient aussi cette variation ou le mot clÃ©
                 if (normalizedTarget.includes(normalizedVariation) || normalizedTarget.includes(normalizedQuery)) {
                   matchedTeamKey = key;
-                  // Score basé sur la position: début = mieux
+                  // Score basÃ© sur la position: dÃ©but = mieux
                   if (normalizedVariation.startsWith(normalizedQuery)) {
                     matchScore = Math.max(matchScore, 1.0);
                   } else {
@@ -2067,7 +2075,7 @@
                 }
               }
               
-              // Si la requête contient la variation (ex: "napoli ssc" cherche "napoli")
+              // Si la requÃªte contient la variation (ex: "napoli ssc" cherche "napoli")
               if (normalizedQuery.includes(normalizedVariation) && normalizedVariation.length >= 3) {
                 if (normalizedTarget.includes(normalizedVariation)) {
                   matchedTeamKey = key;
@@ -2077,17 +2085,17 @@
             }
           }
           
-          // Si on a trouvé un match via les variations
+          // Si on a trouvÃ© un match via les variations
           if (matchScore > 0) {
             return matchScore;
           }
           
-          // PRIORITÉ 2: Correspondance exacte directe
+          // PRIORITÃ‰ 2: Correspondance exacte directe
           if (normalizedTarget === normalizedQuery) {
             return 1.0;
           }
           
-          // PRIORITÉ 3: Le target contient la requête complète
+          // PRIORITÃ‰ 3: Le target contient la requÃªte complÃ¨te
           if (normalizedTarget.includes(normalizedQuery)) {
             if (normalizedTarget.startsWith(normalizedQuery)) {
               return 0.97;
@@ -2095,18 +2103,18 @@
             return 0.95;
           }
           
-          // PRIORITÉ 4: La requête contient le target
+          // PRIORITÃ‰ 4: La requÃªte contient le target
           if (normalizedQuery.includes(normalizedTarget)) {
             return 0.92;
           }
 
-          // Recherche par mots individuels - TRÈS STRICT
+          // Recherche par mots individuels - TRÃˆS STRICT
           const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 2);
           const targetWords = normalizedTarget.split(/\s+/).filter(w => w.length > 2);
           
-          // Pour les requêtes multi-mots (ex: "Manchester United")
+          // Pour les requÃªtes multi-mots (ex: "Manchester United")
           if (queryWords.length >= 2) {
-            // TOUS les mots de la requête doivent être dans le target
+            // TOUS les mots de la requÃªte doivent Ãªtre dans le target
             const allWordsPresent = queryWords.every(qWord => 
               targetWords.some(tWord => 
                 tWord === qWord || 
@@ -2125,7 +2133,7 @@
                 targetWords.some(tWord => tWord.includes(qWord) || qWord.includes(tWord))
               ).length;
               
-              // Score basé sur la qualité des matches
+              // Score basÃ© sur la qualitÃ© des matches
               if (exactMatches === queryWords.length) {
                 return 0.9; // Tous les mots matchent exactement
               } else if (partialMatches === queryWords.length) {
@@ -2143,14 +2151,14 @@
               return 0; // Rejet
             }
             
-            return matchRatio * 0.6; // Score réduit
+            return matchRatio * 0.6; // Score rÃ©duit
           }
 
-          // Pour les requêtes d'un seul mot
+          // Pour les requÃªtes d'un seul mot
           if (queryWords.length === 1 && targetWords.length > 0) {
             const qWord = queryWords[0];
             
-            // Le mot doit être présent dans le target
+            // Le mot doit Ãªtre prÃ©sent dans le target
             const wordFound = targetWords.some(tWord => 
               tWord.includes(qWord) || qWord.includes(tWord)
             );
@@ -2160,7 +2168,7 @@
             }
           }
 
-          // Distance de Levenshtein comme DERNIER recours - seuils TRÈS STRICTS
+          // Distance de Levenshtein comme DERNIER recours - seuils TRÃˆS STRICTS
           const distance = levenshteinDistance(normalizedQuery, normalizedTarget);
           const maxLength = Math.max(normalizedQuery.length, normalizedTarget.length);
           
@@ -2168,20 +2176,20 @@
           
           const similarity = 1 - (distance / maxLength);
           
-          // Seuils très stricts selon la longueur
+          // Seuils trÃ¨s stricts selon la longueur
           if (normalizedQuery.length <= 3) {
-            // Mots courts: 95% de similarité minimum
+            // Mots courts: 95% de similaritÃ© minimum
             return similarity >= 0.95 ? similarity : 0;
           } else if (normalizedQuery.length <= 5) {
-            // Mots moyens: 85% de similarité minimum
+            // Mots moyens: 85% de similaritÃ© minimum
             return similarity >= 0.85 ? similarity : 0;
           } else {
-            // Mots longs: 80% de similarité minimum
+            // Mots longs: 80% de similaritÃ© minimum
             return similarity >= 0.80 ? similarity : 0;
           }
         }
 
-        // Mélanger aléatoirement la liste
+        // MÃ©langer alÃ©atoirement la liste
         function shuffleArray(array) {
           const shuffled = [...array];
           for (let i = shuffled.length - 1; i > 0; i--) {
@@ -2191,27 +2199,27 @@
           return shuffled;
         }
 
-        // Générer la mosaïque avec les maillots filtrés
+        // GÃ©nÃ©rer la mosaÃ¯que avec les maillots filtrÃ©s
         function generateCarousel(jerseys = currentFilteredJerseys) {
           const carousel = document.getElementById('jerseyCarousel');
           if (!carousel) {
-            console.error('? Container mosaïque introuvable!');
+            console.error('? Container mosaÃ¯que introuvable!');
             return;
           }
 
-          console.log('?? Génération carousel avec', jerseys.length, 'maillots');
+          console.log('?? GÃ©nÃ©ration carousel avec', jerseys.length, 'maillots');
 
           if (jerseys.length === 0) {
             carousel.innerHTML = `
               <div class="jersey-item no-results">
                 <div style="text-align: center; padding: 2rem;">
                   <i class="fas fa-search" style="font-size: 2rem; color: #6c757d; margin-bottom: 1rem;"></i>
-                  <p style="margin: 0; color: #6c757d; font-style: italic;">Aucun maillot ne correspond à votre recherche</p>
-                  <small style="color: #adb5bd;">Essayez avec d'autres mots-clés</small>
+                  <p style="margin: 0; color: #6c757d; font-style: italic;">Aucun maillot ne correspond Ã  votre recherche</p>
+                  <small style="color: #adb5bd;">Essayez avec d'autres mots-clÃ©s</small>
                 </div>
               </div>
             `;
-            // Laisser la vitesse CSS définie dans le media query mobile (720s)
+            // Laisser la vitesse CSS dÃ©finie dans le media query mobile (720s)
             // Ne pas forcer 120s ici
             return;
           }
@@ -2239,16 +2247,16 @@
             </div>
           `).join('');
 
-          // Laisser les vitesses CSS définies dans le style (900s desktop, 720s mobile)
-          // Ne pas forcer de vitesse spécifique ici - utiliser celle définie dans le CSS
+          // Laisser les vitesses CSS dÃ©finies dans le style (900s desktop, 720s mobile)
+          // Ne pas forcer de vitesse spÃ©cifique ici - utiliser celle dÃ©finie dans le CSS
 
-          // Réattacher les événements
+          // RÃ©attacher les Ã©vÃ©nements
           attachCarouselEvents();
           
-          console.log('? Carousel généré avec succès');
+          console.log('? Carousel gÃ©nÃ©rÃ© avec succÃ¨s');
         }
 
-        // Fonction de recherche améliorée avec tolérance aux fautes
+        // Fonction de recherche amÃ©liorÃ©e avec tolÃ©rance aux fautes
         function performSearch(query) {
           const resultsCount = document.getElementById('carousel-search-results-count');
           const carousel = document.getElementById('jerseyCarousel');
@@ -2257,7 +2265,7 @@
           console.log('?? Recherche pour:', query);
           
           if (query.trim() === '') {
-            // Aucune recherche : retirer la classe searching et afficher un échantillon mélangé
+            // Aucune recherche : retirer la classe searching et afficher un Ã©chantillon mÃ©langÃ©
             if (carousel) carousel.classList.remove('searching');
             const sampleSize = Math.min(HOME_MOSAIC_SIZE, allJerseys.length);
             currentFilteredJerseys = shuffleArray([...allJerseys]).slice(0, sampleSize);
@@ -2267,7 +2275,7 @@
             return;
           }
 
-          // Recherche avec tolérance aux fautes et pondération
+          // Recherche avec tolÃ©rance aux fautes et pondÃ©ration
           const expandedQueries = expandSearchQueries(query);
           const jerseyMatches = allJerseys.map(jersey => {
             // Chercher par nom OU par ID
@@ -2275,47 +2283,47 @@
               ? Math.max(...expandedQueries.map(q => calculateSimilarity(q, jersey.name)))
               : calculateSimilarity(query, jersey.name);
             const idMatch = jersey.productId && jersey.productId.includes(query.toUpperCase()) ? 100 : 0;
-            // Si c'est une recherche par ID exacte, priorité absolue
+            // Si c'est une recherche par ID exacte, prioritÃ© absolue
             const similarity = idMatch > 0 ? idMatch : nameSimilarity;
             return { jersey, similarity };
           })
           .filter(match => match.similarity > 0)
           .sort((a, b) => {
-            // Trier par similarité décroissante
+            // Trier par similaritÃ© dÃ©croissante
             if (b.similarity !== a.similarity) {
               return b.similarity - a.similarity;
             }
-            // En cas d'égalité, ordre alphabétique
+            // En cas d'Ã©galitÃ©, ordre alphabÃ©tique
             return a.jersey.name.localeCompare(b.jersey.name);
           });
           
           currentFilteredJerseys = jerseyMatches.map(match => match.jersey);
           
-          console.log('?? Résultats:', currentFilteredJerseys.length, 'maillots');
+          console.log('?? RÃ©sultats:', currentFilteredJerseys.length, 'maillots');
           if (jerseyMatches.length > 0) {
             console.log('?? Top 5:', jerseyMatches.slice(0, 5).map(m => 
               `${m.jersey.name} (${Math.round(m.similarity * 100)}%)`
             ));
           }
           
-          // Ajouter la classe searching pour afficher les détails
+          // Ajouter la classe searching pour afficher les dÃ©tails
           if (carousel) carousel.classList.add('searching');
           
-          // Affichage des résultats dans le carousel
+          // Affichage des rÃ©sultats dans le carousel
           if (currentFilteredJerseys.length === 0) {
-            resultsCount.textContent = 'Aucun résultat';
+            resultsCount.textContent = 'Aucun rÃ©sultat';
             resultsCount.style.color = '#dc3545';
           } else {
             const count = currentFilteredJerseys.length;
-            resultsCount.textContent = `${count} résultat${count > 1 ? 's' : ''}`;
+            resultsCount.textContent = `${count} rÃ©sultat${count > 1 ? 's' : ''}`;
             resultsCount.style.color = '#198754';
           }
           
-          // Générer les résultats dans le carousel
+          // GÃ©nÃ©rer les rÃ©sultats dans le carousel
           generateCarousel(currentFilteredJerseys);
         }
 
-        // Attacher les événements aux éléments du carousel
+        // Attacher les Ã©vÃ©nements aux Ã©lÃ©ments du carousel
         function attachCarouselEvents() {
           const jerseyItems = document.querySelectorAll('.jersey-item');
           
@@ -2344,7 +2352,7 @@
           }
         }
 
-        // Initialisation de la recherche améliorée
+        // Initialisation de la recherche amÃ©liorÃ©e
         function initCarouselSearch() {
           const searchInput = document.getElementById('carousel-search-input');
           const clearButton = document.getElementById('carousel-clear-search');
@@ -2356,15 +2364,15 @@
           console.log('?? Initialisation recherche carousel...');
 
           if (!searchInput || !clearButton) {
-            console.error('? Éléments de recherche introuvables!');
+            console.error('? Ã©lÃ©ments de recherche introuvables!');
             return;
           }
 
-          console.log('? Éléments trouvés, configuration des événements...');
+          console.log('? Ã©lÃ©ments trouvÃ©s, configuration des Ã©vÃ©nements...');
 
           let isSearching = false;
 
-          // Recherche en temps réel
+          // Recherche en temps rÃ©el
           searchInput.addEventListener('input', (e) => {
             const query = e.target.value;
             
@@ -2377,7 +2385,7 @@
             
             clearTimeout(searchTimeout);
             
-            // Délai adaptatif
+            // DÃ©lai adaptatif
             const delay = query.length < 3 ? 300 : 200;
             
             // Afficher l'indicateur de chargement
@@ -2407,10 +2415,10 @@
             }
           });
 
-          // Recherche immédiate sur paste
+          // Recherche immÃ©diate sur paste
           searchInput.addEventListener('paste', (e) => {
             setTimeout(() => {
-              console.log('?? Paste détecté:', e.target.value);
+              console.log('?? Paste dÃ©tectÃ©:', e.target.value);
               performSearch(e.target.value);
             }, 10);
           });
@@ -2418,7 +2426,7 @@
           // Bouton de recherche
           if (searchButton) {
             searchButton.addEventListener('click', () => {
-              console.log('?? Bouton recherche cliqué');
+              console.log('?? Bouton recherche cliquÃ©');
               performSearch(searchInput.value);
             });
           }
@@ -2432,7 +2440,7 @@
             searchInput.focus();
           });
           
-          // Cacher le bouton clear au démarrage
+          // Cacher le bouton clear au dÃ©marrage
           clearButton.classList.remove('visible');
 
           // Wrapper pour performSearch avec feedback visuel
@@ -2456,10 +2464,10 @@
             }
           };
 
-          console.log('? Système de recherche avancé configuré!');
+          console.log('? SystÃ¨me de recherche avancÃ© configurÃ©!');
         }
 
-        // Générer la grille de résultats de recherche
+        // GÃ©nÃ©rer la grille de rÃ©sultats de recherche
         function generateSearchResultsGrid(jerseys, query) {
           const searchResultsGrid = document.getElementById('search-results-grid');
           const searchResultsTitle = document.getElementById('search-results-title');
@@ -2467,12 +2475,12 @@
           
           if (!searchResultsGrid) return;
           
-          // Mettre à jour le titre et les infos
+          // Mettre Ã  jour le titre et les infos
           const queryDisplay = query.length > 30 ? query.substring(0, 30) + '...' : query;
-          searchResultsTitle.textContent = `Résultats pour "${queryDisplay}"`;
-          searchResultsInfo.textContent = `${jerseys.length} résultat${jerseys.length > 1 ? 's' : ''}`;
+          searchResultsTitle.textContent = `RÃ©sultats pour "${queryDisplay}"`;
+          searchResultsInfo.textContent = `${jerseys.length} rÃ©sultat${jerseys.length > 1 ? 's' : ''}`;
           
-          // Générer les cartes de résultats (même markup que les pages produits)
+          // GÃ©nÃ©rer les cartes de rÃ©sultats (mÃªme markup que les pages produits)
           searchResultsGrid.innerHTML = jerseys.map((jersey, index) => {
             const imgSrc = jersey.img || '';
             const dataImg = imgSrc.startsWith('./') ? imgSrc.slice(2) : imgSrc;
@@ -2507,13 +2515,13 @@
             `;
           }).join('');
           
-          // Réattacher les événements pour les nouveaux éléments
+          // RÃ©attacher les Ã©vÃ©nements pour les nouveaux Ã©lÃ©ments
           attachSearchResultsEvents();
           
-          console.log('? Grille:', jerseys.length, 'résultats pour', `"${query}"`);
+          console.log('? Grille:', jerseys.length, 'rÃ©sultats pour', `"${query}"`);
         }
 
-        // Attacher les événements aux cartes de résultats
+        // Attacher les Ã©vÃ©nements aux cartes de rÃ©sultats
         function attachSearchResultsEvents() {
           const searchResultsGrid = document.getElementById('search-results-grid');
           if (!searchResultsGrid) return;
@@ -2522,7 +2530,7 @@
 
           cards.forEach(card => {
             card.addEventListener('click', (e) => {
-              // Si le clic est déjà sur un élément add-to-cart (image ou bouton), ne rien forcer
+              // Si le clic est dÃ©jÃ  sur un Ã©lÃ©ment add-to-cart (image ou bouton), ne rien forcer
               if (e.target && e.target.closest && e.target.closest('.add-to-cart')) return;
 
               e.preventDefault();
@@ -2533,13 +2541,13 @@
             });
           });
 
-          // Réactiver le customizer si disponible
+          // RÃ©activer le customizer si disponible
           if (window.productCustomizerInit) {
             window.productCustomizerInit();
           }
         }
 
-        // Initialiser le carrousel au démarrage
+        // Initialiser le carrousel au dÃ©marrage
         console.log('?? Initialisation du carrousel...');
         
         // Charger tous les maillots depuis tous-les-maillots.html
@@ -2548,8 +2556,8 @@
         // Initialiser la recherche
         initCarouselSearch();
 
-        // Régénérer le carrousel toutes les 10 minutes si aucune recherche active
-        // Optimisation: limiter à 30 maillots pour garder les performances
+        // RÃ©gÃ©nÃ©rer le carrousel toutes les 10 minutes si aucune recherche active
+        // Optimisation: limiter Ã  30 maillots pour garder les performances
         setInterval(() => {
           const searchInput = document.getElementById('carousel-search-input');
           if (!searchInput || !searchInput.value.trim()) {
@@ -2562,7 +2570,7 @@
         }, 600000);
       }
 
-      // Initialiser le carrousel quand le DOM est prêt
+      // Initialiser le carrousel quand le DOM est prÃªt
       document.addEventListener('DOMContentLoaded', initJerseyCarousel);
     </script>
   </body>

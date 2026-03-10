@@ -10,9 +10,11 @@
   <link rel="icon" type="image/svg+xml" href="./assets/favicon_FVS.svg">
   <link rel="apple-touch-icon" href="./assets/apple-touch-icon.png">
 
-    <!-- Fonts + Bootstrap + Icons (aligné avec la page vintage) -->
+    <!-- Fonts + Bootstrap + Icons (alignÃ© avec la page vintage) -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"></noscript>
@@ -20,262 +22,18 @@
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></noscript>
     
     <!-- Police Switzer -->
+    <link rel="preload" href="./assets/Switzer_Complete/Switzer_Complete/Fonts/WEB/fonts/Switzer-Variable.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="./assets/switzer-fonts.css">
     
     <!-- Styles uniformes des produits -->
     <link rel="stylesheet" href="./assets/products.css">
 
-    <!-- Styles thÃ¨me -->
-    <style>
-        :root {
-            --bg: #f7f8f9; --surface: #ffffff; --text: #121314; --muted: #6b6f76; --border: #e9ebf0;
-            --accent: #2f6f3e; --accent-contrast: #ffffff;
-        }
-        html, body { height: 100%; background: var(--bg); color: var(--text);
-            font-family: 'Switzer', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
-            font-weight: 700;
-        }
-        .navbar { 
-            background: var(--surface) !important; 
-            border-bottom: 1px solid var(--border); 
-        }
-        
-        /* Navigation sticky globale - fonctionne sur toutes les pages */
-        #site-header {
-            position: fixed !important;
-            top: 0 !important;
-            left: 0 !important;
-            right: 0 !important;
-            z-index: 1050 !important;
-            width: 100% !important;
-            background: var(--surface) !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
-        }
-        
-        #site-header .navbar {
-            position: relative !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            margin: 0 !important;
-        }
-        
-        #site-header .sticky-top {
-            position: static !important;
-        }
-        
-        /* Compenser la hauteur de la navbar fixe */
-        body {
-            padding-top: 200px !important;
-        }
-        
-        @media (max-width: 991.98px) {
-            body {
-                padding-top: 130px !important;
-            }
-        }
-        .navbar .navbar-brand { color: var(--text); }
-        .nav-link { color: var(--muted) !important; }
-    .nav-link.active, .nav-link:hover { color: var(--text) !important; font-weight:700; }
-        .btn-accent {
-            --bs-btn-bg: var(--accent); --bs-btn-border-color: var(--accent);
-            --bs-btn-hover-bg: #285a33; --bs-btn-hover-border-color: #285a33;
-            --bs-btn-color: var(--accent-contrast); --bs-btn-focus-shadow-rgb: 47,111,62;
-        }
-        /* Disable color changes but allow a very light scale on hover; always white text */
-        .btn-accent,
-        .btn-dark {
-            transition: transform .12s ease, box-shadow .12s ease;
-            transform-origin: center center;
-        }
-
-        .btn-accent,
-        .btn-accent:focus,
-        .btn-accent:active {
-            background-color: var(--accent) !important;
-            border-color: var(--accent) !important;
-            color: var(--accent-contrast) !important;
-            box-shadow: none !important;
-            text-decoration: none !important;
-        }
-        .btn-dark,
-        .btn-dark:focus,
-        .btn-dark:active {
-            background-color: #000 !important;
-            border-color: #000 !important;
-            color: #fff !important;
-            box-shadow: none !important;
-            text-decoration: none !important;
-        }
-
-    /* Subtle scale on hover for primary buttons (green and black) */
-    .btn-accent, .btn-dark { transition: transform .12s ease; transform-origin: center center; }
-    .btn-accent:hover, .btn-dark:hover { transform: scale(1.035); }
-        /* Keep colors fixed on hover/focus/active; white text on colored backgrounds */
-        .btn-accent:hover, .btn-accent:focus, .btn-accent:active, .btn-accent:visited {
-            background-color: var(--accent) !important;
-            border-color: var(--accent) !important;
-            color: var(--accent-contrast) !important;
-            text-decoration: none !important;
-        }
-        .btn-dark:hover, .btn-dark:focus, .btn-dark:active, .btn-dark:visited {
-            background-color: #000 !important;
-            border-color: #000 !important;
-            color: #fff !important;
-            text-decoration: none !important;
-        }
-        .card { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
-        .card .card-text { color: var(--muted); }
-        .footer {
-          background: #000000 !important;
-          color: #ffffff;
-          border-top: none;
-        }
-        
-        .footer a {
-          color: #ffffff;
-          text-decoration: none;
-        }
-        
-        .footer a:hover {
-          color: #cccccc;
-          text-decoration: underline;
-        }
-        
-        .footer .text-secondary {
-          color: #cccccc !important;
-        }
-        .cart-btn { position: relative; }
-        .cart-count {
-            position: absolute; top: -6px; right: -8px; font-size: .7rem;
-            background: var(--accent); color: var(--accent-contrast); border: 2px solid var(--surface);
-        }
-        /* Supprime complÃ¨tement tous les espacements entre les produits */
-        .row.g-0 .col-6,
-        .row.g-0 .col-md-4,
-        .row.g-0 .col-lg-3 {
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-        .row.g-0 .card {
-            margin: 0 !important;
-            border-radius: 0 !important;
-        }
-        .row.g-0 .card-body {
-            margin: 0 !important;
-        }
-        .row.g-0 .ratio {
-            margin: 0 !important;
-        }
-        .row.g-0 {
-            margin: 0 !important;
-        }
-        
-        /* Ajustement pour la navbar fixe */
-        main {
-            padding-top: 1.5rem !important;
-        }
-        
-        @media (max-width: 768px) {
-          main {
-            padding-top: 1rem !important;
-          }
-        }
-        
-  /* Styles pour la barre de recherche du carousel */
-  .input-group {
-    position: relative;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    border-radius: 12px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    transition: all 0.2s ease;
-  }
-
-  #carousel-search-input { border: none; border-radius: 12px; padding: 0.75rem 1rem 0.75rem 48px;
-    font-size: 0.9375rem;
-    background: transparent;
-    transition: all 0.2s ease;
-    color: var(--text);
-  }
-
-  #carousel-search-input::placeholder {
-    color: var(--muted);
-    opacity: 0.8;
-  }
-
-  .carousel-search-icon-btn { position: absolute; left: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    padding: 0;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    transition: all 0.2s ease;
-    z-index: 6;
-  }
-
-  .carousel-search-icon-btn:hover {
-    background: var(--bg);
-    color: var(--text);
-  }
-
-  #carousel-clear-search { display: none !important; }
-
-  #carousel-search-input:focus {
-    box-shadow: none;
-    outline: none;
-    background: var(--surface);
-  }
-
-  .input-group:hover {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-    border-color: var(--border);
-  }
-
-  .input-group:focus-within {
-    border-color: var(--border);
-    box-shadow: none;
-  }
-
-  .input-group .form-control:focus {
-    z-index: 5;
-  }
-
-  #carousel-search-input:focus,
-  #carousel-search-input:focus-visible {
-    outline: none;
-    box-shadow: none;
-  }
-
-  .input-group #carousel-search-input:focus,
-  .input-group #carousel-search-input:focus-visible {
-    box-shadow: none !important;
-  }
-        
-        .product-card.hidden {
-            display: none !important;
-        }
-        
-        .col-6.hidden, .col-md-4.hidden, .col-lg-3.hidden {
-            display: none !important;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 3rem 1rem;
-            color: var(--muted);
-        }
-    </style>
+    <!-- Shared theme styles -->
+    <link rel="stylesheet" href="./assets/shared-theme.css">
     <script>
         // Recherche des maillots
         document.addEventListener('DOMContentLoaded', function() {
-            // Éléments de recherche
+            // Ã‰lÃ©ments de recherche
             const searchInput = document.getElementById('carousel-search-input');
             const clearButton = document.getElementById('carousel-clear-search');
             const resultsCount = document.getElementById('carousel-search-results-count');
@@ -297,19 +55,19 @@
                     }
                 });
                 
-                // Mise à jour du compteur
+                // Mise Ã  jour du compteur
                 if (query === '') {
                     resultsCount.textContent = '';
                 } else if (count === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
+                    resultsCount.textContent = 'Aucun maillot trouvÃ©';
                 } else if (count === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
+                    resultsCount.textContent = '1 maillot trouvÃ©';
                 } else {
-                    resultsCount.textContent = count + ' maillots trouvés';
+                    resultsCount.textContent = count + ' maillots trouvÃ©s';
                 }
             }
             
-            // Événements
+            // Ã‰vÃ©nements
             if (searchInput) {
                 searchInput.addEventListener('input', searchProducts);
             }
@@ -325,16 +83,16 @@
     </script>
 </head>
 <body>
-<!-- Nav injectée via include-nav.js -->
+<!-- Nav injectÃ©e via include-nav.js -->
 
-    <!-- Nav partagée -->
+    <!-- Nav partagÃ©e -->
     <header id="site-header"></header>
 
     <main class="py-4 py-md-5">
         <div class="container" style="max-width: 1000px; margin-left: auto; margin-right: auto;">
             <div style="padding-left: 1rem; padding-right: 1rem;">
 
-            <!-- En-tête de page -->
+            <!-- En-tÃªte de page -->
             <div class="page-header mb-4">
                 <h1>Maillots des nations</h1>
                 <div class="d-flex justify-content-center mt-3">
@@ -368,7 +126,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Argentina_40.webp">
-      <img loading="lazy" src="images/Argentina_40.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Argentina_40.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Argentine</h3>
@@ -381,7 +139,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Argentina_41.webp">
-      <img loading="lazy" src="images/Argentina_41.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Argentina_41.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Argentine</h3>
@@ -394,7 +152,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Argentina_40.webp">
-      <img loading="lazy" src="images/Argentina_40.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Argentina_40.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Argentine</h3>
@@ -407,10 +165,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_24.webp">
-      <img loading="lazy" src="images/Brazil_24.webp" alt="Brésil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Brazil_24.webp" alt="BrÃ©sil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Brésil</h3>
+      <h3 class="product-title">BrÃ©sil</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_24.webp">Ajouter</button>
     </div>
@@ -420,10 +178,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_30.webp">
-      <img loading="lazy" src="images/Brazil_30.webp" alt="Brésil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Brazil_30.webp" alt="BrÃ©sil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Brésil</h3>
+      <h3 class="product-title">BrÃ©sil</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_30.webp">Ajouter</button>
     </div>
@@ -433,10 +191,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_62.webp">
-      <img loading="lazy" src="images/Brazil_62.webp" alt="Brésil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Brazil_62.webp" alt="BrÃ©sil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Brésil</h3>
+      <h3 class="product-title">BrÃ©sil</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_62.webp">Ajouter</button>
     </div>
@@ -446,10 +204,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_9.webp">
-      <img loading="lazy" src="images/Brazil_9.webp" alt="Brésil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Brazil_9.webp" alt="BrÃ©sil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Brésil</h3>
+      <h3 class="product-title">BrÃ©sil</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Brazil_9.webp">Ajouter</button>
     </div>
@@ -459,7 +217,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Chile_38.webp">
-      <img loading="lazy" src="images/Chile_38.webp" alt="Chili" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Chile_38.webp" alt="Chili" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Chili</h3>
@@ -472,7 +230,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Croatia_50.webp">
-      <img loading="lazy" src="images/Croatia_50.webp" alt="Croatie" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Croatia_50.webp" alt="Croatie" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Croatie</h3>
@@ -485,7 +243,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/England_102.webp">
-      <img loading="lazy" src="images/England_102.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/England_102.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -498,7 +256,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/England_54.webp">
-      <img loading="lazy" src="images/England_54.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/England_54.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Angleterre</h3>
@@ -511,7 +269,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/England_55.webp">
-      <img loading="lazy" src="images/England_55.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/England_55.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Angleterre</h3>
@@ -524,7 +282,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/England_57.webp">
-      <img loading="lazy" src="images/England_57.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/England_57.webp" alt="Angleterre" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Angleterre</h3>
@@ -537,7 +295,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/France_62.webp">
-      <img loading="lazy" src="images/France_62.webp" alt="France" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/France_62.webp" alt="France" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">France</h3>
@@ -550,7 +308,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/France_64.webp">
-      <img loading="lazy" src="images/France_64.webp" alt="France" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/France_64.webp" alt="France" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">France</h3>
@@ -563,7 +321,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/France_65.webp">
-      <img loading="lazy" src="images/France_65.webp" alt="France" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/France_65.webp" alt="France" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">France</h3>
@@ -576,7 +334,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/France_66.webp">
-      <img loading="lazy" src="images/France_66.webp" alt="France" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/France_66.webp" alt="France" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">France</h3>
@@ -589,7 +347,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/France_67.webp">
-      <img loading="lazy" src="images/France_67.webp" alt="France" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/France_67.webp" alt="France" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">France</h3>
@@ -602,7 +360,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Germany_39.webp">
-      <img loading="lazy" src="images/Germany_39.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Germany_39.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Allemagne</h3>
@@ -615,7 +373,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Germany_4.webp">
-      <img loading="lazy" src="images/Germany_4.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Germany_4.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Allemagne</h3>
@@ -628,7 +386,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Italy_74.webp">
-      <img loading="lazy" src="images/Italy_74.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Italy_74.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Italie</h3>
@@ -641,7 +399,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Italy_75.webp">
-      <img loading="lazy" src="images/Italy_75.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Italy_75.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Italie</h3>
@@ -654,7 +412,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Jamaica_11.webp">
-      <img loading="lazy" src="images/Jamaica_11.webp" alt="Jamaica" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Jamaica_11.webp" alt="Jamaica" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Jamaica</h3>
@@ -667,7 +425,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Jamaica_23.webp">
-      <img loading="lazy" src="images/Jamaica_23.webp" alt="Jamaica" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Jamaica_23.webp" alt="Jamaica" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Jamaica</h3>
@@ -680,7 +438,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Japan_76.webp">
-      <img loading="lazy" src="images/Japan_76.webp" alt="Japon" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Japan_76.webp" alt="Japon" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Japon</h3>
@@ -693,7 +451,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Mexico_78.webp">
-      <img loading="lazy" src="images/Mexico_78.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Mexico_78.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Mexique</h3>
@@ -706,7 +464,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Morocco_48.webp">
-      <img loading="lazy" src="images/Morocco_48.webp" alt="Maroc" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Morocco_48.webp" alt="Maroc" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Maroc</h3>
@@ -719,7 +477,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_100.webp">
-      <img loading="lazy" src="images/Netherlands_100.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_100.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -732,7 +490,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_101.webp">
-      <img loading="lazy" src="images/Netherlands_101.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_101.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -745,7 +503,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_103.webp">
-      <img loading="lazy" src="images/Netherlands_103.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_103.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -758,7 +516,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_83.webp">
-      <img loading="lazy" src="images/Netherlands_83.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_83.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -771,7 +529,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_84.webp">
-      <img loading="lazy" src="images/Netherlands_84.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_84.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -784,7 +542,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_85.webp">
-      <img loading="lazy" src="images/Netherlands_85.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_85.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -797,7 +555,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_86.webp">
-      <img loading="lazy" src="images/Netherlands_86.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_86.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -810,7 +568,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_92.webp">
-      <img loading="lazy" src="images/Netherlands_92.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_92.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -823,7 +581,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_93.webp">
-      <img loading="lazy" src="images/Netherlands_93.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_93.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -836,7 +594,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_94.webp">
-      <img loading="lazy" src="images/Netherlands_94.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_94.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -849,7 +607,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_95.webp">
-      <img loading="lazy" src="images/Netherlands_95.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_95.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -862,7 +620,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_96.webp">
-      <img loading="lazy" src="images/Netherlands_96.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_96.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -875,7 +633,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_97.webp">
-      <img loading="lazy" src="images/Netherlands_97.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_97.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -888,7 +646,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_98.webp">
-      <img loading="lazy" src="images/Netherlands_98.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_98.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -901,7 +659,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Netherlands_99.webp">
-      <img loading="lazy" src="images/Netherlands_99.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Netherlands_99.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -914,7 +672,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Nigeria_10.webp">
-      <img loading="lazy" src="images/Nigeria_10.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Nigeria_10.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Nigeria</h3>
@@ -927,7 +685,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Nigeria_106.webp">
-      <img loading="lazy" src="images/Nigeria_106.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Nigeria_106.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Nigeria</h3>
@@ -940,7 +698,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Nigeria_87.webp">
-      <img loading="lazy" src="images/Nigeria_87.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Nigeria_87.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Nigeria</h3>
@@ -953,7 +711,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Nigeria_88.webp">
-      <img loading="lazy" src="images/Nigeria_88.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Nigeria_88.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Nigeria</h3>
@@ -966,10 +724,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Norway_29.webp">
-      <img loading="lazy" src="images/Norway_29.webp" alt="Norvège" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Norway_29.webp" alt="NorvÃ¨ge" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Norvège</h3>
+      <h3 class="product-title">NorvÃ¨ge</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Norway_29.webp">Ajouter</button>
     </div>
@@ -979,10 +737,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Norway_32.webp">
-      <img loading="lazy" src="images/Norway_32.webp" alt="Norvège" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Norway_32.webp" alt="NorvÃ¨ge" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Norvège</h3>
+      <h3 class="product-title">NorvÃ¨ge</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Norway_32.webp">Ajouter</button>
     </div>
@@ -992,7 +750,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Poland_21.webp">
-      <img loading="lazy" src="images/Poland_21.webp" alt="Pologne" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Poland_21.webp" alt="Pologne" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pologne</h3>
@@ -1005,7 +763,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/Switzerland_20.webp">
-      <img loading="lazy" src="images/Switzerland_20.webp" alt="Suisse" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/Switzerland_20.webp" alt="Suisse" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Suisse</h3>
@@ -1018,7 +776,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/allemagne-0.webp">
-      <img loading="lazy" src="images/allemagne-0.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/allemagne-0.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Allemagne</h3>
@@ -1031,7 +789,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/angleterre-0.webp">
-      <img loading="lazy" src="images/angleterre-0.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/angleterre-0.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Arsenal</h3>
@@ -1044,7 +802,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/angleterre-01.webp">
-      <img loading="lazy" src="images/angleterre-01.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/angleterre-01.webp" alt="Arsenal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Arsenal</h3>
@@ -1057,7 +815,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/argentina_43.webp">
-      <img loading="lazy" src="images/argentina_43.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/argentina_43.webp" alt="Argentine" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Argentine</h3>
@@ -1070,7 +828,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil-12.webp">
-      <img loading="lazy" src="images/bresil-12.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil-12.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1083,7 +841,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil-13.webp">
-      <img loading="lazy" src="images/bresil-13.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil-13.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1096,7 +854,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil-90.webp">
-      <img loading="lazy" src="images/bresil-90.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil-90.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1109,7 +867,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil-91.webp">
-      <img loading="lazy" src="images/bresil-91.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil-91.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1122,7 +880,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil_59.webp">
-      <img loading="lazy" src="images/bresil_59.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil_59.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1135,7 +893,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/bresil_68.webp">
-      <img loading="lazy" src="images/bresil_68.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/bresil_68.webp" alt="Bresil" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Bresil</h3>
@@ -1148,7 +906,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/cameroon_28.webp">
-      <img loading="lazy" src="images/cameroon_28.webp" alt="Cameroun" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/cameroon_28.webp" alt="Cameroun" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Cameroun</h3>
@@ -1161,7 +919,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/cameroon_37.webp">
-      <img loading="lazy" src="images/cameroon_37.webp" alt="Cameroun" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/cameroon_37.webp" alt="Cameroun" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Cameroun</h3>
@@ -1174,7 +932,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/chile_33.webp">
-      <img loading="lazy" src="images/chile_33.webp" alt="Chili" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/chile_33.webp" alt="Chili" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Chili</h3>
@@ -1187,7 +945,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/china_17.webp">
-      <img loading="lazy" src="images/china_17.webp" alt="China" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/china_17.webp" alt="China" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">China</h3>
@@ -1200,7 +958,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/china_7.webp">
-      <img loading="lazy" src="images/china_7.webp" alt="China" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/china_7.webp" alt="China" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">China</h3>
@@ -1213,7 +971,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/colombia_49.webp">
-      <img loading="lazy" src="images/colombia_49.webp" alt="Colombie" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/colombia_49.webp" alt="Colombie" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Colombie</h3>
@@ -1226,7 +984,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/germany_16.webp">
-      <img loading="lazy" src="images/germany_16.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/germany_16.webp" alt="Allemagne" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Allemagne</h3>
@@ -1239,7 +997,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/germany_FC_5.webp">
-      <img loading="lazy" src="images/germany_FC_5.webp" alt="Germany Fc" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/germany_FC_5.webp" alt="Germany Fc" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Germany Fc</h3>
@@ -1252,10 +1010,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/greece_14.webp">
-      <img loading="lazy" src="images/greece_14.webp" alt="Grèce" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/greece_14.webp" alt="GrÃ¨ce" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Grèce</h3>
+      <h3 class="product-title">GrÃ¨ce</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/greece_14.webp">Ajouter</button>
     </div>
@@ -1265,10 +1023,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/greece_25.webp">
-      <img loading="lazy" src="images/greece_25.webp" alt="Grèce" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/greece_25.webp" alt="GrÃ¨ce" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Grèce</h3>
+      <h3 class="product-title">GrÃ¨ce</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/greece_25.webp">Ajouter</button>
     </div>
@@ -1278,7 +1036,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/irlande_69.webp">
-      <img loading="lazy" src="images/irlande_69.webp" alt="Irlande" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/irlande_69.webp" alt="Irlande" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Irlande</h3>
@@ -1291,7 +1049,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/irlande_71.webp">
-      <img loading="lazy" src="images/irlande_71.webp" alt="Irlande" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/irlande_71.webp" alt="Irlande" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Irlande</h3>
@@ -1304,7 +1062,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/italy_72.webp">
-      <img loading="lazy" src="images/italy_72.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/italy_72.webp" alt="Italie" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Italie</h3>
@@ -1317,7 +1075,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/mexico_77.webp">
-      <img loading="lazy" src="images/mexico_77.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/mexico_77.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Mexique</h3>
@@ -1330,7 +1088,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/mexico_79.webp">
-      <img loading="lazy" src="images/mexico_79.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/mexico_79.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Mexique</h3>
@@ -1343,7 +1101,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/mexico_80.webp">
-      <img loading="lazy" src="images/mexico_80.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/mexico_80.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Mexique</h3>
@@ -1356,7 +1114,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/mexico_81.webp">
-      <img loading="lazy" src="images/mexico_81.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/mexico_81.webp" alt="Mexique" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Mexique</h3>
@@ -1369,7 +1127,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/morocco_1.webp">
-      <img loading="lazy" src="images/morocco_1.webp" alt="Maroc" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/morocco_1.webp" alt="Maroc" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Maroc</h3>
@@ -1382,7 +1140,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/morroco.webp">
-      <img loading="lazy" src="images/morroco.webp" alt="Morroco" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/morroco.webp" alt="Morroco" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Morroco</h3>
@@ -1395,7 +1153,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/netherlands_104.webp">
-      <img loading="lazy" src="images/netherlands_104.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/netherlands_104.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -1408,7 +1166,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/netherlands_82.webp">
-      <img loading="lazy" src="images/netherlands_82.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/netherlands_82.webp" alt="Pays-Bas" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays-Bas</h3>
@@ -1421,7 +1179,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/nigeria_89.webp">
-      <img loading="lazy" src="images/nigeria_89.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/nigeria_89.webp" alt="Nigeria" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Nigeria</h3>
@@ -1434,7 +1192,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/portugal-1.webp">
-      <img loading="lazy" src="images/portugal-1.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/portugal-1.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Portugal</h3>
@@ -1447,7 +1205,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/portugal-3.webp">
-      <img loading="lazy" src="images/portugal-3.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/portugal-3.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Portugal</h3>
@@ -1460,7 +1218,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/portugal-4.webp">
-      <img loading="lazy" src="images/portugal-4.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/portugal-4.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Portugal</h3>
@@ -1473,7 +1231,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/portugal-6.webp">
-      <img loading="lazy" src="images/portugal-6.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/portugal-6.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Portugal</h3>
@@ -1486,7 +1244,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/portugal-7.webp">
-      <img loading="lazy" src="images/portugal-7.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/portugal-7.webp" alt="Portugal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Portugal</h3>
@@ -1499,10 +1257,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/senegal_108.webp">
-      <img loading="lazy" src="images/senegal_108.webp" alt="Sénégal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/senegal_108.webp" alt="SÃ©nÃ©gal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Sénégal</h3>
+      <h3 class="product-title">SÃ©nÃ©gal</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/senegal_108.webp">Ajouter</button>
     </div>
@@ -1512,10 +1270,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/senegal_46.webp">
-      <img loading="lazy" src="images/senegal_46.webp" alt="Sénégal" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/senegal_46.webp" alt="SÃ©nÃ©gal" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Sénégal</h3>
+      <h3 class="product-title">SÃ©nÃ©gal</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/senegal_46.webp">Ajouter</button>
     </div>
@@ -1525,10 +1283,10 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/south-korea_26.webp">
-      <img loading="lazy" src="images/south-korea_26.webp" alt="Corée du Sud" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/south-korea_26.webp" alt="CorÃ©e du Sud" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
-      <h3 class="product-title">Corée du Sud</h3>
+      <h3 class="product-title">CorÃ©e du Sud</h3>
       <div class="product-price">32,00 CAD</div>
       <button class="product-btn btn btn-dark add-to-cart" data-price="32.00" data-vintage="true" data-img="images/south-korea_26.webp">Ajouter</button>
     </div>
@@ -1538,7 +1296,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/south_africa_52.webp">
-      <img loading="lazy" src="images/south_africa_52.webp" alt="Afrique du Sud" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/south_africa_52.webp" alt="Afrique du Sud" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Afrique du Sud</h3>
@@ -1551,7 +1309,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_12.webp">
-      <img loading="lazy" src="images/wales_12.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_12.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1564,7 +1322,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_13.webp">
-      <img loading="lazy" src="images/wales_13.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_13.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1577,7 +1335,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_15.webp">
-      <img loading="lazy" src="images/wales_15.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_15.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1590,7 +1348,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_18.webp">
-      <img loading="lazy" src="images/wales_18.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_18.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1603,7 +1361,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_19.webp">
-      <img loading="lazy" src="images/wales_19.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_19.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1616,7 +1374,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_2.webp">
-      <img loading="lazy" src="images/wales_2.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_2.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1629,7 +1387,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_31.webp">
-      <img loading="lazy" src="images/wales_31.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_31.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1642,7 +1400,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_35.webp">
-      <img loading="lazy" src="images/wales_35.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_35.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1655,7 +1413,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_36.webp">
-      <img loading="lazy" src="images/wales_36.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_36.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1668,7 +1426,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_47.webp">
-      <img loading="lazy" src="images/wales_47.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_47.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1681,7 +1439,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_6.webp">
-      <img loading="lazy" src="images/wales_6.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_6.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1694,7 +1452,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_60.webp">
-      <img loading="lazy" src="images/wales_60.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_60.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1707,7 +1465,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_90.webp">
-      <img loading="lazy" src="images/wales_90.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_90.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1720,7 +1478,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/wales_91.webp">
-      <img loading="lazy" src="images/wales_91.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/wales_91.webp" alt="Pays de Galles" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Pays de Galles</h3>
@@ -1733,7 +1491,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/yugolsavia_107.webp">
-      <img loading="lazy" src="images/yugolsavia_107.webp" alt="Yugolsavia" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/yugolsavia_107.webp" alt="Yugolsavia" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Yugolsavia</h3>
@@ -1746,7 +1504,7 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="product-card h-100">
     <div class="product-image ratio ratio-1x1 clickable add-to-cart" data-price="32.00" data-vintage="true" data-img="images/yugoslavia_105.webp">
-      <img loading="lazy" src="images/yugoslavia_105.webp" alt="Yugoslavia" class="w-100 h-100 object-fit-cover">
+      <img loading="lazy" decoding="async" width="400" height="400" src="images/yugoslavia_105.webp" alt="Yugoslavia" class="w-100 h-100 object-fit-cover">
     </div>
     <div class="product-info">
       <h3 class="product-title">Yugoslavia</h3>
@@ -1891,9 +1649,9 @@
       });
 
       if(nq === '') { results.textContent = ''; }
-      else if(visible === 0) { results.textContent = 'Aucun maillot trouvé'; results.style.color='#dc3545'; }
-      else if(visible === 1) { results.textContent = '1 maillot trouvé'; results.style.color='#198754'; }
-      else { results.textContent = visible + ' maillots trouvés'; results.style.color='#198754'; }
+      else if(visible === 0) { results.textContent = 'Aucun maillot trouvÃ©'; results.style.color='#dc3545'; }
+      else if(visible === 1) { results.textContent = '1 maillot trouvÃ©'; results.style.color='#198754'; }
+      else { results.textContent = visible + ' maillots trouvÃ©s'; results.style.color='#198754'; }
     }
 
         input.addEventListener('input', function(e){ clearTimeout(t); t = setTimeout(function(){ perform(e.target.value); }, 120); });
@@ -1921,18 +1679,18 @@
             </div>
             <p class="text-secondary mb-4">
               Votre destination pour les maillots de football vintage. <br>
-              Qualité premium, prix compétitifs.
+              QualitÃ© premium, prix compÃ©titifs.
             </p>
             <div class="d-flex justify-content-center gap-4 mb-4">
               <a href="./tous-les-maillots.html" class="text-white">Tous les maillots</a>
               <a href="./maillots-vintage.html" class="text-white">Vintage</a>
-              <a href="./maillots.html" class="text-white">Maillots récents</a>
+              <a href="./maillots.html" class="text-white">Maillots rÃ©cents</a>
               <a href="mailto:futbolerovintageshop@gmail.com" class="text-white">Contact</a>
             </div>
             <hr style="border-color: #333333; margin: 2rem 0;">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-              <small class="mb-2 mb-md-0">© <span id="year"></span> Futbolero Vintage Shop. Tous droits réservés.</small>
-              <small class="text-secondary">Créé avec amour pour les amoureux du jeu.</small>
+              <small class="mb-2 mb-md-0">Â© <span id="year"></span> Futbolero Vintage Shop. Tous droits rÃ©servÃ©s.</small>
+              <small class="text-secondary">CrÃ©Ã© avec amour pour les amoureux du jeu.</small>
             </div>
           </div>
         </div>
@@ -1940,18 +1698,18 @@
     </footer>
 
     <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous" defer></script>
 
-    <!-- Nav partagée -->
-    <script src="./maillots-store/client/src/scripts/include-nav.js"></script>
+    <!-- Nav partagÃ©e -->
+    <script src="./maillots-store/client/src/scripts/include-nav.js" defer></script>
 
     <!-- Personnalisation/tailles -->
-    <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20260308"></script>
+    <script src="./maillots-store/client/src/scripts/product-customizer.js?v=20260308" defer></script>
 
     <!-- Unified search utility with product ID + cross-section support -->
-    <script src="./scripts/search-utils.js"></script>
+    <script src="./scripts/search-utils.js" defer></script>
 
-    <!-- Page script: année + interactions -->
+    <!-- Page script: annÃ©e + interactions -->
     <script>
         document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1960,8 +1718,8 @@
           return (s || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/\s+/g, ' ').trim();
         }
 
-        // Les images sont maintenant directement cliquables grâce aux classes add-to-cart sur les divs product-image
-        // NOTE: Le panier est géré par product-customizer.js - les clics .add-to-cart ouvrent le modal de personnalisation
+        // Les images sont maintenant directement cliquables grÃ¢ce aux classes add-to-cart sur les divs product-image
+        // NOTE: Le panier est gÃ©rÃ© par product-customizer.js - les clics .add-to-cart ouvrent le modal de personnalisation
 
         function updateCartBadge() {
             let cart = [];
@@ -1981,7 +1739,7 @@
             initSearchFunctionality();
         });
 
-        // Fonctionnalité de recherche
+        // FonctionnalitÃ© de recherche
         function initSearchFunctionality() {
             const searchInput = document.getElementById('carousel-search-input');
             const clearButton = document.getElementById('clear-search');
@@ -2009,13 +1767,13 @@
                 resultsCount.textContent = '';
                 removeNoResultsMessage();
               } else if (visibleCount === 0) {
-                resultsCount.textContent = 'Aucun maillot trouvé';
+                resultsCount.textContent = 'Aucun maillot trouvÃ©';
                 showNoResultsMessage();
               } else if (visibleCount === 1) {
-                resultsCount.textContent = '1 maillot trouvé';
+                resultsCount.textContent = '1 maillot trouvÃ©';
                 removeNoResultsMessage();
               } else {
-                resultsCount.textContent = `${visibleCount} maillots trouvés`;
+                resultsCount.textContent = `${visibleCount} maillots trouvÃ©s`;
                 removeNoResultsMessage();
               }
               return;
@@ -2039,18 +1797,18 @@
                     }
                 });
 
-                // Mise à jour du compteur de résultats
+                // Mise Ã  jour du compteur de rÃ©sultats
                 if (normalizedQuery === '') {
                     resultsCount.textContent = '';
                     removeNoResultsMessage();
                 } else if (visibleCount === 0) {
-                    resultsCount.textContent = 'Aucun maillot trouvé';
+                    resultsCount.textContent = 'Aucun maillot trouvÃ©';
                     showNoResultsMessage();
                 } else if (visibleCount === 1) {
-                    resultsCount.textContent = '1 maillot trouvé';
+                    resultsCount.textContent = '1 maillot trouvÃ©';
                     removeNoResultsMessage();
                 } else {
-                    resultsCount.textContent = `${visibleCount} maillots trouvés`;
+                    resultsCount.textContent = `${visibleCount} maillots trouvÃ©s`;
                     removeNoResultsMessage();
                 }
             }
@@ -2062,7 +1820,7 @@
                     noResultsMessage.innerHTML = `
                         <div class="text-center">
                             <i class="fas fa-search fa-3x mb-3 text-muted"></i>
-                            <h4 class="text-muted">Aucun maillot trouvé</h4>
+                            <h4 class="text-muted">Aucun maillot trouvÃ©</h4>
                             <p class="text-muted">Essayez avec un autre terme de recherche</p>
                         </div>
                     `;
@@ -2077,7 +1835,7 @@
                 }
             }
 
-            // Événements de recherche
+            // Ã‰vÃ©nements de recherche
             searchInput.addEventListener('input', (e) => {
                 performSearch(e.target.value);
             });
@@ -2089,7 +1847,7 @@
                 searchInput.focus();
             });
 
-            // Recherche au clavier (Entrée)
+            // Recherche au clavier (EntrÃ©e)
             searchInput.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') {
                     searchInput.value = '';
@@ -2100,7 +1858,7 @@
     </script>
     
     <!-- Bouton de demande de maillot -->
-    <script src="./scripts/request-jersey-button.js"></script>
+    <script src="./scripts/request-jersey-button.js" defer></script>
 </body>
 </html>
 <

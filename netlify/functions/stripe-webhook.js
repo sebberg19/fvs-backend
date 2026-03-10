@@ -266,11 +266,12 @@ const renderEmailTemplate = async (session, orderId) => {
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
+    const productId = item.productId || item.productID || item.id || '';
     
     // ID du produit (en premier, bien visible)
-    if (item.productId) {
+    if (productId) {
       detailsHtml += `<div style="margin: 0 0 8px 0; padding: 6px 8px; background: #f5f5f5; border-left: 4px solid #000; border-radius: 2px;">
-        <p style="margin: 0; color: #000; font-size: 12px; font-family: 'Courier New', monospace; font-weight: 700;">🔖 ID: <strong>${item.productId}</strong></p>
+        <p style="margin: 0; color: #000; font-size: 12px; font-family: 'Courier New', monospace; font-weight: 700;">Product ID: <strong>${productId}</strong></p>
       </div>`;
     }
     
@@ -539,40 +540,51 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     
     // Construire les détails de l'article (taille, personnalisation, etc)
     let detailsHtml = '';
+    const productId = item.productId || item.productID || item.id || '';
+
+    if (productId) {
+      detailsHtml += `<div style="margin: 0 0 8px 0; display:inline-block; padding: 5px 8px; background:#f7f8f9; border:1px solid #e9ebf0; border-radius:999px; color:#121314; font-size:11px; font-family:'Courier New', monospace; font-weight:700;">Product ID: ${productId}</div>`;
+    }
     
     // Taille
     if (item.size) {
-      detailsHtml += `<p style="margin: 0 0 2px 0; color: #888888; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">${item.size}</p>`;
+      detailsHtml += `<p style="margin: 0 0 3px 0; color: #6b6f76; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Taille:</strong> ${item.size}</p>`;
     }
     
     // Type (Vintage)
     if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 2px 0; color: #888888; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Vintage</p>`;
+      detailsHtml += `<p style="margin: 0 0 3px 0; color: #6b6f76; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Type:</strong> Maillot vintage</p>`;
     }
     
     // Personnalisation
     if (item.persoName || item.persoNumber) {
       const persoName = String(item.persoName || '').trim() || 'Sans';
       const persoNumber = String(item.persoNumber ?? '').trim() || 'Sans';
-      detailsHtml += `<p style="margin: 4px 0 0 0; font-size: 12px; color: #888888; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Personnalisation : ${persoName} / ${persoNumber}${item.persoFee ? ' (+$' + item.persoFee.toFixed(2) + ' CAD)' : ''}</p>`;
+      detailsHtml += `<div style="margin: 8px 0 0 0; padding: 8px 10px; background:#f7f8f9; border-radius:8px; border:1px solid #e9ebf0;">`;
+      detailsHtml += `<p style="margin: 0 0 4px 0; font-size: 12px; color: #121314; font-weight:700; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Personnalisation</p>`;
+      detailsHtml += `<p style="margin: 0 0 2px 0; font-size: 12px; color: #6b6f76; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Nom:</strong> ${persoName}</p>`;
+      detailsHtml += `<p style="margin: 0; font-size: 12px; color: #6b6f76; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Numéro:</strong> ${persoNumber}${item.persoFee ? ' • +$' + item.persoFee.toFixed(2) + ' CAD' : ''}</p>`;
+      detailsHtml += `</div>`;
     }
     
     return `
-    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;border-bottom:1px solid #e9ebf0;">
-      <tr>
-        <td width="72" style="padding:12px 12px 12px 0;vertical-align:top;">
-          <img src="${imgSrc}" alt="${item.name}" style="width:72px;height:72px;display:block;border:1px solid #e9ebf0;object-fit:cover;object-position:center;">
-        </td>
-        <td style="padding:12px 0;vertical-align:top;">
-          <p style="margin:0 0 2px 0;font-size:13px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">${item.name}</p>
-          ${detailsHtml}
-        </td>
-        <td align="right" style="padding:12px 0;vertical-align:top;white-space:nowrap;">
-          <p style="margin:0;font-size:13px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">$${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>
-          ${item.quantity > 1 ? `<p style="margin:2px 0 0 0;font-size:11px;color:#888888;font-family:system-ui,sans-serif;">x${item.quantity}</p>` : ''}
-        </td>
-      </tr>
-    </table>
+    <div style="background:#ffffff; border:1px solid #e9ebf0; border-radius:12px; padding:14px; margin: 0 0 12px 0;">
+      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <tr>
+          <td width="88" style="padding:0 14px 0 0;vertical-align:top;">
+            <img src="${imgSrc}" alt="${item.name}" style="width:78px;height:78px;display:block;border:1px solid #e9ebf0;border-radius:10px;object-fit:cover;object-position:center;background:#f7f8f9;">
+          </td>
+          <td style="padding:0;vertical-align:top;">
+            <p style="margin:0 0 6px 0;font-size:14px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">${item.name}</p>
+            ${detailsHtml}
+            <div style="margin-top:10px; padding-top:10px; border-top:1px solid #e9ebf0;">
+              <p style="margin:0 0 2px 0;font-size:12px;color:#6b6f76;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Qté: <strong style="color:#121314;">${item.quantity}</strong></p>
+              <p style="margin:0;font-size:13px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">$${((item.price || 0) * item.quantity).toFixed(2)} CAD</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
   `;
   });
   
@@ -583,120 +595,93 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     title: `Confirmation de commande ${orderId} - Futbolero Vintage Shop`,
     preheader: `Votre commande ${orderId} est confirmée — $${total} ${currency}`,
     bodyHtml: `
-      <!-- Logo -->
       <tr>
-        <td align="center" style="padding:28px 20px 20px 20px;border-bottom:1px solid #e9ebf0;">
-          <img src="${OFFICIAL_LOGO_URL}" alt="Futbolero Vintage Shop" style="height:60px;width:auto;display:block;margin:0 auto;">
+        <td align="center" style="padding: 24px 20px 20px 20px;">
+          <img src="${OFFICIAL_LOGO_URL}" alt="Futbolero Vintage Shop" style="height: 48px; width: auto; display: block; margin: 0 auto;">
         </td>
       </tr>
 
-      <!-- Hero title -->
       <tr>
-        <td style="padding:32px 32px 8px 32px;text-align:center;">
-          <h1 style="margin:0;font-size:24px;font-weight:900;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;letter-spacing:-0.01em;">Votre commande est confirm&eacute;e&nbsp;!</h1>
-        </td>
-      </tr>
-      <tr>
-        <td style="padding:12px 40px 6px 40px;text-align:center;">
-          <p style="margin:0;font-size:14px;color:#666666;line-height:1.6;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">
-            Merci <strong style="color:#121314;">${customerName}</strong>&nbsp;! Votre commande <strong style="color:#121314;">#${orderId}</strong> a bien &eacute;t&eacute; re&ccedil;ue et est en cours de pr&eacute;paration.
-          </p>
+        <td style="background:#121314; padding: 26px 28px; text-align:center;">
+          <p style="margin:0 0 8px 0;color:rgba(255,255,255,0.72);font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">Confirmation de commande</p>
+          <h1 style="margin:0;color:#fff;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:24px;font-weight:800;line-height:30px;">Votre commande est confirmée</h1>
+          <p style="margin:10px 0 0 0;color:rgba(255,255,255,0.7);font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:14px;line-height:22px;">Merci <strong style="color:#fff;">${customerName}</strong>. La commande <strong style="color:#fff;">${orderId}</strong> a bien été reçue et est en préparation.</p>
         </td>
       </tr>
 
-      <!-- CTA button -->
       <tr>
-        <td style="text-align:center;padding:20px 32px 32px 32px;">
-          <a href="https://futbolerovintageshop.com/tous-les-maillots.html" style="display:inline-block;background:#121314;color:#ffffff;font-size:12px;font-weight:800;letter-spacing:0.12em;text-decoration:none;padding:14px 36px;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">VISITER LA BOUTIQUE</a>
-        </td>
-      </tr>
-
-      <!-- Divider -->
-      <tr><td style="padding:0 32px;"><div style="height:1px;background:#e9ebf0;"></div></td></tr>
-
-      <!-- Items section title -->
-      <tr>
-        <td style="padding:24px 32px 12px 32px;">
-          <p style="margin:0;font-size:12px;font-weight:800;color:#121314;letter-spacing:0.08em;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;text-transform:uppercase;">Articles de votre commande</p>
-        </td>
-      </tr>
-
-      <!-- Items -->
-      <tr>
-        <td style="padding:0 32px 8px 32px;">
-          ${itemsHtml}
-        </td>
-      </tr>
-
-      <!-- Divider -->
-      <tr><td style="padding:8px 32px 0 32px;"><div style="height:1px;background:#e9ebf0;"></div></td></tr>
-
-      <!-- Totals -->
-      <tr>
-        <td style="padding:0 32px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+        <td style="padding: 20px 20px 0 20px; background:#ffffff;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e9ebf0;border-radius:12px;overflow:hidden;">
             <tr>
-              <td style="padding:14px 0 6px 0;font-size:11px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Sous-total</td>
-              <td align="right" style="padding:14px 0 6px 0;font-size:13px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">$${(parseFloat(total) - 7).toFixed(2)} ${currency}</td>
+              <td style="padding:10px 16px; background:#f7f8f9; border-bottom:1px solid #e9ebf0; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:10px; font-weight:700; color:#6b6f76; text-transform:uppercase; letter-spacing:0.08em;">Récapitulatif</td>
             </tr>
             <tr>
-              <td style="padding:6px 0;font-size:11px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Livraison</td>
-              <td align="right" style="padding:6px 0;font-size:13px;font-weight:700;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">$7.00 ${currency}</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <!-- Divider -->
-      <tr><td style="padding:0 32px;"><div style="height:1px;background:#e9ebf0;"></div></td></tr>
-
-      <!-- Total -->
-      <tr>
-        <td style="padding:0 32px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-            <tr>
-              <td style="padding:16px 0;font-size:11px;font-weight:700;color:#999999;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Total</td>
-              <td align="right" style="padding:16px 0;font-size:20px;font-weight:900;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">$${total} ${currency}</td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-
-      <!-- Divider -->
-      <tr><td style="padding:0 32px;"><div style="height:1px;background:#e9ebf0;"></div></td></tr>
-
-      <!-- Customer info -->
-      <tr>
-        <td style="padding:24px 32px 8px 32px;">
-          <p style="margin:0 0 16px 0;font-size:12px;font-weight:800;color:#121314;letter-spacing:0.08em;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;text-transform:uppercase;">Informations client</p>
-          <p style="margin:0 0 8px 0;font-size:10px;font-weight:800;color:#121314;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Adresse de livraison</p>
-          <p style="margin:0 0 20px 0;font-size:13px;color:#444444;line-height:1.8;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">
-            <strong>${customerName}</strong><br>
-            ${fullAddress}${customerPhone ? `<br>T&eacute;l : ${customerPhone}` : ''}
-          </p>
-        </td>
-      </tr>
-
-      <!-- Shipping + Payment row -->
-      <tr>
-        <td style="padding:0 32px 28px 32px;">
-          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
-            <tr>
-              <td width="50%" style="vertical-align:top;padding-right:12px;">
-                <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#121314;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Mode de livraison</p>
-                <p style="margin:0;font-size:13px;color:#444444;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Standard (12&ndash;20 jours ouvrables)</p>
-              </td>
-              <td width="50%" style="vertical-align:top;padding-left:12px;">
-                <p style="margin:0 0 6px 0;font-size:10px;font-weight:800;color:#121314;letter-spacing:0.08em;text-transform:uppercase;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Mode de paiement</p>
-                <p style="margin:0;font-size:13px;color:#444444;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;">Carte de cr&eacute;dit &mdash; $${total} ${currency}</p>
+              <td style="padding: 12px 16px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                  <tr>
+                    <td style="padding:5px 0;color:#6b6f76;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;">Commande</td>
+                    <td align="right" style="padding:5px 0;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:700;">${orderId}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:5px 0;color:#6b6f76;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;">Articles</td>
+                    <td align="right" style="padding:5px 0;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:700;">${items.length}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:5px 0;color:#6b6f76;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;">Livraison estimée</td>
+                    <td align="right" style="padding:5px 0;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;font-weight:700;">12–20 jours ouvrables</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:5px 0;color:#6b6f76;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:13px;">Total</td>
+                    <td align="right" style="padding:5px 0;color:#121314;font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif;font-size:16px;font-weight:800;">$${total} ${currency}</td>
+                  </tr>
+                </table>
               </td>
             </tr>
           </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e9ebf0;border-radius:12px;overflow:hidden;">
+            <tr>
+              <td style="padding:10px 16px; background:#f7f8f9; border-bottom:1px solid #e9ebf0; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:10px; font-weight:700; color:#6b6f76; text-transform:uppercase; letter-spacing:0.08em;">Articles commandés</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 16px 0 16px;">
+                ${itemsHtml}
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e9ebf0;border-radius:12px;overflow:hidden;">
+            <tr>
+              <td style="padding:10px 16px; background:#f7f8f9; border-bottom:1px solid #e9ebf0; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:10px; font-weight:700; color:#6b6f76; text-transform:uppercase; letter-spacing:0.08em;">Informations de livraison</td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 16px; color:#121314; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:13px; line-height:22px;">
+                <p style="margin:0 0 10px 0;"><strong>${customerName}</strong><br>${fullAddress}${customerPhone ? `<br>Tél : ${customerPhone}` : ''}</p>
+                <p style="margin:0; color:#6b6f76;">Livraison standard estimée sous <strong style="color:#121314;">12–20 jours ouvrables</strong>.</p>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:14px; line-height:14px;">&nbsp;</div>
+
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;border:1px solid #e9ebf0;border-radius:12px;overflow:hidden;">
+            <tr>
+              <td style="padding:10px 16px; background:#f7f8f9; border-bottom:1px solid #e9ebf0; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:10px; font-weight:700; color:#6b6f76; text-transform:uppercase; letter-spacing:0.08em;">Paiement</td>
+            </tr>
+            <tr>
+              <td style="padding: 14px 16px; color:#121314; font-family:system-ui,-apple-system,'Segoe UI',Arial,sans-serif; font-size:13px; line-height:22px;">
+                Carte de crédit — <strong>$${total} ${currency}</strong>
+              </td>
+            </tr>
+          </table>
+
+          <div style="height:20px; line-height:20px;">&nbsp;</div>
         </td>
       </tr>
-
-      <!-- Divider -->
-      <tr><td style="padding:0 32px;"><div style="height:1px;background:#e9ebf0;"></div></td></tr>
 
       <!-- Shop category buttons 2x2 -->
       <tr>
@@ -896,4 +881,9 @@ exports.handler = async (event, context) => {
     },
     body: JSON.stringify({ received: true })
   };
+};
+
+exports.__preview = {
+  renderEmailTemplate,
+  renderCustomerEmailTemplate,
 };

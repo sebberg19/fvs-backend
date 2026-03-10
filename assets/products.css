@@ -21,6 +21,8 @@
   border-radius: 0;
   overflow: visible;
   box-shadow: none;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 300px;
 }
 
 .product-card:hover {
@@ -44,6 +46,7 @@
   object-fit: cover;
   transition: transform 0.3s ease;
   cursor: pointer;
+  will-change: transform;
 }
 
 .product-card:hover .product-image img {
