@@ -1,3 +1,6 @@
+const NAV_CACHE_KEY = 'fvs-nav-html-v1';
+const NAV_CACHE_TTL_MS = 1000 * 60 * 60 * 12;
+
 document.addEventListener('DOMContentLoaded', async () => {
   const header = document.querySelector('#site-header') || document.querySelector('header');
 
@@ -9,11 +12,30 @@ document.addEventListener('DOMContentLoaded', async () => {
       './partials/nav.html'
     ];
     let injected = false;
+
+    try {
+      const cached = sessionStorage.getItem(NAV_CACHE_KEY);
+      if (cached) {
+        const parsed = JSON.parse(cached);
+        if (parsed && parsed.html && parsed.savedAt && (Date.now() - parsed.savedAt) < NAV_CACHE_TTL_MS) {
+          header.innerHTML = parsed.html;
+          injected = true;
+        }
+      }
+    } catch (_) {
+      sessionStorage.removeItem(NAV_CACHE_KEY);
+    }
+
     for (const p of tryPaths) {
+      if (injected) break;
       try {
-        const res = await fetch(p, { cache: 'no-cache' });
+        const res = await fetch(p, { cache: 'force-cache' });
         if (!res.ok) continue;
-        header.innerHTML = await res.text();
+        const navHtml = await res.text();
+        header.innerHTML = navHtml;
+        try {
+          sessionStorage.setItem(NAV_CACHE_KEY, JSON.stringify({ html: navHtml, savedAt: Date.now() }));
+        } catch (_) {}
         injected = true;
         break;
       } catch (_) { /* try next */ }
