@@ -249,22 +249,6 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
         </tr>
 
         <!-- Divider -->
-        <tr><td style="padding:28px 40px 0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
-
-        <!-- Social -->
-        <tr>
-          <td style="padding:24px 40px;text-align:center;">
-            <p style="margin:0 0 16px 0;font-size:11px;font-weight:900;color:#121314;letter-spacing:0.1em;text-transform:uppercase;">NOUS SUIVRE</p>
-            <a href="https://www.instagram.com/futbolerovintageshop" style="display:inline-block;margin:0 8px;text-decoration:none;">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/instagram.svg" alt="Instagram" width="20" height="20" style="filter:invert(0);opacity:0.5;">
-            </a>
-            <a href="https://www.tiktok.com/@futbolerovintageshop" style="display:inline-block;margin:0 8px;text-decoration:none;">
-              <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/tiktok.svg" alt="TikTok" width="20" height="20" style="opacity:0.5;">
-            </a>
-          </td>
-        </tr>
-
-        <!-- Divider -->
         <tr><td style="padding:0 40px;"><div style="height:1px;background:#e8e8e8;"></div></td></tr>
 
         <!-- Footer -->
