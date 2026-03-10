@@ -280,11 +280,6 @@ const renderEmailTemplate = async (session, orderId) => {
       detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Taille:</strong> ${item.size}</p>`;
     }
     
-    // Type (Vintage)
-    if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 4px 0; color: #333; font-size: 13px; font-family: 'Manrope', system-ui, sans-serif;"><strong>Type:</strong> Maillot Vintage</p>`;
-    }
-    
     // Personnalisation
     if (item.persoName || item.persoNumber) {
       detailsHtml += `<div style="margin: 8px 0 0 0; padding: 6px 8px; background: #f7f8f9; border-left: 3px solid #121314; border-radius: 4px;">`;
@@ -549,11 +544,6 @@ const renderCustomerEmailTemplate = async (session, orderId) => {
     // Taille
     if (item.size) {
       detailsHtml += `<p style="margin: 0 0 3px 0; color: #6b6f76; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Taille:</strong> ${item.size}</p>`;
-    }
-    
-    // Type (Vintage)
-    if (item.isVintage) {
-      detailsHtml += `<p style="margin: 0 0 3px 0; color: #6b6f76; font-size: 12px; font-family: system-ui,-apple-system,'Segoe UI',Arial,sans-serif;"><strong style="color:#121314;">Type:</strong> Maillot vintage</p>`;
     }
     
     // Personnalisation

@@ -56,7 +56,6 @@ function buildOrderHTML({ items = [], checkoutInfo = {}, total = 0, timestamp = 
               <td style="padding-left:16px;vertical-align:top;">
                 <p style="margin:0 0 2px 0;font-size:13px;font-weight:700;color:#121314;">${itemName}</p>
                 ${item.size ? `<p style="margin:0 0 2px 0;font-size:12px;color:#888888;">${item.size}</p>` : ''}
-                ${item.isVintage ? '<p style="margin:0 0 2px 0;font-size:12px;color:#888888;">Vintage</p>' : ''}
                 ${personalizationHTML}
               </td>
               <td align="right" style="vertical-align:top;white-space:nowrap;">
@@ -326,11 +325,6 @@ function buildOrderText({ items = [], checkoutInfo = {}, total = 0, timestamp = 
           details += `     Frais badge: +$${perso.badgeExtra.toFixed(2)} CAD\n`;
         }
       }
-    }
-    
-    // Type de maillot (vintage ou récent)
-    if (item.isVintage) {
-      details += `  Type: Maillot Vintage\n`;
     }
     
     // Image du produit (pour référence)
